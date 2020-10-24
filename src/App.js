@@ -4,6 +4,8 @@ import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Home from './Sections/Home.js';
+import AboutMe from './Sections/AboutMe.js';
+import Resume from './Sections/Resume.js';
 
 const theme = createMuiTheme({
   overrides: {
@@ -22,7 +24,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route path="/" render={(props) => <Home />} />
+          <Route path="/resume" render={(props) => <Resume />} />
+          <Route path="/home" render={(props) => <Home />} />
+          <Redirect from="/" to="/home" />
         </Switch>
       </BrowserRouter>
     </ThemeProvider >

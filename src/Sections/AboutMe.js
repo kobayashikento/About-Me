@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 
 const AboutMe = () => {
     return (
-        <section style={{ height: "100vh", backgroundColor: "green" }} >
-            <Container style={{ paddingTop: "6rem" }} maxWidth="md">
+        <section style={{ height: "100vh", backgroundColor: "white" }} >
+            <Container style={{ paddingTop: "6rem", backgroundColor: "white", height: "100vh" }} maxWidth="md">
                 <Typography style={{ textAlign: "left" }} variant="h3">
                     About Me:
       </Typography>

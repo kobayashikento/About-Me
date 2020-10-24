@@ -26,7 +26,7 @@ const theme = createMuiTheme({
 const Roadmap = () => {
     return (
         <ThemeProvider theme={theme}>
-            <section style={{ minHeight: "100vh", backgroundColor: "turquoise" }} >
+            <section style={{ minHeight: "100vh", backgroundColor: "rgb(7 22 39 / 94%)"}} >
                 <Container style={{ paddingTop: "6rem" }} maxWidth="md">
                     <Typography style={{ textAlign: "center" }} variant="h5">
                         Personal Roadmap
