@@ -10,9 +10,11 @@ const Canvas = props => {
     React.useEffect(() => {
         canvas = canvasRef.current
         context = canvas.getContext('2d')
+        context.canvas.width = window.innerWidth;
+        context.canvas.height = window.innerHeight * 3;
         context.lineCap = "round";
         context.lineWidth = 2;
-        context.strokeStyle = "white";
+        context.strokeStyle = "rgba(255,255,255, 0.9)";
         animate(points);
     }, [canvasRef])
 
@@ -24,8 +26,8 @@ const Canvas = props => {
 
     function getVertices() {
         const amount = 10;
-        let vertices = [{ x: 100, y: 400, dir: "-x" }]
-        for (let i = 0; i < 3000; i++) {
+        let vertices = [{ x: 500, y: 200, dir: "-y" }]
+        for (let i = 0; i < 4000; i++) {
             if (isPrime(i)) {
                 switch (vertices.slice(-1)[0].dir) {
                     case "x":
@@ -70,14 +72,13 @@ const Canvas = props => {
             var pt1 = vertices[i];
             var dx = pt1.x - pt0.x;
             var dy = pt1.y - pt0.y;
-            for (var j = 0; j < 1; j++) {
-                var x = pt0.x + dx * j / 1;
-                var y = pt0.y + dy * j / 1;
-                waypoints.push({
-                    x: x,
-                    y: y
-                });
-            }
+
+            var x = pt0.x + dx;
+            var y = pt0.y + dy;
+            waypoints.push({
+                x: x,
+                y: y
+            });
         }
         return (waypoints);
     }
@@ -97,9 +98,9 @@ const Canvas = props => {
     }
 
     return (
-        <canvas ref={canvasRef} height={window.innerHeight} width={window.innerWidth} />
+        <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0" }} />
     )
 
 }
 
-export default Canvas
+export default React.memo(Canvas)

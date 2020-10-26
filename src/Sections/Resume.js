@@ -18,6 +18,8 @@ import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
 import RowingIcon from '@material-ui/icons/Rowing';
 
+import { Transition, animated, interpolate } from 'react-spring/renderprops'
+
 import styles from '../Styles/resumeStyle.js';
 
 const useStyles = makeStyles(styles);
@@ -31,11 +33,28 @@ const Resume = () => {
         extra: false
     })
 
-
+    const [show, setShow] = React.useState(false);
     return (
-        <section style={{ height: "100vh", width: "100vw", backgroundColor: "rgb(7 22 39 / 94%)" }} >
+        <section style={{ height: "100vh", width: "100vw", backgroundColor: "rgb(33 44 48 / 94%)" }} >
             <div style={{ position: "fixed", top: "15%", left: "45px" }}>
-                <Timeline align="left" style={{ position: "fixed" }}>
+                <button onClick={() => setShow(!show)}></button>
+                <Transition
+                    items={show}
+                    from={{ opacity: 0 }}
+                    enter={{ opacity: 1, width: window.innerWidth, height: window.innerHeight }}
+                    leave={{ opacity: 0 }}
+                >
+                    {show => show && (props =>
+                        <Container style={props}>
+                            <Paper style={{ width: "fit-content", position: "relative", opacity: "1", padding: "2rem", borderRadius: "10px", marginTop: "auto", marginBottom: "auto" }}>
+                                <Typography style={{ textAlign: "left" }} variant="h3">
+                                    About Me:
+                    </Typography>
+                            </Paper>
+                        </Container>)}
+                </Transition>
+
+                {/* <Timeline align="left" style={{ position: "fixed" }}>
                     <TimelineItem>
                         <TimelineSeparator>
                             <TimelineDot color={activePage === 1 ? "primary" : "grey"}>
@@ -52,7 +71,7 @@ const Resume = () => {
                         </TimelineSeparator>
                         <TimelineContent style={{ display: showIcon.education ? "" : "none" }}>
                             <Paper elevation={3} className={classes.paper} >
-                                <Typography variant="h6" component="h1">
+                                <Typography variant="h6" component="h2">
                                     Education
                                 </Typography>
                             </Paper>
@@ -74,7 +93,7 @@ const Resume = () => {
                         </TimelineSeparator>
                         <TimelineContent style={{ display: showIcon.experience ? "" : "none" }}>
                             <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h6" component="h1">
+                                <Typography variant="h6" component="h2">
                                     Experience
                                 </Typography>
                             </Paper>
@@ -95,13 +114,13 @@ const Resume = () => {
                         </TimelineSeparator>
                         <TimelineContent style={{ display: showIcon.extra ? "" : "none" }}>
                             <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h6" component="h1">
+                                <Typography variant="h6" component="h2">
                                     Extracurricular
                                 </Typography>
                             </Paper>
                         </TimelineContent>
                     </TimelineItem>
-                </Timeline>
+                </Timeline> */}
             </div>
             <Container maxWidth="md">
             </Container>
