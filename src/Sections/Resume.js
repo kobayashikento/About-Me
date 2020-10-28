@@ -10,7 +10,6 @@ import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 
 import Canvas from '../Components/Canvas.js';
 
@@ -18,7 +17,10 @@ import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
 import RowingIcon from '@material-ui/icons/Rowing';
 
+import Measure from 'react-measure'
 import { Transition, animated, interpolate } from 'react-spring/renderprops'
+
+
 
 import styles from '../Styles/resumeStyle.js';
 
@@ -33,98 +35,10 @@ const Resume = () => {
         extra: false
     })
 
-    const [show, setShow] = React.useState(false);
     return (
-        <section style={{ height: "100vh", width: "100vw", backgroundColor: "rgb(33 44 48 / 94%)" }} >
-            <div style={{ position: "fixed", top: "15%", left: "45px" }}>
-                <button onClick={() => setShow(!show)}></button>
-                <Transition
-                    items={show}
-                    from={{ opacity: 0 }}
-                    enter={{ opacity: 1, width: window.innerWidth, height: window.innerHeight }}
-                    leave={{ opacity: 0 }}
-                >
-                    {show => show && (props =>
-                        <Container style={props}>
-                            <Paper style={{ width: "fit-content", position: "relative", opacity: "1", padding: "2rem", borderRadius: "10px", marginTop: "auto", marginBottom: "auto" }}>
-                                <Typography style={{ textAlign: "left" }} variant="h3">
-                                    About Me:
-                    </Typography>
-                            </Paper>
-                        </Container>)}
-                </Transition>
+        <Container >
 
-                {/* <Timeline align="left" style={{ position: "fixed" }}>
-                    <TimelineItem>
-                        <TimelineSeparator>
-                            <TimelineDot color={activePage === 1 ? "primary" : "grey"}>
-                                <IconButton
-                                    style={{ zoom: showIcon.education ? 1.5 : 1 }}
-                                    onMouseEnter={() => setShowIcon({ ...showIcon, education: true })}
-                                    onMouseLeave={() => setShowIcon({ ...showIcon, education: false })}
-                                    size="small"
-                                >
-                                    <SchoolIcon />
-                                </IconButton>
-                            </TimelineDot>
-                            <TimelineConnector />
-                        </TimelineSeparator>
-                        <TimelineContent style={{ display: showIcon.education ? "" : "none" }}>
-                            <Paper elevation={3} className={classes.paper} >
-                                <Typography variant="h6" component="h2">
-                                    Education
-                                </Typography>
-                            </Paper>
-                        </TimelineContent>
-                    </TimelineItem>
-                    <TimelineItem>
-                        <TimelineSeparator>
-                            <TimelineDot color={activePage === 2 ? "primary" : "grey"} >
-                                <IconButton
-                                    style={{ zoom: showIcon.experience ? 1.5 : 1 }}
-                                    onMouseEnter={() => setShowIcon({ ...showIcon, experience: true })}
-                                    onMouseLeave={() => setShowIcon({ ...showIcon, experience: false })}
-                                    size="small"
-                                >
-                                    <WorkIcon />
-                                </IconButton>
-                            </TimelineDot>
-                            <TimelineConnector />
-                        </TimelineSeparator>
-                        <TimelineContent style={{ display: showIcon.experience ? "" : "none" }}>
-                            <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h6" component="h2">
-                                    Experience
-                                </Typography>
-                            </Paper>
-                        </TimelineContent>
-                    </TimelineItem>
-                    <TimelineItem>
-                        <TimelineSeparator>
-                            <TimelineDot color={activePage === 2 ? "primary" : "grey"} >
-                                <IconButton
-                                    style={{ zoom: showIcon.extra ? 1.5 : 1 }}
-                                    onMouseEnter={() => setShowIcon({ ...showIcon, extra: true })}
-                                    onMouseLeave={() => setShowIcon({ ...showIcon, extra: false })}
-                                    size="small"
-                                >
-                                    <RowingIcon />
-                                </IconButton>
-                            </TimelineDot>
-                        </TimelineSeparator>
-                        <TimelineContent style={{ display: showIcon.extra ? "" : "none" }}>
-                            <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h6" component="h2">
-                                    Extracurricular
-                                </Typography>
-                            </Paper>
-                        </TimelineContent>
-                    </TimelineItem>
-                </Timeline> */}
-            </div>
-            <Container maxWidth="md">
-            </Container>
-        </ section>
+        </Container>
     );
 }
 

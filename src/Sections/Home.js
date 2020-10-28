@@ -17,6 +17,7 @@ import AboutMe from '../Sections/AboutMe.js';
 import Roadmap from '../Sections/Roadmap.js';
 import Resume from '../Sections/Resume.js';
 import Introduction from '../Sections/Introduction.js';
+import { MenuButton, AboutLines } from '../Sections/Introduction.js';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -36,7 +37,7 @@ const Home = () => {
     const [scrollTop, setScrollTop] = React.useState(0);
     const [activePage, setActivePage] = React.useState(0);
     const [showResume, setShowResume] = React.useState(false);
-    const parallax = React.useRef(null);
+    let parallax = React.useRef();
 
     React.useEffect(() => {
         const onScroll = e => {
@@ -100,41 +101,65 @@ const Home = () => {
     function handleResumeClick() {
         setShowResume(true);
         setShowHome(false);
-        window.history.pushState('page1','Resume', '/resume')
+        window.history.pushState('page1', 'Resume', '/resume')
     }
 
     return (
         <div>
             {showHome && (
                 <React.Fragment>
-                    <Parallax ref={parallax} pages={3}>
+                    <Parallax ref={(ref) => { parallax = ref }} pages={3}>
                         <Fade down >
                             <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: "#30212c" }} />
                             <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: "#36484e" }} />
-                            <ParallaxLayer offset={0} speed={0} factor={3} style={{ backgroundColor: "rgb(33 44 48 / 94%)" }} >
+                            <ParallaxLayer offset={0} speed={0} factor={3} style={{ background: "linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)" }} >
                                 <div style={{ position: "fixed", width: "100%", height: "100%", margin: "0" }}>
-                                    <Canvas />
+                                    <Canvas 
+                                        size={6000}
+                                        xAxis={600}
+                                        yAxis={100}
+                                        home={true}
+                                    />
                                 </div>
                             </ParallaxLayer>
                             <ParallaxLayer
                                 offset={0}
                                 speed={0.1}
+                                style={{ alignItems: "center", justifyContent: "center" }}
+                                onClick={() => parallax.scrollTo(1)}
+                            >
+                                <Introduction />
+                            </ParallaxLayer>
+                            <ParallaxLayer
+                                offset={0.8}
+                                speed={-0.1}
                                 style={{ alignItems: "center", justifyContent: "center" }}>
-                                <Introduction
+                                <MenuButton
                                     handleAboutMeClick={() => handleAboutMeClick()}
                                     handleResumeClick={() => handleResumeClick()}
                                 />
                             </ParallaxLayer>
                             <ParallaxLayer
+                                offset={0}
+                                speed={0.1}
+                                style={{ alignItems: "center", justifyContent: "center" }}
+                            >
+                                <AboutLines />
+                            </ParallaxLayer>
+                            <ParallaxLayer
                                 offset={1}
                                 speed={0.1}
-                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                onClick={() => parallax.scrollTo(2)}
+                            >
                                 <AboutMe />
                             </ParallaxLayer>
                             <ParallaxLayer
                                 offset={2}
                                 speed={-0}
-                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                onClick={() => parallax.scrollTo(0)}
+                            >
                                 <Roadmap />
                             </ParallaxLayer>
                         </Fade>

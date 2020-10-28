@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 const AboutMe = () => {
     return (
         <Container maxWidth="md" style={{ display: "flex", height: "100vh" }}>
-            <Paper style={{ width: "fit-content", position: "relative", opacity: "1", padding: "2rem", borderRadius: "10px", marginTop: "auto", marginBottom: "auto" }}>
+            <Paper style={{ width: "fit-content", position: "relative", opacity: "0.9", padding: "2rem", borderRadius: "10px", marginTop: "auto", marginBottom: "auto" }}>
                 <Typography style={{ textAlign: "left" }} variant="h3">
                     About Me:
             </Typography>
