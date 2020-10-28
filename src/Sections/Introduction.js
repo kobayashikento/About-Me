@@ -15,6 +15,8 @@ import { useTransition, useSpring, useChain, config } from 'react-spring'
 
 import Canvas from '../Components/Canvas.js';
 
+import primes from '../Assets/prime.js';
+
 import catImg from '../Assets/Cat.png';
 import { StyledContainer } from '../Styles/introductionStyle.js';
 
@@ -23,8 +25,8 @@ const buttonTheme = createMuiTheme({ palette: { primary: { main: "#FFFFFF" } } }
 const Introduction = (prop) => {
     return (
         <section style={{ height: "100vh" }}>
-            <Avatar style={{ height: "10rem", width: "10rem", left: "50%", transform: "translate(-50%, 70%)", zIndex: "1" }} src={catImg} />
-            <Container maxWidth="sm" style={{ transform: "translate(0, 30%)" }}>
+            <Avatar style={{ height: "10rem", width: "10rem", left: "50%", transform: "translate(-50%,20%)", zIndex: "1" }} src={catImg} />
+            <Container maxWidth="sm" style={{ transform: "translate(0, 10%)" }}>
                 <Paper style={{ width: "fit-content", position: "relative", opacity: "0.9", padding: "2rem", borderRadius: "10px", paddingTop: "6rem", left: "50%", top: "6rem", transform: "translate(-50%, -54%)" }}>
                     <Typography style={{ textAlign: "center" }} variant="h3">
                         Kento Kobayashi
@@ -49,38 +51,41 @@ const AboutLines = (props) => {
     const { size, opacity, height, ...rest } = useSpring({
         ref: springRef,
         config: config.stiff,
-        from: { size: "10%", opacity: "0" },
+        from: { size: "1%", opacity: "0" },
         to: { size: open ? "70%" : "10%", opacity: open ? "1" : "0" }
     })
 
     useChain(open ? [springRef] : [springRef], [0, open ? 0.5 : 0.5])
 
     return (
-        <MuiThemeProvider theme={buttonTheme}>
+        <MuiThemeProvider theme={buttonTheme} >
             <Button variant="outlined" color="primary" style={{ margin: "2rem", position: "fixed", right: "0", top: "0" }} onClick={() => handleClick()}>
                 <Typography variant="body1">
                     About the lines
                 </Typography>
             </Button>
-            <StyledContainer style={{ ...rest, width: size, height: size, right: "0", top: "0", backgroundColor: "white", margin: "2rem", opacity: opacity, zIndex: "2" }} onClick={() => handleClick()}>
+            <StyledContainer style={{ ...rest, width: size, right: "0", top: "0", backgroundColor: "white", margin: "2rem", opacity: opacity, zIndex: "2" }} onClick={() => handleClick()}>
                 <div style={{ display: open ? "" : "none" }}>
                     <Typography variant="h5" align="center" style={{ margin: "3rem", }}>
                         Its all about the Prime Numbers...
                 </Typography>
                     <Typography variant="body1" style={{ margin: "3rem", textIndent: "3rem" }} align="justify">
-                        This pattern is created using the 5000 digits starting from 0 in a 2-dimension plane. For every increment in the index, the value of y increases by a pre-set amount.
-                        However, when the index is a prime the point is rotated 90 degrees, in other words the x value is increased instead. After 5000 recusions, it creates a pattern that is shown below.
+                        This pattern is created using the properties of prime numbers for the first 5000 digits starting from 0, and is mapped to a 2-dimensional plane. For every increment in the index, the value of y or xs increases by a pre-set amount.
+                        However, when the current index is a prime the vector increases with a 90 degree rotation. For example, if the pervious index extended the line by -y, then the current index will extend the line by
+                        -x. This results in the pattern below.
                 </Typography>
                 </div>
                 <div style={{ display: open ? "" : "none" }}>
                     <Typography variant="h6" align="center" style={{ margin: "3rem", display: open ? "" : "none" }}>
-                        An example with the first 10 digits
+                        An example with the first 8 digits
                      </Typography>
                     <Canvas
-                        size={10}
-                        xAxis={10}
-                        yAxis={10}
+                        size={9}
+                        xAxis={100}
+                        yAxis={175}
                         home={false}
+                        amount={75}
+                        open={open}
                     />
                 </div>
             </StyledContainer>
@@ -105,7 +110,7 @@ const MenuButton = (prop) => {
                     <Card style={{ borderRadius: "100px", opacity: hover.resume ? "1" : "0.9" }}>
                         <CardActionArea onClick={() => prop.handleResumeClick()} onMouseEnter={() => setHover({ ...hover, resume: true })} onMouseLeave={() => setHover({ ...hover, resume: false })}>
                             <CardContent>
-                                <Typography variant="body1" style={{ textAlign: "center" }}>Resume</Typography>
+                                <Typography variant="body1" style={{ textAlign: "center" }}>Qualification</Typography>
                             </CardContent>
                         </CardActionArea>
                     </Card>

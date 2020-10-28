@@ -7,6 +7,7 @@ import Home from './Sections/Home.js';
 import AboutMe from './Sections/AboutMe.js';
 import Resume from './Sections/Resume.js';
 import Play from './Sections/Playground.js';
+import Timeline from './Sections/Roadmap.js';
 
 const theme = createMuiTheme({
   overrides: {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/home" render={(props) => <Home />} />
           <Route path="/about-me" render={(props) => <AboutMe />} />
           <Route path="/play" render={(props) => <Play />} />
+          <Route path="/timeline" render={(props) => <Timeline />} />
           <Redirect from="/" to="/home" />
         </Switch>
       </BrowserRouter>

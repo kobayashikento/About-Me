@@ -18,6 +18,7 @@ import Roadmap from '../Sections/Roadmap.js';
 import Resume from '../Sections/Resume.js';
 import Introduction from '../Sections/Introduction.js';
 import { MenuButton, AboutLines } from '../Sections/Introduction.js';
+import { RoadmapTitle, TimelineAccordion } from '../Sections/Roadmap.js';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -91,11 +92,7 @@ const Home = () => {
     }, [scrollTop]);
 
     function handleAboutMeClick() {
-        setActivePage(1);
-        window.scrollTo({
-            top: window.innerHeight,
-            behavior: "smooth",
-        })
+        parallax.scrollTo(1)
     }
 
     function handleResumeClick() {
@@ -108,22 +105,30 @@ const Home = () => {
         <div>
             {showHome && (
                 <React.Fragment>
-                    <Parallax ref={(ref) => { parallax = ref }} pages={3}>
+                    <Parallax ref={(ref) => { parallax = ref }} pages={4} >
                         <Fade down >
                             <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: "#30212c" }} />
                             <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: "#36484e" }} />
-                            <ParallaxLayer offset={0} speed={0} factor={3} style={{ background: "linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)" }} >
+                            <ParallaxLayer offset={0} speed={0} factor={4} style={{ background: "linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)" }} >
                                 <div style={{ position: "fixed", width: "100%", height: "100%", margin: "0" }}>
-                                    <Canvas 
+                                    <Canvas
                                         size={6000}
                                         xAxis={600}
                                         yAxis={100}
                                         home={true}
+                                        amount={10}
+                                        open={false}
                                     />
                                 </div>
                             </ParallaxLayer>
                             <ParallaxLayer
                                 offset={0}
+                                speed={0.1}
+                                style={{ alignItems: "center", justifyContent: "center" }}
+                            >
+                            </ParallaxLayer>
+                            <ParallaxLayer
+                                offset={0.1}
                                 speed={0.1}
                                 style={{ alignItems: "center", justifyContent: "center" }}
                                 onClick={() => parallax.scrollTo(1)}
@@ -139,13 +144,7 @@ const Home = () => {
                                     handleResumeClick={() => handleResumeClick()}
                                 />
                             </ParallaxLayer>
-                            <ParallaxLayer
-                                offset={0}
-                                speed={0.1}
-                                style={{ alignItems: "center", justifyContent: "center" }}
-                            >
-                                <AboutLines />
-                            </ParallaxLayer>
+                            <AboutLines />
                             <ParallaxLayer
                                 offset={1}
                                 speed={0.1}
@@ -156,12 +155,20 @@ const Home = () => {
                             </ParallaxLayer>
                             <ParallaxLayer
                                 offset={2}
-                                speed={-0}
-                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                onClick={() => parallax.scrollTo(0)}
+                                speed={-0.1}
+                                style={{ alignItems: 'center', justifyContent: 'center' }}
                             >
-                                <Roadmap />
+                                <RoadmapTitle />
                             </ParallaxLayer>
+                            <ParallaxLayer
+                                factor={2}
+                                offset={2.1}
+                                speed={0.1}
+                                style={{ alignItems: 'center', justifyContent: 'center' }}
+                            >
+                                <TimelineAccordion />
+                            </ParallaxLayer>
+
                         </Fade>
                         {/* <div style={{ position: "fixed", top: "50%", left: "95%", transform: "translate(-50%, -50%)", display: activePage === 0 ? "none" : "", zIndex: "1" }}>
                         <Timeline align="right">
