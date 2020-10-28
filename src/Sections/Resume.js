@@ -37,7 +37,73 @@ const Resume = () => {
 
     return (
         <Container >
-
+  {/* <Timeline align="left" style={{ position: "fixed" }}>
+                    <TimelineItem>
+                        <TimelineSeparator>
+                            <TimelineDot color={activePage === 1 ? "primary" : "grey"}>
+                                <IconButton
+                                    style={{ zoom: showIcon.education ? 1.5 : 1 }}
+                                    onMouseEnter={() => setShowIcon({ ...showIcon, education: true })}
+                                    onMouseLeave={() => setShowIcon({ ...showIcon, education: false })}
+                                    size="small"
+                                >
+                                    <SchoolIcon />
+                                </IconButton>
+                            </TimelineDot>
+                            <TimelineConnector />
+                        </TimelineSeparator>
+                        <TimelineContent style={{ display: showIcon.education ? "" : "none" }}>
+                            <Paper elevation={3} className={classes.paper} >
+                                <Typography variant="h6" component="h2">
+                                    Education
+                                </Typography>
+                            </Paper>
+                        </TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                        <TimelineSeparator>
+                            <TimelineDot color={activePage === 2 ? "primary" : "grey"} >
+                                <IconButton
+                                    style={{ zoom: showIcon.experience ? 1.5 : 1 }}
+                                    onMouseEnter={() => setShowIcon({ ...showIcon, experience: true })}
+                                    onMouseLeave={() => setShowIcon({ ...showIcon, experience: false })}
+                                    size="small"
+                                >
+                                    <WorkIcon />
+                                </IconButton>
+                            </TimelineDot>
+                            <TimelineConnector />
+                        </TimelineSeparator>
+                        <TimelineContent style={{ display: showIcon.experience ? "" : "none" }}>
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography variant="h6" component="h2">
+                                    Experience
+                                </Typography>
+                            </Paper>
+                        </TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                        <TimelineSeparator>
+                            <TimelineDot color={activePage === 2 ? "primary" : "grey"} >
+                                <IconButton
+                                    style={{ zoom: showIcon.extra ? 1.5 : 1 }}
+                                    onMouseEnter={() => setShowIcon({ ...showIcon, extra: true })}
+                                    onMouseLeave={() => setShowIcon({ ...showIcon, extra: false })}
+                                    size="small"
+                                >
+                                    <RowingIcon />
+                                </IconButton>
+                            </TimelineDot>
+                        </TimelineSeparator>
+                        <TimelineContent style={{ display: showIcon.extra ? "" : "none" }}>
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography variant="h6" component="h2">
+                                    Extracurricular
+                                </Typography>
+                            </Paper>
+                        </TimelineContent>
+                    </TimelineItem>
+                </Timeline> */}
         </Container>
     );
 }
