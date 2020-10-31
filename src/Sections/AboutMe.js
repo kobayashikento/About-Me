@@ -4,10 +4,12 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
+const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
+
 const AboutMe = () => {
     return (
         <Container maxWidth="md" style={{ display: "flex", height: "100vh" }}>
-            <Paper style={{ width: "fit-content", position: "relative", opacity: "0.9", padding: "2rem", borderRadius: "10px", marginTop: "auto", marginBottom: "auto" }}>
+            <Paper elevation={3} style={{ boxShadow: shadow, width: "fit-content", position: "relative", opacity: "0.9", padding: "2rem", borderRadius: "10px", marginTop: "auto", marginBottom: "auto" }}>
                 <Typography style={{ textAlign: "left" }} variant="h3">
                     About Me:
             </Typography>

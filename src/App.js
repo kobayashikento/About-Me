@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
+import { Switch, Route, BrowserRouter, Redirect, withRouter } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Home from './Sections/Home.js';
@@ -26,11 +26,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route path="/resume" render={(props) => <Resume />} />
-          <Route path="/home" render={(props) => <Home />} />
-          <Route path="/about-me" render={(props) => <AboutMe />} />
-          <Route path="/play" render={(props) => <Play />} />
-          <Route path="/timeline" render={(props) => <Timeline />} />
+          <Route path="/resume" component={withRouter(Resume)}  />
+          <Route path="/home" component={Home}  />
+          <Route path="/play" component={Play}  />
           <Redirect from="/" to="/home" />
         </Switch>
       </BrowserRouter>

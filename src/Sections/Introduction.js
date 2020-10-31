@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom';
+
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -9,31 +11,50 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import MailIcon from '@material-ui/icons/Mail';
 
 import { useTransition, useSpring, useChain, config } from 'react-spring'
 
 import Canvas from '../Components/Canvas.js';
-
-import primes from '../Assets/prime.js';
 
 import catImg from '../Assets/Cat.png';
 import { StyledContainer } from '../Styles/introductionStyle.js';
 
 const buttonTheme = createMuiTheme({ palette: { primary: { main: "#FFFFFF" } } })
 
+const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
+
 const Introduction = (prop) => {
     return (
         <section style={{ height: "100vh" }}>
-            <Avatar style={{ height: "10rem", width: "10rem", left: "50%", transform: "translate(-50%,20%)", zIndex: "1" }} src={catImg} />
+            <Avatar style={{
+                height: "10rem", width: "10rem", left: "50%", transform: "translate(-50%, 0)", zIndex: "1", boxShadow: shadow
+            }} src={catImg} />
             <Container maxWidth="sm" style={{ transform: "translate(0, 10%)" }}>
-                <Paper style={{ width: "fit-content", position: "relative", opacity: "0.9", padding: "2rem", borderRadius: "10px", paddingTop: "6rem", left: "50%", top: "6rem", transform: "translate(-50%, -54%)" }}>
+                <Paper elevation={3} style={{ boxShadow: shadow, width: "fit-content", position: "relative", opacity: "0.9", padding: "2rem", paddingBottom: "1rem", borderRadius: "10px", paddingTop: "6rem", left: "50%", top: "6rem", transform: "translate(-50%, -54%)" }}>
                     <Typography style={{ textAlign: "center" }} variant="h3">
                         Kento Kobayashi
                    </Typography>
                     <Typography style={{ marginTop: "1rem" }} variant="body1" align="center">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec dui eget urna facilisis consectetur ac at dolor. Pellentesque velit ante, aliquam eget volutpat quis, venenatis at velit. Integer consequat malesuada ipsum, porta ultricies risus dictum quis. Aliquam viverra lorem bibendum, feugiat nisl sed, tincidunt lacus. Vestibulum cursus tempor accumsan.
                      </Typography>
+                    <div style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
+                        <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                            <GitHubIcon />
+                        </IconButton>
+                        <IconButton onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                            <LinkedInIcon />
+                        </IconButton>
+                        <IconButton onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                            <MailIcon />
+                        </IconButton>
+                    </div>
                 </Paper>
             </Container>
         </section>
@@ -55,11 +76,11 @@ const AboutLines = (props) => {
         to: { size: open ? "70%" : "10%", opacity: open ? "1" : "0" }
     })
 
-    useChain(open ? [springRef] : [springRef], [0, open ? 0.5 : 0.5])
+    useChain(open ? [springRef] : [springRef], [0, open ? 0.1 : 0.6])
 
     return (
         <MuiThemeProvider theme={buttonTheme} >
-            <Button variant="outlined" color="primary" style={{ margin: "2rem", position: "fixed", right: "0", top: "0" }} onClick={() => handleClick()}>
+            <Button variant="outlined" color="primary" style={{ margin: "2rem", position: "fixed", right: "0", top: "0", }} onClick={() => handleClick()}>
                 <Typography variant="body1">
                     About the lines
                 </Typography>
@@ -107,16 +128,18 @@ const MenuButton = (prop) => {
                 spacing={5}
             >
                 <Grid item xs={4}>
-                    <Card style={{ borderRadius: "100px", opacity: hover.resume ? "1" : "0.9" }}>
-                        <CardActionArea onClick={() => prop.handleResumeClick()} onMouseEnter={() => setHover({ ...hover, resume: true })} onMouseLeave={() => setHover({ ...hover, resume: false })}>
-                            <CardContent>
-                                <Typography variant="body1" style={{ textAlign: "center" }}>Qualification</Typography>
-                            </CardContent>
-                        </CardActionArea>
+                    <Card style={{ borderRadius: "100px", opacity: hover.resume ? "1" : "0.9", boxShadow: shadow }}>
+                        <Link to={"/resume"} style={{ textDecoration: "none", color: "black" }}>
+                            <CardActionArea onMouseEnter={() => setHover({ ...hover, resume: true })} onMouseLeave={() => setHover({ ...hover, resume: false })}>
+                                <CardContent>
+                                    <Typography variant="body1" style={{ textAlign: "center" }}>Resume</Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Link>
                     </Card>
                 </Grid>
                 <Grid item xs={4}>
-                    <Card style={{ borderRadius: "100px", opacity: hover.aboutMe ? "1" : "0.9" }}>
+                    <Card style={{ borderRadius: "100px", opacity: hover.aboutMe ? "1" : "0.9", boxShadow: shadow }}>
                         <CardActionArea onClick={() => prop.handleAboutMeClick()} onMouseEnter={() => setHover({ ...hover, aboutMe: true })} onMouseLeave={() => setHover({ ...hover, aboutMe: false })}>
                             <CardContent>
                                 <Typography variant="body1" style={{ textAlign: "center" }}>About Me</Typography>
@@ -125,7 +148,45 @@ const MenuButton = (prop) => {
                     </Card>
                 </Grid>
                 <Grid item xs={4}>
-                    <Card style={{ borderRadius: "100px", opacity: hover.port ? "1" : "0.9" }}>
+                    <Card style={{ borderRadius: "100px", opacity: hover.port ? "1" : "0.9", boxShadow: shadow }}>
+                        <CardActionArea onMouseEnter={() => setHover({ ...hover, port: true })} onMouseLeave={() => setHover({ ...hover, port: false })}>
+                            <CardContent>
+                                <Typography variant="body1" style={{ textAlign: "center" }}>Portfolio</Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Container>
+    )
+}
+
+const BottomMenu = (prop) => {
+    const [hover, setHover] = React.useState({
+        resume: false, port: false
+    })
+    return (
+        <Container style={{ marginTop: "1rem" }} maxWidth="sm">
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+                spacing={5}
+            >
+                <Grid item xs={4}>
+                    <Card style={{ borderRadius: "100px", opacity: hover.resume ? "1" : "0.9", boxShadow: shadow }}>
+                        <Link to={"/resume"} style={{ textDecoration: "none", color: "black" }}>
+                            <CardActionArea onMouseEnter={() => setHover({ ...hover, resume: true })} onMouseLeave={() => setHover({ ...hover, resume: false })}>
+                                <CardContent>
+                                    <Typography variant="body1" style={{ textAlign: "center" }}>Resume</Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Link>
+                    </Card>
+                </Grid>
+                <Grid item xs={4}>
+                    <Card style={{ borderRadius: "100px", opacity: hover.port ? "1" : "0.9", boxShadow: shadow }}>
                         <CardActionArea onMouseEnter={() => setHover({ ...hover, port: true })} onMouseLeave={() => setHover({ ...hover, port: false })}>
                             <CardContent>
                                 <Typography variant="body1" style={{ textAlign: "center" }}>Portfolio</Typography>
@@ -139,4 +200,4 @@ const MenuButton = (prop) => {
 }
 
 export default React.memo(Introduction);
-export { MenuButton, AboutLines };
+export { MenuButton, AboutLines, BottomMenu };

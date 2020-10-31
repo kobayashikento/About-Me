@@ -6,38 +6,56 @@ import Typography from '@material-ui/core/Typography';
 
 const Canvas = props => {
     const canvasRef = React.useRef(null);
-    let canvas = undefined;
-    let context = undefined;
     let points = calcWaypoints(getVertices());
-    let t = 1;
     const [selectedNumber, setSelectedNumber] = React.useState(1);
-    const [status, setStatus] = React.useState("");
 
-    React.useLayoutEffect(() => {
-        canvas = canvasRef.current
-        context = canvas.getContext('2d')
-        if (props.home) {
-            context.canvas.width = window.innerWidth;
-            context.canvas.height = window.innerHeight * 3.5;
-        } else {
-            context.canvas.width = 200
-            context.canvas.height = 200
-        }
+    React.useEffect(() => {
+        const canvas = canvasRef.current
+        const context = canvas.getContext('2d')
+        let frameCount = 0;
+        let animationFrameId;
         context.lineCap = "round";
         context.lineWidth = 2;
         if (props.home) {
+            context.canvas.width = window.innerWidth;
+            context.canvas.height = window.innerHeight * 3.5;
             context.strokeStyle = "rgba(255,255,255, 0.9)";
         } else {
+            context.canvas.width = 200
+            context.canvas.height = 200
             context.strokeStyle = "black";
         }
-        if (props.home) {
-            animate();
-        } else {
-            if (props.open) {
-                animate()
+        const render = () => {
+            frameCount++;
+            if (props.home) {
+                if (frameCount < points.length - 1) {
+                    animate(context, frameCount)
+                    animationFrameId = window.requestAnimationFrame(render)
+                }
+            } else {
+                if (props.open) {
+                    if (frameCount < points.length - 1) {
+                        animate(context, frameCount)
+                    } else {
+                        frameCount = 1;
+                        setSelectedNumber(1);
+                        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+                        animate(context, frameCount)
+                    }
+                    animationFrameId = window.requestAnimationFrame(render)
+                } else {
+                    frameCount = 0;
+                    setSelectedNumber(1);
+                    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+                }
             }
         }
-    }, [canvasRef, props.open])
+        render()
+
+        return () => {
+            window.cancelAnimationFrame(animationFrameId)
+        }
+    }, [props.open])
 
     function isPrime(num) {
         for (var i = 2; i < num; i++)
@@ -117,31 +135,17 @@ const Canvas = props => {
         return (waypoints);
     }
 
-    function animate() {
+    function animate(context, frameCount) {
         if (props.home) {
-            if (t < points.length - 1) {
-                requestAnimationFrame(animate);
-            }
             // draw a line segment from the last waypoint
             // to the current waypoint
             context.beginPath();
-            context.moveTo(points[t - 1].x, points[t - 1].y);
-            context.lineTo(points[t].x, points[t].y);
+            context.moveTo(points[frameCount - 1].x, points[frameCount - 1].y);
+            context.lineTo(points[frameCount].x, points[frameCount].y);
             context.stroke();
             // increment "t" to get the next waypoint
-            t++;
         } else {
-            console.log("passed")
-            if (t < points.length - 1 ) {
-                requestAnimationFrame(animate);
-            }
-            // } else if (open === true) {
-            //     t = 1;
-            //     setSelectedNumber(1);
-            //     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-            //     requestAnimationFrame(animate(open));
-            // }
-            switch (t) {
+            switch (frameCount) {
                 case 49:
                     setSelectedNumber(2);
                     break;
@@ -168,11 +172,9 @@ const Canvas = props => {
             // draw a line segment from the last waypoint
             // to the current waypoint
             context.beginPath();
-            context.moveTo(points[t - 1].x, points[t - 1].y);
-            context.lineTo(points[t].x, points[t].y);
+            context.moveTo(points[frameCount - 1].x, points[frameCount - 1].y);
+            context.lineTo(points[frameCount].x, points[frameCount].y);
             context.stroke();
-            // increment "t" to get the next waypoint
-            t++;
         }
     }
 
