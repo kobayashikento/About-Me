@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
 import primes from '../Assets/prime.js';
 import Card from '@material-ui/core/Card';

@@ -129,7 +129,7 @@ const MenuButton = (prop) => {
             >
                 <Grid item xs={4}>
                     <Card style={{ borderRadius: "100px", opacity: hover.resume ? "1" : "0.9", boxShadow: shadow }}>
-                        <Link to={"/resume"} style={{ textDecoration: "none", color: "black" }}>
+                        <Link to="/resume" style={{ textDecoration: "none", color: "black" }}>
                             <CardActionArea onMouseEnter={() => setHover({ ...hover, resume: true })} onMouseLeave={() => setHover({ ...hover, resume: false })}>
                                 <CardContent>
                                     <Typography variant="body1" style={{ textAlign: "center" }}>Resume</Typography>

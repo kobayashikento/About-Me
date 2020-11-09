@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 
@@ -21,6 +21,7 @@ import Paper from '@material-ui/core/Paper';
 import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
 import RowingIcon from '@material-ui/icons/Rowing';
+import LaptopIcon from '@material-ui/icons/Laptop';
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
@@ -33,8 +34,9 @@ import resume from '../Assets/resume.js';
 
 import uoft from '../Assets/uoftlogo.png'
 
-import useMeasure from '../Components/useMeasure.js'
+import Fade from 'react-reveal'
 import useMedia from '../Components/useMedia.js'
+import useObserver from '../Components/useMeasure.js'
 import AnimatedCard from '../Components/AnimatedCard.js';
 
 import '../Styles/resumeStyle.css';
@@ -44,7 +46,7 @@ const AnimatedIcon = () => {
     return (
         <div style={{ display: "flex" }}>
             < Transition
-                config={{ duration: 1500 }}
+                config={{ duration: 1000 }}
                 items={isExpanded}
                 from={{ transform: 'translate(-50%, -50%)', opacity: 0, position: "fixed", top: "50%", left: "50%" }}
                 enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", left: "0" }}
@@ -63,20 +65,20 @@ const AnimatedIcon = () => {
                     </animated.div>)}
             </Transition >
             < Transition
-                config={{ duration: 1500 }}
+                config={{ duration: 1000 }}
                 items={isExpanded}
                 from={{ transform: 'translate(50%, -50%)', opacity: 0, position: "fixed", top: "50%", right: "50%", zoom: "3" }}
                 enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", right: "0", zoom: "1" }}
                 leave={{ transform: 'translate3d(0,-40px,0)' }}>
                 {isExpanded => isExpanded && (props =>
                     <animated.div style={{ ...props, display: "flex", justifyContent: "right", paddingTop: "1rem", paddingRight: "2rem" }}>
-                        <Button
-                            style={{ marginRight: "1rem", color: "grey" }}
-                            to={"/home"}
-                            component={Link}
-                        >
-                            Home
+                        <Link to="/" style={{ textDecoration: "none", color: "grey" }}>
+                            <Button
+                                style={{ marginRight: "1rem", color: "grey" }}
+                            >
+                                Home
                         </Button>
+                        </Link>
                         <Button
                             style={{ marginRight: "1rem", color: "grey" }}
                             to={"/portfolio"}
@@ -99,9 +101,9 @@ const AnimateTimeline = (props) => {
     }
     return (
         < Transition
-            config={{ duration: 1500 }}
+            config={{ duration: 500 }}
             items={true}
-            from={{ transform: 'translate(-50%, -50%)', opacity: 0, position: "fixed", top: "50%", left: "50%" }}
+            from={{ transform: 'translate(-50%, -50%)', opacity: 0, position: "fixed", top: "50%" }}
             enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", left: "0" }}
             leave={{ transform: 'translate3d(0,-40px,0)' }}>
             {isExpanded => isExpanded && (props =>
@@ -153,17 +155,38 @@ const AnimateTimeline = (props) => {
                             <TimelineSeparator>
                                 <TimelineDot variant="outlined" >
                                     <IconButton
-                                        style={{ zoom: showIcon === 3 || page === 3 ? 1.5 : 1 }}
+                                        style={{ zoom: showIcon === 3 || page === 3 ? 1.5 : 1, backgroundColor: "none" }}
                                         onMouseEnter={() => setShowIcon(3)}
                                         onMouseLeave={() => setShowIcon(0)}
                                         size="small"
                                         onClick={() => handleClick(3)}
                                     >
+                                        <LaptopIcon />
+                                    </IconButton>
+                                </TimelineDot>
+                                <TimelineConnector />
+                            </TimelineSeparator>
+                            <TimelineContent style={{ display: showIcon === 3 || page === 3 ? "" : "none", paddingTop: "16px" }}>
+                                <Button disabled variant="outlined" style={{ color: "grey" }}>
+                                    Technical Skills
+                    </Button>
+                            </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                            <TimelineSeparator>
+                                <TimelineDot variant="outlined" >
+                                    <IconButton
+                                        style={{ zoom: showIcon === 4 || page === 4 ? 1.5 : 1 }}
+                                        onMouseEnter={() => setShowIcon(4)}
+                                        onMouseLeave={() => setShowIcon(0)}
+                                        size="small"
+                                        onClick={() => handleClick(4)}
+                                    >
                                         <RowingIcon />
                                     </IconButton>
                                 </TimelineDot>
                             </TimelineSeparator>
-                            <TimelineContent style={{ display: showIcon === 3 || page === 3 ? "" : "none", paddingTop: "16px" }}>
+                            <TimelineContent style={{ display: showIcon === 4 || page === 4 ? "" : "none", paddingTop: "16px" }}>
                                 <Button disabled variant="outlined" style={{ color: "grey" }}>
                                     Extracurricular
                     </Button>
@@ -210,19 +233,17 @@ const AnimateTimeline = (props) => {
 // }
 
 const AnimatedGrid = (props) => {
-    // Hook1: Tie media queries to the number of columns
-    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1000px)', '(min-width: 600px)'], [4, 3, 2], 2)
-    // Hook2: Measure the width of the container element
-    const [bind, { width }] = useMeasure()
-    // Hook3: Hold items
-    const [items, set] = React.useState(resume)
+    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [4, 3, 2], 1)
+    const ref = React.useRef(null);
+    const [width, setWidth] = React.useState(0);
 
-    const [activeCard, setActiveCard] = React.useState(0)
-
-    const handleCardClick = (index) => {
-        console.log("paased")
-        setActiveCard(index)
+    const callback = () => {
+        setWidth(ref.current.offsetWidth)
     }
+
+    useObserver({ callback: callback, element: ref })
+
+    const [items, set] = React.useState(resume)
 
     const [heights, gridItems] = React.useMemo(() => {
         let list;
@@ -248,6 +269,15 @@ const AnimatedGrid = (props) => {
             let len = items.length
             let temp = [...resume]
             while (len--) {
+                if (temp[len].type !== "coding") {
+                    temp.splice(len, 1);
+                }
+            }
+            list = temp;
+        } else if (props.activePage === 4) {
+            let len = items.length
+            let temp = [...resume]
+            while (len--) {
                 if (temp[len].type !== "extra") {
                     temp.splice(len, 1);
                 }
@@ -256,12 +286,14 @@ const AnimatedGrid = (props) => {
         } else {
             list = resume;
         }
+
         let heights = new Array(columns).fill(0) // Each column gets a height starting with zero
         let gridItems = list.map((child, i) => {
             const column = heights.indexOf(Math.min(...heights)) // Basic masonry-grid placing, puts tile into the smallest column using Math.min
             const xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2] // X = container width / number of columns * column index, Y = it's just the height of the current column
             return { ...child, xy, width: width / columns, height: child.height / 2 }
         })
+        props.handleHeight(Math.max(...heights))
         return [heights, gridItems]
     }, [columns, items, width, props.activePage])
 
@@ -274,19 +306,20 @@ const AnimatedGrid = (props) => {
             config: { mass: 5, tension: 500, friction: 100 },
             trail: 25
         })
+
     return (
-        <div style={{ marginTop: "7rem", paddingBottom: Math.max(...heights) + 24 }}>
-            <div {...bind} class="list" style={{ height: Math.max(...heights) + 24 }}>
-                {transitions.map(({ item, props: { xy, ...rest }, key }) => (
-                    <animated.div key={key} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                        <AnimatedCard
-                            item={item}
-                            activeCard={activeCard}
-                        />
-                    </animated.div>
-                ))}
-            </div >
-        </div>
+        <div ref={ref} class="list" style={{ height: Math.max(...heights), marginTop: "72px", marginBottom: "36px" }}>
+            {transitions.map(({ item, props: { xy, ...rest } }, index) => (
+                <animated.div key={item.key} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                    <AnimatedCard
+                        item={item}
+                        handleCardClick={(index) => props.handleCardClick(index)}
+                        handleActiveCard={(item) => props.handleActiveCard(item)}
+                        width={width}
+                    />
+                </animated.div>
+            ))}
+        </div >
     )
 }
 

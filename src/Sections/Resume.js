@@ -1,24 +1,41 @@
 import React from 'react'
 
-import { makeStyles } from '@material-ui/core/styles';
-
-import Button from '@material-ui/core/Button';
-
 import Fade from 'react-reveal'
 
-import { useTransition, animated, useSpring, useChain, config } from 'react-spring'
-
-import { Transition } from 'react-spring/renderprops'
-
-import { AnimatedIcon, AnimateTimeline, AnimatedCarousel, AnimatedCard, AnimatedGrid } from '../Components/AnimatedResume.js';
+import { AnimatedIcon, AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
+import ResumeDetails from '../Components/ResumeDetails.js';
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 
 const Resume = (props) => {
     // 0-none, 1-education, 2-work, 3-extra
     const [activePage, setActivePage] = React.useState(0);
+    const [activeCard, setActiveCard] = React.useState(null);
+    const [height, setHeight] = React.useState(window.innerHeight * 3);
+    const [showDetails, setShowDetails] = React.useState(false);
+
     const timelineRef = React.useRef(null);
 
+    const handleActiveCard = (item) => {
+        setActiveCard(item);
+    }
+    const handleCardClick = (index) => {
+        if (index !== 0) {
+            setShowDetails(true);
+        }
+        setActiveCard(index)
+    }
+    const handleHeight = (height) => {
+        window.scrollTo(0)
+        if (height < window.innerHeight) {
+            setHeight(window.innerHeight)
+        } else {
+            setHeight(height + 72 + 36)
+        }
+    }
+    const handleDetailsChange = () => {
+        setShowDetails(!showDetails);
+    }
     const handleTimeClick = (index) => {
         if (activePage === index) {
             setActivePage(0);
@@ -26,6 +43,7 @@ const Resume = (props) => {
             setActivePage(index);
         }
     }
+
     React.useEffect(() => {
         function handleClickOutside(event) {
             if (timelineRef.current && !timelineRef.current.contains(event.target)) {
@@ -39,25 +57,36 @@ const Resume = (props) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [timelineRef]);
+
     return (
-        <div style={{ background: "linear-gradient(120deg, #5ee7df  0%, #a8edea 100%)" }}>
+        <div style={{ background: "linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)" }}>
             <Fade up>
-                <div style={{ height: "100%", background: "linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)" }}>
+                <div style={{ height: height, background: "linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)", overflow: "auto" }}>
                     <AnimatedIcon />
-                    <div ref={timelineRef}> 
-                    <AnimateTimeline
-                        activePage={activePage}
-                        handleTimeClick={handleTimeClick}
-                    />
-                    </div>
-                    <AnimatedGrid
-                        activePage={activePage}
-                    />
-                    {/* <AnimatedCarousel /> */}
+                    {!showDetails ?
+                        < div ref={timelineRef} >
+                            <AnimateTimeline
+                                activePage={activePage}
+                                handleTimeClick={handleTimeClick}
+                            />
+                            <AnimatedGrid
+                                activePage={activePage}
+                                handleCardClick={(index) => handleCardClick(index)}
+                                handleHeight={(height) => handleHeight(height)}
+                                handleActiveCard={(item) => handleActiveCard(item)}
+                            />
+                        </ div>
+                        :
+                        <ResumeDetails
+                            handleDetailsChange={() => handleDetailsChange()}
+                            handleHeight={(height) => handleHeight(height)}
+                            activeCard={activeCard}
+                        />
+                    }
                 </div>
             </Fade>
-        </div>
+        </div >
     );
 }
 
-export default Resume;
+export default React.memo(Resume);

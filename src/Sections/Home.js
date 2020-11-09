@@ -41,7 +41,6 @@ const trans3 = (x, y) => `translate3d(${x / 30}px,${y / 30}px,0)`
 const trans4 = (x, y) => `translate3d(${x / 80}px,${y / 80}px,0)`
 
 const Home = () => {
-    const [showHome, setShowHome] = React.useState(true);
     const [scrollTop, setScrollTop] = React.useState(0);
     const [activePage, setActivePage] = React.useState(0);
     const [props, set] = useSpring(() => ({ xy: [0, 0], config: { mass: 10, tension: 550, friction: 140 } }))
@@ -104,116 +103,118 @@ const Home = () => {
     }
 
     return (
-        <div style={{ background: "linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)", height: "100vh", width: "100vw" }} onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })} >
-            <Fade down>
-                <Parallax ref={(ref) => { parallax = ref }} pages={4}  >
-                    <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: "#30212c" }} />
-                    <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: "#36484e" }} />
-                    <ParallaxLayer offset={0} speed={0} factor={4} style={{ background: "linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)" }} >
-                        <animated.div style={{ transform: props.xy.interpolate(trans3) }}>
-                            <div style={{ position: "fixed", width: "100%", height: "100%", margin: "0" }}>
-                                <Canvas
-                                    size={5500}
-                                    xAxis={600}
-                                    yAxis={100}
-                                    home={true}
-                                    amount={10}
-                                    open={false}
-                                />
-                            </div>
-                        </animated.div>
-                        <animated.div style={{ transform: props.xy.interpolate(trans4) }}>
-                            <div style={{ position: "fixed", width: "100%", height: "100%", margin: "0", transform: "scaleX(-1)" }}>
-                                <Canvas
-                                    size={5500}
-                                    xAxis={600}
-                                    yAxis={100}
-                                    home={true}
-                                    amount={10}
-                                    open={false}
-                                />
-                            </div>
-                        </animated.div>
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={0}
-                        speed={0.1}
-                        style={{ alignItems: "center", justifyContent: "center" }}
-                    >
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={0.1}
-                        speed={0.1}
-                        style={{ alignItems: "center", justifyContent: "center" }}
-                    >
-                        <Introduction />
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={0.8}
-                        speed={-0.1}
-                        style={{ alignItems: "center", justifyContent: "center" }}>
-                        <MenuButton
-                            handleAboutMeClick={() => handleAboutMeClick()}
-                        />
-                    </ParallaxLayer>
-                    <AboutLines />
-                    <ParallaxLayer
-                        offset={1}
-                        speed={0.1}
-                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                        onClick={() => parallax.scrollTo(2)}
-                    >
-                        <AboutMe />
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={2}
-                        speed={-0.1}
-                        style={{ alignItems: 'center', justifyContent: 'center' }}
-                    >
-                        <RoadmapTitle />
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={2.2}
-                        speed={0.3}
-                        style={{ alignItems: 'center', justifyContent: 'center' }}
-                    >
-                        <img src={graduation} style={{ borderRadius: "10px", width: "20%", height: "auto", position: "fixed", left: "10%" }} />
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={2.9}
-                        speed={0.3}
-                        style={{ alignItems: 'center', justifyContent: 'center' }}
-                    >
-                        <img src={racing} style={{ borderRadius: "10px", width: "40%", height: "auto", position: "fixed", right: "5%" }} />
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={3.2}
-                        speed={0.3}
-                        style={{ alignItems: 'center', justifyContent: 'center' }}
-                    >
-                        <img src={torontoImg} style={{ borderRadius: "10px", width: "30%", height: "30%", position: "fixed", left: "10%" }} />
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={2.1}
-                        speed={0.2}
-                        style={{ alignItems: 'center', justifyContent: 'center' }}
-                    >
-                        <TimelineAccordion />
-                    </ParallaxLayer>
-                    <ParallaxLayer
-                        offset={3.6}
-                        speed={-0.1}
-                        style={{ alignItems: 'center', justifyContent: 'center' }}
-                        onClick={() => parallax.scrollTo(0)}
-                    >
-                        <BottomMenu
-                            handleAboutMeClick={() => handleAboutMeClick()}
-                        />
-                    </ParallaxLayer>
-                </Parallax>
-            </Fade>
+        <div>
+            <div style={{ background: "linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)", height: "100vh", width: "100vw" }} onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })} >
+                <Fade down>
+                    <Parallax ref={(ref) => { parallax = ref }} pages={4}  >
+                        <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: "#30212c" }} />
+                        <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: "#36484e" }} />
+                        <ParallaxLayer offset={0} speed={0} factor={4} style={{ background: "linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)" }} >
+                            <animated.div style={{ transform: props.xy.interpolate(trans3) }}>
+                                <div style={{ position: "fixed", width: "100%", height: "100%", margin: "0" }}>
+                                    <Canvas
+                                        size={5500}
+                                        xAxis={600}
+                                        yAxis={100}
+                                        home={true}
+                                        amount={10}
+                                        open={false}
+                                    />
+                                </div>
+                            </animated.div>
+                            <animated.div style={{ transform: props.xy.interpolate(trans4) }}>
+                                <div style={{ position: "fixed", width: "100%", height: "100%", margin: "0", transform: "scaleX(-1)" }}>
+                                    <Canvas
+                                        size={5500}
+                                        xAxis={600}
+                                        yAxis={100}
+                                        home={true}
+                                        amount={10}
+                                        open={false}
+                                    />
+                                </div>
+                            </animated.div>
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={0}
+                            speed={0.1}
+                            style={{ alignItems: "center", justifyContent: "center" }}
+                        >
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={0.1}
+                            speed={0.1}
+                            style={{ alignItems: "center", justifyContent: "center" }}
+                        >
+                            <Introduction />
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={0.8}
+                            speed={-0.1}
+                            style={{ alignItems: "center", justifyContent: "center" }}>
+                            <MenuButton
+                                handleAboutMeClick={() => handleAboutMeClick()}
+                            />
+                        </ParallaxLayer>
+                        <AboutLines />
+                        <ParallaxLayer
+                            offset={1}
+                            speed={0.1}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            onClick={() => parallax.scrollTo(2)}
+                        >
+                            <AboutMe />
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={2}
+                            speed={-0.1}
+                            style={{ alignItems: 'center', justifyContent: 'center' }}
+                        >
+                            <RoadmapTitle />
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={2.2}
+                            speed={0.3}
+                            style={{ alignItems: 'center', justifyContent: 'center' }}
+                        >
+                            <img src={graduation} style={{ borderRadius: "10px", width: "20%", height: "auto", position: "fixed", left: "10%" }} />
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={2.9}
+                            speed={0.3}
+                            style={{ alignItems: 'center', justifyContent: 'center' }}
+                        >
+                            <img src={racing} style={{ borderRadius: "10px", width: "40%", height: "auto", position: "fixed", right: "5%" }} />
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={3.2}
+                            speed={0.3}
+                            style={{ alignItems: 'center', justifyContent: 'center' }}
+                        >
+                            <img src={torontoImg} style={{ borderRadius: "10px", width: "30%", height: "30%", position: "fixed", left: "10%" }} />
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={2.1}
+                            speed={0.2}
+                            style={{ alignItems: 'center', justifyContent: 'center' }}
+                        >
+                            <TimelineAccordion />
+                        </ParallaxLayer>
+                        <ParallaxLayer
+                            offset={3.6}
+                            speed={-0.1}
+                            style={{ alignItems: 'center', justifyContent: 'center' }}
+                            onClick={() => parallax.scrollTo(0)}
+                        >
+                            <BottomMenu
+                                handleAboutMeClick={() => handleAboutMeClick()}
+                            />
+                        </ParallaxLayer>
+                    </Parallax>
+                </Fade>
+            </div>
         </div>
     )
 }
 
-export default Home;
+export default React.memo(Home);
