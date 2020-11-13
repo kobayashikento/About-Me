@@ -107,27 +107,27 @@ const Canvas = props => {
     function calcWaypoints(vertices) {
         var waypoints = [];
         if (props.home) {
-            for (var i = 1; i < vertices.length; i++) {
-                var pt0 = vertices[i - 1];
-                var pt1 = vertices[i];
-                var dx = pt1.x - pt0.x;
-                var dy = pt1.y - pt0.y;
-                var x = pt0.x + dx;
-                var y = pt0.y + dy;
+            for (let i = 1; i < vertices.length; i++) {
+                let pt0 = vertices[i - 1];
+                let pt1 = vertices[i];
+                let dx = pt1.x - pt0.x;
+                let dy = pt1.y - pt0.y;
+                let x = pt0.x + dx;
+                let y = pt0.y + dy;
                 waypoints.push({
                     x: x,
                     y: y
                 });
             }
         } else {
-            for (var i = 2; i < vertices.length; i++) {
-                var pt0 = vertices[i - 1];
-                var pt1 = vertices[i];
-                var dx = pt1.x - pt0.x;
-                var dy = pt1.y - pt0.y;
-                for (var j = 0; j < 50; j++) {
-                    var x = pt0.x + dx * j / 50;
-                    var y = pt0.y + dy * j / 50;
+            for (let i = 2; i < vertices.length; i++) {
+                let pt0 = vertices[i - 1];
+                let pt1 = vertices[i];
+                let dx = pt1.x - pt0.x;
+                let dy = pt1.y - pt0.y;
+                for (let j = 0; j < 50; j++) {
+                    let x = pt0.x + dx * j / 50;
+                    let y = pt0.y + dy * j / 50;
                     waypoints.push({ x: x, y: y });
                 }
             }

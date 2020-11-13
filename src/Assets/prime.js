@@ -1,34 +1,36 @@
-export default [
+let primes = [
     {
         number: 1,
-        prime: false 
-    }, 
+        prime: false
+    },
     {
         number: 2,
         prime: true
     },
     {
         number: 3,
-        prime: true 
+        prime: true
     },
     {
         number: 4,
-        prime: false 
+        prime: false
     },
     {
         number: 5,
-        prime: true 
+        prime: true
     },
     {
         number: 6,
-        prime: false 
+        prime: false
     },
     {
         number: 7,
-        prime: true 
+        prime: true
     },
     {
         number: 8,
-        prime: false 
+        prime: false
     },
 ]
+
+export default primes;

@@ -26,11 +26,11 @@ const Resume = (props) => {
         setActiveCard(index)
     }
     const handleHeight = (height) => {
-        window.scrollTo(0)
+        window.scrollTo(0, 0);
         if (height < window.innerHeight) {
-            setHeight(window.innerHeight)
+            setHeight(window.innerHeight + 24)
         } else {
-            setHeight(height + 72 + 36)
+            setHeight(height + 96 + 24)
         }
     }
     const handleDetailsChange = () => {

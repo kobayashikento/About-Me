@@ -10,9 +10,11 @@ import kindeLogo from '../Assets/kindeLogo.jpg'
 import ismLogo from '../Assets/ismLogo.jpg'
 import reactLogo from '../Assets/reactLogo.png'
 import mongoLogo from '../Assets/mongoDB.png'
-import uoftText from './uoft.js'
+import sample1 from '../Assets/sample1.png'
+import sample2 from '../Assets/sample2.png'
+import sample3 from '../Assets/sample3.png'
 
-export default [
+let resume = [
     {
         title: "Honours Bachelors of Science",
         subtitle: "University of Toronto",
@@ -33,8 +35,9 @@ export default [
             "\n Listed below are the courses I took that have relevance in programming and data analysis." +
             "\n Statistics: " + "\n \t STA437H1: Methods for Multivariate Data \t \t STA305H1: Design and Analysis of Experiments" + "\n \t STA303H1: Methods of Data Analysis II \t \t STA304H1: Surveys, Sampling and Observational Data" +
             "\n \t STA302H1: Methods of Data Analysis I \t \t STA248H1: Statistics for Computer Scientists" +
-            "\n Computer Science: " + "\n \t CSC343H1: Introduction to Databases \t \t CSC309H1: Programming on the Web" + "\n \t CSC209H1: Software Tools and Systems Programming" + "\n \t CSC207H1: Software Design" + 
-            "\n Mathematics: " + "\n \t MAT334H1: Complex Variables \t \t  MAT235Y1: Calculus II " + "\n \t MAT246H1: Concepts in Abstract Mathematics \t \t MAT224H1: Linear Algebra II" 
+            "\n Computer Science: " + "\n \t CSC343H1: Introduction to Databases \t \t CSC309H1: Programming on the Web" + "\n \t CSC209H1: Software Tools and Systems Programming" + "\n \t CSC207H1: Software Design" +
+            "\n Mathematics: " + "\n \t MAT334H1: Complex Variables \t \t \t \t MAT235Y1: Calculus II " + "\n \t MAT223H1: Linear Algebra I \t \t \t \t MAT224H1: Linear Algebra II" + "\n \t MAT246H1: Concepts in Abstract Mathematics",
+        additionalImage: false,
     },
     {
         title: "React JS",
@@ -45,7 +48,27 @@ export default [
         imgWidth: "52%",
         type: "coding",
         chip: "Skill",
-        key: 11
+        key: 11,
+        titleDescription: "Self-taught",
+        date: "September, 2020 - Present",
+        bodySummary: "\n This website is created using React JS along with Material UI for the design. For the past several months I have learned, practiced and implemented React, making use of its unique component style design event, handling with useState and useEffect, as well as breaking complex designs into simply functional components." +
+            "\n I have also created another website that I used to keep track of daily events. The purpose of this website was for myself to practice data manipulation with tables and forms. I also learned how to use React Redux to further optimize my code making sure that data was passed along the childrens efficiently. \n Below are some sample pictures. This website can be accessed at \r https://life-tracker-7fb87.web.app/main-menu/dashboard\.",
+        urlDescription: "Gym Life Tracker.",            
+        additionalImage: true,
+        additionalSrc: [
+            {
+                src: sample1,
+                description: "Display Statistics Menu"
+            },
+            {
+                src: sample2,
+                description: "Data Management Menu"
+            },
+            {
+                src: sample3,
+                description: "Add Workout Popup"
+            }
+        ]
     },
     {
         title: "JavaScript",
@@ -158,3 +181,5 @@ export default [
         key: 10
     },
 ]
+
+export default resume;

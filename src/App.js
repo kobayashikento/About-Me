@@ -1,14 +1,10 @@
 import React from 'react';
 
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Home from './Sections/Home.js';
-import AboutMe from './Sections/AboutMe.js';
 import Resume from './Sections/Resume.js';
-import Play from './Sections/Playground.js';
-import Timeline from './Sections/Roadmap.js';
-import { HomeOutlined } from '@material-ui/icons';
 
 const theme = createMuiTheme({
   overrides: {

@@ -2,7 +2,7 @@ import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
 import RowingIcon from '@material-ui/icons/Rowing';
 
-export default [
+let timeline = [
     {
         event: "University of Toronto Graduation",
         date: "May, 2020",
@@ -53,3 +53,5 @@ export default [
         icon: SchoolIcon
     },
 ]
+
+export default timeline;

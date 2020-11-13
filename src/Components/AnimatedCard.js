@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Chip from '@material-ui/core/Chip';
 
-import { animated, useSpring, config, useChain } from 'react-spring';
+import { animated, useSpring, } from 'react-spring';
 
 const AnimatedCard = (props) => {
     const calc = (x, y) => [-(y - window.innerHeight / 2) / 10, (x - window.innerWidth / 2) / 10, 1.1]
@@ -19,7 +19,6 @@ const AnimatedCard = (props) => {
 
     return (
         <animated.div
-            class="card"
             onMouseEnter={({ clientX: x, clientY: y }) => setPara({ xys: calc(x, y) })}
             onMouseLeave={() => setPara({ xys: [0, 0, 1] })}
             style={{ transform: para.xys.interpolate(trans) }}
@@ -29,7 +28,7 @@ const AnimatedCard = (props) => {
                     display: "flex", flexDirection: "column", justifyContent: "center",
                     width: "100%", height: "100%", alignItems: "center", 
                 }} onClick={() => handleClick()}>
-                    <img src={props.item.img} style={{ width: props.item.imgWidth, height: props.item.imgHeight, position: "absolute", top: "16px" }} />
+                    <img src={props.item.img} alt={`${props.item.title}`} style={{ width: props.item.imgWidth, height: props.item.imgHeight, position: "absolute", top: "16px" }} />
                     <div style={{ position: "absolute", marginTop: "8px", display: "flex", flexDirection: "column", alignItems: "center"  }}>
                         <Typography variant={props.item.key === 1 ? "body1" : "h6"} style={{ marginTop: "8px", width: "fit-content"}} align="center">
                             {props.item.title}

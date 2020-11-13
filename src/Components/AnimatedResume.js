@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { Link, useHistory } from 'react-router-dom';
-
-import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 import { Transition } from 'react-spring/renderprops'
-import { useTransition, animated, useSpring, useChain, config } from 'react-spring'
+import { useTransition, animated, } from 'react-spring'
 
-import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Timeline from '@material-ui/lab/Timeline';
@@ -16,7 +14,6 @@ import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
-import Paper from '@material-ui/core/Paper';
 
 import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
@@ -29,12 +26,8 @@ import MailIcon from '@material-ui/icons/Mail';
 
 import catImg from '../Assets/Cat.png';
 
-import Carousel from 'react-spring-3d-carousel';
 import resume from '../Assets/resume.js';
 
-import uoft from '../Assets/uoftlogo.png'
-
-import Fade from 'react-reveal'
 import useMedia from '../Components/useMedia.js'
 import useObserver from '../Components/useMeasure.js'
 import AnimatedCard from '../Components/AnimatedCard.js';
@@ -308,7 +301,7 @@ const AnimatedGrid = (props) => {
         })
 
     return (
-        <div ref={ref} class="list" style={{ height: Math.max(...heights), marginTop: "72px", marginBottom: "36px" }}>
+        <div ref={ref} className="list" style={{ height: Math.max(...heights), marginTop: "96px", marginBottom: "24px" }}>
             {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                 <animated.div key={item.key} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                     <AnimatedCard
