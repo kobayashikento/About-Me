@@ -24,7 +24,6 @@ const AnimatedCard = (props) => {
             onMouseLeave={() => setPara({ xys: [0, 0, 1] })}
             style={{ transform: para.xys.interpolate(trans) }}
         >
-            
             <Card style={{ opacity: "0.8", border: "1px solid grey", width: "100%", height: "100%", borderRadius: "10px" }} variant="outlined">
                 <CardActionArea style={{
                     display: "flex", flexDirection: "column", justifyContent: "center",

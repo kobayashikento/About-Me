@@ -4,7 +4,7 @@ import Fade from 'react-reveal'
 
 import { AnimatedIcon, AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
 import ResumeDetails from '../Components/ResumeDetails.js';
-import { Modal, Backdrop} from '@material-ui/core'
+import { Modal, Backdrop } from '@material-ui/core'
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 
@@ -39,26 +39,8 @@ const Resume = (props) => {
         setShowDetails(!showDetails);
     }
     const handleTimeClick = (index) => {
-        if (activePage === index) {
-            setActivePage(0);
-        } else {
-            setActivePage(index);
-        }
+        setActivePage(index);
     }
-
-    React.useEffect(() => {
-        function handleClickOutside(event) {
-            if (timelineRef.current && !timelineRef.current.contains(event.target)) {
-                setActivePage(0);
-            }
-        }
-        // Bind the event listener
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            // Unbind the event listener on clean up
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [timelineRef]);
 
     React.useEffect(() => {
         if (showDetails) {
@@ -94,7 +76,7 @@ const Resume = (props) => {
                                 timeout: 500,
                             }}
                             hideBackdrop={true}
-                            style={{overflow: "auto"}}
+                            style={{ overflow: "auto" }}
                         >
                             <ResumeDetails
                                 handleDetailsChange={() => handleDetailsChange()}

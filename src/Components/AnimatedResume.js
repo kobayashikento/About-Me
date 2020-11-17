@@ -15,6 +15,7 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 
+import AppsIcon from '@material-ui/icons/Apps';
 import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
 import RowingIcon from '@material-ui/icons/Rowing';
@@ -33,6 +34,7 @@ import useObserver from '../Components/useMeasure.js'
 import AnimatedCard from '../Components/AnimatedCard.js';
 
 import '../Styles/resumeStyle.css';
+import { Typography } from '@material-ui/core';
 
 const AnimatedIcon = () => {
     const isExpanded = true;
@@ -65,13 +67,6 @@ const AnimatedIcon = () => {
                 leave={{ transform: 'translate3d(0,-40px,0)' }}>
                 {isExpanded => isExpanded && (props =>
                     <animated.div style={{ ...props, display: "flex", justifyContent: "right", paddingTop: "1rem", paddingRight: "2rem" }}>
-                        <Link to="/" style={{ textDecoration: "none", color: "grey" }}>
-                            <Button
-                                style={{ marginRight: "1rem", color: "grey" }}
-                            >
-                                Home
-                        </Button>
-                        </Link>
                         <Button
                             style={{ marginRight: "1rem", color: "grey" }}
                             to={"/portfolio"}
@@ -79,114 +74,131 @@ const AnimatedIcon = () => {
                         >
                             Portfolio
                         </Button>
-                        <Avatar style={{ border: "2px solid grey" }} src={catImg} />
+                        <Link to="/" style={{ textDecoration: "none", color: "grey" }}>
+                            <IconButton
+                                size="small" style={{ marginRight: "1rem", color: "grey", backgroundColor: "transparent" }}
+                            >
+                                <Avatar style={{ border: "2px solid grey" }} src={catImg} ></Avatar>
+                            </IconButton>
+                        </Link>
                     </animated.div>)}
             </Transition >
-        </div>
+        </div >
     )
 }
 
 const AnimateTimeline = (props) => {
-    const [showIcon, setShowIcon] = React.useState(0)
     const page = props.activePage
     const handleClick = (index) => {
         props.handleTimeClick(index);
     }
+
+    const createContent = (name, index) => {
+        return (
+            <Transition
+                items={page === index}
+                config={{ mass: 1, tension: 280, friction: 60 }}
+                from={{ transform: 'translate3d(-25px,0,0)', opacity: 0, width: "0px" }}
+                enter={{ transform: 'translate3d(-20px,0,0)', opacity: 1, width: "130px" }}
+                leave={{ transform: 'translate3d(-25px,0,0)', opacity: 0, width: "0px" }}>
+                {toggle => toggle ? props =>
+                    <TimelineContent style={props} className="timelineContentActive" >
+                        <Button disabled variant="outlined" className="timelineButton" >
+                            {name}
+                        </Button>
+                    </TimelineContent> : props => null
+                }
+            </Transition>
+        )
+    }
+    console.log(page)
     return (
         < Transition
-            config={{ duration: 500 }}
+            config={{ duration: 700 }}
             items={true}
-            from={{ transform: 'translate(-50%, -50%)', opacity: 0, position: "fixed", top: "50%" }}
+            from={{ transform: 'translate(0, -50%)', opacity: 0, position: "fixed", top: "50%" }}
             enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", left: "0" }}
             leave={{ transform: 'translate3d(0,-40px,0)' }}>
             {isExpanded => isExpanded && (props =>
                 <animated.div style={{ ...props }}>
                     <Timeline align="left" style={{ position: "fixed", top: "10rem" }}>
                         <TimelineItem>
-                            <TimelineSeparator>
-                                <TimelineDot variant="outlined">
+                            <TimelineSeparator className={page === 0 ? "" : "seperator"} onClick={() => handleClick(0)}>
+                                <TimelineDot variant="outlined" className="dot">
                                     <IconButton
-                                        style={{ zoom: showIcon === 1 ? 1.5 : page === 1 ? 1.5 : 1 }}
-                                        onMouseEnter={() => setShowIcon(1)}
-                                        onMouseLeave={() => setShowIcon(0)}
+                                        disabled={true}
+                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                         size="small"
-                                        onClick={() => handleClick(1)}
                                     >
-                                        <SchoolIcon />
+                                        <AppsIcon fontSize="small" />
                                     </IconButton>
                                 </TimelineDot>
-                                <TimelineConnector />
+                                <TimelineConnector className="connector" />
                             </TimelineSeparator>
-                            <TimelineContent style={{ display: showIcon === 1 || page === 1 ? "" : "none", paddingTop: "16px" }}>
-                                <Button disabled variant="outlined" style={{ color: "grey" }} >
-                                    Education
-                                </Button>
-                            </TimelineContent>
+                            {createContent("All", 0)}
                         </TimelineItem>
                         <TimelineItem>
-                            <TimelineSeparator>
-                                <TimelineDot variant="outlined" >
+                            <TimelineSeparator className={page === 1 ? "" : "seperator"} onClick={() => handleClick(1)}>
+                                <TimelineDot variant="outlined" className="dot">
                                     <IconButton
-                                        style={{ zoom: showIcon === 2 || page === 2 ? 1.5 : 1, backgroundColor: "none" }}
-                                        onMouseEnter={() => setShowIcon(2)}
-                                        onMouseLeave={() => setShowIcon(0)}
+                                        disabled={true}
+                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                         size="small"
-                                        onClick={() => handleClick(2)}
                                     >
-                                        <WorkIcon />
+                                        <SchoolIcon fontSize="small" />
                                     </IconButton>
                                 </TimelineDot>
-                                <TimelineConnector />
+                                <TimelineConnector className="connector" />
                             </TimelineSeparator>
-                            <TimelineContent style={{ display: showIcon === 2 || page === 2 ? "" : "none", paddingTop: "16px" }}>
-                                <Button disabled variant="outlined" style={{ color: "grey" }}>
-                                    Work Experience
-                    </Button>
-                            </TimelineContent>
+                            {createContent("Education", 1)}
                         </TimelineItem>
                         <TimelineItem>
-                            <TimelineSeparator>
-                                <TimelineDot variant="outlined" >
+                            <TimelineSeparator className={page === 2 ? "" : "seperator"} onClick={() => handleClick(2)}>
+                                <TimelineDot variant="outlined" className="dot">
                                     <IconButton
-                                        style={{ zoom: showIcon === 3 || page === 3 ? 1.5 : 1, backgroundColor: "none" }}
-                                        onMouseEnter={() => setShowIcon(3)}
-                                        onMouseLeave={() => setShowIcon(0)}
+                                        disabled={true}
+                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                         size="small"
-                                        onClick={() => handleClick(3)}
                                     >
-                                        <LaptopIcon />
+                                        <WorkIcon fontSize="small" />
                                     </IconButton>
                                 </TimelineDot>
-                                <TimelineConnector />
+                                <TimelineConnector className="connector" />
                             </TimelineSeparator>
-                            <TimelineContent style={{ display: showIcon === 3 || page === 3 ? "" : "none", paddingTop: "16px" }}>
-                                <Button disabled variant="outlined" style={{ color: "grey" }}>
-                                    Technical Skills
-                    </Button>
-                            </TimelineContent>
+                            {createContent("Experience", 2)}
                         </TimelineItem>
                         <TimelineItem>
-                            <TimelineSeparator>
-                                <TimelineDot variant="outlined" >
+                            <TimelineSeparator className={page === 3 ? "" : "seperator"} onClick={() => handleClick(3)}>
+                                <TimelineDot variant="outlined" className="dot">
                                     <IconButton
-                                        style={{ zoom: showIcon === 4 || page === 4 ? 1.5 : 1 }}
-                                        onMouseEnter={() => setShowIcon(4)}
-                                        onMouseLeave={() => setShowIcon(0)}
+                                        disabled={true}
+                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                         size="small"
-                                        onClick={() => handleClick(4)}
                                     >
-                                        <RowingIcon />
+                                        <LaptopIcon fontSize="small" />
+                                    </IconButton>
+                                </TimelineDot>
+                                <TimelineConnector className="connector" />
+                            </TimelineSeparator>
+                            {createContent("Skills", 3)}
+                        </TimelineItem>
+                        <TimelineItem>
+                            <TimelineSeparator className={page === 4 ? "" : "seperator"} onClick={() => handleClick(4)}>
+                                <TimelineDot variant="outlined" className="dot">
+                                    <IconButton
+                                        disabled={true}
+                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
+                                        size="small"
+                                    >
+                                        <RowingIcon fontSize="small" />
                                     </IconButton>
                                 </TimelineDot>
                             </TimelineSeparator>
-                            <TimelineContent style={{ display: showIcon === 4 || page === 4 ? "" : "none", paddingTop: "16px" }}>
-                                <Button disabled variant="outlined" style={{ color: "grey" }}>
-                                    Extracurricular
-                    </Button>
-                            </TimelineContent>
+                            {createContent("Extra", 4)}
                         </TimelineItem>
                     </Timeline>
-                </animated.div >)}
+                </animated.div >)
+            }
         </Transition >
     )
 }
@@ -237,7 +249,6 @@ const AnimatedGrid = (props) => {
     useObserver({ callback: callback, element: ref })
 
     const [items, set] = React.useState(resume)
-
     const [heights, gridItems] = React.useMemo(() => {
         let list;
         if (props.activePage === 1) {
@@ -289,15 +300,14 @@ const AnimatedGrid = (props) => {
         props.handleHeight(Math.max(...heights))
         return [heights, gridItems]
     }, [columns, items, width, props.activePage])
-
     const transitions = useTransition(gridItems, (item) => item.title,
         {
             from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
             enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
             update: ({ xy, width, height }) => ({ xy, width, height }),
             leave: { height: 0, opacity: 0 },
-            config: { mass: 5, tension: 500, friction: 100 },
-            trail: 25
+            config: { mass: 5, tension: 300, friction: 100 },
+            trail: 20
         })
 
     return (

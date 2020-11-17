@@ -85,7 +85,8 @@ let resume = [
         key: 3,
         titleDescription: "Learned in CSC309 - Web Development",
         date: "September, 2018 - Present",
-        bodySummary: "\n I learned how to create and deploy website in my CSC309 web development course taught by Professor Mark Kazakevich. Below is a list of the concepts we learned in this course." +
+        bodySummary: "\n I learned how to create and deploy website in my CSC309 web development course taught by Professor Mark Kazakevich. " +
+            "\n Below is a list of the concepts we learned in this course." +
             "\n \f \v HTML \v CSS \v DOM \v Sessions and Cookies \v Canvas \v Javascript \v Bootstrap \v NodeJS \v AJAX \v XML \v JSON \v JQuery \v Rest API \v Mongoose and Mongo DB \v Express JS " +
             "\n For our final project, we were put into groups of 3 to deploy a website on Heroku using Monago DB as the database. Together with Ray Kwan and Kavan Lam we created a web site that aims to aid the course selection process of university students. Given a list of courses the website will indicate whether a conflict exists and is also able create a schedule ensures that least amount of time is spent on campus. We were also tasked to make user authentications with tokens and hashed passwords. My team and I achieved a grade of 96% on our project."
     },

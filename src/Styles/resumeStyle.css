@@ -1,48 +1,94 @@
 * {
-    box-sizing: border-box;
-  }
+  box-sizing: border-box;
+}
 
 .list {
-    position: absolute;
-    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto,
-        segoe ui, arial, sans-serif;
-    width: 60%;
-    left: 50%; 
-    transform: translate(-50%);
+  position: absolute;
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto,
+    segoe ui, arial, sans-serif;
+  width: 60%;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 .list > div {
-    position: absolute;
-    will-change: transform, width, height, opacity;
-    padding: 24px;
+  position: absolute;
+  will-change: transform, width, height, opacity;
+  padding: 24px;
 }
 
 .list > div > div {
-    position: relative;
-    background-size: cover;
-    background-position: center center;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    text-transform: uppercase;
-    font-size: 10px;
-    line-height: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 10px 50px -10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 50px -10px rgba(0, 0, 0, 0.2);
 }
 
 .card {
-    width: 45ch;
-    height: 45ch;
-    border-radius: 5px;
-    background-position: center center;
-    box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 0.5s;
-    will-change: transform;
-  }
-  
-  .card:hover {
-    box-shadow: 0px 30px 100px -10px rgba(0, 0, 0, 0.4);
-  }
-  
+  width: 45ch;
+  height: 45ch;
+  border-radius: 5px;
+  background-position: center center;
+  box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.5s;
+  will-change: transform;
+}
 
+.card:hover {
+  box-shadow: 0px 30px 100px -10px rgba(0, 0, 0, 0.4);
+}
+
+.dot {
+  margin: 0 !important;
+  background-color: rgb(107, 115, 112) !important;
+  border-color: rgb(107, 115, 112) !important;
+  transition: transform 0.4s;
+}
+
+.dot :hover {
+  transform: scale(1.2);
+}
+
+.seperator {
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.seperator :hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+}
+
+.connector {
+  background-color: rgb(107, 115, 112) !important;
+  transform: scale(1) !important;
+  width: 5px !important;
+}
+
+.timelineButton {
+  color: rgb(234, 250, 240) !important;
+  height: 100%;
+  padding-left: 22px !important;
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.timelineContentActive {
+  opacity: 1;
+  height: 38px;
+  padding: 0 !important;
+  transform: translate(-20px);
+  border-radius: 5px;
+  background-color: rgb(107, 115, 112) !important;
+  z-index: -1;
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.4);
+  border: rgb(107, 115, 112) !important;
+}

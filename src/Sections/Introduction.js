@@ -42,7 +42,7 @@ const Introduction = (prop) => {
                         Kento Kobayashi
                    </Typography>
                     <Typography style={{ marginTop: "1rem" }} variant="body1" align="center">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec dui eget urna facilisis consectetur ac at dolor. Pellentesque velit ante, aliquam eget volutpat quis, venenatis at velit. Integer consequat malesuada ipsum, porta ultricies risus dictum quis. Aliquam viverra lorem bibendum, feugiat nisl sed, tincidunt lacus. Vestibulum cursus tempor accumsan.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec dui eget urna facilisis consectetur ac at dolor. Pellentesque velit ante, aliquam eget volutpat quis, venenatis at velit. 
                      </Typography>
                     <div style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
                         <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >

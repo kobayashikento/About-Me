@@ -6,12 +6,13 @@ import { IconButton, Typography, Grid, Modal, Backdrop } from '@material-ui/core
 import CancelIcon from '@material-ui/icons/Cancel';
 import ImageCarousel from '../Components/ImageCarousel.js';
 import Divider from '@material-ui/core/Divider';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const ResumeDetails = (props) => {
     // props send in the item 
-    const [open, setOpen] = React.useState(false);
-
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
     const handleClick = () => {
         props.handleDetailsChange()
     }
@@ -68,8 +69,9 @@ const ResumeDetails = (props) => {
                                     </div>
                                 )
                             } else if (/\f/.test(i)) {
+                                // make colums 1, when size is less than xs
                                 return (
-                                    <ul style={{ columns: "2" }}>
+                                    <ul style={{ columns: matches ? "2" : "1", width: "75%", margin: "auto", paddingBottom: "1rem" }}>
                                         {i.split("\v").map((item, index) => {
                                             if (index !== 0) {
                                                 return (
