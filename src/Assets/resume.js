@@ -18,7 +18,7 @@ let resume = [
     {
         title: "Honours Bachelors of Science",
         subtitle: "University of Toronto",
-        titleDescription: "in Statistics, Mathematics, and Philosophy",
+        titleDescription: "Statistics, Mathematics, and Philosophy",
         img: uoft,
         height: 500,
         imgHeight: "40%",
@@ -41,7 +41,7 @@ let resume = [
     },
     {
         title: "React JS",
-        //subtitle: "University of Toronto",
+        subtitle: "Web Framework",
         img: reactLogo,
         height: 500,
         imgHeight: "34%",
@@ -49,41 +49,49 @@ let resume = [
         type: "coding",
         chip: "Skill",
         key: 11,
-        titleDescription: "Self-taught",
+        titleDescription: "Web Framework",
         date: "September, 2020 - Present",
-        bodySummary: "\n This website is created using React JS along with Material UI for the design. For the past several months I have learned, practiced and implemented React, making use of its unique component style design event, handling with useState and useEffect, as well as breaking complex designs into simply functional components." +
+        bodySummary: "\n This website is created using React JS along with Material UI for the design. For the past several months I have learned, practiced and implemented React, making use of its unique component style design event, handling with useState and useEffect, as well as breaking complex designs into simplier functional components." +
             "\n I have also created another website that I used to keep track of daily events. The purpose of this website was for myself to practice data manipulation with tables and forms. I also learned how to use React Redux to further optimize my code making sure that data was passed along the childrens efficiently. \n Below are some sample pictures. This website can be accessed at \r https://life-tracker-7fb87.web.app/main-menu/dashboard\.",
-        urlDescription: "Gym Life Tracker.",            
+        urlDescription: "Gym Life Tracker.",
         additionalImage: true,
         additionalSrc: [
             {
                 src: sample1,
-                description: "Display Statistics Menu"
+                description: "Display Statistics Menu",
+                subtitle: "Plot points on a graph to see your progress overtime"
             },
             {
                 src: sample2,
-                description: "Data Management Menu"
+                description: "Data Management Menu",
+                subtitle: "Add, delete or edit data and updates the firebase database once action is completed"
             },
             {
                 src: sample3,
-                description: "Add Workout Popup"
+                description: "Add Workout Popup",
+                subtitle: "Pop up modal that is used to add data entries to the database"
             }
         ]
     },
     {
         title: "JavaScript",
-        //subtitle: "University of Toronto",
+        subtitle: "Programming Language",
         img: jsLogo,
         height: 500,
         imgHeight: "34%",
         imgWidth: "32%",
         type: "coding",
         chip: "Skill",
-        key: 3
+        key: 3,
+        titleDescription: "Learned in CSC309 - Web Development",
+        date: "September, 2018 - Present",
+        bodySummary: "\n I learned how to create and deploy website in my CSC309 web development course taught by Professor Mark Kazakevich. Below is a list of the concepts we learned in this course." +
+            "\n \f \v HTML \v CSS \v DOM \v Sessions and Cookies \v Canvas \v Javascript \v Bootstrap \v NodeJS \v AJAX \v XML \v JSON \v JQuery \v Rest API \v Mongoose and Mongo DB \v Express JS " +
+            "\n For our final project, we were put into groups of 3 to deploy a website on Heroku using Monago DB as the database. Together with Ray Kwan and Kavan Lam we created a web site that aims to aid the course selection process of university students. Given a list of courses the website will indicate whether a conflict exists and is also able create a schedule ensures that least amount of time is spent on campus. We were also tasked to make user authentications with tokens and hashed passwords. My team and I achieved a grade of 96% on our project."
     },
     {
         title: "Mongo DB",
-        //subtitle: "University of Toronto",
+        subtitle: "Database",
         img: mongoLogo,
         height: 500,
         imgHeight: "26%",
@@ -94,7 +102,7 @@ let resume = [
     },
     {
         title: "R",
-        //subtitle: "University of Toronto",
+        subtitle: "Programming Language",
         img: Rlogo,
         height: 500,
         imgHeight: "35%",
@@ -105,7 +113,7 @@ let resume = [
     },
     {
         title: "SQL",
-        //subtitle: "University of Toronto",
+        subtitle: "Programming Language",
         img: sqlLogo,
         height: 500,
         imgHeight: "35%",
@@ -138,7 +146,7 @@ let resume = [
     },
     {
         title: "C",
-        //subtitle: "University of Toronto",
+        subtitle: "Programming Language",
         height: 500,
         type: "coding",
         img: cLogo,
@@ -149,7 +157,7 @@ let resume = [
     },
     {
         title: "Java",
-        //subtitle: "University of Toronto",
+        subtitle: "Programming Language",
         height: 500,
         type: "coding",
         img: javaLogo,

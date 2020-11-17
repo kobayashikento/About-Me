@@ -2,50 +2,29 @@ import React from 'react'
 import Fade from 'react-reveal'
 
 import Container from '@material-ui/core/Container';
-import { IconButton, Typography, Grid } from '@material-ui/core';
+import { IconButton, Typography, Grid, Modal, Backdrop } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ImageCarousel from '../Components/ImageCarousel.js';
+import Divider from '@material-ui/core/Divider';
+import { withStyles } from '@material-ui/core/styles';
 
 const ResumeDetails = (props) => {
     // props send in the item 
-    const resDetails = React.useRef(null);
     const [open, setOpen] = React.useState(false);
-
-    React.useEffect(() => {
-        props.handleHeight(resDetails.current.clientHeight);
-        function handleClickOutside(event) {
-            if (resDetails.current && !resDetails.current.contains(event.target)) {
-                if (!open) {
-                    console.log(open)
-                    props.handleDetailsChange();
-                }
-            }
-        }
-        // Bind the event listener
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            // Unbind the event listener on clean up
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-
-    }, [resDetails]);
 
     const handleClick = () => {
         props.handleDetailsChange()
     }
 
-    const handleOpen = () => {
-        console.log("paaseed")
-        setOpen(true);
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    }
+    const StyledTypography = withStyles(({
+        root: {
+            fontWeight: "bold"
+        },
+    }))(Typography)
 
     return (
         <Fade up >
-            <Container ref={resDetails} maxWidth="md" style={{ paddingRight: "8px", display: "flex", flexDirection: "column", backgroundColor: "white", marginTop: "5rem", borderRadius: "5px", }}>
+            <Container maxWidth="md" style={{ paddingRight: "8px", display: "flex", flexDirection: "column", backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem" }}>
                 {/* Header  */}
                 <Grid
                     container
@@ -57,14 +36,14 @@ const ResumeDetails = (props) => {
                     <Grid item xs={3} style={{ marginTop: "32px" }} align="center">
                         <img src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
                     </Grid>
-                    <Grid item xs={8} style={{ marginTop: "16px" }}>
-                        <Typography variant="h5" style={{ margin: "8px" }}>
+                    <Grid item xs={8} style={{ marginTop: "16px" }} fontWeight="fontWeightBold">
+                        <StyledTypography variant="h5" style={{ margin: "4px" }}>
                             {props.activeCard.title}
-                        </Typography>
-                        <Typography variant="h6" style={{ margin: "8px" }}>
+                        </StyledTypography>
+                        <Typography variant="h6" style={{ margin: "4px" }}>
                             {props.activeCard.titleDescription}
                         </Typography>
-                        <Typography variant="body1" style={{ margin: "8px" }}>
+                        <Typography variant="body1" style={{ margin: "4px" }}>
                             {props.activeCard.date}
                         </Typography>
                     </Grid>
@@ -88,18 +67,30 @@ const ResumeDetails = (props) => {
                                         <a href={match2} style={{ textDecoration: "none" }}>{props.activeCard.urlDescription}</a>
                                     </div>
                                 )
+                            } else if (/\f/.test(i)) {
+                                return (
+                                    <ul style={{ columns: "2" }}>
+                                        {i.split("\v").map((item, index) => {
+                                            if (index !== 0) {
+                                                return (
+                                                    <li key={`listitem${index}`}>{item}</li>
+                                                )
+                                            }
+                                        })}
+                                    </ul>
+                                )
                             } else {
                                 return <p key={`${props.activeCard.title}paragraph${key}`}>{i}</p>;
                             }
                         })}
                     </Typography>
                     {props.activeCard.additionalImage === true ?
-                        <ImageCarousel
-                            srcs={props.activeCard.additionalSrc}
-                            open={open}
-                            handleClose={() => handleClose()}
-                            handleOpen={() => handleOpen()}
-                        />
+                        <div>
+                            <Divider style={{ marginTop: "3rem" }} variant="middle" />
+                            <ImageCarousel
+                                srcs={props.activeCard.additionalSrc}
+                            />
+                        </div>
                         : null}
                 </div>
             </Container>

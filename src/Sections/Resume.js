@@ -4,6 +4,7 @@ import Fade from 'react-reveal'
 
 import { AnimatedIcon, AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
 import ResumeDetails from '../Components/ResumeDetails.js';
+import { Modal, Backdrop} from '@material-ui/core'
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 
@@ -13,6 +14,7 @@ const Resume = (props) => {
     const [activeCard, setActiveCard] = React.useState(null);
     const [height, setHeight] = React.useState(window.innerHeight * 3);
     const [showDetails, setShowDetails] = React.useState(false);
+    const [openModal, setOpenModal] = React.useState(false);
 
     const timelineRef = React.useRef(null);
 
@@ -58,6 +60,12 @@ const Resume = (props) => {
         };
     }, [timelineRef]);
 
+    React.useEffect(() => {
+        if (showDetails) {
+            setOpenModal(true);
+        }
+    }, [showDetails])
+
     return (
         <div style={{ background: "linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)" }}>
             <Fade up>
@@ -77,11 +85,22 @@ const Resume = (props) => {
                             />
                         </ div>
                         :
-                        <ResumeDetails
-                            handleDetailsChange={() => handleDetailsChange()}
-                            handleHeight={(height) => handleHeight(height)}
-                            activeCard={activeCard}
-                        />
+                        <Modal
+                            open={openModal}
+                            onClose={() => setOpenModal(false)}
+                            closeAfterTransition
+                            BackdropComponent={Backdrop}
+                            BackdropProps={{
+                                timeout: 500,
+                            }}
+                            hideBackdrop={true}
+                            style={{overflow: "auto"}}
+                        >
+                            <ResumeDetails
+                                handleDetailsChange={() => handleDetailsChange()}
+                                activeCard={activeCard}
+                            />
+                        </Modal>
                     }
                 </div>
             </Fade>
