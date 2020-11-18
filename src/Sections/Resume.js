@@ -15,6 +15,7 @@ const Resume = (props) => {
     const [height, setHeight] = React.useState(window.innerHeight * 3);
     const [showDetails, setShowDetails] = React.useState(false);
     const [openModal, setOpenModal] = React.useState(false);
+    const [cardIndex, setCardIndex] = React.useState(0);
 
     const timelineRef = React.useRef(null);
 
@@ -29,10 +30,12 @@ const Resume = (props) => {
     }
     const handleHeight = (height) => {
         window.scrollTo(0, 0);
-        if (height < window.innerHeight) {
+        if (height === 0) {
+            setHeight(window.innerHeight)
+        } else if (height < window.innerHeight) {
             setHeight(window.innerHeight + 24)
         } else {
-            setHeight(height + 96 + 24)
+            setHeight(height + 120)
         }
     }
     const handleDetailsChange = () => {
@@ -40,7 +43,18 @@ const Resume = (props) => {
     }
     const handleTimeClick = (index) => {
         setActivePage(index);
+        setCardIndex(0);
+
     }
+
+    const handleNavClick = (direction) => {
+        if (direction === "left") {
+            setCardIndex(cardIndex - 1);
+        } else if (direction === "right") {
+            setCardIndex(cardIndex + 1);
+        }
+    }
+
 
     React.useEffect(() => {
         if (showDetails) {
@@ -64,6 +78,8 @@ const Resume = (props) => {
                                 handleCardClick={(index) => handleCardClick(index)}
                                 handleHeight={(height) => handleHeight(height)}
                                 handleActiveCard={(item) => handleActiveCard(item)}
+                                handleNavClick={(index) => handleNavClick(index)}
+                                cardIndex={cardIndex}
                             />
                         </ div>
                         :

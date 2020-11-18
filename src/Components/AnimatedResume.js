@@ -15,15 +15,18 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 
+// Icons 
 import AppsIcon from '@material-ui/icons/Apps';
 import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
 import RowingIcon from '@material-ui/icons/Rowing';
 import LaptopIcon from '@material-ui/icons/Laptop';
-
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
+
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import catImg from '../Assets/Cat.png';
 
@@ -34,7 +37,6 @@ import useObserver from '../Components/useMeasure.js'
 import AnimatedCard from '../Components/AnimatedCard.js';
 
 import '../Styles/resumeStyle.css';
-import { Typography } from '@material-ui/core';
 
 const AnimatedIcon = () => {
     const isExpanded = true;
@@ -47,16 +49,16 @@ const AnimatedIcon = () => {
                 enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", left: "0" }}
                 leave={{ transform: 'translate3d(0,-40px,0)' }}>
                 {isExpanded => isExpanded && (props =>
-                    <animated.div style={{ ...props, display: "flex", justifyContent: "left", paddingTop: "1rem", paddingLeft: "2rem" }}>
-                        <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >
-                            <GitHubIcon />
-                        </IconButton>
-                        <IconButton onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-                            <LinkedInIcon />
-                        </IconButton>
-                        <IconButton onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-                            <MailIcon />
-                        </IconButton>
+                    <animated.div style={{ ...props, display: "flex", justifyContent: "left", paddingLeft: "2rem", paddingTop: "8px" }}>
+                        <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                            <GitHubIcon className="icon" />
+                        </div>
+                        <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }}>
+                            <LinkedInIcon className="icon" />
+                        </div>
+                        <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }}>
+                            <MailIcon className="icon" />
+                        </div>
                     </animated.div>)}
             </Transition >
             < Transition
@@ -89,10 +91,10 @@ const AnimatedIcon = () => {
 
 const AnimateTimeline = (props) => {
     const page = props.activePage
+    
     const handleClick = (index) => {
         props.handleTimeClick(index);
     }
-
     const createContent = (name, index) => {
         return (
             <Transition
@@ -111,7 +113,7 @@ const AnimateTimeline = (props) => {
             </Transition>
         )
     }
-    console.log(page)
+
     return (
         < Transition
             config={{ duration: 700 }}
@@ -241,87 +243,123 @@ const AnimatedGrid = (props) => {
     const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [4, 3, 2], 1)
     const ref = React.useRef(null);
     const [width, setWidth] = React.useState(0);
+    const dist = (window.innerWidth * 0.8) * 0.2
 
     const callback = () => {
         setWidth(ref.current.offsetWidth)
     }
-
     useObserver({ callback: callback, element: ref })
-
-    const [items, set] = React.useState(resume)
-    const [heights, gridItems] = React.useMemo(() => {
-        let list;
+    const getItems = () => {
+        let len = resume.length
+        let temp = [...resume]
         if (props.activePage === 1) {
-            let len = items.length
-            let temp = [...resume]
             while (len--) {
                 if (temp[len].type !== "education") {
                     temp.splice(len, 1);
                 }
             }
-            list = temp;
+            return (temp);
         } else if (props.activePage === 2) {
-            let len = items.length
-            let temp = [...resume]
             while (len--) {
                 if (temp[len].type !== "experience") {
                     temp.splice(len, 1);
                 }
             }
-            list = temp;
+            return (temp);
         } else if (props.activePage === 3) {
-            let len = items.length
-            let temp = [...resume]
             while (len--) {
                 if (temp[len].type !== "coding") {
                     temp.splice(len, 1);
                 }
             }
-            list = temp;
+            return (temp);
         } else if (props.activePage === 4) {
-            let len = items.length
-            let temp = [...resume]
             while (len--) {
                 if (temp[len].type !== "extra") {
                     temp.splice(len, 1);
                 }
             }
-            list = temp;
+            return (temp);
         } else {
-            list = resume;
+            return (temp);
         }
+    }
 
-        let heights = new Array(columns).fill(0) // Each column gets a height starting with zero
-        let gridItems = list.map((child, i) => {
-            const column = heights.indexOf(Math.min(...heights)) // Basic masonry-grid placing, puts tile into the smallest column using Math.min
-            const xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2] // X = container width / number of columns * column index, Y = it's just the height of the current column
-            return { ...child, xy, width: width / columns, height: child.height / 2 }
+    // column = heights.indexOf(Math.min(...heights));
+    //                 xy = [((344 + 30) * index) + dist, 0]
+    //                 index = index + 1
+
+    const [heights, gridItems] = React.useMemo(() => {
+        let heights = new Array(columns).fill(0)
+        let items = getItems();
+        let index = 0;
+        let gridItems = items.map((child, idx) => {
+            let column;
+            let xy;
+            if (props.activePage !== 0) {
+                //code it so it react different on different screen size 
+                if (idx < props.cardIndex) {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [dist, 0]
+                } else if (props.cardIndex === idx && props.cardIndex !== 0) {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [dist, -14]
+                    index += 1
+                } else {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [((344 + 30) * index) + dist, 0]
+                    index += 1
+                }
+                //change height depending on screen size, then adjust golden for height
+                return { ...child, xy, width: 344, height: 510 }
+            } else {
+                column = heights.indexOf(Math.min(...heights));
+                xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2]
+                return { ...child, xy, width: width / columns, height: child.height / 2 }
+            }
         })
-        props.handleHeight(Math.max(...heights))
+        if (props.activePage === 0) {
+            props.handleHeight(Math.max(...heights))
+        } else {
+            props.handleHeight(0)
+        }
         return [heights, gridItems]
-    }, [columns, items, width, props.activePage])
-    const transitions = useTransition(gridItems, (item) => item.title,
-        {
-            from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
-            enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
-            update: ({ xy, width, height }) => ({ xy, width, height }),
-            leave: { height: 0, opacity: 0 },
-            config: { mass: 5, tension: 300, friction: 100 },
-            trail: 20
-        })
+    }, [columns, width, props.activePage, props.cardIndex])
+
+    const transitions = useTransition(gridItems, (item) => item.title, {
+        from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
+        enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
+        update: ({ xy, width, height }) => ({ xy, width, height }),
+        leave: { height: 0, opacity: 0 },
+        config: { mass: 5, tension: 300, friction: 100 },
+        trail: 10
+    })
 
     return (
-        <div ref={ref} className="list" style={{ height: Math.max(...heights), marginTop: "96px", marginBottom: "24px" }}>
+        <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
+            height: props.activePage !== 0 ? window.innerHeight * 0.85 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.8 : ""
+        }}>
             {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                 <animated.div key={item.key} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                     <AnimatedCard
                         item={item}
+                        activePage={props.activePage}
                         handleCardClick={(index) => props.handleCardClick(index)}
                         handleActiveCard={(item) => props.handleActiveCard(item)}
                         width={width}
                     />
                 </animated.div>
             ))}
+            { props.activePage !== 0 ?
+                <div style={{ display: "flex", left: dist + 101, top: 490 }}>
+                    <IconButton disabled={props.cardIndex === 0 ? true : false} onClick={() => props.handleNavClick('left')}>
+                        <ChevronLeftIcon clsssName="icon" />
+                    </IconButton>
+                    <IconButton disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
+                        <ChevronRightIcon clsssName="icon" />
+                    </IconButton>
+                </div>
+                : null}
         </div >
     )
 }
