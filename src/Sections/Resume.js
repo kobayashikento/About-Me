@@ -1,4 +1,7 @@
+import { BorderAll } from '@material-ui/icons';
 import React from 'react'
+
+import { Redirect } from 'react-router-dom';
 
 import { Fade, Slide } from 'react-reveal'
 
@@ -29,6 +32,24 @@ const Resume = (props) => {
         setActiveCard(null);
     }
     const handleTimeClick = (index) => {
+        switch (index) {
+            case 0:
+                window.history.replaceState(null, "Display All", "/resume/all")
+                break;
+            case 1:
+                window.history.replaceState(null, "Display Education", "/resume/education")
+                break;
+            case 2:
+                window.history.replaceState(null, "Display Experience", "/resume/experience")
+                break;
+            case 3:
+                window.history.replaceState(null, "Display Skills", "/resume/skills")
+                break;
+            case 4:
+                window.history.replaceState(null, "Display Activities", "/resume/activities")
+                break;
+            default:
+        }
         setActivePage(index);
         setCardIndex(0);
     }

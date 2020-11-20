@@ -347,7 +347,7 @@ const AnimatedGrid = (props) => {
                 height: props.activePage !== 0 ? 510 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.8 : "", position: "relative"
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                    <animated.div key={item.key} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                    <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                         <AnimatedCard
                             item={item}
                             activePage={props.activePage}
@@ -362,10 +362,10 @@ const AnimatedGrid = (props) => {
                 <div style={{ position: "relative", width: window.innerWidth * 0.8, left: "20%", marginTop: "72px" }}>
                     <div style={{ transform: `translate(${dist + 120}px)` }}>
                         <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
-                            <ChevronLeftIcon clsssName="icon" />
+                            <ChevronLeftIcon clsssname="icon" />
                         </IconButton>
                         <IconButton disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
-                            <ChevronRightIcon clsssName="icon" />
+                            <ChevronRightIcon clsssname="icon" />
                         </IconButton>
                     </div>
                 </div>

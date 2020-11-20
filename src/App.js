@@ -23,9 +23,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Switch>
-        <Route exact path="/resume" >
-              {}
-        </Route>
         <Route path="/resume/all" render={props => <Resume index={0} />} />
         <Route path="/resume/education" render={props => <Resume index={1} />} />
         <Route path="/resume/experience" render={props => <Resume index={2} />} />
