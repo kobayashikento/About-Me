@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import { Transition } from 'react-spring/renderprops'
 import { useTransition, animated, } from 'react-spring'
@@ -35,6 +35,8 @@ import resume from '../Assets/resume.js';
 import useMedia from '../Components/useMedia.js'
 import useObserver from '../Components/useMeasure.js'
 import AnimatedCard from '../Components/AnimatedCard.js';
+
+import Fade from 'react-reveal';
 
 import '../Styles/resumeStyle.css';
 
@@ -91,10 +93,19 @@ const AnimatedIcon = () => {
 
 const AnimateTimeline = (props) => {
     const page = props.activePage
-    
+
     const handleClick = (index) => {
+        switch (index) {
+            case 0:
+                <Redirect to="/resume/all" />
+                break;
+            case 1:
+                <Redirect to="/resume/education" />
+                break;
+        }
         props.handleTimeClick(index);
     }
+
     const createContent = (name, index) => {
         return (
             <Transition
@@ -318,11 +329,6 @@ const AnimatedGrid = (props) => {
                 return { ...child, xy, width: width / columns, height: child.height / 2 }
             }
         })
-        if (props.activePage === 0) {
-            props.handleHeight(Math.max(...heights))
-        } else {
-            props.handleHeight(0)
-        }
         return [heights, gridItems]
     }, [columns, width, props.activePage, props.cardIndex])
 
@@ -336,31 +342,35 @@ const AnimatedGrid = (props) => {
     })
 
     return (
-        <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-            height: props.activePage !== 0 ? window.innerHeight * 0.85 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.8 : ""
-        }}>
-            {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                <animated.div key={item.key} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                    <AnimatedCard
-                        item={item}
-                        activePage={props.activePage}
-                        handleCardClick={(index) => props.handleCardClick(index)}
-                        handleActiveCard={(item) => props.handleActiveCard(item)}
-                        width={width}
-                    />
-                </animated.div>
-            ))}
-            { props.activePage !== 0 ?
-                <div style={{ display: "flex", left: dist + 101, top: 490 }}>
-                    <IconButton disabled={props.cardIndex === 0 ? true : false} onClick={() => props.handleNavClick('left')}>
-                        <ChevronLeftIcon clsssName="icon" />
-                    </IconButton>
-                    <IconButton disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
-                        <ChevronRightIcon clsssName="icon" />
-                    </IconButton>
+        <React.Fragment>
+            <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
+                height: props.activePage !== 0 ? 510 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.8 : "", position: "relative"
+            }}>
+                {transitions.map(({ item, props: { xy, ...rest } }, index) => (
+                    <animated.div key={item.key} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                        <AnimatedCard
+                            item={item}
+                            activePage={props.activePage}
+                            handleCardClick={(index) => props.handleCardClick(index)}
+                            handleActiveCard={(item) => props.handleActiveCard(item)}
+                            width={width}
+                        />
+                    </animated.div>
+                ))}
+            </div >
+            <Fade bottom when={props.activePage !== 0}>
+                <div style={{ position: "relative", width: window.innerWidth * 0.8, left: "20%", marginTop: "72px" }}>
+                    <div style={{ transform: `translate(${dist + 120}px)` }}>
+                        <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
+                            <ChevronLeftIcon clsssName="icon" />
+                        </IconButton>
+                        <IconButton disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
+                            <ChevronRightIcon clsssName="icon" />
+                        </IconButton>
+                    </div>
                 </div>
-                : null}
-        </div >
+            </Fade>
+        </React.Fragment>
     )
 }
 

@@ -24,79 +24,85 @@ const ResumeDetails = (props) => {
     }))(Typography)
 
     return (
-        <Fade up >
+        props.activeCard !== null ?
             <Container maxWidth="md" style={{ paddingRight: "8px", display: "flex", flexDirection: "column", backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem" }}>
                 {/* Header  */}
-                <Grid
-                    container
-                    direction="row"
-                    justify="space-between"
-                    alignItems="flex-start"
-                    style={{ marginTop: "16px" }}
-                >
-                    <Grid item xs={3} style={{ marginTop: "32px" }} align="center">
-                        <img src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
+                <React.Fragment>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        alignItems="flex-start"
+                        style={{ marginTop: "16px" }}
+                    >
+                        <Grid item xs={3} style={{ marginTop: "32px" }} align="center">
+                            <img src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
+                        </Grid>
+                        <Grid item xs={8} style={{ marginTop: "16px" }} fontWeight="fontWeightBold">
+                            <StyledTypography variant="h5" style={{ margin: "4px" }}>
+                                {props.activeCard.title}
+                            </StyledTypography>
+                            <Typography variant="h6" style={{ margin: "4px" }}>
+                                {props.activeCard.titleDescription}
+                            </Typography>
+                            <Typography variant="body1" style={{ margin: "4px" }}>
+                                {props.activeCard.date}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={1} align="center">
+                            <IconButton size="small" style={{ marginLeft: "auto", height: "fit-content", marginTop: "8px" }} onClick={() => handleClick()}>
+                                <CancelIcon />
+                            </IconButton>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={8} style={{ marginTop: "16px" }} fontWeight="fontWeightBold">
-                        <StyledTypography variant="h5" style={{ margin: "4px" }}>
-                            {props.activeCard.title}
-                        </StyledTypography>
-                        <Typography variant="h6" style={{ margin: "4px" }}>
-                            {props.activeCard.titleDescription}
+                    <div style={{ whiteSpace: "pre-wrap", textIndent: "2rem", margin: "2rem" }}>
+                        <Typography variant="body1" style={{ margin: "8px" }} align="justify">
+                            {props.activeCard.bodySummary.split("\n").map((i, key) => {
+                                // Create link by detecting \r
+                                if (key === 0){
+                                    return;
+                                } else if (/\r/.test(i)) {
+                                    let match1 = /^[^\r]+/.exec(i)
+                                    let match2 = /\r(.*)/.exec(i)
+                                    return (
+                                        <div key={`${props.activeCard.title}link${key}`}>
+                                            {match1}
+                                            <a href={match2} style={{ textDecoration: "none" }}>{props.activeCard.urlDescription}</a>
+                                        </div>
+                                    )
+                                } else if (/\f/.test(i)) {
+                                    // make colums 1, when size is less than xs
+                                    return (
+                                        <ul style={{ columns: matches ? "2" : "1", width: "75%", margin: "auto", paddingBottom: "1rem" }}>
+                                            {i.split("\v").map((item, index) => {
+                                                if (index !== 0) {
+                                                    return (
+                                                        <li style={{textIndent: "-1em", padding: "0px 0 10px 20px" }} key={`listitem${index}`}>{item}</li>
+                                                    )
+                                                }
+                                            })}
+                                        </ul>
+                                    )
+                                } else if (key === 1) {
+                                    return <p style={{ backgroundColor: "rgb(240, 247, 238)", borderRadius: "3px", padding: "8px" }} key={`${props.activeCard.title}summaryParagraph${key}`}>{i}</p>;
+                                } else {
+                                    return <p style={{ padding: "8px" }} key={`${props.activeCard.title}paragraph${key}`}>{i}</p>;
+                                }
+                            })}
                         </Typography>
-                        <Typography variant="body1" style={{ margin: "4px" }}>
-                            {props.activeCard.date}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={1} align="center">
-                        <IconButton size="small" style={{ marginLeft: "auto", height: "fit-content", marginTop: "8px" }} onClick={() => handleClick()}>
-                            <CancelIcon />
-                        </IconButton>
-                    </Grid>
-                </Grid>
-                {/* Body */}
-                <div style={{ whiteSpace: "pre-wrap", textIndent: "2rem", margin: "2rem" }}>
-                    <Typography variant="body1" style={{ margin: "8px" }} align="justify">
-                        {props.activeCard.bodySummary.split("\n").map((i, key) => {
-                            // Create link by detecting \r
-                            if (/\r/.test(i)) {
-                                let match1 = /^[^\r]+/.exec(i)
-                                let match2 = /\r(.*)/.exec(i)
-                                return (
-                                    <div key={`${props.activeCard.title}link${key}`}>
-                                        {match1}
-                                        <a href={match2} style={{ textDecoration: "none" }}>{props.activeCard.urlDescription}</a>
-                                    </div>
-                                )
-                            } else if (/\f/.test(i)) {
-                                // make colums 1, when size is less than xs
-                                return (
-                                    <ul style={{ columns: matches ? "2" : "1", width: "75%", margin: "auto", paddingBottom: "1rem" }}>
-                                        {i.split("\v").map((item, index) => {
-                                            if (index !== 0) {
-                                                return (
-                                                    <li key={`listitem${index}`}>{item}</li>
-                                                )
-                                            }
-                                        })}
-                                    </ul>
-                                )
-                            } else {
-                                return <p key={`${props.activeCard.title}paragraph${key}`}>{i}</p>;
-                            }
-                        })}
-                    </Typography>
-                    {props.activeCard.additionalImage === true ?
-                        <div>
-                            <Divider style={{ marginTop: "3rem" }} variant="middle" />
-                            <ImageCarousel
-                                srcs={props.activeCard.additionalSrc}
-                            />
-                        </div>
-                        : null}
-                </div>
+                        {props.activeCard.additionalImage === true ?
+                            <div>
+                                <Divider style={{ marginTop: "3rem" }} variant="middle" />
+                                <ImageCarousel
+                                    srcs={props.activeCard.additionalSrc}
+                                />
+                            </div>
+                            : null}
+                    </div>
+                </React.Fragment>
             </Container>
-        </Fade >
+            :
+            <React.Fragment />
     )
 }
 

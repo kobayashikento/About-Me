@@ -38,12 +38,8 @@ const Introduction = (prop) => {
             }} src={catImg} />
             <Container maxWidth="sm" style={{ transform: "translate(0, 10%)" }}>
                 <Paper elevation={3} style={{ boxShadow: shadow, width: "fit-content", position: "relative", opacity: "0.9", padding: "2rem", paddingBottom: "1rem", borderRadius: "10px", paddingTop: "6rem", left: "50%", top: "6rem", transform: "translate(-50%, -54%)" }}>
-                    <Typography style={{ textAlign: "center" }} variant="h3">
-                        Kento Kobayashi
-                   </Typography>
-                    <Typography style={{ marginTop: "1rem" }} variant="body1" align="center">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec dui eget urna facilisis consectetur ac at dolor. Pellentesque velit ante, aliquam eget volutpat quis, venenatis at velit. 
-                     </Typography>
+                    <Typography style={{ marginTop: "1rem", textIndent: "2rem" }} variant="body1" align="justify">
+                        Hello! My name is Kento Kobayashi, I am a recent graduate from the University of Toronto where I received my bachelor's in Mathematics, Statistics, and Philosophy. I enjoy thinking about and solving complex problems that require understanding the problem, finding the solutions, and applying the solutions. I also enjoy learning new knowledge and this is where my passion for programming because there is always something new to learn.                      </Typography>
                     <div style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
                         <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >
                             <GitHubIcon />
