@@ -13,15 +13,16 @@ import Fade from 'react-reveal'
 import '../Styles/transitions.css';
 
 import Introduction from '../Sections/Introduction.js';
+import Menu  from '../Components/HomeAnimation.js';
 
 const Home = () => {
-
     return (
-        <div>
-            <div style={{ background: "linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)", height: "100vh", width: "100vw" }} >
+        <Fade bottom> 
+            <div style={{ background: "linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)", height: "100vh", width: "100vw", overflow: "hidden" }} >
                 <Introduction />
+                <Menu />
             </div>
-        </div>
+        </Fade>
     )
 }
 

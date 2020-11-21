@@ -18,8 +18,8 @@ const Canvas = props => {
         context.lineWidth = 2;
         if (props.home) {
             context.canvas.width = window.innerWidth;
-            context.canvas.height = window.innerHeight * 3.5;
-            context.strokeStyle = "rgba(255,255,255, 0.9)";
+            context.canvas.height = window.innerHeight * 3;
+            context.strokeStyle = "grey";
         } else {
             context.canvas.width = 200
             context.canvas.height = 200

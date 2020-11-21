@@ -39,6 +39,9 @@ import AnimatedCard from '../Components/AnimatedCard.js';
 import Fade from 'react-reveal';
 
 import '../Styles/resumeStyle.css';
+import { Tooltip } from '@material-ui/core';
+
+import { withStyles } from '@material-ui/core/styles';
 
 const AnimatedIcon = () => {
     const isExpanded = true;
@@ -125,6 +128,13 @@ const AnimateTimeline = (props) => {
         )
     }
 
+    const StyledTooltip = withStyles({
+        tooltip: {
+            color: "rgb(234,250,240)",
+            backgroundColor: "rgba(108,115,112,0.8)"
+        }
+    })(Tooltip);
+
     return (
         < Transition
             config={{ duration: 700 }}
@@ -137,75 +147,85 @@ const AnimateTimeline = (props) => {
                     <Timeline align="left" style={{ position: "fixed", top: "10rem" }}>
                         <TimelineItem>
                             <TimelineSeparator className={page === 0 ? "" : "seperator"} onClick={() => handleClick(0)}>
-                                <TimelineDot variant="outlined" className="dot">
-                                    <IconButton
-                                        disabled={true}
-                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                        size="small"
-                                    >
-                                        <AppsIcon fontSize="small" />
-                                    </IconButton>
-                                </TimelineDot>
+                                <StyledTooltip title={page !== 0 ? "Show All" : ""} placement="right">
+                                    <TimelineDot variant="outlined" className="dot">
+                                        <IconButton
+                                            disabled={true}
+                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
+                                            size="small"
+                                        >
+                                            <AppsIcon fontSize="small" />
+                                        </IconButton>
+                                    </TimelineDot>
+                                </StyledTooltip>
                                 <TimelineConnector className="connector" />
                             </TimelineSeparator>
                             {createContent("All", 0)}
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator className={page === 1 ? "" : "seperator"} onClick={() => handleClick(1)}>
-                                <TimelineDot variant="outlined" className="dot">
-                                    <IconButton
-                                        disabled={true}
-                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                        size="small"
-                                    >
-                                        <SchoolIcon fontSize="small" />
-                                    </IconButton>
-                                </TimelineDot>
+                                <StyledTooltip title={page !== 1 ? "Show Education" : ""} placement="right">
+                                    <TimelineDot variant="outlined" className="dot">
+                                        <IconButton
+                                            disabled={true}
+                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
+                                            size="small"
+                                        >
+                                            <SchoolIcon fontSize="small" />
+                                        </IconButton>
+                                    </TimelineDot>
+                                </StyledTooltip>
                                 <TimelineConnector className="connector" />
                             </TimelineSeparator>
                             {createContent("Education", 1)}
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator className={page === 2 ? "" : "seperator"} onClick={() => handleClick(2)}>
-                                <TimelineDot variant="outlined" className="dot">
-                                    <IconButton
-                                        disabled={true}
-                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                        size="small"
-                                    >
-                                        <WorkIcon fontSize="small" />
-                                    </IconButton>
-                                </TimelineDot>
+                                <StyledTooltip title={page !== 2 ? "Show Experience" : ""} placement="right">
+                                    <TimelineDot variant="outlined" className="dot">
+                                        <IconButton
+                                            disabled={true}
+                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
+                                            size="small"
+                                        >
+                                            <WorkIcon fontSize="small" />
+                                        </IconButton>
+                                    </TimelineDot>
+                                </StyledTooltip>
                                 <TimelineConnector className="connector" />
                             </TimelineSeparator>
                             {createContent("Experience", 2)}
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator className={page === 3 ? "" : "seperator"} onClick={() => handleClick(3)}>
-                                <TimelineDot variant="outlined" className="dot">
-                                    <IconButton
-                                        disabled={true}
-                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                        size="small"
-                                    >
-                                        <LaptopIcon fontSize="small" />
-                                    </IconButton>
-                                </TimelineDot>
+                                <StyledTooltip title={page !== 3 ? "Show Skills" : ""} placement="right">
+                                    <TimelineDot variant="outlined" className="dot">
+                                        <IconButton
+                                            disabled={true}
+                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
+                                            size="small"
+                                        >
+                                            <LaptopIcon fontSize="small" />
+                                        </IconButton>
+                                    </TimelineDot>
+                                </StyledTooltip>
                                 <TimelineConnector className="connector" />
                             </TimelineSeparator>
                             {createContent("Skills", 3)}
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator className={page === 4 ? "" : "seperator"} onClick={() => handleClick(4)}>
-                                <TimelineDot variant="outlined" className="dot">
-                                    <IconButton
-                                        disabled={true}
-                                        style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                        size="small"
-                                    >
-                                        <RowingIcon fontSize="small" />
-                                    </IconButton>
-                                </TimelineDot>
+                                <StyledTooltip title={page !== 4 ? "Show Activities" : ""} placement="right">
+                                    <TimelineDot variant="outlined" className="dot">
+                                        <IconButton
+                                            disabled={true}
+                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
+                                            size="small"
+                                        >
+                                            <RowingIcon fontSize="small" />
+                                        </IconButton>
+                                    </TimelineDot>
+                                </StyledTooltip>
                             </TimelineSeparator>
                             {createContent("Extra", 4)}
                         </TimelineItem>
@@ -259,6 +279,7 @@ const AnimatedGrid = (props) => {
     const callback = () => {
         setWidth(ref.current.offsetWidth)
     }
+
     useObserver({ callback: callback, element: ref })
     const getItems = () => {
         let len = resume.length
@@ -295,10 +316,6 @@ const AnimatedGrid = (props) => {
             return (temp);
         }
     }
-
-    // column = heights.indexOf(Math.min(...heights));
-    //                 xy = [((344 + 30) * index) + dist, 0]
-    //                 index = index + 1
 
     const [heights, gridItems] = React.useMemo(() => {
         let heights = new Array(columns).fill(0)
@@ -344,7 +361,7 @@ const AnimatedGrid = (props) => {
     return (
         <React.Fragment>
             <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-                height: props.activePage !== 0 ? 510 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.8 : "", position: "relative"
+                height: props.activePage !== 0 ? window.innerHeight - 96 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.8 : "", position: "relative"
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                     <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
@@ -359,8 +376,8 @@ const AnimatedGrid = (props) => {
                 ))}
             </div >
             <Fade bottom when={props.activePage !== 0}>
-                <div style={{ position: "relative", width: window.innerWidth * 0.8, left: "20%", marginTop: "72px" }}>
-                    <div style={{ transform: `translate(${dist + 120}px)` }}>
+                <div style={{ position: "absolute", width: window.innerWidth * 0.8, left: "20%", marginTop: "72px", top: "75%", overflow: "hidden" }}>
+                    <div style={{ transform: `translate(${dist + 113}px)` }}>
                         <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
                             <ChevronLeftIcon clsssname="icon" />
                         </IconButton>

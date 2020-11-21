@@ -28,6 +28,7 @@ function App() {
         <Route path="/resume/experience" render={props => <Resume index={2} />} />
         <Route path="/resume/skills" render={props => <Resume index={3} />} />
         <Route path="/resume/activities" render={props => <Resume index={4} />} />
+        <Route path="/resume" render={props => <Resume index={0} />} />
         <Route path="/" render={props => <Home />} />
       </Switch>
     </ThemeProvider >
