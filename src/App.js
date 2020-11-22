@@ -5,6 +5,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Home from './Sections/Home.js';
 import Resume from './Sections/Resume.js';
+import AboutMe from './Sections/AboutMe.js';
 
 import './history.js';
 const theme = createMuiTheme({
@@ -29,6 +30,7 @@ function App() {
         <Route path="/resume/skills" render={props => <Resume index={3} />} />
         <Route path="/resume/activities" render={props => <Resume index={4} />} />
         <Route path="/resume" render={props => <Resume index={0} />} />
+        <Route path="/about-me" render={props => <AboutMe />} />
         <Route path="/" render={props => <Home />} />
       </Switch>
     </ThemeProvider >
