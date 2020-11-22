@@ -1,7 +1,4 @@
-import { BorderAll } from '@material-ui/icons';
 import React from 'react'
-
-import { Redirect } from 'react-router-dom';
 
 import { Fade, Slide } from 'react-reveal'
 

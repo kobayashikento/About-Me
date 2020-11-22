@@ -1,5 +1,5 @@
 import { animated } from 'react-spring'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 const StyledContainer = styled(animated.div)`
   position: fixed;

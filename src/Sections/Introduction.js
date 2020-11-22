@@ -19,7 +19,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
 
-import { useTransition, useSpring, useChain, config } from 'react-spring'
+import { useSpring, useChain, config } from 'react-spring'
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -42,8 +42,8 @@ const Introduction = (prop) => {
     return (
         < Container maxWidth={matches ? "xs" : "xs"} style={{ position: "absolute", top: "47%", left: "50%", transform: "translate(-50%, -48%)" }}>
             <Paper elevation={3} style={{ marginTop: "24px", boxShadow: shadow, width: "fit-content", opacity: "0.9", padding: "2rem", paddingBottom: "1rem", paddingTop: "2rem", borderRadius: "10px" }}>
-                <Typography variant="body1" align="justify" style={{ paddingTop: "2rem", textIndent: "2rem" }}>
-                    My name is Kento Kobayashi. I am a recent graduate from the University of Toronto where I received my bachelor's in Mathematics, Statistics, and Philosophy. I enjoy thinking about and solving complex problems and also enjoy learning something new everday.
+                <Typography variant="body1" align="justify" style={{ paddingTop: "1rem", textIndent: "2rem" }}>
+                    My name is Kento Kobayashi. I recently obtained my Bachelor’s Science degree from University of Toronto in Mathematics, Statistics, and Philosophy. I enjoy thinking about and solving complex problems and also enjoy learning something new everday.
                     </Typography>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >

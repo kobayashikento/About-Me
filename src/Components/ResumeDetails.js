@@ -1,8 +1,7 @@
 import React from 'react'
-import Fade from 'react-reveal'
 
 import Container from '@material-ui/core/Container';
-import { IconButton, Typography, Grid, Modal, Backdrop } from '@material-ui/core';
+import { IconButton, Typography, Grid } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ImageCarousel from '../Components/ImageCarousel.js';
 import Divider from '@material-ui/core/Divider';
@@ -36,7 +35,7 @@ const ResumeDetails = (props) => {
                         style={{ marginTop: "16px" }}
                     >
                         <Grid item xs={3} style={{ marginTop: "32px" }} align="center">
-                            <img src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
+                            <img alt={`${props.activeCard.title}img`} src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
                         </Grid>
                         <Grid item xs={8} style={{ marginTop: "16px" }} fontWeight="fontWeightBold">
                             <StyledTypography variant="h5" style={{ margin: "4px" }}>
@@ -60,7 +59,7 @@ const ResumeDetails = (props) => {
                             {props.activeCard.bodySummary.split("\n").map((i, key) => {
                                 // Create link by detecting \r
                                 if (key === 0){
-                                    return;
+                                    return null;
                                 } else if (/\r/.test(i)) {
                                     let match1 = /^[^\r]+/.exec(i)
                                     let match2 = /\r(.*)/.exec(i)
@@ -79,6 +78,8 @@ const ResumeDetails = (props) => {
                                                     return (
                                                         <li style={{textIndent: "-1em", padding: "0px 0 10px 20px" }} key={`listitem${index}`}>{item}</li>
                                                     )
+                                                } else {
+                                                    return null 
                                                 }
                                             })}
                                         </ul>

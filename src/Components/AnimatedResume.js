@@ -391,4 +391,5 @@ const AnimatedGrid = (props) => {
     )
 }
 
+export default React.memo(AnimatedGrid)
 export { AnimatedIcon, AnimateTimeline, AnimatedGrid }
