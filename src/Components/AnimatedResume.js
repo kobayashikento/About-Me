@@ -46,12 +46,12 @@ import { withStyles } from '@material-ui/core/styles';
 const AnimatedIcon = () => {
     const isExpanded = true;
     return (
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", zIndex: "2" }}>
             < Transition
                 config={{ duration: 1000 }}
                 items={isExpanded}
-                from={{ transform: 'translate(-50%, -50%)', opacity: 0, position: "fixed", top: "50%", left: "50%" }}
-                enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", left: "0" }}
+                from={{ transform: 'translate(50%, 0)', opacity: 0, position: "fixed", left: "-50%" }}
+                enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", left: "0" }}
                 leave={{ transform: 'translate3d(0,-40px,0)' }}>
                 {isExpanded => isExpanded && (props =>
                     <animated.div style={{ ...props, display: "flex", justifyContent: "left", paddingLeft: "2rem", paddingTop: "8px" }}>
@@ -67,9 +67,8 @@ const AnimatedIcon = () => {
                     </animated.div>)}
             </Transition >
             < Transition
-                config={{ duration: 1000 }}
                 items={isExpanded}
-                from={{ transform: 'translate(50%, -50%)', opacity: 0, position: "fixed", top: "50%", right: "50%", zoom: "3" }}
+                from={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", right: "0", zoom: "1" }}
                 enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", right: "0", zoom: "1" }}
                 leave={{ transform: 'translate3d(0,-40px,0)' }}>
                 {isExpanded => isExpanded && (props =>
@@ -128,26 +127,19 @@ const AnimateTimeline = (props) => {
         )
     }
 
-    const StyledTooltip = withStyles({
-        tooltip: {
-            color: "rgb(234,250,240)",
-            backgroundColor: "rgba(108,115,112,0.8)"
-        }
-    })(Tooltip);
-
     return (
         < Transition
-            config={{ duration: 700 }}
+            config={{ duration: 1000 }}
             items={true}
-            from={{ transform: 'translate(0, -50%)', opacity: 0, position: "fixed", top: "50%" }}
-            enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", left: "0" }}
+            from={{ opacity: 0, position: "fixed", left: "-50%" }}
+            enter={{ opacity: 1, position: "fixed", left: "0%" }}
             leave={{ transform: 'translate3d(0,-40px,0)' }}>
             {isExpanded => isExpanded && (props =>
                 <animated.div style={{ ...props }}>
                     <Timeline align="left" style={{ position: "fixed", top: "10rem" }}>
                         <TimelineItem>
                             <TimelineSeparator className={page === 0 ? "" : "seperator"} onClick={() => handleClick(0)}>
-                                <StyledTooltip title={page !== 0 ? "Show All" : ""} placement="right">
+                                <Tooltip title={page !== 0 ? "Show All" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
                                             disabled={true}
@@ -157,14 +149,14 @@ const AnimateTimeline = (props) => {
                                             <AppsIcon fontSize="small" />
                                         </IconButton>
                                     </TimelineDot>
-                                </StyledTooltip>
+                                </Tooltip>
                                 <TimelineConnector className="connector" />
                             </TimelineSeparator>
                             {createContent("All", 0)}
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator className={page === 1 ? "" : "seperator"} onClick={() => handleClick(1)}>
-                                <StyledTooltip title={page !== 1 ? "Show Education" : ""} placement="right">
+                                <Tooltip title={page !== 1 ? "Show Education" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
                                             disabled={true}
@@ -174,14 +166,14 @@ const AnimateTimeline = (props) => {
                                             <SchoolIcon fontSize="small" />
                                         </IconButton>
                                     </TimelineDot>
-                                </StyledTooltip>
+                                </Tooltip>
                                 <TimelineConnector className="connector" />
                             </TimelineSeparator>
                             {createContent("Education", 1)}
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator className={page === 2 ? "" : "seperator"} onClick={() => handleClick(2)}>
-                                <StyledTooltip title={page !== 2 ? "Show Experience" : ""} placement="right">
+                                <Tooltip title={page !== 2 ? "Show Experience" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
                                             disabled={true}
@@ -191,14 +183,14 @@ const AnimateTimeline = (props) => {
                                             <WorkIcon fontSize="small" />
                                         </IconButton>
                                     </TimelineDot>
-                                </StyledTooltip>
+                                </Tooltip>
                                 <TimelineConnector className="connector" />
                             </TimelineSeparator>
                             {createContent("Experience", 2)}
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator className={page === 3 ? "" : "seperator"} onClick={() => handleClick(3)}>
-                                <StyledTooltip title={page !== 3 ? "Show Skills" : ""} placement="right">
+                                <Tooltip title={page !== 3 ? "Show Skills" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
                                             disabled={true}
@@ -208,14 +200,14 @@ const AnimateTimeline = (props) => {
                                             <LaptopIcon fontSize="small" />
                                         </IconButton>
                                     </TimelineDot>
-                                </StyledTooltip>
+                                </Tooltip>
                                 <TimelineConnector className="connector" />
                             </TimelineSeparator>
                             {createContent("Skills", 3)}
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator className={page === 4 ? "" : "seperator"} onClick={() => handleClick(4)}>
-                                <StyledTooltip title={page !== 4 ? "Show Activities" : ""} placement="right">
+                                <Tooltip title={page !== 4 ? "Show Activities" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
                                             disabled={true}
@@ -225,7 +217,7 @@ const AnimateTimeline = (props) => {
                                             <RowingIcon fontSize="small" />
                                         </IconButton>
                                     </TimelineDot>
-                                </StyledTooltip>
+                                </Tooltip>
                             </TimelineSeparator>
                             {createContent("Extra", 4)}
                         </TimelineItem>

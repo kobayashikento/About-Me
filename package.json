@@ -22,6 +22,7 @@
     "react-measure": "^2.5.2",
     "react-motion-menu": "^0.4.4",
     "react-reveal": "^1.2.2",
+    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0",
     "react-slick": "^0.27.13",

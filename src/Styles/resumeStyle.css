@@ -14,7 +14,6 @@
 .listCard {
   font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto,
     segoe ui, arial, sans-serif;
-  top: 50%;
   left: 20%;
   transform: translate(0, 15%);
   overflow: hidden;

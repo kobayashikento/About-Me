@@ -20,7 +20,7 @@ const theme = createMuiTheme({
   }
 });
 
-function App() {
+function App(props) {
   return (
     <ThemeProvider theme={theme}>
       <Switch>

@@ -63,9 +63,11 @@ const Introduction = (prop) => {
 
 const IntroAvatar = () => {
     return (
-        <Avatar style={{
-            position: "absolute", height: "8rem", width: "8rem", left: "50%", transform: "translate(-50%, -224px)", zIndex: "1", boxShadow: shadow, top: "50%"
-        }} src={catImg} />
+        <IconButton
+            disabled={true} size="small" style={{ marginRight: "1rem", color: "grey", backgroundColor: "transparent" }}
+        >
+            <Avatar style={{ border: "2px solid grey" }} src={catImg} ></Avatar>
+        </IconButton>
     );
 }
 
