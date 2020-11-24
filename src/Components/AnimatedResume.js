@@ -28,7 +28,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
-import catImg from '../Assets/Cat.png';
+import face from '../Assets/face.jpg';
 
 import resume from '../Assets/resume.js';
 
@@ -73,18 +73,18 @@ const AnimatedIcon = () => {
                 leave={{ transform: 'translate3d(0,-40px,0)' }}>
                 {isExpanded => isExpanded && (props =>
                     <animated.div style={{ ...props, display: "flex", justifyContent: "right", paddingTop: "1rem", paddingRight: "2rem" }}>
-                        <Button
+                        {/* <Button
                             style={{ marginRight: "1rem", color: "grey" }}
                             to={"/portfolio"}
                             component={Link}
                         >
                             Portfolio
-                        </Button>
+                        </Button> */}
                         <Link to="/" style={{ textDecoration: "none", color: "grey" }}>
                             <IconButton
                                 size="small" style={{ marginRight: "1rem", color: "grey", backgroundColor: "transparent" }}
                             >
-                                <Avatar style={{ border: "2px solid grey" }} src={catImg} ></Avatar>
+                                <Avatar style={{ border: "2px solid grey" }} src={face} ></Avatar>
                             </IconButton>
                         </Link>
                     </animated.div>)}
@@ -343,7 +343,7 @@ const AnimatedGrid = (props) => {
 
     const transitions = useTransition(gridItems, (item) => item.title, {
         from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
-        enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
+        enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1  }),
         update: ({ xy, width, height }) => ({ xy, width, height }),
         leave: { height: 0, opacity: 0 },
         config: { mass: 5, tension: 300, friction: 100 },

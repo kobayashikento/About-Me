@@ -54,16 +54,16 @@ const Home = (props) => {
         ref: transitionContainerRef,
     })
 
-    useChain([transitionContainerRef, transitionIntroRef, transitionIconRef, transitionAvatarRef], [0, 1, 1.2, 1.5])
+    useChain([transitionContainerRef, transitionIntroRef, transitionIconRef, transitionAvatarRef], [0, 0.5, 0.8, 1.2])
 
     const changeView = () => {
         setShow(false);
         setTimeout(() => {
             setShowAvatar(false)
-        }, 900)
+        }, 700)
         setTimeout(() => {
             setShowContainer(false)
-        }, 1400)
+        }, 900)
     }
 
     return (

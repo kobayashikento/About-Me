@@ -26,6 +26,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Canvas from '../Components/Canvas.js';
 
+import face from '../Assets/face.jpg';
+
 import catImg from '../Assets/Cat.png';
 import { StyledContainer } from '../Styles/introductionStyle.js';
 
@@ -66,7 +68,7 @@ const IntroAvatar = () => {
         <IconButton
             disabled={true} size="small" style={{ marginRight: "1rem", color: "grey", backgroundColor: "transparent" }}
         >
-            <Avatar style={{ border: "2px solid grey" }} src={catImg} ></Avatar>
+            <Avatar style={{ border: "2px solid grey" }} src={face} ></Avatar>
         </IconButton>
     );
 }
