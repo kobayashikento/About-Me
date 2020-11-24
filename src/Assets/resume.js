@@ -31,9 +31,9 @@ let resume = [
         key: 1,
         date: "September, 2014 - May, 2020",
         bodySummary: "\n I graduated from the University of Toronto with a degree in Statistics, Mathematics, and Philosophy. In my und,ergraPhilosophyearned how to become more comfortable with complex logical thinking, which includes but is not limited to complex calculations and visualization of 3D space through vector representations. My statistics courses taught me how to evaluate numbers, specifically its significance in the context of the problem and potential consequences that may arise in the context of statistical analysis." +
-            "\n Throughout my undergraduate program, I have also taken multiple computer science courses that focused on the theory and implementation of each concept, because I had a passion for programming and enjoyed the challenge that came with logical thinking." +
-            "\n In my Statistics courses, I excelled in all my courses that used R, because I would make functions that would automate all of the data collection processes." +
-            "I had a strong interest in all my data sampling courses which taught effective sampling strategies. For example, calculating the minimum sample size to have a confidence interval of 95%. Deciding whether to proceed with cluster or stratified sampling and accessing the pros and cons of each sampling type." +
+            "\n Throughout my undergraduate program, I have also taken multiple Computer Science courses that focused on the theory and implementation of each concept, because I had a passion for programming and enjoyed the challenge that came with logical thinking." +
+            "\n  In my Statistics courses, I excelled in all my courses that used R, because I would make functions that would automate all of the data collection processes." +
+            " I had a strong interest in all my data sampling courses which taught effective sampling strategies. For example, calculating the minimum sample size to have a confidence interval of 95%, deciding whether to proceed with cluster or stratified sampling, and accessing the pros and cons of each sampling type." +
             "\n My mathematics courses that taught advanced integrals and matrix algebra aided my understanding of my statistics courses, especially in the calculation of MANOVA and MANCOVA in a multivariate analysis that required a good understanding of vector calculations of integration of vectors. " +
             "\n Philosophy helped me engage in critical thinking, which was different from the way of thinking in my statistics, mathematics, or computer sciences, it taught me to think about problems from different angles which helped in my multivariate analysis. " +
             "\n Listed below are the courses I took that have relevance in programming and data analysis." +
@@ -248,7 +248,7 @@ let resume = [
         key: 8,
         titleDescription: "Learned in CSC209 - Software Tools and Systems Programming",
         date: "Experience - 1 year",
-        bodySummary: "\n My knowledge of Java comes from the course CSC207 Software Design and I was first exposed to the language in my programming course I took in the International Baccalaureate higher-level computer science course. As a final assessment of my CSC207 course, we were required to build an android application using Android Studio in a team of 3. " +
+        bodySummary: "\n My knowledge of Java comes from the course CSC207 Software Design and I was first exposed to the language in my programming course I took in the International Baccalaureate higher-level Computer Science course. As a final assessment of my CSC207 course, we were required to build an android application using Android Studio in a team of 3. " +
             "\n Below is a list of the concepts that I learned from this course." +
             "\n \f \v Version Control \v Unit Testting \v Refactoring \v Object-Oriented Design and Development \v Design Patterns \v IDE Usage, \v Regular Expressions ",
         cardSubtitle: "Experience - 1 year",

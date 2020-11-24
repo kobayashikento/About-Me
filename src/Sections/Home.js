@@ -35,7 +35,7 @@ const Home = (props) => {
 
     const avatarTrans = useTransition(showAvatar, null, {
         from: { position: 'absolute', opacity: 0, transform: `scale(1)`, top: "0%", right: "43%", width: "94px", height: "62px", paddingTop: "1rem", paddingRight: "2rem", },
-        enter: { position: 'absolute', opacity: 1, transform: `scale(3)`, top: "25%", right: "43%", width: "94px", height: "62px", paddingTop: "1rem", paddingRight: "2rem", },
+        enter: { position: 'absolute', opacity: 1, transform: `scale(3)`, top: "20%", right: "43%", width: "94px", height: "62px", paddingTop: "1rem", paddingRight: "2rem", },
         leave: { position: 'absolute', opacity: 1, transform: `scale(1)`, top: "0%", right: "0%", width: "94px", height: "62px", paddingTop: "1rem", paddingRight: "2rem", },
         ref: transitionAvatarRef,
     })

@@ -6,6 +6,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 
+import {withStyles} from '@material-ui/core/styles';
+
 import Fade from 'react-reveal';
 
 import '../Styles/resumeStyle.css';
@@ -18,6 +20,16 @@ const AnimatedCard = (props) => {
         props.handleActiveCard(props.item)
     }
 
+    const StyledChip = withStyles({
+        label:{
+            paddingLeft: "12px",
+            paddingRight: "12px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "initial"
+        }
+    })(Chip);
+   
     return (
         <Card
             className="card"
@@ -49,7 +61,7 @@ const AnimatedCard = (props) => {
                                     {props.item.subtitle}
                                 </Typography>
                                 <Divider style={{ width: "70%", marginTop: "24px" }} />
-                                <Chip label={props.item.chip} variant="outlined" style={{ marginTop: "16px" }} />
+                                <StyledChip label={props.item.chip} variant="outlined" style={{ marginTop: "16px" }} />
                             </div>
                         </Fade>
                     </React.Fragment>
@@ -75,7 +87,7 @@ const AnimatedCard = (props) => {
                                     {props.item.cardSubtitle}
                                 </Typography>
                             <Divider style={{ width: "70%", marginTop: "16px" }} />
-                            <Chip label={props.item.chip} variant="outlined" style={{ marginTop: "16px" }} />
+                            <StyledChip label={props.item.chip} variant="outlined" style={{ marginTop: "16px" }} />
                             </div>
                         </Fade>
                     </React.Fragment>

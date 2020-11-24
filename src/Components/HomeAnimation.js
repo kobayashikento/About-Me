@@ -53,7 +53,7 @@ const Menu = (props) => {
         props.handleClick();
         setTimeout(() => {
             history.push(items[index].link)
-        }, 1000)
+        }, 1100)
     }
 
     // <Tooltip TransitionComponent={Zoom} title={items[i].tooltip} placement={items[i].placement}>
