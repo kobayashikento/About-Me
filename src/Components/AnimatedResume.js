@@ -97,14 +97,6 @@ const AnimateTimeline = (props) => {
     const page = props.activePage
 
     const handleClick = (index) => {
-        switch (index) {
-            case 0:
-                <Redirect to="/resume/all" />
-                break;
-            case 1:
-                <Redirect to="/resume/education" />
-                break;
-        }
         props.handleTimeClick(index);
     }
 
@@ -142,6 +134,7 @@ const AnimateTimeline = (props) => {
                                 <Tooltip title={page !== 0 ? "Show All" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
+                                            className={page !== 0 ? "" : "spinAni"}
                                             disabled={true}
                                             style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                             size="small"
@@ -159,6 +152,7 @@ const AnimateTimeline = (props) => {
                                 <Tooltip title={page !== 1 ? "Show Education" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
+                                            className={page !== 1 ? "" : "spinAni"}
                                             disabled={true}
                                             style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                             size="small"
@@ -176,6 +170,7 @@ const AnimateTimeline = (props) => {
                                 <Tooltip title={page !== 2 ? "Show Experience" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
+                                            className={page !== 2 ? "" : "spinAni"}
                                             disabled={true}
                                             style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                             size="small"
@@ -193,6 +188,7 @@ const AnimateTimeline = (props) => {
                                 <Tooltip title={page !== 3 ? "Show Skills" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
+                                            className={page !== 3 ? "" : "spinAni"}
                                             disabled={true}
                                             style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                             size="small"
@@ -210,6 +206,7 @@ const AnimateTimeline = (props) => {
                                 <Tooltip title={page !== 4 ? "Show Activities" : ""} placement="right">
                                     <TimelineDot variant="outlined" className="dot">
                                         <IconButton
+                                            className={page !== 4 ? "" : "spinAni"}
                                             disabled={true}
                                             style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
                                             size="small"
@@ -343,7 +340,7 @@ const AnimatedGrid = (props) => {
 
     const transitions = useTransition(gridItems, (item) => item.title, {
         from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
-        enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1  }),
+        enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
         update: ({ xy, width, height }) => ({ xy, width, height }),
         leave: { height: 0, opacity: 0 },
         config: { mass: 5, tension: 300, friction: 100 },

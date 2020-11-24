@@ -63,7 +63,7 @@ const AnimatedCard = (props) => {
                             </Typography>
                         </Fade>
                         <Fade bottom when={!hover}>
-                            <div style={{ position: "absolute", marginTop: "400px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", height: "100%" }}>
+                            <div style={{ position: "absolute", paddingTop: "200px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", height: "100%" }}>
                                 <Typography variant={props.item.key === 1 ? "body1" : "h6"} style={{ marginTop: "8px", width: "fit-content" }} align="center">
                                     {props.item.title}
                                 </Typography>

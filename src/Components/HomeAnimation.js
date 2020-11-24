@@ -29,8 +29,8 @@ const Menu = (props) => {
 
     let items = [{ deg: 270 }, { deg: 292.5 }, { deg: 315 }, { tooltip: "See Resume", placement: "bottom", deg: 337.5, icon: <AppsIcon />, link: "/resume/all" },
     { tooltip: "See Education History", placement: "bottom", deg: 0, icon: <SchoolIcon />, link: "resume/education" }, { tooltip: "Currently Working On", placement: "bottom", deg: 22.5, icon: <PermIdentityIcon />, link: "/resume/all" },
-    { tooltip: "See Work History", placement: "bottom", deg: 157.5, icon: <RowingIcon />, link: "resume/activties" },
-    { tooltip: "See Activities", placement: "bottom", deg: 180, icon: <WorkIcon />, link: "resume/experience" }, { tooltip: "See Skills", placement: "bottom", deg: 202.5, icon: <LaptopIcon />, link: "resume/skills" },
+    { tooltip: "See Activities", placement: "bottom", deg: 157.5, icon: <RowingIcon />, link: "resume/activties" },
+    { tooltip: "See Work History", placement: "bottom", deg: 180, icon: <WorkIcon />, link: "resume/experience" }, { tooltip: "See Skills", placement: "bottom", deg: 202.5, icon: <LaptopIcon />, link: "resume/skills" },
     { deg: 222.5 }
     ]
 

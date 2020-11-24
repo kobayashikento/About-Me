@@ -81,6 +81,19 @@
   transform: scale(1.2);
 }
 
+.spinAni {
+  animation: spin 0.9s 1;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
 .seperator {
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
@@ -147,22 +160,6 @@
 .arrow :hover {
   transform: scale(1);
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
-}
-
-.seperator :active {
-  animation: spin 0.6s 1;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.2);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
 }
 
 .details {
