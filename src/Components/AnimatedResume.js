@@ -275,7 +275,7 @@ const AnimatedGrid = (props) => {
     const [width, setWidth] = React.useState(0);
 
     // center display of card distance
-    const dist = ((window.innerWidth * 0.7) / 2 - 300)
+    const dist = ((window.innerWidth * 0.7) / 2) - 315
 
     const callback = () => {
         setWidth(ref.current.offsetWidth)
@@ -329,20 +329,22 @@ const AnimatedGrid = (props) => {
         let gridItems = items.map((child, idx) => {
             let column;
             let xy;
-            let scale;
             if (props.activePage !== 0) {
                 //code it so it react different on different screen size 
 
                 // If card index is less than 2 of the cardIndex, then it should be in focus 
+                // If theres only 1 card 
                 if (items.length === 1) {
                     column = heights.indexOf(Math.min(...heights));
                     xy = [dist + 135, 0]
                     leftIndex += 1;
                     return { ...child, xy, width: 300, height: 400 }
+                    // if theres more than 1 card and the cards are in the starting position
                 } else if (props.cardIndex === 0) {
+                    // display the first 2 cards that are in focus 
                     if (idx === 0 || idx === 1) {
                         column = heights.indexOf(Math.min(...heights));
-                        xy = [((300 + 10) * leftIndex) + dist, 0]
+                        xy = [((300 + 5) * leftIndex) + dist, 0]
                         leftIndex += 1;
                         return { ...child, xy, width: 300, height: 400 }
                     } else {
@@ -374,10 +376,12 @@ const AnimatedGrid = (props) => {
                     leftIndex += 1;
                     return { ...child, xy, width: 300, height: 400 }
                 }
+                //condition when its in grid view 
             } else {
                 column = heights.indexOf(Math.min(...heights));
+                console.log(width, columns, heights, column)
                 xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2]
-                return { ...child, xy, width: (width / columns) - 24, height: (child.height / 2) - 24, scale: scale }
+                return { ...child, xy, width: (width / columns) - 24, height: (child.height / 2) - 24 }
             }
         })
         return [heights, gridItems]
@@ -387,7 +391,7 @@ const AnimatedGrid = (props) => {
         from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
         enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
         update: ({ xy, width, height }) => ({ xy, width, height }),
-        leave: { height: 0, opacity: 0 },
+        leave: { opacity: 0 },
         config: { mass: 5, tension: 300, friction: 100 },
         trail: 10
     })

@@ -39,6 +39,7 @@ import { StyledContainer } from '../Styles/introductionStyle.js';
 const buttonTheme = createMuiTheme({ palette: { primary: { main: "#FFFFFF" } } })
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
+const shadow1 = "rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 2px 4px, rgba(0, 0, 0, 0.1) 0px 4px 8px, rgba(0, 0, 0, 0.1) 0px 8px 16px, rgba(0, 0, 0, 0.1) 0px 16px 32px, rgba(0, 0, 0, 0.1) 0px 32px 64px";
 
 const Introduction = (props) => {
     const theme = useTheme();
@@ -138,7 +139,7 @@ const NavBar = (props) => {
 
     return (
         <div style={{
-            display: "flex", backgroundColor: props.theme.priBack, height: "64px", width: "100%", position: "absolute",
+            display: "flex", backgroundColor: props.theme.priBack, height: "48px", width: "100%", position: "absolute",
             top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", paddingRight: "1rem"
         }}>
             <div style={{ display: "flex", marginTop: "8px", marginLeft: "auto" }}>
@@ -153,7 +154,7 @@ const NavBar = (props) => {
                                 <Typography variant="body1" align="justify" style={{ color: hover === index + 1 ? props.theme.secColor : props.theme.priTxtColor, fontWeight: 500 }}>
                                     {navItems[index]}
                                 </Typography>
-                                {index === 1 ? <Popper style={{ marginTop: "2.5rem", marginLeft: "1.5rem" }} open={open} role={undefined} transition disablePortal>
+                                {index === 1 ? <Popper style={{ marginTop: "2rem", marginLeft: "1rem" }} open={open} role={undefined} transition disablePortal>
                                     {({ TransitionProps, placement }) => (
                                         <Grow
                                             {...TransitionProps}
@@ -214,18 +215,18 @@ const SideIcons = (props) => {
     const open = true;
     const iconItems = [{
         content:
-            <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} >
-                <GitHubIcon className="icon" style={{ color: props.theme.secColor }} />
+            <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }}>
+                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: props.theme.secColor }} />
             </div>
     },
     {
         content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-            <LinkedInIcon className="icon" style={{ color: props.theme.secColor }} />
+            <LinkedInIcon className="icon" style={{ color: props.theme.secColor,  }} />
         </div>
     },
     {
         content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-            <MailIcon className="icon" style={{ color: props.theme.secColor }} />
+            <MailIcon className="icon" style={{ color: props.theme.secColor,  }} />
         </div>
     }];
     const trail = useTrail(iconItems.length, {
@@ -326,7 +327,7 @@ const AboutMe = (props) => {
                         <Divider style={{ marginLeft: "3rem", width: "20rem", backgroundColor: props.theme.priTxtColor }} />
                     </div>
                     <Typography variant="body1" style={{ color: props.theme.priTxtColor, textIndent: "1rem", paddingLeft: "1rem", marginBottom: "1rem" }}>
-                        I am Developer based in Toronto, Ontario with a mild addictiosn to coffee.
+                        I am Developer based in Toronto, Ontario with a mild addiction to coffee.
             </Typography>
                     <div style={{ paddingLeft: "1rem", marginBottom: "1rem" }}>
                         <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
@@ -348,7 +349,7 @@ const AboutMe = (props) => {
                 </Grid>
                 <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }}>
                     <img src={face} style={{
-                        marginLeft: "2rem", width: "70%", borderRadius: "5px",
+                        marginLeft: "2rem", width: "240px", height: "250px", borderRadius: "5px",
                         boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
                     }} />
                 </Grid>

@@ -4,6 +4,10 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+
+import { Transition } from 'react-spring/renderprops';
 
 import { AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
 
@@ -12,11 +16,12 @@ import ResumeDetails from '../Components/ResumeDetails.js';
 const ResumeParallax = (props) => {
     const [activeCard, setActiveCard] = React.useState(null);
     const [showDetails, setShowDetails] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
 
     const handleCardClick = (index) => {
         if (index !== 0) {
             setShowDetails(true);
-            props.handleCardOpen()
+            setShowModal(true);
         }
     }
 
@@ -25,11 +30,11 @@ const ResumeParallax = (props) => {
     }
 
     const handleDetailsChange = () => {
-        setActiveCard(null)
+        setShowModal(false);
         setTimeout(() => {
-            setShowDetails(false);
-            props.handleCardClose()
-        }, 300)
+            setActiveCard(null);
+           setShowDetails(false);
+        }, 200)
     }
 
     return (
@@ -66,21 +71,39 @@ const ResumeParallax = (props) => {
                 activePage={props.activePage}
                 handleTimeClick={(index) => props.handleTimeClick(index)}
             />
-            {!showDetails ?
-                <AnimatedGrid
-                    theme={props.theme}
-                    cardIndex={props.cardIndex}
-                    activePage={props.activePage}
-                    handleNavClick={(dir) => props.handleArrowClick(dir)}
-                    handleActiveCard={(item) => handleActiveCard(item)}
-                    handleCardClick={(index) => handleCardClick(index)}
-                /> :
-                <ResumeDetails
-                    handleDetailsChange={() => handleDetailsChange()}
-                    activeCard={activeCard}
-                />
-            }
+            <AnimatedGrid
+                theme={props.theme}
+                cardIndex={props.cardIndex}
+                activePage={props.activePage}
+                handleNavClick={(dir) => props.handleArrowClick(dir)}
+                handleActiveCard={(item) => handleActiveCard(item)}
+                handleCardClick={(index) => handleCardClick(index)}
+            />
+            <Modal
+                open={showDetails}
+                onClose={() => handleDetailsChange()}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+                style={{ overflow: "auto" }}
+            >
+                <Transition
+                    items={showModal}
+                    from={{ opacity: 0, transform: "translate(0, 100%)" }}
+                    enter={{ opacity: 1, transform: "translate(0, 0%)" }}
+                    leave={{ opacity: 0, transform: "translate(0, 100%)" }}>
+                    {showModal => showModal && (props =>
+                        <div style={props}>
+                            <ResumeDetails
+                                handleDetailsChange={() => handleDetailsChange()}
+                                activeCard={activeCard}
+                            />
+                        </div>)}
+                </Transition>
 
+            </Modal>
         </React.Fragment>
     )
 }

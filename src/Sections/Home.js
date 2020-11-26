@@ -15,6 +15,37 @@ import '../Styles/resumeStyle.css';
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.5), 0 3px 16px 2px rgba(0,0,0,0.5), 0 5px 6px -3px rgba(0,0,0,0.5)";
 const emptyShadow = "0 9px 12px 1px rgba(0,0,0,0), 0 3px 16px 2px rgba(0,0,0,0), 0 5px 6px -3px rgba(0,0,0,0)";
 
+const themes = [
+    {
+        priBack: "#3AAFA9",
+        secBack: "#2B7A78",
+        priColor: "#FEFFFF",
+        secColor: "#17252A",
+        priTxtColor: "#DEF2F1"
+    },
+    {
+        priBack: "#222629",
+        secBack: "#464866",
+        priColor: "#86C232",
+        secColor: "#61892F",
+        priTxtColor: "#6B6E70"
+    },
+    {
+        priBack: "#0B0C10",
+        secBack: "#1F2833",
+        priColor: "#66FCF1",
+        secColor: "#45A29E",
+        priTxtColor: "#C5C6C7"
+    },
+    {
+        priBack: "#25274D",
+        secBack: "#464866",
+        priColor: "#2E9CCA",
+        secColor: "#29648A",
+        priTxtColor: "#C5C6C7"
+    },
+]
+
 const Home = (props) => {
     let parallax = React.useRef();
     let ref = React.useRef();
@@ -23,41 +54,28 @@ const Home = (props) => {
     const [activePage, setActivePage] = React.useState(0);
     const [showNav, setShowNav] = React.useState(true);
     const [firstRender, setFirstRender] = React.useState(true);
-    const navBarHeight = 150
-
-    // Playing around with theme 
-    const themes = [
-        {
-            priBack: "#3AAFA9",
-            secBack: "#2B7A78",
-            priColor: "#FEFFFF",
-            secColor: "#17252A",
-            priTxtColor: "#DEF2F1"
-        },
-        {
-            priBack: "#222629",
-            secBack: "#464866",
-            priColor: "#86C232",
-            secColor: "#61892F",
-            priTxtColor: "#6B6E70"
-        },
-        {
-            priBack: "#0B0C10",
-            secBack: "#1F2833",
-            priColor: "#66FCF1",
-            secColor: "#45A29E",
-            priTxtColor: "#C5C6C7"
-        },
-        {
-            priBack: "#25274D",
-            secBack: "#464866",
-            priColor: "#2E9CCA",
-            secColor: "#29648A",
-            priTxtColor: "#C5C6C7"
-        },
-    ]
-
     const [theme, setTheme] = React.useState(themes[0]);
+
+    const navBarHeight = 120
+
+    // Detect scroll
+    React.useEffect(() => {
+        if (ref.current.children[0] !== undefined) {
+            var lastScrollTop = 0;
+            ref.current.children[0].addEventListener("scroll", function () {
+                var st = ref.current.children[0].scrollTop || document.documentElement.scrollTop;
+                if (st > lastScrollTop) {
+                    // downscroll code
+                    setShowNav(false);
+                    setFirstRender(false);
+                } else {
+                    // upscroll code
+                    setShowNav(true);
+                }
+                lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+            }, false);
+        }
+    }, [ref])
 
     const handleThemeChange = (index) => {
         setTheme(themes[index])
@@ -77,29 +95,11 @@ const Home = (props) => {
     const handlePopClick = (index) => {
         setActivePage(index)
         setCardIndex(0)
-        console.log(parallax)
         if (parallax !== null) {
             parallax.scrollTo(2)
         }
     }
 
-    React.useEffect(() => {
-        if (ref.current.children[0] !== undefined) {
-            var lastScrollTop = 0;
-            ref.current.children[0].addEventListener("scroll", function () {
-                var st = ref.current.children[0].scrollTop || document.documentElement.scrollTop;
-                if (st > lastScrollTop) {
-                    // downscroll code
-                    setShowNav(false);
-                    setFirstRender(false);
-                } else {
-                    // upscroll code
-                    setShowNav(true);
-                }
-                lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-            }, false);
-        }
-    }, [ref])
 
     const handleTimeClick = (index) => {
         setActivePage(index);
@@ -117,19 +117,6 @@ const Home = (props) => {
             setCardIndex(cardIndex - 1);
         } else if (direction === "right") {
             setCardIndex(cardIndex + 1);
-        }
-    }
-
-    const handleCardOpen = () => {
-        if (parallax !== null) {
-            parallax.scrollTo(2.3)
-        }
-    }
-
-    const handleCardClose = () => {
-        if (parallax !== null) {
-            parallax.scrollTo(2)
-            setShowNav(false);
         }
     }
 
@@ -161,7 +148,7 @@ const Home = (props) => {
                 enter={{ opacity: 1, transform: "translate(0, 0px)", boxShadow: emptyShadow }}
                 leave={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: shadow }}>
                 {showNav => showNav && (props =>
-                    <div style={{ ...props, height: "64px", width: "100%", position: "absolute", zIndex: "1", marginRight: "1rem" }}>
+                    <div style={{ ...props, height: "48px", width: "100%", position: "absolute", zIndex: "1", marginRight: "1rem" }}>
                         <NavBar
                             style={props}
                             theme={theme}
@@ -203,8 +190,6 @@ const Home = (props) => {
                             handleArrowClick={(dir) => handleArrowClick(dir)}
                             handleTimeClick={(index) => handleTimeClick(index)}
                             theme={theme}
-                            handleCardClose={() => handleCardClose()}
-                            handleCardOpen={() => handleCardOpen()}
                         />
                     </ParallaxLayer>
                     <ParallaxLayer

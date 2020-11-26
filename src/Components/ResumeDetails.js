@@ -24,7 +24,10 @@ const ResumeDetails = (props) => {
 
     return (
         props.activeCard !== null ?
-            <Container maxWidth="md" style={{ paddingRight: "8px", display: "flex", flexDirection: "column", backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem" }}>
+            <Container maxWidth="md" style={{
+                paddingRight: "8px", display: "flex", flexDirection: "column", backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem",
+                marginRight: "auto", marginLeft: "auto", transform: "translate(1rem)"
+            }}>
                 {/* Header  */}
                 <React.Fragment>
                     <Grid
@@ -58,7 +61,7 @@ const ResumeDetails = (props) => {
                         <Typography variant="body1" style={{ margin: "8px" }} align="justify">
                             {props.activeCard.bodySummary.split("\n").map((i, key) => {
                                 // Create link by detecting \r
-                                if (key === 0){
+                                if (key === 0) {
                                     return null;
                                 } else if (/\r/.test(i)) {
                                     let match1 = /^[^\r]+/.exec(i)
@@ -76,10 +79,10 @@ const ResumeDetails = (props) => {
                                             {i.split("\v").map((item, index) => {
                                                 if (index !== 0) {
                                                     return (
-                                                        <li style={{textIndent: "-1em", padding: "0px 0 10px 20px" }} key={`listitem${index}`}>{item}</li>
+                                                        <li style={{ textIndent: "-1em", padding: "0px 0 10px 20px" }} key={`listitem${index}`}>{item}</li>
                                                     )
                                                 } else {
-                                                    return null 
+                                                    return null
                                                 }
                                             })}
                                         </ul>
