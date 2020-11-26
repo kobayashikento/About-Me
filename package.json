@@ -19,6 +19,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^16.14.0",
+    "react-intersection-observer": "^8.31.0",
     "react-measure": "^2.5.2",
     "react-motion-menu": "^0.4.4",
     "react-reveal": "^1.2.2",

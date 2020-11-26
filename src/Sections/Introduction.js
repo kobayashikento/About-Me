@@ -9,9 +9,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Container from '@material-ui/core/Container';
-import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
+import Popper from '@material-ui/core/Popper';
+import Grow from '@material-ui/core/Grow';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
@@ -19,7 +23,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
 
-import { useSpring, useChain, config } from 'react-spring'
+import { useSpring, useChain, config, useTrail, animated, useTransition } from 'react-spring'
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -35,43 +39,291 @@ const buttonTheme = createMuiTheme({ palette: { primary: { main: "#FFFFFF" } } }
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 
-
-const Introduction = (prop) => {
+const Introduction = (props) => {
     const theme = useTheme();
     //sm down
+    const [open, setOpen] = React.useState(true);
+    const items = [
+        {
+            content: <Typography variant="h6" align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", textIndent: "2rem" }}>
+                Hello! My name is
+                    </Typography>
+        },
+        {
+            content: <Typography variant="h2" align="justify" style={{ paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", color: props.theme.priColor === "#86C232" ? "#FEFFFF" : props.theme.priColor }}>
+                Kento Kobayashi.
+        </Typography>
+        },
+        {
+            content: <Typography variant="h5" align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", opacity: "0.6" }}>
+                I code things that look nice.
+</Typography>
+        },
+        {
+            content: <Typography variant="body1" align="justify" style={{ color: props.theme.priTxtColor, paddingTop: "1rem", paddingLeft: "2rem", width: "70%" }}>
+                I recently obtained my Honours Bachelor’s of Science degree from University of Toronto. I enjoy playing Jazz piano and occasionally checking myself out while working out.
+                </Typography>
+
+        }
+    ]
+
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    const trail = useTrail(items.length, {
+        config: { mass: 5, tension: 2000, friction: 200 },
+        opacity: open ? 1 : 0,
+        x: open ? 0 : 20,
+        height: open ? 110 : 0,
+        from: { opacity: 0, x: 20, height: 0 },
+        delay: 1800
+    })
 
     return (
-        < Container maxWidth={matches ? "xs" : "xs"} style={{ position: "absolute", top: "47%", left: "50%", transform: "translate(-50%, -48%)" }}>
-            <Paper elevation={3} style={{ marginTop: "24px", boxShadow: shadow, width: "fit-content", opacity: "0.9", padding: "2rem", paddingBottom: "1rem", paddingTop: "2rem", borderRadius: "10px" }}>
-                <Typography variant="body1" align="justify" style={{ paddingTop: "1rem", textIndent: "2rem" }}>
-                    My name is Kento Kobayashi. I recently obtained my Bachelor’s of Science degree from University of Toronto in Mathematics, Statistics, and Philosophy. My hobbies include playing Jazz music on the piano and occasionally checking myself out while working out.
-                    </Typography>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >
-                        <GitHubIcon />
-                    </IconButton>
-                    <IconButton onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-                        <LinkedInIcon />
-                    </IconButton>
-                    <IconButton onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-                        <MailIcon />
-                    </IconButton>
-                </div>
-            </Paper>
+        <React.Fragment>
+            < Container maxWidth={matches ? "lg" : "md"} style={{ position: "absolute", top: "45%", left: "45%", transform: "translate(-50%, -50%)" }}>
+                {trail.map(({ x, height, ...rest }, index) => (
+                    <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                        {items[index].content}
+                    </animated.div>
+                ))}
+            </Container >
+        </React.Fragment>
+    )
+}
+
+const NavBar = (props) => {
+    const navItems = ["About", "Experiences", "Contact"];
+
+    const navTrail = useTrail(navItems.length, {
+        config: { mass: 5, tension: 2000, friction: 200 },
+        opacity: props.open ? 1 : 0,
+        x: props.open ? 0 : 20,
+        height: props.open ? 110 : 0,
+        from: { opacity: 0, x: 20, height: 0 },
+    })
+    const [open, setOpen] = React.useState(false);
+    const [hover, setHover] = React.useState(0);
+    const [itemHover, setItemHover] = React.useState(0);
+
+    const handleClose = (index) => {
+        if (index !== 0) {
+            props.handlePopClick(index);
+        }
+        setHover(0);
+        setItemHover(0);
+        setOpen(false);
+    };
+
+    const handleListKeyDown = (event) => {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
+        }
+    }
+
+    const handleMouseEnter = (index) => {
+        if (index === 1) {
+            setOpen(true);
+        }
+        setHover(index + 1);
+    }
+
+    const handleItemEnter = (index) => {
+        setItemHover(index)
+    }
+
+    const handleItemLeave = (index) => {
+        setItemHover(index)
+    }
+
+    const handleClick = (index) => {
+        props.handleThemeChange(index)
+    }
+    return (
+        <div style={{
+            display: "flex", backgroundColor: props.theme.priBack, height: "64px", width: "100%", position: "absolute",
+            top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", paddingRight: "1rem"
+        }}>
+            <div style={{ display: "flex", marginTop: "8px", marginRight: "auto", height: "40px", transform: "translate(4rem)" }}>
+                {props.themes.map((theme, index) => {
+                    return (
+                        <Button style={{ marginRight: "1rem", color: theme.priColor, border: `solid ${theme.priColor}` }} onClick={() => handleClick(index)}>
+                            {`${theme.priColor}`}
+                        </Button>
+                    )
+                })}
+            </div>
+            <div style={{ display: "flex", marginTop: "8px", marginLeft: "auto" }}>
+                {navTrail.map(({ x, height, ...rest }, index) => (
+                    <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "8px" }}>
+                        <Button className="navText" style={{ backgroundColor: "transparent" }} onClick={() => props.handleNavClick(index)}
+                            onMouseLeave={() => handleClose(0)} onMouseEnter={() => handleMouseEnter(index)}>
+                            <Typography variant="body1" align="justify" style={{ marginRight: "8px", color: props.theme.secColor }}>
+                                {`${index + 1}.`}
+                            </Typography>
+                            <div>
+                                <Typography variant="body1" align="justify" style={{ color: hover === index + 1 ? props.theme.secColor : props.theme.priTxtColor }}>
+                                    {navItems[index]}
+                                </Typography>
+                                {index === 1 ? <Popper style={{ marginTop: "2.5rem", marginLeft: "1.5rem" }} open={open} role={undefined} transition disablePortal>
+                                    {({ TransitionProps, placement }) => (
+                                        <Grow
+                                            {...TransitionProps}
+                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                        >
+                                            <Paper style={{ backgroundColor: props.theme.priBack }}>
+                                                <ClickAwayListener onClickAway={handleClose}>
+                                                    <MenuList onKeyDown={handleListKeyDown}>
+                                                        <MenuItem style={{ color: itemHover === 1 ? props.theme.secColor : props.theme.priTxtColor }}
+                                                            onMouseEnter={() => handleItemEnter(1)} onMouseLeave={() => handleItemLeave(1)} onClick={() => handleClose(1)}>Education</MenuItem>
+                                                        <MenuItem style={{ color: itemHover === 2 ? props.theme.secColor : props.theme.priTxtColor }}
+                                                            onMouseEnter={() => handleItemEnter(2)} onMouseLeave={() => handleItemLeave(2)} onClick={() => handleClose(2)}>Work</MenuItem>
+                                                        <MenuItem style={{ color: itemHover === 3 ? props.theme.secColor : props.theme.priTxtColor }}
+                                                            onMouseEnter={() => handleItemEnter(3)} onMouseLeave={() => handleItemLeave(3)} onClick={() => handleClose(3)}>Skills</MenuItem>
+                                                    </MenuList>
+                                                </ClickAwayListener>
+                                            </Paper>
+                                        </Grow>
+                                    )}
+                                </Popper> : null}
+                            </div>
+                        </Button>
+                    </animated.div>
+                ))}
+            </div>
+        </div >
+    )
+}
+
+const SideIcons = (props) => {
+    const transRef = React.useRef();
+    const iconItems = [{
+        content: <React.Fragment>
+            <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                <GitHubIcon className="icon" style={{ color: props.theme.secColor }} />
+            </div>
+            <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                <LinkedInIcon className="icon" style={{ color: props.theme.secColor }} />
+            </div>
+            <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                <MailIcon className="icon" style={{ color: props.theme.secColor }} />
+            </div>
+        </React.Fragment>
+    }];
+    const transitions = useTransition(props.open, null, {
+        from: { opacity: 0 },
+        enter: { opacity: 1 },
+        leave: { opacity: 0 },
+        ref: transRef
+    })
+    useChain([transRef], [2])
+    return (
+        transitions.map(({ item, key, props }, index) => (
+            item && <animated.div key={key} style={{
+                ...props, display: "flex", position: "absolute", flexDirection: "column",
+                justifyContent: "center", padding: "32px", bottom: "0px", left: "0px", zIndex: "1"
+            }}>
+                {iconItems[index].content}
+            </animated.div>
+        ))
+    )
+}
+
+const Contact = (props) => {
+    return (
+        <Container maxWidth="md" style={{ position: "absolute", top: "30%", left: "50%", display: "flex", flexDirection: "column", transform: "translate(-50%, -20%)" }}>
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+            >
+                <Grid item xs={2} />
+                <Grid item xs={8} style={{ display: "flex", justifyContent: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center", marginBottom: "3rem" }}>
+                        <Divider style={{ marginRight: "3rem", width: "5rem", backgroundColor: props.theme.priTxtColor }} />
+                        <Typography variant="h4" style={{ color: props.theme.priColor, fontWeight: "bold" }}>
+                            3.
+            </Typography>
+                        <Typography variant="h4" style={{ paddingLeft: "1rem", color: props.theme.priTxtColor, fontWeight: "bold" }}>
+                            Get In Touch
+            </Typography>
+                        <Divider style={{ marginLeft: "3rem", width: "5rem", backgroundColor: props.theme.priTxtColor }} />
+                    </div>
+                </Grid>
+                <Grid item xs={2} />
+            </Grid>
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+            >
+                <Grid item xs={2} />
+                <Grid item xs={8} style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <Typography variant="body1"  align="center" style={{ color: props.theme.priTxtColor, textIndent: "1rem", paddingLeft: "1rem", marginBottom: "1rem" }}>
+                        I am Developer based in Toronto, Ontario with a mild addictiosn to coffee.
+            </Typography>
+                    <Typography variant="body1" align="center" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
+                        When I am not coding I enjoy working out and eventually plan to paddle whenever I can. I also enjoy playing pieces from the Ghibli films,
+                        Jazz music and Lofi-Hip hop on the piano, carefully making sure that I don't annoy my neighbors.
+            </Typography>
+                </Grid>
+                <Grid item xs={2} />
+            </Grid>
+        </Container >
+    )
+}
+const AboutMe = (props) => {
+    return (
+        <Container maxWidth="md" style={{ position: "absolute", top: "30%", left: "50%", display: "flex", transform: "translate(-50%, -20%)" }}>
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+            >
+                <Grid item xs={8}>
+                    <div style={{ display: "flex", alignItems: "center", marginBottom: "3rem" }}>
+                        <Typography variant="h4" style={{ color: props.theme.priColor, fontWeight: "bold" }}>
+                            1.
+            </Typography>
+                        <Typography variant="h4" style={{ paddingLeft: "1rem", color: props.theme.priTxtColor, fontWeight: "bold" }}>
+                            About Me
+            </Typography>
+                        <Divider style={{ marginLeft: "3rem", width: "20rem", backgroundColor: props.theme.priTxtColor }} />
+                    </div>
+                    <Typography variant="body1" style={{ color: props.theme.priTxtColor, textIndent: "1rem", paddingLeft: "1rem", marginBottom: "1rem" }}>
+                        I am Developer based in Toronto, Ontario with a mild addictiosn to coffee.
+            </Typography>
+                    <div style={{ paddingLeft: "1rem", marginBottom: "1rem" }}>
+                        <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
+                            I recently obtained my
+                        </Typography>
+                        <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor }} > </Typography>
+                        <Typography variant="body1" style={{ display: "inline", color: props.theme.secColor }}>
+                            Bachelor’s of Science (Hons) in Mathematics, Statistics, and Philosophy from the University of Toronto.
+                        </Typography>
+                        <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor }} > </Typography>
+                        <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor }}>
+                            I have experience in developing iOS and web applications and I enjoy focusing on the smallest detail making sure that everything looks nice and smooth.
+            </Typography>
+                    </div>
+                    <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
+                        When I am not coding I enjoy working out and eventually plan to paddle whenever I can. I also enjoy playing pieces from the Ghibli films,
+                        Jazz music and Lofi-Hip hop on the piano, carefully making sure that I don't annoy my neighbors.
+            </Typography>
+                </Grid>
+                <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }}>
+                    <img src={face} style={{
+                        marginLeft: "2rem", width: "70%", borderRadius: "5px",
+                        boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
+                    }} />
+                </Grid>
+            </Grid>
         </Container >
     )
 }
 
-const IntroAvatar = () => {
-    return (
-        <IconButton
-            disabled={true} size="small" style={{ marginRight: "1rem", color: "grey", backgroundColor: "transparent" }}
-        >
-            <Avatar style={{ border: "2px solid grey" }} src={face} ></Avatar>
-        </IconButton>
-    );
-}
 
 const AboutLines = (props) => {
     const springRef = React.useRef(null)
@@ -212,4 +464,4 @@ const BottomMenu = (prop) => {
 }
 
 export default React.memo(Introduction);
-export { MenuButton, AboutLines, BottomMenu, IntroAvatar, Introduction };
+export { MenuButton, AboutLines, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact };

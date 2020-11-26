@@ -93,135 +93,121 @@ const AnimatedIcon = () => {
     )
 }
 
+const CreateContent = (name, index, page, iconColor, secColor) => {
+    const transitions = useTransition(page === index, null, {
+        from: { opacity: 0, transform: "translate(-23px)" },
+        enter: { opacity: 1, transform: "translate(-23px)" },
+        leave: { opacity: 0, transform: "translate(-23px)" },
+    })
+
+    return (
+        transitions.map(({ item, key, props }, index) => (
+            item && <animated.div key={key} style={{
+                ...props, zIndex: "-1"
+            }}>
+                <TimelineContent className="timelineContentActive" style={{ backgroundColor: secColor }} >
+                    <Button disabled variant="outlined" className="timelineButton" style={{ color: `${iconColor} !important` }}>
+                        {name}
+                    </Button>
+                </TimelineContent>
+            </animated.div>
+        ))
+    )
+}
+
 const AnimateTimeline = (props) => {
     const page = props.activePage
+
+    const iconColor = props.theme.priBack;
+    const secColor = props.theme.secColor;
 
     const handleClick = (index) => {
         props.handleTimeClick(index);
     }
 
-    const createContent = (name, index) => {
-        return (
-            <Transition
-                items={page === index}
-                config={{ mass: 1, tension: 280, friction: 60 }}
-                from={{ transform: 'translate3d(-25px,0,0)', opacity: 0, width: "0px" }}
-                enter={{ transform: 'translate3d(-20px,0,0)', opacity: 1, width: "130px" }}
-                leave={{ transform: 'translate3d(-25px,0,0)', opacity: 0, width: "0px" }}>
-                {toggle => toggle ? props =>
-                    <TimelineContent style={props} className="timelineContentActive" >
-                        <Button disabled variant="outlined" className="timelineButton" >
-                            {name}
-                        </Button>
-                    </TimelineContent> : props => null
-                }
-            </Transition>
-        )
-    }
-
     return (
-        < Transition
-            config={{ duration: 1000 }}
-            items={true}
-            from={{ opacity: 0, position: "fixed", left: "-50%" }}
-            enter={{ opacity: 1, position: "fixed", left: "0%" }}
-            leave={{ transform: 'translate3d(0,-40px,0)' }}>
-            {isExpanded => isExpanded && (props =>
-                <animated.div style={{ ...props }}>
-                    <Timeline align="left" style={{ position: "fixed", top: "10rem" }}>
-                        <TimelineItem>
-                            <TimelineSeparator className={page === 0 ? "" : "seperator"} onClick={() => handleClick(0)}>
-                                <Tooltip title={page !== 0 ? "Show All" : ""} placement="right">
-                                    <TimelineDot variant="outlined" className="dot">
-                                        <IconButton
-                                            className={page !== 0 ? "" : "spinAni"}
-                                            disabled={true}
-                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                            size="small"
-                                        >
-                                            <AppsIcon fontSize="small" />
-                                        </IconButton>
-                                    </TimelineDot>
-                                </Tooltip>
-                                <TimelineConnector className="connector" />
-                            </TimelineSeparator>
-                            {createContent("All", 0)}
-                        </TimelineItem>
-                        <TimelineItem>
-                            <TimelineSeparator className={page === 1 ? "" : "seperator"} onClick={() => handleClick(1)}>
-                                <Tooltip title={page !== 1 ? "Show Education" : ""} placement="right">
-                                    <TimelineDot variant="outlined" className="dot">
-                                        <IconButton
-                                            className={page !== 1 ? "" : "spinAni"}
-                                            disabled={true}
-                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                            size="small"
-                                        >
-                                            <SchoolIcon fontSize="small" />
-                                        </IconButton>
-                                    </TimelineDot>
-                                </Tooltip>
-                                <TimelineConnector className="connector" />
-                            </TimelineSeparator>
-                            {createContent("Education", 1)}
-                        </TimelineItem>
-                        <TimelineItem>
-                            <TimelineSeparator className={page === 2 ? "" : "seperator"} onClick={() => handleClick(2)}>
-                                <Tooltip title={page !== 2 ? "Show Experience" : ""} placement="right">
-                                    <TimelineDot variant="outlined" className="dot">
-                                        <IconButton
-                                            className={page !== 2 ? "" : "spinAni"}
-                                            disabled={true}
-                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                            size="small"
-                                        >
-                                            <WorkIcon fontSize="small" />
-                                        </IconButton>
-                                    </TimelineDot>
-                                </Tooltip>
-                                <TimelineConnector className="connector" />
-                            </TimelineSeparator>
-                            {createContent("Experience", 2)}
-                        </TimelineItem>
-                        <TimelineItem>
-                            <TimelineSeparator className={page === 3 ? "" : "seperator"} onClick={() => handleClick(3)}>
-                                <Tooltip title={page !== 3 ? "Show Skills" : ""} placement="right">
-                                    <TimelineDot variant="outlined" className="dot">
-                                        <IconButton
-                                            className={page !== 3 ? "" : "spinAni"}
-                                            disabled={true}
-                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                            size="small"
-                                        >
-                                            <LaptopIcon fontSize="small" />
-                                        </IconButton>
-                                    </TimelineDot>
-                                </Tooltip>
-                                <TimelineConnector className="connector" />
-                            </TimelineSeparator>
-                            {createContent("Skills", 3)}
-                        </TimelineItem>
-                        <TimelineItem>
-                            <TimelineSeparator className={page === 4 ? "" : "seperator"} onClick={() => handleClick(4)}>
-                                <Tooltip title={page !== 4 ? "Show Activities" : ""} placement="right">
-                                    <TimelineDot variant="outlined" className="dot">
-                                        <IconButton
-                                            className={page !== 4 ? "" : "spinAni"}
-                                            disabled={true}
-                                            style={{ backgroundColor: "transparent", color: "rgb(234,250,240)" }}
-                                            size="small"
-                                        >
-                                            <RowingIcon fontSize="small" />
-                                        </IconButton>
-                                    </TimelineDot>
-                                </Tooltip>
-                            </TimelineSeparator>
-                            {createContent("Extra", 4)}
-                        </TimelineItem>
-                    </Timeline>
-                </animated.div >)
-            }
-        </Transition >
+        <Timeline align="left" style={{ flexDirection: "row", marginRight: "auto", marginLeft: "auto", width: "fit-content" }}>
+            <TimelineItem style={{ minHeight: "inherit" }}>
+                <TimelineSeparator className="seperator" onClick={() => handleClick(0)}>
+                    <Tooltip title={page !== 0 ? "Show All" : ""} placement="top">
+                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                            <IconButton
+                                disabled={true}
+                                style={{ backgroundColor: "transparent", color: iconColor }}
+                                size="small"
+                            >
+                                <AppsIcon fontSize="small" />
+                            </IconButton>
+                        </TimelineDot>
+                    </Tooltip>
+                </TimelineSeparator>
+                {CreateContent("All", 0, page, iconColor, secColor)}
+            </TimelineItem>
+            <TimelineItem style={{ minHeight: "inherit" }}>
+                <TimelineSeparator className="seperator" onClick={() => handleClick(1)}>
+                    <Tooltip title={page !== 1 ? "Show Education" : ""} placement="top">
+                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                            <IconButton
+                                disabled={true}
+                                style={{ backgroundColor: "transparent", color: iconColor }}
+                                size="small"
+                            >
+                                <SchoolIcon fontSize="small" />
+                            </IconButton>
+                        </TimelineDot>
+                    </Tooltip>
+                </TimelineSeparator>
+                {CreateContent("Education", 1, page, iconColor, secColor)}
+            </TimelineItem>
+            <TimelineItem style={{ minHeight: "inherit" }}>
+                <TimelineSeparator className="seperator" onClick={() => handleClick(2)}>
+                    <Tooltip title={page !== 2 ? "Show Experience" : ""} placement="top">
+                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                            <IconButton
+                                disabled={true}
+                                style={{ backgroundColor: "transparent", color: iconColor }}
+                                size="small"
+                            >
+                                <WorkIcon fontSize="small" />
+                            </IconButton>
+                        </TimelineDot>
+                    </Tooltip>
+                </TimelineSeparator>
+                {CreateContent("Experience", 2, page, iconColor, secColor)}
+            </TimelineItem>
+            <TimelineItem style={{ minHeight: "inherit" }}>
+                <TimelineSeparator className="seperator" onClick={() => handleClick(3)}>
+                    <Tooltip title={page !== 3 ? "Show Skills" : ""} placement="top">
+                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                            <IconButton
+                                disabled={true}
+                                style={{ backgroundColor: "transparent", color: iconColor }}
+                                size="small"
+                            >
+                                <LaptopIcon fontSize="small" />
+                            </IconButton>
+                        </TimelineDot>
+                    </Tooltip>
+                </TimelineSeparator>
+                {CreateContent("Skills", 3, page, iconColor, secColor)}
+            </TimelineItem>
+            <TimelineItem style={{ minHeight: "inherit" }}>
+                <TimelineSeparator className="seperator" onClick={() => handleClick(4)}>
+                    <Tooltip title={page !== 4 ? "Show Activities" : ""} placement="top">
+                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                            <IconButton
+                                disabled={true}
+                                style={{ backgroundColor: "transparent", color: iconColor }}
+                                size="small"
+                            >
+                                <RowingIcon fontSize="small" />
+                            </IconButton>
+                        </TimelineDot>
+                    </Tooltip>
+                </TimelineSeparator>
+                {CreateContent("Extra", 4, page, iconColor, secColor)}
+            </TimelineItem>
+        </Timeline>
     )
 }
 
@@ -263,7 +249,9 @@ const AnimatedGrid = (props) => {
     const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [4, 3, 2], 1)
     const ref = React.useRef(null);
     const [width, setWidth] = React.useState(0);
-    const dist = (window.innerWidth * 0.8) * 0.2
+
+    // center display of card distance
+    const dist = ((window.innerWidth * 0.7) / 2 - 300)
 
     const callback = () => {
         setWidth(ref.current.offsetWidth)
@@ -309,30 +297,63 @@ const AnimatedGrid = (props) => {
     const [heights, gridItems] = React.useMemo(() => {
         let heights = new Array(columns).fill(0)
         let items = getItems();
-        let index = 0;
+        // this index keeps track of the position of the cards
+        let leftIndex = 0;
+        // index that keeps track of scrolled cards
+        let rightIndex = props.cardIndex
+
         let gridItems = items.map((child, idx) => {
             let column;
             let xy;
+            let scale;
             if (props.activePage !== 0) {
                 //code it so it react different on different screen size 
-                if (idx < props.cardIndex) {
+
+                // If card index is less than 2 of the cardIndex, then it should be in focus 
+                if (items.length === 1) {
                     column = heights.indexOf(Math.min(...heights));
-                    xy = [dist, 0]
-                } else if (props.cardIndex === idx && props.cardIndex !== 0) {
+                    xy = [dist + 135, 0]
+                    leftIndex += 1;
+                    return { ...child, xy, width: 300, height: 400 }
+                } else if (props.cardIndex === 0) {
+                    if (idx === 0 || idx === 1) {
+                        column = heights.indexOf(Math.min(...heights));
+                        xy = [((300 + 10) * leftIndex) + dist, 0]
+                        leftIndex += 1;
+                        return { ...child, xy, width: 300, height: 400 }
+                    } else {
+                        column = heights.indexOf(Math.min(...heights));
+                        xy = [((300 + 15) * leftIndex) + dist, 25]
+                        leftIndex += 1;
+                        return { ...child, xy, width: 250, height: 350 }
+                    }
+                } else if (idx < props.cardIndex) {
                     column = heights.indexOf(Math.min(...heights));
-                    xy = [dist, -14]
-                    index += 1
+                    xy = [dist - ((250) * rightIndex), 25]
+                    rightIndex -= 1;
+                    return { ...child, xy, width: 250, height: 350 }
+                } else if (idx > props.cardIndex) {
+                    if (idx === props.cardIndex || idx === props.cardIndex + 1) {
+                        column = heights.indexOf(Math.min(...heights));
+                        xy = [((300 + 10) * leftIndex) + dist, 0]
+                        leftIndex += 1;
+                        return { ...child, xy, width: 300, height: 400 }
+                    } else {
+                        xy = [((300) * leftIndex) + dist, 25]
+                        leftIndex += 1;
+                        column = heights.indexOf(Math.min(...heights));
+                        return { ...child, xy, width: 250, height: 350 }
+                    }
                 } else {
                     column = heights.indexOf(Math.min(...heights));
-                    xy = [((344 + 30) * index) + dist, 0]
-                    index += 1
+                    xy = [dist, 0]
+                    leftIndex += 1;
+                    return { ...child, xy, width: 300, height: 400 }
                 }
-                //change height depending on screen size, then adjust golden for height
-                return { ...child, xy, width: 344, height: 510 }
             } else {
                 column = heights.indexOf(Math.min(...heights));
                 xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2]
-                return { ...child, xy, width: width / columns, height: child.height / 2 }
+                return { ...child, xy, width: (width / columns) - 24, height: (child.height / 2) - 24, scale: scale }
             }
         })
         return [heights, gridItems]
@@ -350,7 +371,7 @@ const AnimatedGrid = (props) => {
     return (
         <React.Fragment>
             <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-                height: props.activePage !== 0 ? window.innerHeight - 96 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.8 : "", position: "relative"
+                paddingRight: "16px", paddingLeft: "16px", height: props.activePage !== 0 ? 400 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                     <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
@@ -365,13 +386,13 @@ const AnimatedGrid = (props) => {
                 ))}
             </div >
             <Fade bottom when={props.activePage !== 0}>
-                <div style={{ position: "absolute", width: window.innerWidth * 0.8, left: "20%", marginTop: "72px", top: "75%", overflow: "hidden" }}>
-                    <div style={{ transform: `translate(${dist + 113}px)` }}>
+                <div style={{ width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
+                    <div style={{}}>
                         <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
-                            <ChevronLeftIcon clsssname="icon" />
+                            <ChevronLeftIcon clsssname="icon" style={{ color: props.theme.secColor }} />
                         </IconButton>
-                        <IconButton disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
-                            <ChevronRightIcon clsssname="icon" />
+                        <IconButton disabled={getItems().length - 2 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
+                            <ChevronRightIcon clsssname="icon" style={{ color: props.theme.secColor }} />
                         </IconButton>
                     </div>
                 </div>

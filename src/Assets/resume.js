@@ -17,7 +17,7 @@ import sample3 from '../Assets/sample3.png'
 let resume = [
     //U of t 
     {
-        title: "Bachelors of Science (Hons)",
+        title: "Bachelors of Science",
         subtitle: "University of Toronto",
         titleDescription: "Statistics, Mathematics, and Philosophy",
         img: uoft,

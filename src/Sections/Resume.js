@@ -58,6 +58,7 @@ const Resume = (props) => {
         setActivePage(index);
         setCardIndex(0);
     }
+    
     const handleNavClick = (direction) => {
         if (direction === "left") {
             setCardIndex(cardIndex - 1);

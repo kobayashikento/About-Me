@@ -34,6 +34,7 @@ const AboutMe = () => {
     let parallax = React.useRef();
 
     React.useEffect(() => {
+        console.log("paasssed")
         const onScroll = e => {
             const newVal = e.target.documentElement.scrollTop;
             if (newVal > scrollTop) {

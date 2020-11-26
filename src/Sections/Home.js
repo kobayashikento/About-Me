@@ -1,102 +1,207 @@
 import React from 'react'
 
+import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons.cjs'
+
 import { Transition } from 'react-spring/renderprops'
 
-import { useSpring, animated, useTransition, useChain } from 'react-spring'
+import { NavBar, Introduction, AboutMe, SideIcons, Contact } from '../Sections/Introduction.js';
 
-import { Introduction, IntroAvatar } from '../Sections/Introduction.js';
-import Menu from '../Components/HomeAnimation.js';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import ResumeParallax from '../Sections/ResumeParallax.js';
 
 import '../Styles/resumeStyle.css';
 
-const calc = (x, y) => [x - window.innerWidth / 2, y - window.innerHeight / 2]
-
-const trans1 = (x, y) => `translate3d(${x / 20}px,${y / 20}px,0)`
-const trans3 = (x, y) => `translate3d(${x / 40}px,${y / 40}px,0)`
-const trans4 = (x, y) => `translate3d(${x / 30}px,${y / 30}px,0)`
+const shadow = "0 9px 12px 1px rgba(0,0,0,0.5), 0 3px 16px 2px rgba(0,0,0,0.5), 0 5px 6px -3px rgba(0,0,0,0.5)";
+const emptyShadow = "0 9px 12px 1px rgba(0,0,0,0), 0 3px 16px 2px rgba(0,0,0,0), 0 5px 6px -3px rgba(0,0,0,0)";
 
 const Home = (props) => {
-    const [spring, set] = useSpring(() => ({ xy: [0, 0], config: { mass: 50, tension: 550, friction: 340 } }))
-    const [show, setShow] = React.useState(true);
-    const [showAvatar, setShowAvatar] = React.useState(true);
-    const [showContainer, setShowContainer] = React.useState(true);
+    let parallax = React.useRef();
+    let ref = React.useRef();
+    const [open, setOpen] = React.useState(true);
+    const [cardIndex, setCardIndex] = React.useState(0);
+    const [activePage, setActivePage] = React.useState(0);
+    const [showNav, setShowNav] = React.useState(true);
+    const [firstRender, setFirstRender] = React.useState(true);
+    const navBarHeight = 150
 
-    const transitionIntroRef = React.useRef()
-    const transitionAvatarRef = React.useRef()
-    const transitionIconRef = React.useRef()
-    const transitionContainerRef = React.useRef()
+    // Playing around with theme 
+    const themes = [
+        {
+            priBack: "#222629",
+            secBack: "#464866",
+            priColor: "#86C232",
+            secColor: "#61892F",
+            priTxtColor: "#6B6E70"
+        },
+        {
+            priBack: "#0B0C10",
+            secBack: "#1F2833",
+            priColor: "#66FCF1",
+            secColor: "#45A29E",
+            priTxtColor: "#C5C6C7"
+        },
+        {
+            priBack: "#25274D",
+            secBack: "#464866",
+            priColor: "#2E9CCA",
+            secColor: "#29648A",
+            priTxtColor: "#C5C6C7"
+        },
+        {
+            priBack: "#3AAFA9",
+            secBack: "#2B7A78",
+            priColor: "#FEFFFF",
+            secColor: "#17252A",
+            priTxtColor: "#DEF2F1"
+        },
+    ]
 
-    const introTrans = useTransition(show, null, {
-        from: { position: 'absolute', opacity: 0, transform: 'translate3d(0,-100%,0)', width: "600px", height: "80%" },
-        enter: { position: 'absolute', opacity: 1, transform: 'translate3d(0,20%,0)', width: "600px", height: "80%" },
-        leave: { position: 'absolute', opacity: 0, transform: 'translate3d(0,0,0)', width: "600px", height: "80%" },
-        ref: transitionIntroRef,
-    })
+    const [theme, setTheme] = React.useState(themes[0]);
 
-    const avatarTrans = useTransition(showAvatar, null, {
-        from: { position: 'absolute', opacity: 0, transform: `scale(1)`, top: "0%", right: "43%", width: "94px", height: "62px", paddingTop: "1rem", paddingRight: "2rem", },
-        enter: { position: 'absolute', opacity: 1, transform: `scale(3)`, top: "20%", right: "43%", width: "94px", height: "62px", paddingTop: "1rem", paddingRight: "2rem", },
-        leave: { position: 'absolute', opacity: 1, transform: `scale(1)`, top: "0%", right: "0%", width: "94px", height: "62px", paddingTop: "1rem", paddingRight: "2rem", },
-        ref: transitionAvatarRef,
-    })
-
-    const iconTrans = useTransition(show, null, {
-        from: { position: 'absolute', opacity: 0, transform: 'translate3d(0%,-100%,0)', width: "600px", height: "80%" },
-        enter: { position: 'absolute', opacity: 1, transform: 'translate3d(0%,20%,0)', width: "600px", height: "80%" },
-        leave: { position: 'absolute', opacity: 0, transform: 'translate3d(0%,20%,0)', width: "600px", height: "80%" },
-        ref: transitionIconRef,
-    })
-
-    const conatinerTrans = useTransition(showContainer, null, {
-        from: { position: 'absolute', opacity: 0, transform: 'translate3d(0%,-100%,0)', width: "100vw", height: "100vh", background: "linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)", zIndex: "-1" },
-        enter: { position: 'absolute', opacity: 1, transform: 'translate3d(0%,0%,0)', width: "100vw", height: "100vh", background: "linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)", zIndex: "-1" },
-        leave: { position: 'absolute', opacity: 0, transform: 'translate3d(0%,-100%,0)', width: "100vw", height: "100vh", background: "linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)", zIndex: "-1" },
-        ref: transitionContainerRef,
-    })
-
-    useChain([transitionContainerRef, transitionIntroRef, transitionIconRef, transitionAvatarRef], [0, 0.5, 0.8, 1.2])
-
-    const changeView = () => {
-        setShow(false);
-        setTimeout(() => {
-            setShowAvatar(false)
-        }, 700)
-        setTimeout(() => {
-            setShowContainer(false)
-        }, 900)
+    const handleThemeChange = (index) => {
+        setTheme(themes[index])
+    }
+    const handleNavClick = (index) => {
+        if (index === 1) {
+            return
+        } else {
+            if (index === 2 && matches2 && activePage === 0) {
+                parallax.scrollTo((index + 2))
+            } else {
+                parallax.scrollTo((index + 1))
+            }
+        }
     }
 
+    const handlePopClick = (index) => {
+        setActivePage(index)
+        setCardIndex(0)
+        console.log(parallax)
+        if (parallax !== null) {
+            parallax.scrollTo(2)
+        }
+    }
+
+    React.useEffect(() => {
+        if (ref.current.children[0] !== undefined) {
+            var lastScrollTop = 0;
+            ref.current.children[0].addEventListener("scroll", function () {
+                var st = ref.current.children[0].scrollTop || document.documentElement.scrollTop;
+                if (st > lastScrollTop) {
+                    // downscroll code
+                    setShowNav(false);
+                    setFirstRender(false);
+                } else {
+                    // upscroll code
+                    setShowNav(true);
+                }
+                lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+            }, false);
+        }
+    }, [ref])
+
+    const handleTimeClick = (index) => {
+        setActivePage(index);
+        setCardIndex(0);
+    }
+
+    const handleArrowClick = (direction) => {
+        if (direction === "left") {
+            setCardIndex(cardIndex - 1);
+        } else if (direction === "right") {
+            setCardIndex(cardIndex + 1);
+        }
+    }
+
+    // condition that changes parallax size depending on the window size, the possible conditions are ['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [4, 3, 2], 1)
+    // if its 1500px or higher, then keep layout size at 4 
+    const matches1 = useMediaQuery('(min-width:1500px)');
+    // if its 1200 then layout size of 4 when in card but 5 in grid 
+    const matches2 = useMediaQuery('(min-width:1200px)');
+    const [layoutSize, setLayoutSize] = React.useState(matches1 ? 4 : 5)
+    // page = 0 is grid and everthing else is card 
+    React.useEffect(() => {
+        if (matches1) {
+            setLayoutSize(4);
+        } else if (matches2) {
+            if (activePage === 0) {
+                setLayoutSize(5);
+            } else {
+                setLayoutSize(4);
+            }
+        }
+    }, [activePage])
+
     return (
-        <div className="homeContainer" style={spring} onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}>
-            <div style={{ display: "flex", width: "100vw", height: "100vh", justifyContent: "center" }}>
-                {iconTrans.map(({ item, key, props }) => (
-                    item && <animated.div key={key} style={props}>
-                        <animated.div key={`renderMenu`} style={{ transform: spring.xy.interpolate(trans1), width: "90%", height: "90%", position: "absolute" }} >
-                            <Menu
-                                handleClick={() => changeView()}
-                            />
-                        </animated.div>
-                    </animated.div>
-                ))}
-                {introTrans.map(({ item, key, props }) => (
-                    item && <animated.div key={key} style={props}>
-                        <animated.div style={{ transform: spring.xy.interpolate(trans4), width: "600px", height: "90%", position: "absolute" }} >
-                            <Introduction />
-                        </animated.div>
-                    </animated.div>
-                ))}
-                {avatarTrans.map(({ item, key, props }) => (
-                    item && <animated.div key={key} style={props}>
-                        <animated.div style={{ transform: spring.xy.interpolate(trans3), width: "46px", height: "46px" }} >
-                            <IntroAvatar />
-                        </animated.div>
-                    </animated.div>
-                ))}
+        <div>
+            <Transition
+                items={showNav}
+                config={{ duration: 300 }}
+                from={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: firstRender ? emptyShadow : shadow }}
+                enter={{ opacity: 1, transform: "translate(0, 0px)", boxShadow: emptyShadow }}
+                leave={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: shadow }}>
+                {showNav => showNav && (props =>
+                    <div style={{ ...props, height: "64px", width: "100%", position: "absolute", zIndex: "1", marginRight: "1rem" }}>
+                        <NavBar
+                            style={props}
+                            theme={theme}
+                            themes={themes}
+                            navBarHeight={navBarHeight}
+                            handleNavClick={(index) => handleNavClick(index)}
+                            open={open}
+                            handlePopClick={(index) => handlePopClick(index)}
+                            handleThemeChange={(index) => handleThemeChange(index)}
+                        />
+                    </div>
+                )}
+            </Transition>
+            <div ref={ref}>
+                <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={layoutSize}>
+                    <ParallaxLayer offset={0} speed={0} factor={layoutSize} style={{ backgroundColor: theme.priBack }} />
+                    <ParallaxLayer
+                        offset={0}
+                        speed={0.1}
+                    >
+                        <Introduction
+                            theme={theme}
+                        />
+                    </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={1}
+                        speed={0.1}
+                    >
+                        <AboutMe
+                            theme={theme}
+                        />
+                    </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={2}
+                        speed={0.1}
+                    >
+                        <ResumeParallax
+                            activePage={activePage}
+                            cardIndex={cardIndex}
+                            handleArrowClick={(dir) => handleArrowClick(dir)}
+                            handleTimeClick={(index) => handleTimeClick(index)}
+                            theme={theme}
+                        />
+                    </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={matches1 ? 4 : layoutSize - 1}
+                        speed={0.1}
+                    >
+                        <Contact
+                            theme={theme}
+                        />
+                    </ParallaxLayer>
+                </Parallax>
             </div>
-            {conatinerTrans.map(({ item, key, props }) => (
-                item && <animated.div key={key} style={props} />
-            ))}
-        </div>
+            <SideIcons
+                theme={theme}
+                open={open}
+            />
+        </div >
     )
 }
 

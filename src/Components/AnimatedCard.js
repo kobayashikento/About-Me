@@ -6,7 +6,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 
-import {withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 
 import Fade from 'react-reveal';
 
@@ -21,7 +21,7 @@ const AnimatedCard = (props) => {
     }
 
     const StyledChip = withStyles({
-        label:{
+        label: {
             paddingLeft: "12px",
             paddingRight: "12px",
             textOverflow: "ellipsis",
@@ -29,7 +29,7 @@ const AnimatedCard = (props) => {
             overflow: "initial"
         }
     })(Chip);
-   
+
     return (
         <Card
             className="card"
@@ -53,15 +53,13 @@ const AnimatedCard = (props) => {
                             </Typography>
                         </Fade>
                         <Fade bottom when={!hover}>
-                            <div style={{ position: "absolute", marginTop: "8px", display: "flex", flexDirection: "column", alignItems: "center", height: "100%", width: "100%", paddingTop: props.item.key === 1 ? "103px" : "96px" }}>
+                            <div style={{ position: "absolute", marginTop: "8px", display: "flex", flexDirection: "column", alignItems: "center", height: "100%", width: "100%", paddingTop: props.item.key === 1 ? "110px" : "100px" }}>
                                 <Typography variant={props.item.key === 1 ? "body1" : "h6"} style={{ marginTop: "8px", width: "fit-content" }} align="center">
                                     {props.item.title}
                                 </Typography>
-                                <Typography variant="body2" style={{ width: "fit-content" }}>
+                                <Typography variant="body2" align="center" style={{ width: "fit-content" }}>
                                     {props.item.subtitle}
                                 </Typography>
-                                <Divider style={{ width: "70%", marginTop: "24px" }} />
-                                <StyledChip label={props.item.chip} variant="outlined" style={{ marginTop: "16px" }} />
                             </div>
                         </Fade>
                     </React.Fragment>
@@ -75,19 +73,20 @@ const AnimatedCard = (props) => {
                             </Typography>
                         </Fade>
                         <Fade bottom when={!hover}>
-                            <div style={{ position: "absolute", paddingTop: "200px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", height: "100%" }}>
+                            <div style={{ position: "absolute", paddingTop: "170px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", height: "100%" }}>
                                 <Typography variant={props.item.key === 1 ? "body1" : "h6"} style={{ marginTop: "8px", width: "fit-content" }} align="center">
                                     {props.item.title}
                                 </Typography>
                                 <Typography variant="body1" style={{ width: "fit-content" }}>
                                     {props.item.subtitle}
                                 </Typography>
-                                <Typography variant="subtitle2" style={{ width: "fit-content", marginTop: props.item.cardSubtitleMargin === 0 ? "86px" : props.item.cardSubtitleMargin === 1 ? "80px" : "60px",
-                                color: "rgba(0, 0, 0, 0.6)", whiteSpace: "break-spaces", textAlign: "center" }}>
+                                <Typography variant="subtitle2" style={{
+                                    width: "fit-content", paddingTop: props.item.cardSubtitleMargin === 0 ? "45px" : props.item.cardSubtitleMargin === 1 ? "37px" : "32px",
+                                    color: "rgba(0, 0, 0, 0.6)", whiteSpace: "break-spaces", textAlign: "center"
+                                }}>
                                     {props.item.cardSubtitle}
                                 </Typography>
-                            <Divider style={{ width: "70%", marginTop: "16px" }} />
-                            <StyledChip label={props.item.chip} variant="outlined" style={{ marginTop: "16px" }} />
+                                <Divider style={{ width: "70%", marginTop: "16px" }} />
                             </div>
                         </Fade>
                     </React.Fragment>
