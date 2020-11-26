@@ -16,6 +16,7 @@ const ResumeParallax = (props) => {
     const handleCardClick = (index) => {
         if (index !== 0) {
             setShowDetails(true);
+            props.handleCardOpen()
         }
     }
 
@@ -27,6 +28,7 @@ const ResumeParallax = (props) => {
         setActiveCard(null)
         setTimeout(() => {
             setShowDetails(false);
+            props.handleCardClose()
         }, 300)
     }
 

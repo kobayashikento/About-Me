@@ -15,6 +15,8 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+
 // Icons 
 import AppsIcon from '@material-ui/icons/Apps';
 import SchoolIcon from '@material-ui/icons/School';
@@ -125,89 +127,111 @@ const AnimateTimeline = (props) => {
         props.handleTimeClick(index);
     }
 
+    const theme = createMuiTheme({
+        props: {
+            // Name of the component
+            MuiButtonBase: {
+                // The default props to change
+                disableRipple: true // No more ripple, on the whole application !
+            }
+        },
+        overrides: {
+            MuiButton: {
+                root: {
+                    color: iconColor,
+                    "&$disabled": {
+                        color: iconColor
+                    }
+                }
+            }
+        }
+    });
+
     return (
-        <Timeline align="left" style={{ flexDirection: "row", marginRight: "auto", marginLeft: "auto", width: "fit-content" }}>
-            <TimelineItem style={{ minHeight: "inherit" }}>
-                <TimelineSeparator className="seperator" onClick={() => handleClick(0)}>
-                    <Tooltip title={page !== 0 ? "Show All" : ""} placement="top">
-                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                            <IconButton
-                                disabled={true}
-                                style={{ backgroundColor: "transparent", color: iconColor }}
-                                size="small"
-                            >
-                                <AppsIcon fontSize="small" />
-                            </IconButton>
-                        </TimelineDot>
-                    </Tooltip>
-                </TimelineSeparator>
-                {CreateContent("All", 0, page, iconColor, secColor)}
-            </TimelineItem>
-            <TimelineItem style={{ minHeight: "inherit" }}>
-                <TimelineSeparator className="seperator" onClick={() => handleClick(1)}>
-                    <Tooltip title={page !== 1 ? "Show Education" : ""} placement="top">
-                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                            <IconButton
-                                disabled={true}
-                                style={{ backgroundColor: "transparent", color: iconColor }}
-                                size="small"
-                            >
-                                <SchoolIcon fontSize="small" />
-                            </IconButton>
-                        </TimelineDot>
-                    </Tooltip>
-                </TimelineSeparator>
-                {CreateContent("Education", 1, page, iconColor, secColor)}
-            </TimelineItem>
-            <TimelineItem style={{ minHeight: "inherit" }}>
-                <TimelineSeparator className="seperator" onClick={() => handleClick(2)}>
-                    <Tooltip title={page !== 2 ? "Show Experience" : ""} placement="top">
-                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                            <IconButton
-                                disabled={true}
-                                style={{ backgroundColor: "transparent", color: iconColor }}
-                                size="small"
-                            >
-                                <WorkIcon fontSize="small" />
-                            </IconButton>
-                        </TimelineDot>
-                    </Tooltip>
-                </TimelineSeparator>
-                {CreateContent("Experience", 2, page, iconColor, secColor)}
-            </TimelineItem>
-            <TimelineItem style={{ minHeight: "inherit" }}>
-                <TimelineSeparator className="seperator" onClick={() => handleClick(3)}>
-                    <Tooltip title={page !== 3 ? "Show Skills" : ""} placement="top">
-                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                            <IconButton
-                                disabled={true}
-                                style={{ backgroundColor: "transparent", color: iconColor }}
-                                size="small"
-                            >
-                                <LaptopIcon fontSize="small" />
-                            </IconButton>
-                        </TimelineDot>
-                    </Tooltip>
-                </TimelineSeparator>
-                {CreateContent("Skills", 3, page, iconColor, secColor)}
-            </TimelineItem>
-            <TimelineItem style={{ minHeight: "inherit" }}>
-                <TimelineSeparator className="seperator" onClick={() => handleClick(4)}>
-                    <Tooltip title={page !== 4 ? "Show Activities" : ""} placement="top">
-                        <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                            <IconButton
-                                disabled={true}
-                                style={{ backgroundColor: "transparent", color: iconColor }}
-                                size="small"
-                            >
-                                <RowingIcon fontSize="small" />
-                            </IconButton>
-                        </TimelineDot>
-                    </Tooltip>
-                </TimelineSeparator>
-                {CreateContent("Extra", 4, page, iconColor, secColor)}
-            </TimelineItem>
-        </Timeline>
+        <ThemeProvider theme={theme}>
+            <Timeline align="left" style={{ flexDirection: "row", marginRight: "auto", marginLeft: "auto", width: "fit-content" }}>
+                <TimelineItem style={{ minHeight: "inherit" }}>
+                    <TimelineSeparator className="seperator" onClick={() => handleClick(0)}>
+                        <Tooltip title={page !== 0 ? "Show All" : ""} placement="top">
+                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                                <IconButton
+                                    disabled={true}
+                                    style={{ backgroundColor: "transparent", color: iconColor }}
+                                    size="small"
+                                >
+                                    <AppsIcon fontSize="small" />
+                                </IconButton>
+                            </TimelineDot>
+                        </Tooltip>
+                    </TimelineSeparator>
+                    {CreateContent("All", 0, page, iconColor, secColor)}
+                </TimelineItem>
+                <TimelineItem style={{ minHeight: "inherit" }}>
+                    <TimelineSeparator className="seperator" onClick={() => handleClick(1)}>
+                        <Tooltip title={page !== 1 ? "Show Education" : ""} placement="top">
+                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                                <IconButton
+                                    disabled={true}
+                                    style={{ backgroundColor: "transparent", color: iconColor }}
+                                    size="small"
+                                >
+                                    <SchoolIcon fontSize="small" />
+                                </IconButton>
+                            </TimelineDot>
+                        </Tooltip>
+                    </TimelineSeparator>
+                    {CreateContent("Education", 1, page, iconColor, secColor)}
+                </TimelineItem>
+                <TimelineItem style={{ minHeight: "inherit" }}>
+                    <TimelineSeparator className="seperator" onClick={() => handleClick(2)}>
+                        <Tooltip title={page !== 2 ? "Show Experience" : ""} placement="top">
+                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                                <IconButton
+                                    disabled={true}
+                                    style={{ backgroundColor: "transparent", color: iconColor }}
+                                    size="small"
+                                >
+                                    <WorkIcon fontSize="small" />
+                                </IconButton>
+                            </TimelineDot>
+                        </Tooltip>
+                    </TimelineSeparator>
+                    {CreateContent("Experience", 2, page, iconColor, secColor)}
+                </TimelineItem>
+                <TimelineItem style={{ minHeight: "inherit" }}>
+                    <TimelineSeparator className="seperator" onClick={() => handleClick(3)}>
+                        <Tooltip title={page !== 3 ? "Show Skills" : ""} placement="top">
+                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                                <IconButton
+                                    disabled={true}
+                                    style={{ backgroundColor: "transparent", color: iconColor }}
+                                    size="small"
+                                >
+                                    <LaptopIcon fontSize="small" />
+                                </IconButton>
+                            </TimelineDot>
+                        </Tooltip>
+                    </TimelineSeparator>
+                    {CreateContent("Skills", 3, page, iconColor, secColor)}
+                </TimelineItem>
+                <TimelineItem style={{ minHeight: "inherit" }}>
+                    <TimelineSeparator className="seperator" onClick={() => handleClick(4)}>
+                        <Tooltip title={page !== 4 ? "Show Activities" : ""} placement="top">
+                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
+                                <IconButton
+                                    disabled={true}
+                                    style={{ backgroundColor: "transparent", color: iconColor }}
+                                    size="small"
+                                >
+                                    <RowingIcon fontSize="small" />
+                                </IconButton>
+                            </TimelineDot>
+                        </Tooltip>
+                    </TimelineSeparator>
+                    {CreateContent("Extra", 4, page, iconColor, secColor)}
+                </TimelineItem>
+            </Timeline>
+        </ ThemeProvider>
     )
 }
 

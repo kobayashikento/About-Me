@@ -4,7 +4,7 @@ import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons.cjs'
 
 import { Transition } from 'react-spring/renderprops'
 
-import { NavBar, Introduction, AboutMe, SideIcons, Contact } from '../Sections/Introduction.js';
+import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop } from '../Sections/Introduction.js';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
@@ -28,6 +28,13 @@ const Home = (props) => {
     // Playing around with theme 
     const themes = [
         {
+            priBack: "#3AAFA9",
+            secBack: "#2B7A78",
+            priColor: "#FEFFFF",
+            secColor: "#17252A",
+            priTxtColor: "#DEF2F1"
+        },
+        {
             priBack: "#222629",
             secBack: "#464866",
             priColor: "#86C232",
@@ -47,13 +54,6 @@ const Home = (props) => {
             priColor: "#2E9CCA",
             secColor: "#29648A",
             priTxtColor: "#C5C6C7"
-        },
-        {
-            priBack: "#3AAFA9",
-            secBack: "#2B7A78",
-            priColor: "#FEFFFF",
-            secColor: "#17252A",
-            priTxtColor: "#DEF2F1"
         },
     ]
 
@@ -106,11 +106,30 @@ const Home = (props) => {
         setCardIndex(0);
     }
 
+    const handleTopClick = () => {
+        if (parallax !== null) {
+            parallax.scrollTo(0)
+        }
+    }
+
     const handleArrowClick = (direction) => {
         if (direction === "left") {
             setCardIndex(cardIndex - 1);
         } else if (direction === "right") {
             setCardIndex(cardIndex + 1);
+        }
+    }
+
+    const handleCardOpen = () => {
+        if (parallax !== null) {
+            parallax.scrollTo(2.3)
+        }
+    }
+
+    const handleCardClose = () => {
+        if (parallax !== null) {
+            parallax.scrollTo(2)
+            setShowNav(false);
         }
     }
 
@@ -146,12 +165,10 @@ const Home = (props) => {
                         <NavBar
                             style={props}
                             theme={theme}
-                            themes={themes}
                             navBarHeight={navBarHeight}
                             handleNavClick={(index) => handleNavClick(index)}
                             open={open}
                             handlePopClick={(index) => handlePopClick(index)}
-                            handleThemeChange={(index) => handleThemeChange(index)}
                         />
                     </div>
                 )}
@@ -180,11 +197,14 @@ const Home = (props) => {
                         speed={0.1}
                     >
                         <ResumeParallax
+                            parallax={parallax}
                             activePage={activePage}
                             cardIndex={cardIndex}
                             handleArrowClick={(dir) => handleArrowClick(dir)}
                             handleTimeClick={(index) => handleTimeClick(index)}
                             theme={theme}
+                            handleCardClose={() => handleCardClose()}
+                            handleCardOpen={() => handleCardOpen()}
                         />
                     </ParallaxLayer>
                     <ParallaxLayer
@@ -193,13 +213,22 @@ const Home = (props) => {
                     >
                         <Contact
                             theme={theme}
+                            themes={themes}
+                            handleThemeChange={(index) => handleThemeChange(index)}
                         />
                     </ParallaxLayer>
                 </Parallax>
             </div>
-            <SideIcons
+            <div style={{ position: "absolute", padding: "32px", bottom: "0px", left: "0px", zIndex: "1" }}>
+                <SideIcons
+                    theme={theme}
+                    open={open}
+                />
+            </div>
+            <ToTop
                 theme={theme}
-                open={open}
+                handleTopClick={() => handleTopClick()}
+                showNav={showNav}
             />
         </div >
     )

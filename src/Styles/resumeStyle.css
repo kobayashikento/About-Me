@@ -80,9 +80,6 @@
   transform: scale(1.2);
 }
 
-.spinAni {
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg) scale(1);
@@ -110,7 +107,6 @@
 }
 
 .timelineButton {
-  color: rgb(7, 15, 58) !important;
   height: 100%;
   padding-left: 22px !important;
   width: 100%;
