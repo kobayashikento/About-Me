@@ -5,17 +5,17 @@ import { Link, Redirect } from 'react-router-dom';
 import { Transition } from 'react-spring/renderprops'
 import { useTransition, animated, } from 'react-spring'
 
+import classNames from 'classnames';
+
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Timeline from '@material-ui/lab/Timeline';
-import TimelineItem from '@material-ui/lab/TimelineItem';
-import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
-import TimelineConnector from '@material-ui/lab/TimelineConnector';
-import TimelineContent from '@material-ui/lab/TimelineContent';
-import TimelineDot from '@material-ui/lab/TimelineDot';
+import Fab from '@material-ui/core/Fab';
+import Typography from '@material-ui/core/Typography';
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 // Icons 
 import AppsIcon from '@material-ui/icons/Apps';
@@ -40,10 +40,11 @@ import AnimatedCard from '../Components/AnimatedCard.js';
 
 import Fade from 'react-reveal';
 
-import '../Styles/resumeStyle.css';
+import styles from '../Styles/resumeStyle.css';
 import { Tooltip } from '@material-ui/core';
 
 import { withStyles } from '@material-ui/core/styles';
+import { Apps } from '@material-ui/icons';
 
 const AnimatedIcon = () => {
     const isExpanded = true;
@@ -95,179 +96,84 @@ const AnimatedIcon = () => {
     )
 }
 
-const CreateContent = (name, index, page, iconColor, secColor) => {
-    const transitions = useTransition(page === index, null, {
-        from: { opacity: 0, transform: "translate(-23px)" },
-        enter: { opacity: 1, transform: "translate(-23px)" },
-        leave: { opacity: 0, transform: "translate(-23px)" },
-    })
-
-    return (
-        transitions.map(({ item, key, props }, index) => (
-            item && <animated.div key={key} style={{
-                ...props, zIndex: "-1"
-            }}>
-                <TimelineContent className="timelineContentActive" style={{ backgroundColor: secColor }} >
-                    <Button disabled variant="outlined" className="timelineButton" style={{ color: `${iconColor} !important` }}>
-                        {name}
-                    </Button>
-                </TimelineContent>
-            </animated.div>
-        ))
-    )
-}
-
 const AnimateTimeline = (props) => {
     const page = props.activePage
-
-    const iconColor = props.theme.priBack;
-    const secColor = props.theme.secColor;
 
     const handleClick = (index) => {
         props.handleTimeClick(index);
     }
 
     const theme = createMuiTheme({
-        props: {
-            // Name of the component
-            MuiButtonBase: {
-                // The default props to change
-                disableRipple: true // No more ripple, on the whole application !
-            }
-        },
         overrides: {
             MuiButton: {
                 root: {
-                    color: iconColor,
+                    backgroundColor: props.theme.priBack,
+                    color: props.theme.priTxtColor,
+                    boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
                     "&$disabled": {
-                        color: iconColor
+                        color: props.theme.priTxtColor,
+                        backgroundColor: props.theme.secBack,
+                        boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                    },
+                    '&:hover': {
+                        backgroundColor: props.theme.secBack,
                     }
                 }
             }
         }
     });
 
+    // Coding the animation
+    const items = [{ width: 84, icon: <AppsIcon style={{ marginRight: "11px" }} />, content: "All" }, { width: 148, icon: <SchoolIcon style={{ marginRight: "11px" }} />, content: "Education" },
+    { width: 105, icon: <WorkIcon style={{ marginRight: "11px" }} />, content: "Work" }, { width: 110, icon: <LaptopIcon style={{ marginRight: "11px" }} />, content: "Skills" },
+    { width: 104, icon: <RowingIcon style={{ marginRight: "11px" }} />, content: "Extra" }]
+
+    const [gridItems] = React.useMemo(() => {
+        // this index keeps track of the position of the cards
+        let starting = 0;
+
+        let gridItems = items.map((child, idx) => {
+            let xy;
+            console.log(idx, page)
+            if (idx === page) {
+                xy = [starting, 0]
+                starting += 20
+                return { ...child, xy, width: child.width, height: 42 }
+            } else {
+                xy = [starting, 0]
+                starting += 20
+                return { ...child, xy, width: 46, height: 42 }
+            }
+        })
+        return [gridItems]
+    }, [page])
+
+    const transitions = useTransition(gridItems, (item) => item.content, {
+        from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
+        enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
+        update: ({ xy, width, height }) => ({ xy, width, height }),
+        leave: { opacity: 0 },
+        config: { mass: 5, tension: 300, friction: 100 },
+        trail: 10
+    })
+
     return (
         <ThemeProvider theme={theme}>
-            <Timeline align="left" style={{ flexDirection: "row", marginRight: "auto", marginLeft: "auto", width: "fit-content" }}>
-                <TimelineItem style={{ minHeight: "inherit" }}>
-                    <TimelineSeparator className="seperator" onClick={() => handleClick(0)}>
-                        <Tooltip title={page !== 0 ? "Show All" : ""} placement="top">
-                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                                <IconButton
-                                    disabled={true}
-                                    style={{ backgroundColor: "transparent", color: iconColor }}
-                                    size="small"
-                                >
-                                    <AppsIcon fontSize="small" />
-                                </IconButton>
-                            </TimelineDot>
-                        </Tooltip>
-                    </TimelineSeparator>
-                    {CreateContent("All", 0, page, iconColor, secColor)}
-                </TimelineItem>
-                <TimelineItem style={{ minHeight: "inherit" }}>
-                    <TimelineSeparator className="seperator" onClick={() => handleClick(1)}>
-                        <Tooltip title={page !== 1 ? "Show Education" : ""} placement="top">
-                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                                <IconButton
-                                    disabled={true}
-                                    style={{ backgroundColor: "transparent", color: iconColor }}
-                                    size="small"
-                                >
-                                    <SchoolIcon fontSize="small" />
-                                </IconButton>
-                            </TimelineDot>
-                        </Tooltip>
-                    </TimelineSeparator>
-                    {CreateContent("Education", 1, page, iconColor, secColor)}
-                </TimelineItem>
-                <TimelineItem style={{ minHeight: "inherit" }}>
-                    <TimelineSeparator className="seperator" onClick={() => handleClick(2)}>
-                        <Tooltip title={page !== 2 ? "Show Experience" : ""} placement="top">
-                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                                <IconButton
-                                    disabled={true}
-                                    style={{ backgroundColor: "transparent", color: iconColor }}
-                                    size="small"
-                                >
-                                    <WorkIcon fontSize="small" />
-                                </IconButton>
-                            </TimelineDot>
-                        </Tooltip>
-                    </TimelineSeparator>
-                    {CreateContent("Experience", 2, page, iconColor, secColor)}
-                </TimelineItem>
-                <TimelineItem style={{ minHeight: "inherit" }}>
-                    <TimelineSeparator className="seperator" onClick={() => handleClick(3)}>
-                        <Tooltip title={page !== 3 ? "Show Skills" : ""} placement="top">
-                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                                <IconButton
-                                    disabled={true}
-                                    style={{ backgroundColor: "transparent", color: iconColor }}
-                                    size="small"
-                                >
-                                    <LaptopIcon fontSize="small" />
-                                </IconButton>
-                            </TimelineDot>
-                        </Tooltip>
-                    </TimelineSeparator>
-                    {CreateContent("Skills", 3, page, iconColor, secColor)}
-                </TimelineItem>
-                <TimelineItem style={{ minHeight: "inherit" }}>
-                    <TimelineSeparator className="seperator" onClick={() => handleClick(4)}>
-                        <Tooltip title={page !== 4 ? "Show Activities" : ""} placement="top">
-                            <TimelineDot variant="outlined" className="dot" style={{ backgroundColor: secColor, borderColor: "transparent" }}>
-                                <IconButton
-                                    disabled={true}
-                                    style={{ backgroundColor: "transparent", color: iconColor }}
-                                    size="small"
-                                >
-                                    <RowingIcon fontSize="small" />
-                                </IconButton>
-                            </TimelineDot>
-                        </Tooltip>
-                    </TimelineSeparator>
-                    {CreateContent("Extra", 4, page, iconColor, secColor)}
-                </TimelineItem>
-            </Timeline>
-        </ ThemeProvider>
+            <div style={{
+                height: "42px", width: "420px", position: "relative", display: "flex", marginLeft: "auto", marginRight: "auto"
+            }}>
+                {transitions.map(({ item, props: { xy, ...rest } }, index) => (
+                    <animated.div key={index} style={{ borderRadius: "17px", overflow: "hidden", transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                        <Button size="large" disabled={page === index ? true : false} onClick={() => handleClick(index)}>
+                            {items[index].icon}
+                            {items[index].content}
+                        </Button>
+                    </animated.div>
+                ))}
+            </div >
+        </ThemeProvider >
     )
 }
-
-// Carousel feels too busy, but keep it for the future. maybe i could have a toggle. 
-// const AnimatedCarousel = () => {
-//     const [state, setState] = React.useState({
-//         goToSlide: 0,
-//         offsetRadius: 3,
-//         showNavigation: false,
-//         config: config.slow
-//     });
-
-//     const slides = CarasoelContent.map((slide, index) => {
-//         return { ...slide, onClick: () => setState({ goToSlide: index }) };
-//     });
-
-//     return (
-//         < Transition
-//             config={{ duration: 1500 }}
-//             items={true}
-//             from={{ width: "10vw", height: "10vh", position: "fixed", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
-//             enter={{ width: "70%", height: "80vh", position: "fixed", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
-//             leave={{ transform: 'translate3d(0,-40px,0)' }}>
-//             {isExpanded => isExpanded && (props =>
-//                 <animated.div style={{ ...props }}>
-//                     <Carousel
-//                         slides={slides}
-//                         goToSlide={state.goToSlide}
-//                         offsetRadius={state.offsetRadius}
-//                         showNavigation={state.showNavigation}
-//                         animationConfig={state.config}
-//                     />
-//                 </animated.div>)}
-//         </ Transition>
-//     )
-// }
 
 const AnimatedGrid = (props) => {
     const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [4, 3, 2], 1)
@@ -330,10 +236,10 @@ const AnimatedGrid = (props) => {
             let column;
             let xy;
             if (props.activePage !== 0) {
-                //code it so it react different on different screen size 
+                //code it so it react different on different screen size
 
-                // If card index is less than 2 of the cardIndex, then it should be in focus 
-                // If theres only 1 card 
+                // If card index is less than 2 of the cardIndex, then it should be in focus
+                // If theres only 1 card
                 if (items.length === 1) {
                     column = heights.indexOf(Math.min(...heights));
                     xy = [dist + 135, 0]
@@ -341,7 +247,7 @@ const AnimatedGrid = (props) => {
                     return { ...child, xy, width: 300, height: 400 }
                     // if theres more than 1 card and the cards are in the starting position
                 } else if (props.cardIndex === 0) {
-                    // display the first 2 cards that are in focus 
+                    // display the first 2 cards that are in focus
                     if (idx === 0 || idx === 1) {
                         column = heights.indexOf(Math.min(...heights));
                         xy = [((300 + 5) * leftIndex) + dist, 0]
@@ -376,10 +282,9 @@ const AnimatedGrid = (props) => {
                     leftIndex += 1;
                     return { ...child, xy, width: 300, height: 400 }
                 }
-                //condition when its in grid view 
+                //condition when its in grid view
             } else {
                 column = heights.indexOf(Math.min(...heights));
-                console.log(width, columns, heights, column)
                 xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2]
                 return { ...child, xy, width: (width / columns) - 24, height: (child.height / 2) - 24 }
             }
@@ -397,7 +302,7 @@ const AnimatedGrid = (props) => {
     })
 
     return (
-        <React.Fragment>
+        <React.Fragment >
             <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
                 paddingRight: "16px", paddingLeft: "16px", height: props.activePage !== 0 ? 400 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
             }}>
@@ -425,7 +330,7 @@ const AnimatedGrid = (props) => {
                     </div>
                 </div>
             </Fade>
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 

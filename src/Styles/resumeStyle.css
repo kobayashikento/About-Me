@@ -35,7 +35,7 @@
   text-transform: uppercase;
   font-size: 10px;
   line-height: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0px 10px 20px -10px rgba(0, 0, 0, 0.2);
 }
 
@@ -62,7 +62,7 @@
 .card {
   width: 45ch;
   height: 45ch;
-  border-radius: 5px;
+  border-radius: 8px;
   background-position: center center;
 }
 
@@ -186,4 +186,26 @@
 
 .navText :hover {
   color: rgba(33, 45, 71, 1);
+}
+
+/* starting ENTER animation */
+.messageout-enter {
+  transform: translateY(0%) scale(0.01);
+}
+
+/* ending ENTER animation */
+.messageout-enter-active {
+  transform: translateY(0%) scale(1);
+  transition: all 500ms ease-in-out;
+}
+
+/* starting EXIT animation */
+.stepstepscardAnimationscard-exit {
+  transform: translateY(0%) scale(1);
+}
+
+/* ending EXIT animation */
+.stepscardAnimation-exit-active {
+  transform: translateY(0%) scale(0);
+  transition: all 500ms ease-in-out;
 }

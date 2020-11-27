@@ -139,10 +139,10 @@ const NavBar = (props) => {
 
     return (
         <div style={{
-            display: "flex", backgroundColor: props.theme.priBack, height: "48px", width: "100%", position: "absolute",
+            display: "flex", backgroundColor: `linear-gradient(to top, ${props.theme.priBack}00,${props.theme.priBack})`, height: "48px", width: "100%", position: "absolute",
             top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", paddingRight: "1rem"
         }}>
-            <div style={{ display: "flex", marginTop: "8px", marginLeft: "auto" }}>
+            <div style={{ display: "flex", marginLeft: "auto" }}>
                 {navTrail.map(({ x, height, ...rest }, index) => (
                     <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "8px" }}>
                         <Button className="navText" style={{ backgroundColor: "transparent" }} onClick={() => props.handleNavClick(index)}
@@ -221,12 +221,12 @@ const SideIcons = (props) => {
     },
     {
         content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-            <LinkedInIcon className="icon" style={{ color: props.theme.secColor,  }} />
+            <LinkedInIcon className="icon" style={{ color: props.theme.secColor, }} />
         </div>
     },
     {
         content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-            <MailIcon className="icon" style={{ color: props.theme.secColor,  }} />
+            <MailIcon className="icon" style={{ color: props.theme.secColor, }} />
         </div>
     }];
     const trail = useTrail(iconItems.length, {
@@ -307,6 +307,28 @@ const Contact = (props) => {
         </Container >
     )
 }
+
+const Picture = (props) => {
+    return (
+        <Container maxWidth="md" style={{ position: "absolute", top: "30%", left: "50%", display: "flex", transform: "translate(-50%, -20%)" }}>
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+            >
+                <Grid item xs={8} />
+                <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }}>
+                    <img src={face} style={{
+                        marginLeft: "2rem", width: "240px", height: "250px", borderRadius: "5px",
+                        boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
+                    }} />
+                </Grid>
+            </Grid>
+        </Container >
+    );
+}
+
 const AboutMe = (props) => {
     return (
         <Container maxWidth="md" style={{ position: "absolute", top: "30%", left: "50%", display: "flex", transform: "translate(-50%, -20%)" }}>
@@ -347,12 +369,7 @@ const AboutMe = (props) => {
                         Jazz music and Lofi-Hip hop on the piano, carefully making sure that I don't annoy my neighbors.
             </Typography>
                 </Grid>
-                <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }}>
-                    <img src={face} style={{
-                        marginLeft: "2rem", width: "240px", height: "250px", borderRadius: "5px",
-                        boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
-                    }} />
-                </Grid>
+                <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }} />
             </Grid>
         </Container >
     )
@@ -498,4 +515,4 @@ const BottomMenu = (prop) => {
 }
 
 export default React.memo(Introduction);
-export { MenuButton, AboutLines, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop };
+export { MenuButton, AboutLines, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, Picture };

@@ -32,10 +32,27 @@ const ResumeParallax = (props) => {
     const handleDetailsChange = () => {
         setShowModal(false);
         setTimeout(() => {
+            setShowDetails(false);
             setActiveCard(null);
-           setShowDetails(false);
-        }, 200)
+        }, 500)
     }
+
+    const escFunction = React.useCallback((event) => {
+        if (event.keyCode === 27) {
+            setShowModal(false);
+            setTimeout(() => {
+                setShowDetails(false);
+                setActiveCard(null);
+            }, 500)
+        }
+    }, []);
+
+    React.useEffect(() => {
+        document.addEventListener("keydown", escFunction, false);
+        return () => {
+            document.removeEventListener("keydown", escFunction, false);
+        };
+    }, []);
 
     return (
         <React.Fragment>
@@ -93,7 +110,7 @@ const ResumeParallax = (props) => {
                     items={showModal}
                     from={{ opacity: 0, transform: "translate(0, 100%)" }}
                     enter={{ opacity: 1, transform: "translate(0, 0%)" }}
-                    leave={{ opacity: 0, transform: "translate(0, 100%)" }}>
+                    leave={{ opacity: 0, transform: "translate(0, 80%)" }}>
                     {showModal => showModal && (props =>
                         <div style={props}>
                             <ResumeDetails

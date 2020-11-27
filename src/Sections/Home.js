@@ -4,7 +4,7 @@ import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons.cjs'
 
 import { Transition } from 'react-spring/renderprops'
 
-import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop } from '../Sections/Introduction.js';
+import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture } from '../Sections/Introduction.js';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
@@ -16,6 +16,20 @@ const shadow = "0 9px 12px 1px rgba(0,0,0,0.5), 0 3px 16px 2px rgba(0,0,0,0.5), 
 const emptyShadow = "0 9px 12px 1px rgba(0,0,0,0), 0 3px 16px 2px rgba(0,0,0,0), 0 5px 6px -3px rgba(0,0,0,0)";
 
 const themes = [
+    {
+        priBack: "#88BBD6",
+        secBack: "#99D3DF",
+        priColor: "#E9E9E9",
+        secColor: "#88BBD6",
+        priTxtColor: "#E9E9E9"
+    },
+    {
+        priBack: "#88BDBC",
+        secBack: "#254E58",
+        priColor: "#FEFFFF",
+        secColor: "#112D32",
+        priTxtColor: "#DEF2F1"
+    },
     {
         priBack: "#3AAFA9",
         secBack: "#2B7A78",
@@ -143,7 +157,7 @@ const Home = (props) => {
         <div>
             <Transition
                 items={showNav}
-                config={{ duration: 300 }}
+                config={{ duration: 500 }}
                 from={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: firstRender ? emptyShadow : shadow }}
                 enter={{ opacity: 1, transform: "translate(0, 0px)", boxShadow: emptyShadow }}
                 leave={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: shadow }}>
@@ -162,7 +176,8 @@ const Home = (props) => {
             </Transition>
             <div ref={ref}>
                 <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={layoutSize}>
-                    <ParallaxLayer offset={0} speed={0} factor={layoutSize} style={{ backgroundColor: theme.priBack }} />
+                    <ParallaxLayer offset={0} speed={0} factor={layoutSize} style={{ background:
+                    `radial-gradient(closest-corner, ${theme.priBack} 0%, ${theme.secBack} 100%)` }} />
                     <ParallaxLayer
                         offset={0}
                         speed={0.1}
@@ -173,9 +188,12 @@ const Home = (props) => {
                     </ParallaxLayer>
                     <ParallaxLayer
                         offset={1}
-                        speed={0.1}
+                        speed={0.4}
                     >
                         <AboutMe
+                            theme={theme}
+                        />
+                         <Picture
                             theme={theme}
                         />
                     </ParallaxLayer>
