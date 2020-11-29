@@ -55,20 +55,6 @@ const themes = [
         secColor: "#61892F",
         priTxtColor: "#6B6E70"
     },
-    {
-        priBack: "#0B0C10",
-        secBack: "#1F2833",
-        priColor: "#66FCF1",
-        secColor: "#45A29E",
-        priTxtColor: "#C5C6C7"
-    },
-    {
-        priBack: "#25274D",
-        secBack: "#464866",
-        priColor: "#2E9CCA",
-        secColor: "#29648A",
-        priTxtColor: "#C5C6C7"
-    },
 ]
 
 const Home = () => {
@@ -219,7 +205,7 @@ const Home = () => {
 
 
     const transitions = useTransition(true, null, {
-        config: { duration: 20000 },
+        config: { duration: 10000 },
         from: { opacity: 1, transform: "translate(-15%, -5%) rotate3d(0.1,0.1,0.3, 30deg) scaleX(-1)" },
         enter: { opacity: 1, transform: "translate(2%, -12%) rotate3d(-0.7, 0.4, 0.3, 59deg) scaleX(-1)" },
         leave: { opacity: 0 },
@@ -236,7 +222,7 @@ const Home = () => {
                 {showNav => showNav && (props =>
                     <div style={{
                         ...props, height: "48px", width: "100%", position: "absolute", zIndex: "1", marginRight: "1rem",
-                        background: firstRender ? "transparent" : `${theme.secColor}33`
+                        background: firstRender ? "transparent" : `${theme.secBack}33`
                     }}>
                         <NavBar
                             style={props}

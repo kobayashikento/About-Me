@@ -16,8 +16,13 @@ const theme = createMuiTheme({
           flex: "0"
         }
       }
-    }
-  }
+    },
+  },
+  typography: {
+    fontFamily: [
+      'sans'
+    ],
+  },
 });
 
 function App(props) {
