@@ -33,7 +33,7 @@ import Canvas from '../Components/Canvas.js';
 
 import face from '../Assets/face.jpg';
 
-import catImg from '../Assets/Cat.png';
+import catImg from '../Assets/cat.JPG';
 import { StyledContainer } from '../Styles/introductionStyle.js';
 
 const buttonTheme = createMuiTheme({ palette: { primary: { main: "#FFFFFF" } } })
@@ -44,25 +44,25 @@ const shadow1 = "rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 2px 4px,
 const Introduction = (props) => {
     const theme = useTheme();
     //sm down
-    const [open, setOpen] = React.useState(true);
+    const open = true
     const items = [
         {
-            content: <Typography variant="h6" align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", fontWeight: "bold", textIndent: "2rem" }}>
+            content: <Typography variant="h5" align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", fontWeight: "400", textIndent: "2rem", opacity: "0.8" }}>
                 Hello! My name is
                     </Typography>
         },
         {
-            content: <Typography variant="h2" align="justify" style={{ paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", color: props.theme.priColor === "#86C232" ? "#FEFFFF" : props.theme.priColor }}>
+            content: <Typography variant="h2" align="justify" style={{ opacity: "0.9", paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", color: props.theme.priColor === "#86C232" ? "#FEFFFF" : props.theme.priColor }}>
                 Kento Kobayashi.
         </Typography>
         },
         {
-            content: <Typography variant="h5" align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", opacity: "0.6" }}>
-                I code things that look nice.
+            content: <Typography variant="h5" align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", textIndent: "2rem", fontWeight: "400", opacity: "1" }}>
+                I'm a Developer and Analyst
 </Typography>
         },
         {
-            content: <Typography variant="body1" align="justify" style={{ color: props.theme.priTxtColor, paddingTop: "1rem", paddingLeft: "2rem", width: "70%" }}>
+            content: <Typography variant="body1" align="justify" style={{ color: props.theme.priTxtColor, paddingTop: "1rem", fontWeight: "400", paddingLeft: "2rem", width: "70%" }}>
                 I recently obtained my Honours Bachelors of Science degree from University of Toronto. I enjoy playing Jazz piano and occasionally checking myself out while working out.
                 </Typography>
 
@@ -139,7 +139,7 @@ const NavBar = (props) => {
 
     return (
         <div style={{
-            display: "flex", backgroundColor: `linear-gradient(to top, ${props.theme.priBack}00,${props.theme.priBack})`, height: "48px", width: "100%", position: "absolute",
+            display: "flex", height: "48px", width: "100%", position: "absolute",
             top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", paddingRight: "1rem"
         }}>
             <div style={{ display: "flex", marginLeft: "auto" }}>
@@ -147,34 +147,13 @@ const NavBar = (props) => {
                     <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "8px" }}>
                         <Button className="navText" style={{ backgroundColor: "transparent" }} onClick={() => props.handleNavClick(index)}
                             onMouseLeave={() => handleClose(0)} onMouseEnter={() => handleMouseEnter(index)}>
-                            <Typography variant="body1" align="justify" style={{ marginRight: "8px", color: props.theme.secColor, fontWeight: 500 }}>
+                            <Typography variant="body2" align="justify" style={{ marginRight: "8px", color: props.theme.priTxtColor, fontWeight: "bolder" }}>
                                 {`${index + 1}.`}
                             </Typography>
                             <div>
-                                <Typography variant="body1" align="justify" style={{ color: hover === index + 1 ? props.theme.secColor : props.theme.priTxtColor, fontWeight: 500 }}>
+                                <Typography variant="body1" align="justify" style={{ color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8" }}>
                                     {navItems[index]}
                                 </Typography>
-                                {index === 1 ? <Popper style={{ marginTop: "2rem", marginLeft: "1rem" }} open={open} role={undefined} transition disablePortal>
-                                    {({ TransitionProps, placement }) => (
-                                        <Grow
-                                            {...TransitionProps}
-                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                        >
-                                            <Paper style={{ backgroundColor: props.theme.priBack }}>
-                                                <ClickAwayListener onClickAway={handleClose}>
-                                                    <MenuList onKeyDown={handleListKeyDown}>
-                                                        <MenuItem style={{ color: itemHover === 1 ? props.theme.secColor : props.theme.priTxtColor }}
-                                                            onMouseEnter={() => handleItemEnter(1)} onMouseLeave={() => handleItemLeave(1)} onClick={() => handleClose(1)}>Education</MenuItem>
-                                                        <MenuItem style={{ color: itemHover === 2 ? props.theme.secColor : props.theme.priTxtColor }}
-                                                            onMouseEnter={() => handleItemEnter(2)} onMouseLeave={() => handleItemLeave(2)} onClick={() => handleClose(2)}>Work</MenuItem>
-                                                        <MenuItem style={{ color: itemHover === 3 ? props.theme.secColor : props.theme.priTxtColor }}
-                                                            onMouseEnter={() => handleItemEnter(3)} onMouseLeave={() => handleItemLeave(3)} onClick={() => handleClose(3)}>Skills</MenuItem>
-                                                    </MenuList>
-                                                </ClickAwayListener>
-                                            </Paper>
-                                        </Grow>
-                                    )}
-                                </Popper> : null}
                             </div>
                         </Button>
                     </animated.div>
@@ -309,20 +288,33 @@ const Contact = (props) => {
 }
 
 const Picture = (props) => {
+
+    const open = props.render;
+    const priColor = props.theme.secColor
+    const transitions = useTransition(open, null, {
+        from: { position: 'absolute', opacity: 0, transform: "translate(0, -10%)" },
+        enter: { opacity: 1, transform: "translate(0, 0%)" },
+        leave: { opacity: 0, transform: "translate(0, -10%)" },
+    })
+
     return (
-        <Container maxWidth="md" style={{ position: "absolute", top: "30%", left: "50%", display: "flex", transform: "translate(-50%, -20%)" }}>
+        <Container maxWidth="md" style={{ position: "absolute", top: "5%", left: "50%", display: "flex", transform: "translate(-50%, 5%)" }}>
             <Grid
                 container
                 direction="row"
                 justify="center"
                 alignItems="center"
             >
-                <Grid item xs={8} />
-                <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }}>
-                    <img src={face} style={{
-                        marginLeft: "2rem", width: "240px", height: "250px", borderRadius: "5px",
-                        boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
-                    }} />
+                <Grid item xs={7} />
+                <Grid item xs={5} style={{ display: "flex", justifyContent: "center" }}>
+                    {transitions.map(({ item, key, props }) =>
+                        item && <animated.div key={key} style={props}>
+                            <img src={face} style={{
+                                marginLeft: "2rem", width: "240px", height: "250px", borderRadius: "5px",
+                                boxShadow: `0 9px 12px 1px ${priColor}33, 0 3px 16px 2px ${priColor}26, 0 5px 6px -3px ${priColor}33`
+                            }} />
+                        </animated.div>
+                    )}
                 </Grid>
             </Grid>
         </Container >
@@ -330,51 +322,174 @@ const Picture = (props) => {
 }
 
 const AboutMe = (props) => {
+
+    const open = props.render
+
+    const headerItems = [{
+        content: <Typography variant="h5" style={{ color: props.theme.priColor, fontWeight: "bold" }}>1.</Typography>,
+        type: 0
+    },
+    {
+        content: <Typography variant="h4" style={{ paddingLeft: "1rem", color: props.theme.priTxtColor, fontWeight: "bold" }}>About Me </Typography>,
+        type: 0,
+    },
+    {
+        content: <Divider style={{ marginLeft: "3rem", width: "15rem", backgroundColor: props.theme.secColor }} />,
+        type: 0,
+    }
+    ]
+
+    const contentItems = [
+        {
+            content: <Typography variant="body1" style={{ display: "block", color: props.theme.priTxtColor, textIndent: "1rem", marginBottom: "1rem" }}> I am Developer based in Toronto, Ontario with a mild addiction to coffee. </Typography>,
+            paddingLeft: "1rem", marginBottom: "1rem", textIndent: "1rem"
+        },
+        {
+            content: <Typography variant="body1" style={{ display: "inline", paddingLeft: "1rem", color: props.theme.priTxtColor }}>I recently obtained my </Typography>,
+            paddingLeft: "1rem", marginBottom: "inherit", textIndent: "1rem"
+        },
+        {
+            content: <Typography variant="body1" style={{ display: "inline", boxDecorationBreak: "clone", color: props.theme.secColor }}> Bachelors of Science in Mathematics, Statistics, and Philosophy from the University of Toronto. </Typography>
+            , paddingLeft: "1rem", marginBottom: "inherit", textIndent: "0"
+        },
+        {
+            content: <Typography variant="body1" style={{ display: "inline", boxDecorationBreak: "clone", color: props.theme.priTxtColor }}> I have experience in developing iOS and Web applications and I put pride into making funtional and beautiful products. </Typography>
+            , paddingLeft: "1rem", marginBottom: "inherit", textIndent: "0"
+        },
+    ]
+
+    const headerTrail = useTrail(headerItems.length, {
+        config: { mass: 5, tension: 2000, friction: 200 },
+        opacity: open ? 1 : 0,
+        x: open ? 0 : 20,
+        height: open ? 110 : 0,
+        from: { opacity: 0, x: 20, height: 0 },
+    })
+
+    const contentTrail = useTrail(contentItems.length, {
+        config: { mass: 5, tension: 2000, friction: 200 },
+        opacity: open ? 1 : 0,
+        x: open ? 0 : 20,
+        height: open ? 110 : 0,
+        from: { opacity: 0, x: 20, height: 0 },
+        delay: 500
+    })
+
     return (
-        <Container maxWidth="md" style={{ position: "absolute", top: "30%", left: "50%", display: "flex", transform: "translate(-50%, -20%)" }}>
+        <Container maxWidth="md" style={{ position: "absolute", top: "20%", left: "47%", display: "flex", transform: "translate(-50%, -20%)" }}>
+            <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+                style={{ padding: "1rem" }}
+            >
+                <Grid item xs={7} >
+                    <div style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}>
+                        {headerTrail.map(({ x, height, ...rest }, index) => (
+                            <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                                {headerItems[index].content}
+
+                            </animated.div>))}
+                    </div>
+                    <div style={{ marginBottom: "1rem", paddingLeft: "3rem" }}>
+                        {contentTrail.map(({ x, height, ...rest }, index) => (
+                            <animated.div style={{
+                                ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), display: index === 0 ? "block" : "inline",
+                            }}>
+                                {contentItems[index].content}
+                            </animated.div>))}
+                    </div>
+                </Grid>
+                <Grid item xs={5} />
+            </Grid>
+        </Container >
+    )
+}
+
+const SecondPicture = (props) => {
+
+    const open = props.render;
+    const priColor = props.theme.secColor
+    const transitions = useTransition(open, null, {
+        from: { position: 'absolute', opacity: 0, transform: "translate(0, -10%)" },
+        enter: { opacity: 1, transform: "translate(0, 0%)" },
+        leave: { opacity: 0, transform: "translate(0, -10%)" },
+    })
+
+    return (
+        <Container maxWidth="md" style={{ position: "absolute", top: "26%", left: "50%", display: "flex", transform: "translate(-40%, -26%)" }}>
             <Grid
                 container
                 direction="row"
                 justify="center"
                 alignItems="center"
             >
-                <Grid item xs={8}>
-                    <div style={{ display: "flex", alignItems: "center", marginBottom: "3rem" }}>
-                        <Typography variant="h4" style={{ color: props.theme.priColor, fontWeight: "bold" }}>
-                            1.
-            </Typography>
-                        <Typography variant="h4" style={{ paddingLeft: "1rem", color: props.theme.priTxtColor, fontWeight: "bold" }}>
-                            About Me
-            </Typography>
-                        <Divider style={{ marginLeft: "3rem", width: "20rem", backgroundColor: props.theme.priTxtColor }} />
-                    </div>
-                    <Typography variant="body1" style={{ color: props.theme.priTxtColor, textIndent: "1rem", paddingLeft: "1rem", marginBottom: "1rem" }}>
-                        I am Developer based in Toronto, Ontario with a mild addiction to coffee.
-            </Typography>
-                    <div style={{ paddingLeft: "1rem", marginBottom: "1rem" }}>
-                        <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
-                            I recently obtained my
-                        </Typography>
-                        <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor }} > </Typography>
-                        <Typography variant="body1" style={{ display: "inline", color: props.theme.secColor }}>
-                            Bachelors of Science (Hons) in Mathematics, Statistics, and Philosophy from the University of Toronto.
-                        </Typography>
-                        <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor }} > </Typography>
-                        <Typography variant="body1" style={{ display: "inline", color: props.theme.priTxtColor }}>
-                            I have experience in developing iOS and web applications and I enjoy focusing on the smallest detail making sure that everything looks nice and smooth.
-            </Typography>
-                    </div>
-                    <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
-                        When I am not coding I enjoy working out and eventually plan to paddle whenever I can. I also enjoy playing pieces from the Ghibli films,
-                        Jazz music and Lofi-Hip hop on the piano, carefully making sure that I don't annoy my neighbors.
-            </Typography>
+                <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }}>
+                    {transitions.map(({ item, key, props }) =>
+                        item && <animated.div key={key} style={props}>
+                            <img src={catImg} style={{
+                                marginLeft: "2rem", width: "250px", height: "250px", borderRadius: "5px",
+                                boxShadow: `0 9px 12px 1px ${priColor}33, 0 3px 16px 2px ${priColor}26, 0 5px 6px -3px ${priColor}33`
+                            }} />
+                        </animated.div>
+                    )}
                 </Grid>
-                <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }} />
+                <Grid item xs={8} />
+            </Grid>
+        </Container >
+    );
+}
+
+const AboutMeSecond = (props) => {
+
+    const open = props.render
+    const items = [
+        {
+            content: <Divider style={{ marginLeft: "5rem", width: "17rem", marginBottom: "2rem", backgroundColor: props.theme.secColor }} />
+        },
+        {
+            content: <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem", marginBottom: "1rem" }}>
+                When I am not coding I enjoy working out and eventually plan to paddle whenever I can.
+</Typography>
+        },
+        {
+            content: <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
+                I also enjoy playing pieces from the Ghibli films,
+                Jazz music and Lofi-Hip hop on the piano, carefully making sure that I don't annoy my neighbors.
+</Typography>
+        },
+    ]
+    const contentTrail = useTrail(items.length, {
+        config: { mass: 5, tension: 2000, friction: 200 },
+        opacity: open ? 1 : 0,
+        x: open ? 0 : 20,
+        height: open ? 110 : 0,
+        from: { opacity: 0, x: 20, height: 0 },
+        delay: 500
+    })
+    return (
+        <Container maxWidth="md" style={{ position: "absolute", top: "31%", left: "64%", display: "flex", transform: "translate(-60%, -35%)" }}>
+            <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+            >
+                <Grid item xs={6} />
+                <Grid item xs={6} >
+                    {contentTrail.map(({ x, height, ...rest }, index) => (
+                        <animated.div style={{
+                            ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
+                        }}>
+                            {items[index].content}
+                        </animated.div>
+                    ))}
+                </Grid>
             </Grid>
         </Container >
     )
 }
-
 
 const AboutLines = (props) => {
     const springRef = React.useRef(null)
@@ -515,4 +630,4 @@ const BottomMenu = (prop) => {
 }
 
 export default React.memo(Introduction);
-export { MenuButton, AboutLines, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, Picture };
+export { MenuButton, AboutLines, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture };

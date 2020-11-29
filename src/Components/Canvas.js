@@ -18,8 +18,8 @@ const Canvas = props => {
         context.lineWidth = 2;
         if (props.home) {
             context.canvas.width = window.innerWidth;
-            context.canvas.height = window.innerHeight * 3;
-            context.strokeStyle = "grey";
+            context.canvas.height = window.innerHeight * 2 ;
+            context.strokeStyle = `${props.theme.secColor}40`;
         } else {
             context.canvas.width = 200
             context.canvas.height = 200
@@ -66,7 +66,7 @@ const Canvas = props => {
     function getVertices() {
         const amount = props.amount;
         let vertices = [{ x: props.xAxis, y: props.yAxis, dir: props.home ? "-y" : "-y" }]
-        for (let i = 0; i < props.size; i++) {
+        for (let i = props.startIndex; i < props.size; i++) {
             if (isPrime(i)) {
                 switch (vertices.slice(-1)[0].dir) {
                     case "x":
@@ -107,17 +107,28 @@ const Canvas = props => {
     function calcWaypoints(vertices) {
         var waypoints = [];
         if (props.home) {
-            for (let i = 1; i < vertices.length; i++) {
+            // for (let i = 1; i < vertices.length; i++) {
+            //     let pt0 = vertices[i - 1];
+            //     let pt1 = vertices[i];
+            //     let dx = pt1.x - pt0.x;
+            //     let dy = pt1.y - pt0.y;
+            //     let x = pt0.x + dx;
+            //     let y = pt0.y + dy;
+            //     waypoints.push({
+            //         x: x,
+            //         y: y
+            //     });
+            // }
+            for (let i = 2; i < vertices.length; i++) {
                 let pt0 = vertices[i - 1];
                 let pt1 = vertices[i];
                 let dx = pt1.x - pt0.x;
                 let dy = pt1.y - pt0.y;
-                let x = pt0.x + dx;
-                let y = pt0.y + dy;
-                waypoints.push({
-                    x: x,
-                    y: y
-                });
+                for (let j = 0; j < 1; j++) {
+                    let x = pt0.x + dx * j / 1;
+                    let y = pt0.y + dy * j / 1;
+                    waypoints.push({ x: x, y: y });
+                }
             }
         } else {
             for (let i = 2; i < vertices.length; i++) {
@@ -181,7 +192,7 @@ const Canvas = props => {
     return (
         <div>
             {props.home ?
-                <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", transform: "rotate(-25deg)" }} />
+                <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
                 :
                 <div>
                     <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>

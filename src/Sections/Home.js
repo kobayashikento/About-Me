@@ -4,24 +4,35 @@ import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons.cjs'
 
 import { Transition } from 'react-spring/renderprops'
 
-import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture } from '../Sections/Introduction.js';
+import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture } from '../Sections/Introduction.js';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import ResumeParallax from '../Sections/ResumeParallax.js';
+import { AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
 
 import '../Styles/resumeStyle.css';
+
+import Canvas from '../Components/Canvas.js';
+
+import ResumeDetails from '../Components/ResumeDetails.js';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+
+import { animated, useTransition } from 'react-spring'
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.5), 0 3px 16px 2px rgba(0,0,0,0.5), 0 5px 6px -3px rgba(0,0,0,0.5)";
 const emptyShadow = "0 9px 12px 1px rgba(0,0,0,0), 0 3px 16px 2px rgba(0,0,0,0), 0 5px 6px -3px rgba(0,0,0,0)";
 
 const themes = [
     {
-        priBack: "#88BBD6",
-        secBack: "#99D3DF",
-        priColor: "#E9E9E9",
-        secColor: "#88BBD6",
-        priTxtColor: "#E9E9E9"
+        //f1faee
+        //a8dadc
+        priBack: "#f1faee",
+        secBack: "#a8dadc",
+        priColor: "#e63946",
+        secColor: "#457b9d",
+        priTxtColor: "#1d3557"
     },
     {
         priBack: "#88BDBC",
@@ -60,7 +71,7 @@ const themes = [
     },
 ]
 
-const Home = (props) => {
+const Home = () => {
     let parallax = React.useRef();
     let ref = React.useRef();
     const [open, setOpen] = React.useState(true);
@@ -69,6 +80,12 @@ const Home = (props) => {
     const [showNav, setShowNav] = React.useState(true);
     const [firstRender, setFirstRender] = React.useState(true);
     const [theme, setTheme] = React.useState(themes[0]);
+    // 0 - section 1, 1 - section 2 etc...
+    const [second, setSecond] = React.useState(false);
+    const [third, setThird] = React.useState(false);
+    const [activeCard, setActiveCard] = React.useState(null);
+    const [showDetails, setShowDetails] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
 
     const navBarHeight = 120
 
@@ -78,6 +95,19 @@ const Home = (props) => {
             var lastScrollTop = 0;
             ref.current.children[0].addEventListener("scroll", function () {
                 var st = ref.current.children[0].scrollTop || document.documentElement.scrollTop;
+                // render about me 
+                if (window.innerHeight * 0.5 < st && st < window.innerHeight * 2.2) {
+                    setSecond(true)
+                    setTimeout(() => {
+                        setThird(true)
+                    }, 800)
+                } else if (st === 0) {
+                    setSecond(false)
+                    setThird(false)
+                }
+                if (st === 0) {
+                    setFirstRender(true);
+                }
                 if (st > lastScrollTop) {
                     // downscroll code
                     setShowNav(false);
@@ -90,13 +120,20 @@ const Home = (props) => {
             }, false);
         }
     }, [ref])
+    React.useEffect(() => {
+        document.addEventListener("keydown", escFunction, false);
+        return () => {
+            document.removeEventListener("keydown", escFunction, false);
+        };
+    }, []);
 
     const handleThemeChange = (index) => {
         setTheme(themes[index])
     }
+
     const handleNavClick = (index) => {
         if (index === 1) {
-            return
+            parallax.scrollTo((2))
         } else {
             if (index === 2 && matches2 && activePage === 0) {
                 parallax.scrollTo((index + 2))
@@ -113,7 +150,6 @@ const Home = (props) => {
             parallax.scrollTo(2)
         }
     }
-
 
     const handleTimeClick = (index) => {
         setActivePage(index);
@@ -133,6 +169,34 @@ const Home = (props) => {
             setCardIndex(cardIndex + 1);
         }
     }
+    const handleCardClick = (index) => {
+        if (index !== 0) {
+            setShowDetails(true);
+            setShowModal(true);
+        }
+    }
+
+    const handleActiveCard = (item) => {
+        setActiveCard(item);
+    }
+
+    const handleDetailsChange = () => {
+        setShowModal(false);
+        setTimeout(() => {
+            setShowDetails(false);
+            setActiveCard(null);
+        }, 300)
+    }
+
+    const escFunction = React.useCallback((event) => {
+        if (event.keyCode === 27) {
+            setShowModal(false);
+            setTimeout(() => {
+                setShowDetails(false);
+                setActiveCard(null);
+            }, 500)
+        }
+    }, []);
 
     // condition that changes parallax size depending on the window size, the possible conditions are ['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [4, 3, 2], 1)
     // if its 1500px or higher, then keep layout size at 4 
@@ -153,6 +217,14 @@ const Home = (props) => {
         }
     }, [activePage])
 
+
+    const transitions = useTransition(true, null, {
+        config: { duration: 20000 },
+        from: { opacity: 1, transform: "translate(-15%, -5%) rotate3d(0.1,0.1,0.3, 30deg) scaleX(-1)" },
+        enter: { opacity: 1, transform: "translate(2%, -12%) rotate3d(-0.7, 0.4, 0.3, 59deg) scaleX(-1)" },
+        leave: { opacity: 0 },
+    })
+
     return (
         <div>
             <Transition
@@ -162,7 +234,10 @@ const Home = (props) => {
                 enter={{ opacity: 1, transform: "translate(0, 0px)", boxShadow: emptyShadow }}
                 leave={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: shadow }}>
                 {showNav => showNav && (props =>
-                    <div style={{ ...props, height: "48px", width: "100%", position: "absolute", zIndex: "1", marginRight: "1rem" }}>
+                    <div style={{
+                        ...props, height: "48px", width: "100%", position: "absolute", zIndex: "1", marginRight: "1rem",
+                        background: firstRender ? "transparent" : `${theme.secColor}33`
+                    }}>
                         <NavBar
                             style={props}
                             theme={theme}
@@ -176,11 +251,44 @@ const Home = (props) => {
             </Transition>
             <div ref={ref}>
                 <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={layoutSize}>
-                    <ParallaxLayer offset={0} speed={0} factor={layoutSize} style={{ background:
-                    `radial-gradient(closest-corner, ${theme.priBack} 0%, ${theme.secBack} 100%)` }} />
+                    <ParallaxLayer offset={0} speed={0} factor={layoutSize} style={{
+                        backgroundImage:
+                            `radial-gradient(closest-corner, ${theme.priBack} 0%, ${theme.secBack} 100%)`,
+                        backgroundColor: theme.priBack
+                    }} ></ParallaxLayer>
+                    <ParallaxLayer
+                        offset={0} speed={-0.3} factor={1.5}
+                    >
+                        {transitions.map(({ item, key, props }) =>
+                            item && <animated.div key={key} style={props}>
+                                <Canvas
+                                    size={1500}
+                                    xAxis={400}
+                                    yAxis={100}
+                                    home={true}
+                                    amount={10}
+                                    open={false}
+                                    theme={theme}
+                                    startIndex={0}
+                                />
+                            </animated.div>
+                        )}
+                        {/* <div className="canvas">
+                            <Canvas
+                                size={100}
+                                xAxis={600}
+                                yAxis={100}
+                                home={true}
+                                amount={10}
+                                open={false}
+                                theme={theme}
+                                startIndex={0}
+                            />
+                        </div> */}
+                    </ParallaxLayer>
                     <ParallaxLayer
                         offset={0}
-                        speed={0.1}
+                        speed={0.2}
                     >
                         <Introduction
                             theme={theme}
@@ -188,18 +296,43 @@ const Home = (props) => {
                     </ParallaxLayer>
                     <ParallaxLayer
                         offset={1}
-                        speed={0.4}
+                        speed={0.1}
                     >
                         <AboutMe
-                            theme={theme}
-                        />
-                         <Picture
+                            render={second}
                             theme={theme}
                         />
                     </ParallaxLayer>
                     <ParallaxLayer
-                        offset={2}
+                        offset={1.1}
+                        speed={-0.1}
+                    >
+                        <Picture
+                            render={second}
+                            theme={theme}
+                        />
+                    </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={1.4}
                         speed={0.1}
+                    >
+                        <SecondPicture
+                            render={third}
+                            theme={theme}
+                        />
+                    </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={1.5}
+                        speed={-0.1}
+                    >
+                        <AboutMeSecond
+                            render={third}
+                            theme={theme}
+                        />
+                    </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={2.3}
+                        speed={-0.1}
                     >
                         <ResumeParallax
                             parallax={parallax}
@@ -209,6 +342,56 @@ const Home = (props) => {
                             handleTimeClick={(index) => handleTimeClick(index)}
                             theme={theme}
                         />
+                    </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={2.6}
+                        speed={0.1}
+                    >
+                        <AnimateTimeline
+                            theme={theme}
+                            activePage={activePage}
+                            handleTimeClick={(index) => handleTimeClick(index)}
+                        />
+                    </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={2.7}
+                        speed={0.2}
+                    >
+                        <div>
+                            <AnimatedGrid
+                                theme={theme}
+                                cardIndex={cardIndex}
+                                activePage={activePage}
+                                handleNavClick={(dir) => handleArrowClick(dir)}
+                                handleActiveCard={(item) => handleActiveCard(item)}
+                                handleCardClick={(index) => handleCardClick(index)}
+                            />
+                            <Modal
+                                open={showDetails}
+                                onClose={() => handleDetailsChange()}
+                                closeAfterTransition
+                                BackdropComponent={Backdrop}
+                                BackdropProps={{
+                                    timeout: 500,
+                                }}
+                                style={{ overflow: "auto" }}
+                            >
+                                <Transition
+                                    items={showModal}
+                                    from={{ opacity: 0, transform: "translate(0, 100%)" }}
+                                    enter={{ opacity: 1, transform: "translate(0, 0%)" }}
+                                    leave={{ opacity: 0, transform: "translate(0, 80%)" }}>
+                                    {showModal => showModal && (props =>
+                                        <div style={props}>
+                                            <ResumeDetails
+                                                handleDetailsChange={() => handleDetailsChange()}
+                                                activeCard={activeCard}
+                                            />
+                                        </div>)}
+                                </Transition>
+
+                            </Modal>
+                        </div>
                     </ParallaxLayer>
                     <ParallaxLayer
                         offset={matches1 ? 4 : layoutSize - 1}

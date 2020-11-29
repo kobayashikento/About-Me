@@ -108,16 +108,19 @@ const AnimateTimeline = (props) => {
             MuiButton: {
                 root: {
                     backgroundColor: props.theme.priBack,
-                    color: props.theme.priTxtColor,
+                    color: props.theme.secColor,
                     boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
                     "&$disabled": {
-                        color: props.theme.priTxtColor,
+                        color: props.theme.secColor,
                         backgroundColor: props.theme.secBack,
                         boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
                     },
                     '&:hover': {
                         backgroundColor: props.theme.secBack,
                     }
+                },
+                textSizeLarge: {
+                    padding: "6px 9px"
                 }
             }
         }
@@ -126,7 +129,7 @@ const AnimateTimeline = (props) => {
     // Coding the animation
     const items = [{ width: 84, icon: <AppsIcon style={{ marginRight: "11px" }} />, content: "All" }, { width: 148, icon: <SchoolIcon style={{ marginRight: "11px" }} />, content: "Education" },
     { width: 105, icon: <WorkIcon style={{ marginRight: "11px" }} />, content: "Work" }, { width: 110, icon: <LaptopIcon style={{ marginRight: "11px" }} />, content: "Skills" },
-    { width: 104, icon: <RowingIcon style={{ marginRight: "11px" }} />, content: "Extra" }]
+    { width: 108, icon: <RowingIcon style={{ marginRight: "11px" }} />, content: "Extra" }]
 
     const [gridItems] = React.useMemo(() => {
         // this index keeps track of the position of the cards
@@ -134,7 +137,6 @@ const AnimateTimeline = (props) => {
 
         let gridItems = items.map((child, idx) => {
             let xy;
-            console.log(idx, page)
             if (idx === page) {
                 xy = [starting, 0]
                 starting += 20
@@ -163,7 +165,7 @@ const AnimateTimeline = (props) => {
                 height: "42px", width: "420px", position: "relative", display: "flex", marginLeft: "auto", marginRight: "auto"
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                    <animated.div key={index} style={{ borderRadius: "17px", overflow: "hidden", transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                    <animated.div key={index} style={{ border: `2px solid ${props.theme.secBack}`, borderRadius: "17px", overflow: "hidden", transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                         <Button size="large" disabled={page === index ? true : false} onClick={() => handleClick(index)}>
                             {items[index].icon}
                             {items[index].content}
