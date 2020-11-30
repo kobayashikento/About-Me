@@ -6,7 +6,8 @@ import Typography from '@material-ui/core/Typography';
 
 const Canvas = props => {
     const canvasRef = React.useRef(null);
-    let points = calcWaypoints(getVertices(props.size));
+    let points = calcWaypoints(getVertices());
+    const [selectedNumber, setSelectedNumber] = React.useState(1);
 
     React.useEffect(() => {
         const canvas = canvasRef.current
@@ -17,7 +18,7 @@ const Canvas = props => {
         context.lineWidth = 2;
         if (props.home) {
             context.canvas.width = window.innerWidth;
-            context.canvas.height = window.innerHeight;
+            context.canvas.height = window.innerHeight * 2;
             context.strokeStyle = `${props.theme.secColor}40`;
         }
         const render = () => {
@@ -36,61 +37,90 @@ const Canvas = props => {
     }, [props.open])
 
     function isPrime(num) {
-        for (let i = 2; i < num; i++)
+        for (var i = 2; i < num; i++)
             if (num % i === 0) return false;
         return num > 1;
     }
 
-    function getPrimes(amount) {
-        let primes = []
-        for (let i = 1; i < amount; i++) {
-            if (isPrime(i)) {
+    function getPrimes(size) {
+        let primes = [];
+        for (let i = 0; i < size; i++){
+            if (isPrime(i)){
                 primes.push(i)
             }
         }
-        return primes;
+        return primes
     }
 
-    function getVertices(size) {
-        const amount = props.amount;
+    function getVertices() {
+        let vertices = [{ x: props.xAxis, y: props.yAxis}]
         //[{ x: props.xAxis, y: props.yAxis, dir: props.home ? "-y" : "-y" }]
-        let vertices = [{ x: 0, y: 0 }]
-        const primes = getPrimes(size);
-        // for (let i = 0; i < primes.length; i++) {
-        //     for (let n = 0; n < primes.length; n++) {
-        //         // calculate r and theta, where x = primes[i] : y = primes[n]
-        //         let r = Math.sqrt((primes[i] ^ 2 + primes[n] ^ 2)) * 5;
-        //         let theta = Math.atan(primes[n] / primes[i]);
-        //         // get x and y cords in polar 
-        //         let x = r * Math.cos(theta);
-        //         let y = r * Math.sin(theta);
-        //         vertices.push({ x: x, y: y })
-        //     }
-        // }
-        for (let i = 1; i < size; i++) {
-            vertices.push({ x: vertices[i - 1].x + 100, y: vertices[i - 1].y + 100 })
+        const primes = getPrimes(props.size);
+
+        for (let i = 0; i < primes.length; i++) {
+            for (let n = 0; n < primes.length; n++) {
+                // calculate r and theta, where x = primes[i] : y = primes[n]
+                let r = Math.sqrt((primes[i] ^ 2 + primes[n] ^ 2)) * 50;
+                let theta = Math.atan(primes[n] / primes[i]);
+                // get x and y cords in polar 
+                let x = r * Math.cos(theta);
+                let y = r * Math.sin(theta);
+                vertices.push({ x: x, y: y })
+            }
         }
+
+
+        // for (let i = 1; i < props.size; i++) {
+        //     vertices.push({ x: vertices[i - 1].x + 50, y: vertices[i - 1].y + 50 })
+        // }
+        console.log(vertices)
+
         return vertices;
     }
 
     function calcWaypoints(vertices) {
         var waypoints = [];
-        for (let i = 1; i < vertices.length; i++) {
-            let pt0 = vertices[i - 1];
-            let pt1 = vertices[i];
-            let dx = pt1.x - pt0.x;
-            let dy = pt1.y - pt0.y;
-            for (let j = 0; j < 1; j++) {
-                let x = pt0.x + dx * j / 1;
-                let y = pt0.y + dy * j / 1;
-                waypoints.push({ x: x, y: y });
+        if (props.home) {
+            // for (let i = 1; i < vertices.length; i++) {
+            //     let pt0 = vertices[i - 1];
+            //     let pt1 = vertices[i];
+            //     let dx = pt1.x - pt0.x;
+            //     let dy = pt1.y - pt0.y;
+            //     let x = pt0.x + dx;
+            //     let y = pt0.y + dy;
+            //     waypoints.push({
+            //         x: x,
+            //         y: y
+            //     });
+            // }
+            for (let i = 2; i < vertices.length; i++) {
+                let pt0 = vertices[i - 1];
+                let pt1 = vertices[i];
+                let dx = pt1.x - pt0.x;
+                let dy = pt1.y - pt0.y;
+                for (let j = 0; j < 1; j++) {
+                    let x = pt0.x + dx * j / 1;
+                    let y = pt0.y + dy * j / 1;
+                    waypoints.push({ x: x, y: y });
+                }
+            }
+        } else {
+            for (let i = 2; i < vertices.length; i++) {
+                let pt0 = vertices[i - 1];
+                let pt1 = vertices[i];
+                let dx = pt1.x - pt0.x;
+                let dy = pt1.y - pt0.y;
+                for (let j = 0; j < 50; j++) {
+                    let x = pt0.x + dx * j / 50;
+                    let y = pt0.y + dy * j / 50;
+                    waypoints.push({ x: x, y: y });
+                }
             }
         }
         return (waypoints);
     }
 
     console.log(points)
-
 
     function animate(context, frameCount) {
         // draw a line segment from the last waypoint
@@ -99,11 +129,12 @@ const Canvas = props => {
         context.moveTo(points[frameCount - 1].x, points[frameCount - 1].y);
         context.lineTo(points[frameCount].x, points[frameCount].y);
         context.stroke();
+        // increment "t" to get the next waypoint
     }
 
     return (
         <div>
-            <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0px", }} />
+            <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
         </div>
     )
 }
