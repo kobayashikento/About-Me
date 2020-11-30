@@ -18,12 +18,8 @@ const Canvas = props => {
         context.lineWidth = 2;
         if (props.home) {
             context.canvas.width = window.innerWidth;
-            context.canvas.height = window.innerHeight * 2 ;
+            context.canvas.height = window.innerHeight * 2;
             context.strokeStyle = `${props.theme.secColor}40`;
-        } else {
-            context.canvas.width = 200
-            context.canvas.height = 200
-            context.strokeStyle = "black";
         }
         const render = () => {
             frameCount++;
@@ -32,26 +28,9 @@ const Canvas = props => {
                     animate(context, frameCount)
                     animationFrameId = window.requestAnimationFrame(render)
                 }
-            } else {
-                if (props.open) {
-                    if (frameCount < points.length - 1) {
-                        animate(context, frameCount)
-                    } else {
-                        frameCount = 1;
-                        setSelectedNumber(1);
-                        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-                        animate(context, frameCount)
-                    }
-                    animationFrameId = window.requestAnimationFrame(render)
-                } else {
-                    frameCount = 0;
-                    setSelectedNumber(1);
-                    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-                }
             }
         }
         render()
-
         return () => {
             window.cancelAnimationFrame(animationFrameId)
         }
@@ -147,74 +126,18 @@ const Canvas = props => {
     }
 
     function animate(context, frameCount) {
-        if (props.home) {
-            // draw a line segment from the last waypoint
-            // to the current waypoint
-            context.beginPath();
-            context.moveTo(points[frameCount - 1].x, points[frameCount - 1].y);
-            context.lineTo(points[frameCount].x, points[frameCount].y);
-            context.stroke();
-            // increment "t" to get the next waypoint
-        } else {
-            switch (frameCount) {
-                case 49:
-                    setSelectedNumber(2);
-                    break;
-                case 99:
-                    setSelectedNumber(3);
-                    break;
-                case 149:
-                    setSelectedNumber(4);
-                    break;
-                case 199:
-                    setSelectedNumber(5);
-                    break;
-                case 249:
-                    setSelectedNumber(6);
-                    break;
-                case 299:
-                    setSelectedNumber(7);
-                    break;
-                case 349:
-                    setSelectedNumber(8);
-                    break;
-                default:
-            }
-            // draw a line segment from the last waypoint
-            // to the current waypoint
-            context.beginPath();
-            context.moveTo(points[frameCount - 1].x, points[frameCount - 1].y);
-            context.lineTo(points[frameCount].x, points[frameCount].y);
-            context.stroke();
-        }
+        // draw a line segment from the last waypoint
+        // to the current waypoint
+        context.beginPath();
+        context.moveTo(points[frameCount - 1].x, points[frameCount - 1].y);
+        context.lineTo(points[frameCount].x, points[frameCount].y);
+        context.stroke();
+        // increment "t" to get the next waypoint
     }
 
     return (
         <div>
-            {props.home ?
-                <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
-                :
-                <div>
-                    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
-                        {primes.map(number => {
-                            return (
-                                <Card key={number.number} style={{
-                                    width: "1rem", height: "1rem", padding: "1rem", margin: "1rem",
-                                    background: selectedNumber === number.number ? "linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)" :
-                                        number.prime ? "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" : ""
-                                }}>
-                                    <Typography align="center">
-                                        {number.number}
-                                    </Typography>
-                                </Card>
-                            )
-                        })}
-                    </div>
-                    <div style={{ width: "50%", height: "50%", marginRight: "auto", marginLeft: "auto" }}>
-                        <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", transform: "scaleX(-1)" }} />
-                    </div>
-                </div>
-            }
+            <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
         </div>
     )
 }

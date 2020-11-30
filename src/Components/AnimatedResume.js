@@ -107,11 +107,11 @@ const AnimateTimeline = (props) => {
         overrides: {
             MuiButton: {
                 root: {
-                    backgroundColor: props.theme.priBack,
-                    color: props.theme.secColor,
+                    backgroundColor: props.theme.secBack,
+                    color: props.theme.priTxtColor,
                     boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
                     "&$disabled": {
-                        color: props.theme.secColor,
+                        color: props.theme.priTxtColor,
                         backgroundColor: props.theme.secBack,
                         boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
                     },
@@ -162,10 +162,10 @@ const AnimateTimeline = (props) => {
     return (
         <ThemeProvider theme={theme}>
             <div style={{
-                height: "42px", width: "420px", position: "relative", display: "flex", marginLeft: "auto", marginRight: "auto"
+                height: "42px", width: "420px", position: "relative", display: "flex", marginLeft: "auto", marginRight: "auto", marginTop: "3rem"
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                    <animated.div key={index} style={{ border: `2px solid ${props.theme.secBack}`, borderRadius: "17px", overflow: "hidden", transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                    <animated.div key={index} style={{ border: `2px solid ${props.theme.secColor}`, borderRadius: "17px", overflow: "hidden", transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                         <Button size="large" disabled={page === index ? true : false} onClick={() => handleClick(index)}>
                             {items[index].icon}
                             {items[index].content}
@@ -306,7 +306,7 @@ const AnimatedGrid = (props) => {
     return (
         <React.Fragment >
             <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-                paddingRight: "16px", paddingLeft: "16px", height: props.activePage !== 0 ? 400 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
+               marginTop: "4rem", paddingRight: "16px", paddingLeft: "16px", height: props.activePage !== 0 ? 400 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                     <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>

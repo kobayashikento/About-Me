@@ -31,7 +31,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Canvas from '../Components/Canvas.js';
 
-import face from '../Assets/face.jpg';
+import face from '../Assets/chicagome.jpg';
 
 import catImg from '../Assets/cat.JPG';
 import { StyledContainer } from '../Styles/introductionStyle.js';
@@ -76,7 +76,7 @@ const Introduction = (props) => {
         x: open ? 0 : 20,
         height: open ? 110 : 0,
         from: { opacity: 0, x: 20, height: 0 },
-        delay: 1200
+        delay: 1500
     })
 
     return (
@@ -93,8 +93,8 @@ const Introduction = (props) => {
 }
 
 const NavBar = (props) => {
-    const navItems = ["About", "Experience", "Contact"];
 
+    const navItems = ["About", "Experience", "Contact"];
     const navTrail = useTrail(navItems.length, {
         config: { mass: 5, tension: 2000, friction: 200 },
         opacity: props.open ? 1 : 0,
@@ -114,13 +114,6 @@ const NavBar = (props) => {
         setItemHover(0);
         setOpen(false);
     };
-
-    const handleListKeyDown = (event) => {
-        if (event.key === 'Tab') {
-            event.preventDefault();
-            setOpen(false);
-        }
-    }
 
     const handleMouseEnter = (index) => {
         if (index === 1) {
@@ -147,11 +140,11 @@ const NavBar = (props) => {
                     <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "8px" }}>
                         <Button className="navText" style={{ backgroundColor: "transparent" }} onClick={() => props.handleNavClick(index)}
                             onMouseLeave={() => handleClose(0)} onMouseEnter={() => handleMouseEnter(index)}>
-                            <Typography variant="body2" align="justify" style={{ marginRight: "8px", color: props.theme.priTxtColor, fontWeight: "bolder" }}>
+                            <Typography variant="subtitle2" align="justify" style={{ marginRight: "8px", color: props.theme.priColor, fontWeight: "bolder" }}>
                                 {`${index + 1}.`}
                             </Typography>
                             <div>
-                                <Typography variant="body1" align="justify" style={{ color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8" }}>
+                                <Typography variant="body2" align="justify" style={{ color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8" }}>
                                     {navItems[index]}
                                 </Typography>
                             </div>
@@ -192,20 +185,22 @@ const ToTop = (props) => {
 
 const SideIcons = (props) => {
     const open = true;
+    const [hover, setHover] = React.useState(0);
+
     const iconItems = [{
         content:
-            <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }}>
-                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: props.theme.secColor }} />
+            <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} onMouseEnter={() => setHover(1)} onMouseLeave={() => setHover(0)}>
+                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.priColor: props.theme.secColor }} />
             </div>
     },
     {
-        content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-            <LinkedInIcon className="icon" style={{ color: props.theme.secColor, }} />
+        content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} onMouseEnter={() => setHover(2)} onMouseLeave={() => setHover(0)}>
+            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.priColor: props.theme.secColor, }} />
         </div>
     },
     {
-        content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-            <MailIcon className="icon" style={{ color: props.theme.secColor, }} />
+        content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} onMouseEnter={() => setHover(3)} onMouseLeave={() => setHover(0)}>
+            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.priColor: props.theme.secColor, }} />
         </div>
     }];
     const trail = useTrail(iconItems.length, {
@@ -267,7 +262,7 @@ const Contact = (props) => {
             </Typography>
                 </Grid>
                 <Grid item xs={2} />
-                <Button style={{ marginTop: "3rem", color: props.theme.priTxtColor, border: `1px solid ${props.theme.priColor}` }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                <Button style={{ marginTop: "3rem", color: props.theme.priTxtColor, border: `1px solid ${props.theme.secColor}` }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
                     Leave A Message
                 </Button>
             </Grid>
@@ -334,7 +329,7 @@ const AboutMe = (props) => {
         type: 0,
     },
     {
-        content: <Divider style={{ marginLeft: "3rem", width: "15rem", backgroundColor: props.theme.secColor }} />,
+        content: <Divider style={{ marginLeft: "3rem", width: "15rem", backgroundColor: props.theme.priTxtColor }} />,
         type: 0,
     }
     ]
@@ -446,7 +441,7 @@ const AboutMeSecond = (props) => {
     const open = props.render
     const items = [
         {
-            content: <Divider style={{ marginLeft: "5rem", width: "17rem", marginBottom: "2rem", backgroundColor: props.theme.secColor }} />
+            content: <Divider style={{ marginLeft: "7rem", width: "20rem", marginBottom: "2rem", backgroundColor: props.theme.priTxtColor }} />
         },
         {
             content: <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem", marginBottom: "1rem" }}>
@@ -469,15 +464,15 @@ const AboutMeSecond = (props) => {
         delay: 500
     })
     return (
-        <Container maxWidth="md" style={{ position: "absolute", top: "31%", left: "64%", display: "flex", transform: "translate(-60%, -35%)" }}>
+        <Container maxWidth="md" style={{ position: "absolute", top: "28%", left: "64%", display: "flex", transform: "translate(-60%, -35%)" }}>
             <Grid
                 container
                 direction="row"
                 justify="space-between"
                 alignItems="center"
             >
-                <Grid item xs={6} />
-                <Grid item xs={6} >
+                <Grid item xs={2} />
+                <Grid item xs={7} >
                     {contentTrail.map(({ x, height, ...rest }, index) => (
                         <animated.div style={{
                             ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
@@ -486,6 +481,7 @@ const AboutMeSecond = (props) => {
                         </animated.div>
                     ))}
                 </Grid>
+                <Grid item xs={3} />
             </Grid>
         </Container >
     )
@@ -629,5 +625,44 @@ const BottomMenu = (prop) => {
     )
 }
 
+const LineDescription = (props) => {
+
+    const open = props.render;
+
+    const items = [{
+        content: <div style={{ display: "flex", alignItems: "center", marginRight: "auto", marginLeft: "auto", width: "fit-content" }}>
+            <Divider style={{ marginRight: "1rem", width: "2rem", backgroundColor: props.theme.priTxtColor }} />
+            <Typography variant="body2" align="justify" style={{ color: props.theme.priTxtColor, fontWeight: "400", width: "fit-content" }}>
+                About The Lines
+        </Typography>
+            <Divider style={{ marginLeft: "1rem", width: "2rem", backgroundColor: props.theme.priTxtColor }} />
+        </div>
+    }, {
+        content: <Typography variant="subtitle2" align="justify" style={{ color: props.theme.priTxtColor, paddingTop: "1rem", paddingLeft: "1rem", fontWeight: "400", width: "fit-content" }}>
+            These lines are generated using the properties of 1500 digits, for every prime the lines turns 90 degrees.
+    </Typography>
+    }]
+
+    const contentTrail = useTrail(items.length, {
+        config: { mass: 5, tension: 2000, friction: 200 },
+        opacity: open ? 1 : 0,
+        x: open ? 0 : 20,
+        height: open ? 110 : 0,
+        from: { opacity: 0, x: 20, height: 0 },
+    })
+
+    return (
+        <Container maxWidth="xs" style={{ display: "flex", flexDirection: "column", position: "absolute", top: "30%", left: "40%", display: "flex", transform: "translate(-50%, -20%)" }}>
+            {contentTrail.map(({ x, height, ...rest }, index) => (
+                <animated.div style={{
+                    ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
+                }}>
+                    {items[index].content}
+                </animated.div>
+            ))}
+        </Container>
+    )
+}
+
 export default React.memo(Introduction);
-export { MenuButton, AboutLines, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture };
+export { MenuButton, AboutLines, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription };
