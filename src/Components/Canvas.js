@@ -6,8 +6,7 @@ import Typography from '@material-ui/core/Typography';
 
 const Canvas = props => {
     const canvasRef = React.useRef(null);
-    let points = calcWaypoints(getVertices());
-    const [selectedNumber, setSelectedNumber] = React.useState(1);
+    let points = calcWaypoints(getVertices(props.size));
 
     React.useEffect(() => {
         const canvas = canvasRef.current
@@ -18,7 +17,7 @@ const Canvas = props => {
         context.lineWidth = 2;
         if (props.home) {
             context.canvas.width = window.innerWidth;
-            context.canvas.height = window.innerHeight * 2;
+            context.canvas.height = window.innerHeight;
             context.strokeStyle = `${props.theme.secColor}40`;
         }
         const render = () => {
@@ -37,93 +36,61 @@ const Canvas = props => {
     }, [props.open])
 
     function isPrime(num) {
-        for (var i = 2; i < num; i++)
+        for (let i = 2; i < num; i++)
             if (num % i === 0) return false;
         return num > 1;
     }
 
-    function getVertices() {
-        const amount = props.amount;
-        let vertices = [{ x: props.xAxis, y: props.yAxis, dir: props.home ? "-y" : "-y" }]
-        for (let i = props.startIndex; i < props.size; i++) {
+    function getPrimes(amount) {
+        let primes = []
+        for (let i = 1; i < amount; i++) {
             if (isPrime(i)) {
-                switch (vertices.slice(-1)[0].dir) {
-                    case "x":
-                        vertices.push({ x: vertices.slice(-1)[0].x, y: vertices.slice(-1)[0].y - amount, dir: "-y" });
-                        break;
-                    case "y":
-                        vertices.push({ x: vertices.slice(-1)[0].x + amount, y: vertices.slice(-1)[0].y, dir: "x" });
-                        break;
-                    case "-x":
-                        vertices.push({ x: vertices.slice(-1)[0].x, y: vertices.slice(-1)[0].y + amount, dir: "y" });
-                        break;
-                    case "-y":
-                        vertices.push({ x: vertices.slice(-1)[0].x - amount, y: vertices.slice(-1)[0].y, dir: "-x" });
-                        break;
-                    default:
-                }
-            } else {
-                switch (vertices.slice(-1)[0].dir) {
-                    case "x":
-                        vertices.push({ x: vertices.slice(-1)[0].x + amount, y: vertices.slice(-1)[0].y, dir: "x" });
-                        break;
-                    case "y":
-                        vertices.push({ x: vertices.slice(-1)[0].x, y: vertices.slice(-1)[0].y + amount, dir: "y" });
-                        break;
-                    case "-x":
-                        vertices.push({ x: vertices.slice(-1)[0].x - amount, y: vertices.slice(-1)[0].y, dir: "-x" });
-                        break;
-                    case "-y":
-                        vertices.push({ x: vertices.slice(-1)[0].x, y: vertices.slice(-1)[0].y - amount, dir: "-y" });
-                        break;
-                    default:
-                }
+                primes.push(i)
             }
+        }
+        return primes;
+    }
+
+    function getVertices(size) {
+        const amount = props.amount;
+        //[{ x: props.xAxis, y: props.yAxis, dir: props.home ? "-y" : "-y" }]
+        let vertices = [{ x: 0, y: 0 }]
+        const primes = getPrimes(size);
+        // for (let i = 0; i < primes.length; i++) {
+        //     for (let n = 0; n < primes.length; n++) {
+        //         // calculate r and theta, where x = primes[i] : y = primes[n]
+        //         let r = Math.sqrt((primes[i] ^ 2 + primes[n] ^ 2)) * 5;
+        //         let theta = Math.atan(primes[n] / primes[i]);
+        //         // get x and y cords in polar 
+        //         let x = r * Math.cos(theta);
+        //         let y = r * Math.sin(theta);
+        //         vertices.push({ x: x, y: y })
+        //     }
+        // }
+        for (let i = 1; i < size; i++) {
+            vertices.push({ x: vertices[i - 1].x + 100, y: vertices[i - 1].y + 100 })
         }
         return vertices;
     }
 
     function calcWaypoints(vertices) {
         var waypoints = [];
-        if (props.home) {
-            // for (let i = 1; i < vertices.length; i++) {
-            //     let pt0 = vertices[i - 1];
-            //     let pt1 = vertices[i];
-            //     let dx = pt1.x - pt0.x;
-            //     let dy = pt1.y - pt0.y;
-            //     let x = pt0.x + dx;
-            //     let y = pt0.y + dy;
-            //     waypoints.push({
-            //         x: x,
-            //         y: y
-            //     });
-            // }
-            for (let i = 2; i < vertices.length; i++) {
-                let pt0 = vertices[i - 1];
-                let pt1 = vertices[i];
-                let dx = pt1.x - pt0.x;
-                let dy = pt1.y - pt0.y;
-                for (let j = 0; j < 1; j++) {
-                    let x = pt0.x + dx * j / 1;
-                    let y = pt0.y + dy * j / 1;
-                    waypoints.push({ x: x, y: y });
-                }
-            }
-        } else {
-            for (let i = 2; i < vertices.length; i++) {
-                let pt0 = vertices[i - 1];
-                let pt1 = vertices[i];
-                let dx = pt1.x - pt0.x;
-                let dy = pt1.y - pt0.y;
-                for (let j = 0; j < 50; j++) {
-                    let x = pt0.x + dx * j / 50;
-                    let y = pt0.y + dy * j / 50;
-                    waypoints.push({ x: x, y: y });
-                }
+        for (let i = 1; i < vertices.length; i++) {
+            let pt0 = vertices[i - 1];
+            let pt1 = vertices[i];
+            let dx = pt1.x - pt0.x;
+            let dy = pt1.y - pt0.y;
+            for (let j = 0; j < 1; j++) {
+                let x = pt0.x + dx * j / 1;
+                let y = pt0.y + dy * j / 1;
+                waypoints.push({ x: x, y: y });
             }
         }
         return (waypoints);
     }
+
+    console.log(points)
+
 
     function animate(context, frameCount) {
         // draw a line segment from the last waypoint
@@ -132,12 +99,11 @@ const Canvas = props => {
         context.moveTo(points[frameCount - 1].x, points[frameCount - 1].y);
         context.lineTo(points[frameCount].x, points[frameCount].y);
         context.stroke();
-        // increment "t" to get the next waypoint
     }
 
     return (
         <div>
-            <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
+            <canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0px", }} />
         </div>
     )
 }

@@ -226,15 +226,15 @@ const Home = () => {
         }
     }, [activePage])
 
-    const spring = useSpring({
-        config: { duration: 15000 },
-        to: async (next, cancel) => {
-            await next({ opacity: 1, transform: "translate(2%, -12%) rotate3d(-0.7, 0.4, 0.3, 59deg) scaleX(-1)" })
-            await next({ opacity: 1, transform: "translate(-4%, -4%) rotate3d(-0.7, 0.4, 0.3, 39deg) scaleX(-1)" })
-            await next({ opacity: 1, transform: "translate(2%, -12%) rotate3d(-0.7, 0.4, 0.3, 59deg) scaleX(-1)" })
-        },
-        from: { opacity: 1, transform: "translate(-15%, -5%) rotate3d(0.1,0.1,0.3, 30deg) scaleX(-1)" },
-    })
+    // const spring = useSpring({
+    //     config: { duration: 15000 },
+    //     to: async (next, cancel) => {
+    //         await next({ opacity: 1, transform: "translate(2%, -12%) rotate3d(-0.7, 0.4, 0.3, 59deg) scaleX(-1)" })
+    //         await next({ opacity: 1, transform: "translate(-4%, -4%) rotate3d(-0.7, 0.4, 0.3, 39deg) scaleX(-1)" })
+    //         await next({ opacity: 1, transform: "translate(2%, -12%) rotate3d(-0.7, 0.4, 0.3, 59deg) scaleX(-1)" })
+    //     },
+    //     from: { opacity: 1, transform: "translate(-15%, -5%) rotate3d(0.1,0.1,0.3, 30deg) scaleX(-1)" },
+    // })
 
     return (
         preload ? <div style={{
@@ -282,18 +282,16 @@ const Home = () => {
                         <ParallaxLayer
                             offset={0} speed={-0.5} factor={2}
                         >
-                            <animated.div style={spring}>
+                            {/* <animated.div style={spring}>
                                 <Canvas
-                                    size={1500}
-                                    xAxis={400}
-                                    yAxis={100}
-                                    home={true}
-                                    amount={10}
-                                    open={false}
+                                    size={50}
                                     theme={theme}
-                                    startIndex={0}
                                 />
-                            </animated.div>
+                            </animated.div> */}
+                             <Canvas
+                                    size={100}
+                                    theme={theme}
+                                />
                         </ParallaxLayer>
                         <ParallaxLayer
                             offset={0}

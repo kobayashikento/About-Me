@@ -46,7 +46,7 @@ const ResumeParallax = (props) => {
                     </Grid>
                     <Grid item xs={9}>
                         {contentTrail.map(({ x, height, ...rest }, index) => (
-                            <animated.div style={{
+                            <animated.div key={`resume${index}`} style={{
                                 ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
                             }}>
                                 {items[index].content}

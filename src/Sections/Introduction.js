@@ -83,7 +83,7 @@ const Introduction = (props) => {
         <React.Fragment>
             < Container maxWidth={matches ? "lg" : "md"} style={{ position: "absolute", top: "45%", left: "45%", transform: "translate(-50%, -50%)" }}>
                 {trail.map(({ x, height, ...rest }, index) => (
-                    <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                    <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
                         {items[index].content}
                     </animated.div>
                 ))}
@@ -137,7 +137,7 @@ const NavBar = (props) => {
         }}>
             <div style={{ display: "flex", marginLeft: "auto" }}>
                 {navTrail.map(({ x, height, ...rest }, index) => (
-                    <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "8px" }}>
+                    <animated.div key={`navicons${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "8px" }}>
                         <Button className="navText" style={{ backgroundColor: "transparent" }} onClick={() => props.handleNavClick(index)}
                             onMouseLeave={() => handleClose(0)} onMouseEnter={() => handleMouseEnter(index)}>
                             <Typography variant="subtitle2" align="justify" style={{ marginRight: "8px", color: props.theme.priColor, fontWeight: "bolder" }}>
@@ -190,17 +190,17 @@ const SideIcons = (props) => {
     const iconItems = [{
         content:
             <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} onMouseEnter={() => setHover(1)} onMouseLeave={() => setHover(0)}>
-                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.priColor: props.theme.secColor }} />
+                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.priColor : props.theme.secColor }} />
             </div>
     },
     {
         content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} onMouseEnter={() => setHover(2)} onMouseLeave={() => setHover(0)}>
-            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.priColor: props.theme.secColor, }} />
+            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.priColor : props.theme.secColor, }} />
         </div>
     },
     {
         content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} onMouseEnter={() => setHover(3)} onMouseLeave={() => setHover(0)}>
-            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.priColor: props.theme.secColor, }} />
+            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.priColor : props.theme.secColor, }} />
         </div>
     }];
     const trail = useTrail(iconItems.length, {
@@ -213,8 +213,8 @@ const SideIcons = (props) => {
     })
     return (
         trail.map(({ x, height, ...rest }, index) => (
-            <animated.div style={{
-                ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), paddingBottom: "4px"
+            <animated.div key={`sideicons${index}`} style={{
+                ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), paddingBottom: "4px",
             }}>
                 { iconItems[index].content}
             </animated.div >
@@ -382,14 +382,14 @@ const AboutMe = (props) => {
                 <Grid item xs={7} >
                     <div style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}>
                         {headerTrail.map(({ x, height, ...rest }, index) => (
-                            <animated.div style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                            <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
                                 {headerItems[index].content}
 
                             </animated.div>))}
                     </div>
                     <div style={{ marginBottom: "1rem", paddingLeft: "3rem" }}>
                         {contentTrail.map(({ x, height, ...rest }, index) => (
-                            <animated.div style={{
+                            <animated.div key={`aboutContent${index}`} style={{
                                 ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), display: index === 0 ? "block" : "inline",
                             }}>
                                 {contentItems[index].content}
@@ -474,7 +474,7 @@ const AboutMeSecond = (props) => {
                 <Grid item xs={2} />
                 <Grid item xs={7} >
                     {contentTrail.map(({ x, height, ...rest }, index) => (
-                        <animated.div style={{
+                        <animated.div key={`aboutSec${index}`} style={{
                             ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
                         }}>
                             {items[index].content}
@@ -484,59 +484,6 @@ const AboutMeSecond = (props) => {
                 <Grid item xs={3} />
             </Grid>
         </Container >
-    )
-}
-
-const AboutLines = (props) => {
-    const springRef = React.useRef(null)
-    const [open, setOpen] = React.useState(false);
-
-    function handleClick() {
-        setOpen(!open);
-    }
-
-    const { size, opacity, height, ...rest } = useSpring({
-        ref: springRef,
-        config: config.stiff,
-        from: { size: "1%", opacity: "0" },
-        to: { size: open ? "70%" : "10%", opacity: open ? "1" : "0" }
-    })
-
-    useChain(open ? [springRef] : [springRef], [0, open ? 0.1 : 0.6])
-
-    return (
-        <MuiThemeProvider theme={buttonTheme} >
-            <Button variant="outlined" color="primary" style={{ margin: "2rem", position: "fixed", right: "0", top: "0", }} onClick={() => handleClick()}>
-                <Typography variant="body1">
-                    About the lines
-                </Typography>
-            </Button>
-            <StyledContainer style={{ ...rest, width: size, right: "0", top: "0", backgroundColor: "white", margin: "2rem", opacity: opacity, zIndex: "2" }} onClick={() => handleClick()}>
-                <div style={{ display: open ? "" : "none" }}>
-                    <Typography variant="h5" align="center" style={{ margin: "3rem", }}>
-                        Its all about the Prime Numbers...
-                </Typography>
-                    <Typography variant="body1" style={{ margin: "3rem", textIndent: "3rem" }} align="justify">
-                        This pattern is created using the properties of prime numbers for the first 5000 digits starting from 0, and is mapped to a 2-dimensional plane. For every increment in the index, the value of y or xs increases by a pre-set amount.
-                        However, when the current index is a prime the vector increases with a 90 degree rotation. For example, if the pervious index extended the line by -y, then the current index will extend the line by
-                        -x. This results in the pattern below.
-                </Typography>
-                </div>
-                <div style={{ display: open ? "" : "none" }}>
-                    <Typography variant="h6" align="center" style={{ margin: "3rem", display: open ? "" : "none" }}>
-                        An example with the first 8 digits
-                     </Typography>
-                    <Canvas
-                        size={9}
-                        xAxis={100}
-                        yAxis={175}
-                        home={false}
-                        amount={75}
-                        open={open}
-                    />
-                </div>
-            </StyledContainer>
-        </MuiThemeProvider>
     )
 }
 
@@ -654,7 +601,7 @@ const LineDescription = (props) => {
     return (
         <Container maxWidth="xs" style={{ display: "flex", flexDirection: "column", position: "absolute", top: "30%", left: "40%", display: "flex", transform: "translate(-50%, -20%)" }}>
             {contentTrail.map(({ x, height, ...rest }, index) => (
-                <animated.div style={{
+                <animated.div key={`lineDes${index}`} style={{
                     ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
                 }}>
                     {items[index].content}
@@ -665,4 +612,4 @@ const LineDescription = (props) => {
 }
 
 export default React.memo(Introduction);
-export { MenuButton, AboutLines, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription };
+export { MenuButton, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription };
