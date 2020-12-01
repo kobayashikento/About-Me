@@ -244,7 +244,7 @@ const AnimatedGrid = (props) => {
                 // If theres only 1 card
                 if (items.length === 1) {
                     column = heights.indexOf(Math.min(...heights));
-                    xy = [dist + 167, 0]
+                    xy = [dist + 153, 0]
                     leftIndex += 1;
                     return { ...child, xy, width: 300, height: 400 }
                     // if theres more than 1 card and the cards are in the starting position
@@ -322,7 +322,7 @@ const AnimatedGrid = (props) => {
                 ))}
             </div >
             <Fade bottom when={props.activePage !== 0}>
-                <div style={{ position: "relative", top: "-85px", width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
+                <div style={{ position: "relative", top: "-100px", left: "-11px", width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
                     <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
                         <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
                     </IconButton>

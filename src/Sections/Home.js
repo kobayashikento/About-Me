@@ -1,33 +1,28 @@
 import React from 'react'
 
+// import from react-spring
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons.cjs'
-
 import { Transition } from 'react-spring/renderprops'
 
-import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription } from '../Sections/Introduction.js';
-
+// import from material ui 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-
-import ResumeParallax from '../Sections/ResumeParallax.js';
-import { AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
-
-import '../Styles/resumeStyle.css';
-
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-
-import ResumeDetails from '../Components/ResumeDetails.js';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 
+// import components 
+import { AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
+import ResumeParallax from '../Sections/ResumeParallax.js';
 import NetworkAni from '../Components/NetworkAni.js';
+import ResumeDetails from '../Components/ResumeDetails.js';
+import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription } from '../Sections/Introduction.js';
 
-import { useSpring, animated, } from 'react-spring'
-import { Keyframes } from 'react-spring/renderprops'
-
-const shadow = "0 9px 12px 1px rgba(0,0,0,0.5), 0 3px 16px 2px rgba(0,0,0,0.5), 0 5px 6px -3px rgba(0,0,0,0.5)";
+// import styles
+import '../Styles/resumeStyle.css';
 const emptyShadow = "0 9px 12px 1px rgba(0,0,0,0), 0 3px 16px 2px rgba(0,0,0,0), 0 5px 6px -3px rgba(0,0,0,0)";
 
+// Themes/Color schemes 
 const themes = [
     {
         //EDF6FF
@@ -70,8 +65,14 @@ const themes = [
 ]
 
 const Home = () => {
+    const navBarHeight = 120;
     let parallax = React.useRef();
     let ref = React.useRef();
+    // condition that changes parallax size depending on the window size
+    // if its 1500px or higher, then keep layout size at 4 
+    const matches1 = useMediaQuery('(min-width:1500px)');
+    // if its 1200 then layout size of 4 when in card but 4.5
+    const matches2 = useMediaQuery('(min-width:1200px)');
     const [open, setOpen] = React.useState(true);
     const [cardIndex, setCardIndex] = React.useState(0);
     const [activePage, setActivePage] = React.useState(0);
@@ -85,10 +86,11 @@ const Home = () => {
     const [activeCard, setActiveCard] = React.useState(null);
     const [showDetails, setShowDetails] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
+    const [layout, setLayout] = React.useState(matches1 ? 4 : 4.5);
+    const [contactPosition, setContactPosition] = React.useState(matches1 ? 3 : 3.6);
     const [preload, setPreload] = React.useState(false);
 
-    const navBarHeight = 120;
-
+    // Detect esc button
     React.useEffect(() => {
         document.addEventListener("keydown", escFunction, false);
         return () => {
@@ -136,67 +138,21 @@ const Home = () => {
 
     }, [ref])
 
-    const handleThemeChange = (index) => {
-        setTheme(themes[index])
-    }
-
-    const handleNavClick = (index) => {
-        if (index === 1) {
-            parallax.scrollTo((2.1))
-        } else {
-            if (index === 2 && matches2 && activePage === 0) {
-                parallax.scrollTo(3.6)
-            } else {
-                parallax.scrollTo((index + 1))
+    React.useEffect(() => {
+        if (activePage !== 0){
+            if (!matches1){
+                setLayout(4);
+                setContactPosition(3);
+            }
+        } else { 
+            if (!matches1){
+                setLayout(4.5);
+                setContactPosition(3.6);
             }
         }
-    }
+    }, [activePage, matches1])
 
-    const handlePopClick = (index) => {
-        setActivePage(index)
-        setCardIndex(0)
-        if (parallax !== null) {
-            parallax.scrollTo(2)
-        }
-    }
-
-    const handleTimeClick = (index) => {
-        setActivePage(index);
-        setCardIndex(0);
-    }
-
-    const handleTopClick = () => {
-        if (parallax !== null) {
-            parallax.scrollTo(0)
-        }
-    }
-
-    const handleArrowClick = (direction) => {
-        if (direction === "left") {
-            setCardIndex(cardIndex - 1);
-        } else if (direction === "right") {
-            setCardIndex(cardIndex + 1);
-        }
-    }
-    const handleCardClick = (index) => {
-        if (index !== 0) {
-            setShowDetails(true);
-            setShowModal(true);
-        }
-    }
-
-    const handleActiveCard = (item) => {
-        setActiveCard(item);
-    }
-
-    const handleDetailsChange = () => {
-        setShowModal(false);
-        setTimeout(() => {
-            setShowDetails(false);
-            setActiveCard(null);
-        }, 300)
-    }
-
+    // Detect esc buttton to close modal 
     const escFunction = React.useCallback((event) => {
         if (event.keyCode === 27) {
             setShowModal(false);
@@ -207,24 +163,80 @@ const Home = () => {
         }
     }, []);
 
-    // condition that changes parallax size depending on the window size, the possible conditions are ['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [4, 3, 2], 1)
-    // if its 1500px or higher, then keep layout size at 4 
-    const matches1 = useMediaQuery('(min-width:1500px)');
-    // if its 1200 then layout size of 4 when in card but 5 in grid 
-    const matches2 = useMediaQuery('(min-width:1200px)');
-    // page = 0 is grid and everthing else is card 
+    // Handle change of theme event 
+    const handleThemeChange = (index) => {
+        setTheme(themes[index])
+    }
+
+    // Handle when button on the nav menu is clicked 
+    const handleNavClick = (index) => {
+        if (index === 1) {
+            parallax.scrollTo((2.1))
+        } else {
+            if (index === 2) {
+                parallax.scrollTo(contactPosition)
+            } else {
+                parallax.scrollTo(1)
+            }
+        }
+    }
+
+    // Handle timeline click on the experience section
+    const handleTimeClick = (index) => {
+        setActivePage(index);
+        setCardIndex(0);
+    }
+
+    // Handle the arrow button click on the right bottom 
+    const handleTopClick = () => {
+        if (parallax !== null) {
+            parallax.scrollTo(0)
+        }
+    }
+
+    // Handle the right and left clicks when viewing cards 
+    const handleArrowClick = (direction) => {
+        if (direction === "left") {
+            setCardIndex(cardIndex - 1);
+        } else if (direction === "right") {
+            setCardIndex(cardIndex + 1);
+        }
+    }
+
+    // Handle card open event
+    const handleCardClick = (index) => {
+        if (index !== 0) {
+            setShowDetails(true);
+            setShowModal(true);
+        }
+    }
+
+    // Change the active card and send it as an object
+    const handleActiveCard = (item) => {
+        setActiveCard(item);
+    }
+
+    // Handle card click 
+    const handleDetailsChange = () => {
+        setShowModal(false);
+        setTimeout(() => {
+            setShowDetails(false);
+            setActiveCard(null);
+        }, 300)
+    }
 
     return (
-        preload ? <div style={{
-            height: "100vh",
-            backgroundColor: theme.priBack
-        }}>
-            < Container maxWidth={"md"} style={{ position: "absolute", top: "45%", left: "45%", transform: "translate(-50%, -50%)" }}>
-                <Typography variant="h2" align="justify" style={{ opacity: "0.9", paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", color: theme.priColor }}>
-                    Kento Kobayashi.
+        preload ?
+            <div style={{
+                height: "100vh",
+                backgroundColor: theme.priBack
+            }}>
+                < Container maxWidth={"md"} style={{ position: "absolute", top: "45%", left: "45%", transform: "translate(-50%, -50%)" }}>
+                    <Typography variant="h2" align="justify" style={{ opacity: "0.9", paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", color: theme.priColor }}>
+                        Kento Kobayashi.
         </Typography>
-            </Container >
-        </div>
+                </Container >
+            </div>
             :
             <div>
                 <Transition
@@ -244,19 +256,19 @@ const Home = () => {
                                 navBarHeight={navBarHeight}
                                 handleNavClick={(index) => handleNavClick(index)}
                                 open={open}
-                                handlePopClick={(index) => handlePopClick(index)}
                             />
                         </div>
                     )}
                 </Transition>
                 {/* Main Content area animated with parallax */}
                 <div ref={ref}>
-                    <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={4.5}>
-                        <ParallaxLayer offset={0} speed={0} factor={4.5} style={{
+                    <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={layout}>
+                        <ParallaxLayer offset={0} speed={0} factor={layout} style={{
                             backgroundImage:
                                 `radial-gradient(closest-corner, ${theme.priBack} 0%, ${theme.secBack} 100%)`,
                             backgroundColor: theme.priBack
                         }} ></ParallaxLayer>
+                        {/* Landing page animation */}
                         <ParallaxLayer
                             offset={0} speed={-0.5} factor={1.5}
                         >
@@ -266,6 +278,7 @@ const Home = () => {
                                 />
                             </div>
                         </ParallaxLayer>
+                        {/* Landing page */}
                         <ParallaxLayer
                             offset={0}
                             speed={0.2}
@@ -274,6 +287,7 @@ const Home = () => {
                                 theme={theme}
                             />
                         </ParallaxLayer>
+                        {/* Content between landing page and about me */}
                         <ParallaxLayer
                             offset={0.6}
                             speed={0.3}
@@ -283,6 +297,7 @@ const Home = () => {
                                 render={first}
                             />
                         </ParallaxLayer>
+                        {/* About me description */}
                         <ParallaxLayer
                             offset={1}
                             speed={0.1}
@@ -292,6 +307,7 @@ const Home = () => {
                                 theme={theme}
                             />
                         </ParallaxLayer>
+                        {/* About me description first picture */}
                         <ParallaxLayer
                             offset={1.1}
                             speed={-0.1}
@@ -301,15 +317,17 @@ const Home = () => {
                                 theme={theme}
                             />
                         </ParallaxLayer>
-                        {/* <ParallaxLayer
-                        offset={1.4}
-                        speed={0.1}
-                    >
-                        <SecondPicture
-                            render={third}
-                            theme={theme}
-                        />
-                    </ParallaxLayer> */}
+                        {/* About me second picture */}
+                        <ParallaxLayer
+                            offset={1.4}
+                            speed={0.1}
+                        >
+                            <SecondPicture
+                                render={third}
+                                theme={theme}
+                            />
+                        </ParallaxLayer>
+                        {/* About me second description */}
                         <ParallaxLayer
                             offset={1.5}
                             speed={-0.1}
@@ -319,8 +337,9 @@ const Home = () => {
                                 theme={theme}
                             />
                         </ParallaxLayer>
+                        {/* Experience section */}
                         <ParallaxLayer
-                            offset={2.2}
+                            offset={2.1}
                             speed={0.2}
                         >
                             <ResumeParallax
@@ -373,8 +392,11 @@ const Home = () => {
                                 </Modal>
                             </div>
                         </ParallaxLayer>
+                        {/* Contact me section, change the location depending on the secreen view 
+                            set it to 3.6 when width is less than 1500 and 3 when its higher.
+                        */}
                         <ParallaxLayer
-                            offset={3.6}
+                            offset={contactPosition}
                             speed={0.1}
                         >
                             <Contact
