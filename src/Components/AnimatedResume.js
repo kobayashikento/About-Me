@@ -178,7 +178,7 @@ const AnimateTimeline = (props) => {
 }
 
 const AnimatedGrid = (props) => {
-    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [4, 3, 2], 1)
+    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [5, 4, 3], 1)
     const ref = React.useRef(null);
     const [width, setWidth] = React.useState(0);
 
@@ -244,7 +244,7 @@ const AnimatedGrid = (props) => {
                 // If theres only 1 card
                 if (items.length === 1) {
                     column = heights.indexOf(Math.min(...heights));
-                    xy = [dist + 135, 0]
+                    xy = [dist + 167, 0]
                     leftIndex += 1;
                     return { ...child, xy, width: 300, height: 400 }
                     // if theres more than 1 card and the cards are in the starting position
@@ -288,14 +288,14 @@ const AnimatedGrid = (props) => {
             } else {
                 column = heights.indexOf(Math.min(...heights));
                 xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2]
-                return { ...child, xy, width: (width / columns) - 24, height: (child.height / 2) - 24 }
+                return { ...child, xy, width: (width / columns), height: (child.height / 2) }
             }
         })
         return [heights, gridItems]
     }, [columns, width, props.activePage, props.cardIndex])
 
     const transitions = useTransition(gridItems, (item) => item.title, {
-        from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
+        from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0, }),
         enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
         update: ({ xy, width, height }) => ({ xy, width, height }),
         leave: { opacity: 0 },
@@ -306,12 +306,13 @@ const AnimatedGrid = (props) => {
     return (
         <React.Fragment >
             <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-                marginTop: "1rem", paddingRight: "16px", paddingLeft: "16px", height: props.activePage !== 0 ? 400 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
+                marginTop: "1rem", paddingRight: "16px", height: props.activePage !== 0 ? "500px" : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                     <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                         <AnimatedCard
                             item={item}
+                            theme={props.theme}
                             activePage={props.activePage}
                             handleCardClick={(index) => props.handleCardClick(index)}
                             handleActiveCard={(item) => props.handleActiveCard(item)}
@@ -321,15 +322,16 @@ const AnimatedGrid = (props) => {
                 ))}
             </div >
             <Fade bottom when={props.activePage !== 0}>
-                <div style={{ width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
-                    <div style={{}}>
-                        <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
-                            <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
-                        </IconButton>
-                        <IconButton disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
-                            <ChevronRightIcon clsssname="icon" style={{ color: getItems().length - 1 === props.cardIndex ? `${props.theme.secColor}33` : props.theme.secColor }} />
-                        </IconButton>
-                    </div>
+                <div style={{ position: "relative", top: "-85px", width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
+                    <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
+                        <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
+                    </IconButton>
+                    <IconButton disabled={getItems().length < 3 ? true : getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
+                        <ChevronRightIcon clsssname="icon" style={{
+                            color: getItems().length < 3 ? `${props.theme.secColor}33` :
+                                getItems().length - 1 === props.cardIndex ? `${props.theme.secColor}33` : props.theme.secColor
+                        }} />
+                    </IconButton>
                 </div>
             </Fade>
         </React.Fragment >

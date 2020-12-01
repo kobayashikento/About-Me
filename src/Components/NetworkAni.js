@@ -64,11 +64,11 @@ const NetworkAni = (props) => {
 	class ParticleNetwork {
 		constructor(parent) {
 			this.options = {
-				velocity: 1,
+				velocity: 0.7,
 				density: 17000,
 				netLineDistance: 200,
-				netLineColor: `${props.theme.secColor}80`,
-				particleColors: [`${props.theme.secColor}80`] // ['#6D4E5C', '#aaa', '#FFC458' ]
+				netLineColor: `${props.theme.secColor}99`,
+				particleColors: [`${props.theme.secColor}99`] // ['#6D4E5C', '#aaa', '#FFC458' ]
 			};
 			this.canvas = parent.canvas;
 			this.ctx = parent.ctx;

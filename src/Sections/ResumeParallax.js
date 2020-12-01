@@ -20,8 +20,8 @@ const ResumeParallax = (props) => {
         </div>
     }, {
         content:
-            <Typography variant="body1" style={{ color: props.theme.priTxtColor, textIndent: "1rem", paddingLeft: "1rem", marginBottom: "1rem" }}>
-                Throughout my undergraduate years and my work in Chicago, I have acquired the knowledge which I intend show through using the interactive cards below. The cards are animated using React-Spring
+            <Typography variant="body1" style={{ color: props.theme.priTxtColor, textIndent: "1rem", marginBottom: "1rem" }}>
+                Throughout my undergraduate years and my work in Chicago, I have acquired the knowledge which I intend to show through using the interactive cards below. The cards are animated using React-Spring
         </Typography>
     }]
 

@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
 import Roadmap from '../Sections/Roadmap.js';
-import Resume from '../Sections/Resume.js';
 
 import { MenuButton, AboutLines, BottomMenu } from '../../Sections/Introduction.js';
 import { RoadmapTitle, TimelineAccordion } from '../Sections/Roadmap.js';

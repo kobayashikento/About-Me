@@ -9,32 +9,22 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
-import Popper from '@material-ui/core/Popper';
-import Grow from '@material-ui/core/Grow';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
-import { useSpring, useChain, config, useTrail, animated, useTransition } from 'react-spring'
+import { useTrail, animated, useTransition } from 'react-spring'
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import face from '../Assets/Pictures/chicagome.jpg';
-
-import catImg from '../Assets/Pictures/cat.JPG';
-import { StyledContainer } from '../Styles/introductionStyle.js';
-
-const buttonTheme = createMuiTheme({ palette: { primary: { main: "#FFFFFF" } } })
+import hurtme from '../Assets/Pictures/hurtme.jpg';
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 const shadow1 = "rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 2px 4px, rgba(0, 0, 0, 0.1) 0px 4px 8px, rgba(0, 0, 0, 0.1) 0px 8px 16px, rgba(0, 0, 0, 0.1) 0px 16px 32px, rgba(0, 0, 0, 0.1) 0px 32px 64px";
@@ -61,7 +51,7 @@ const Introduction = (props) => {
         },
         {
             content: <Typography variant="body1" align="justify" style={{ color: props.theme.priTxtColor, paddingTop: "1rem", fontWeight: "400", paddingLeft: "2rem", width: "70%" }}>
-                I recently obtained my Honours Bachelors of Science degree from University of Toronto. I enjoy playing Jazz piano and occasionally checking myself out while working out.
+                I recently obtained my Honours Bachelors of Science degree from the University of Toronto with experiences in Application and Web Development.
                 </Typography>
 
         }
@@ -131,7 +121,7 @@ const NavBar = (props) => {
     return (
         <div style={{
             display: "flex", height: "48px", width: "100%", position: "absolute",
-            top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", paddingRight: "1rem"
+            top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", background: props.firstRender ? "transparent" : `${props.theme.priBack}`
         }}>
             <div style={{ display: "flex", marginLeft: "auto" }}>
                 {navTrail.map(({ x, height, ...rest }, index) => (
@@ -265,7 +255,7 @@ const Contact = (props) => {
                 </Button>
             </Grid>
             <Typography variant="body1" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", marginTop: "4rem" }}>
-                Theres are some potential themes I was considering...
+                These are some potential themes I was considering...
             </Typography>
             <div style={{ display: "flex", marginTop: "1rem", marginRight: "auto", marginLeft: "auto", height: "40px" }}>
                 {props.themes.map((theme, index) => {
@@ -346,7 +336,7 @@ const AboutMe = (props) => {
             , paddingLeft: "1rem", marginBottom: "inherit", textIndent: "0"
         },
         {
-            content: <Typography variant="body1" style={{ display: "inline", boxDecorationBreak: "clone", color: props.theme.priTxtColor }}> I have experience in developing iOS and Web applications and I put pride into making funtional and beautiful products. </Typography>
+            content: <Typography variant="body1" style={{ display: "inline", boxDecorationBreak: "clone", color: props.theme.priTxtColor }}> I put pride in making functional and beautiful products by focusing on every single detail, from the animations to the color schemes.  </Typography>
             , paddingLeft: "1rem", marginBottom: "inherit", textIndent: "0"
         },
     ]
@@ -411,24 +401,24 @@ const SecondPicture = (props) => {
     })
 
     return (
-        <Container maxWidth="md" style={{ position: "absolute", top: "26%", left: "50%", display: "flex", transform: "translate(-40%, -26%)" }}>
+        <Container maxWidth="md" style={{ position: "absolute", top: "26%", left: "48%", display: "flex", transform: "translate(-40%, -26%)" }}>
             <Grid
                 container
                 direction="row"
                 justify="center"
                 alignItems="center"
             >
-                <Grid item xs={4} style={{ display: "flex", justifyContent: "center" }}>
+                <Grid item xs={3} style={{ display: "flex", justifyContent: "center" }}>
                     {transitions.map(({ item, key, props }) =>
                         item && <animated.div key={key} style={props}>
-                            <img src={catImg} style={{
-                                marginLeft: "2rem", width: "250px", height: "250px", borderRadius: "5px",
+                            <img src={hurtme} style={{
+                                width: "250px", height: "222px", borderRadius: "5px",
                                 boxShadow: `0 9px 12px 1px ${priColor}33, 0 3px 16px 2px ${priColor}26, 0 5px 6px -3px ${priColor}33`
                             }} />
                         </animated.div>
                     )}
                 </Grid>
-                <Grid item xs={8} />
+                <Grid item xs={9} />
             </Grid>
         </Container >
     );
@@ -439,17 +429,16 @@ const AboutMeSecond = (props) => {
     const open = props.render
     const items = [
         {
-            content: <Divider style={{ marginLeft: "7rem", width: "20rem", marginBottom: "2rem", backgroundColor: props.theme.priTxtColor }} />
+            content: <Divider style={{ marginLeft: "5rem", width: "16rem", marginBottom: "2rem", backgroundColor: props.theme.priTxtColor }} />
         },
         {
             content: <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem", marginBottom: "1rem" }}>
-                When I am not coding I enjoy working out and eventually plan to paddle whenever I can.
+                When I am not coding I enjoy playing video games, playing the piano, and occasionally check myself out while working out.
 </Typography>
         },
         {
             content: <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
-                I also enjoy playing pieces from the Ghibli films,
-                Jazz music and Lofi-Hip hop on the piano, carefully making sure that I don't annoy my neighbors.
+                I enjoy playing all kinds of pieces on the piano from Ghibli films, to Chopin's Waltz, and Jazz music, while carefully making sure that I don't annoy my neighbors.
 </Typography>
         },
     ]
@@ -469,8 +458,8 @@ const AboutMeSecond = (props) => {
                 justify="space-between"
                 alignItems="center"
             >
-                <Grid item xs={2} />
-                <Grid item xs={7} >
+                <Grid item xs={4} />
+                <Grid item xs={6} >
                     {contentTrail.map(({ x, height, ...rest }, index) => (
                         <animated.div key={`aboutSec${index}`} style={{
                             ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
@@ -479,7 +468,7 @@ const AboutMeSecond = (props) => {
                         </animated.div>
                     ))}
                 </Grid>
-                <Grid item xs={3} />
+                <Grid item xs={2} />
             </Grid>
         </Container >
     )

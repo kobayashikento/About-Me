@@ -38,6 +38,13 @@ const themes = [
         priTxtColor: "#264572"
     },
     {
+        priBack: "#222629",
+        secBack: "#464866",
+        priColor: "#86C232",
+        secColor: "#61892F",
+        priTxtColor: "#6B6E70"
+    },
+    {
         //f1faee
         //a8dadc
         priBack: "#f1faee",
@@ -59,13 +66,6 @@ const themes = [
         priColor: "#e9c46a",
         secColor: "#17252A",
         priTxtColor: "#DEF2F1"
-    },
-    {
-        priBack: "#222629",
-        secBack: "#464866",
-        priColor: "#86C232",
-        secColor: "#61892F",
-        priTxtColor: "#6B6E70"
     },
 ]
 
@@ -142,10 +142,10 @@ const Home = () => {
 
     const handleNavClick = (index) => {
         if (index === 1) {
-            parallax.scrollTo((2))
+            parallax.scrollTo((2.1))
         } else {
             if (index === 2 && matches2 && activePage === 0) {
-                parallax.scrollTo((index + 2))
+                parallax.scrollTo(3.6)
             } else {
                 parallax.scrollTo((index + 1))
             }
@@ -212,29 +212,7 @@ const Home = () => {
     const matches1 = useMediaQuery('(min-width:1500px)');
     // if its 1200 then layout size of 4 when in card but 5 in grid 
     const matches2 = useMediaQuery('(min-width:1200px)');
-    const [layoutSize, setLayoutSize] = React.useState(matches1 ? 4 : 5)
     // page = 0 is grid and everthing else is card 
-    React.useEffect(() => {
-        if (matches1) {
-            setLayoutSize(4);
-        } else if (matches2) {
-            if (activePage === 0) {
-                setLayoutSize(5);
-            } else {
-                setLayoutSize(4);
-            }
-        }
-    }, [activePage])
-
-    const spring = useSpring({
-        config: { duration: 15000 },
-        to: async (next, cancel) => {
-            await next({ opacity: 1, transform: "translate(2%, -12%) rotate3d(-0.7, 0.4, 0.3, 59deg) scaleX(-1)" })
-            await next({ opacity: 1, transform: "translate(-4%, -4%) rotate3d(-0.7, 0.4, 0.3, 39deg) scaleX(-1)" })
-            await next({ opacity: 1, transform: "translate(2%, -12%) rotate3d(-0.7, 0.4, 0.3, 59deg) scaleX(-1)" })
-        },
-        from: { opacity: 1, transform: "translate(-15%, -5%) rotate3d(0.1,0.1,0.3, 30deg) scaleX(-1)" },
-    })
 
     return (
         preload ? <div style={{
@@ -258,9 +236,9 @@ const Home = () => {
                     {showNav => showNav && (props =>
                         <div style={{
                             ...props, height: "48px", width: "100%", position: "absolute", zIndex: "1", marginRight: "1rem",
-                            background: firstRender ? "transparent" : `${theme.secBack}33`
                         }}>
                             <NavBar
+                                firstRender={firstRender}
                                 style={props}
                                 theme={theme}
                                 navBarHeight={navBarHeight}
@@ -273,8 +251,8 @@ const Home = () => {
                 </Transition>
                 {/* Main Content area animated with parallax */}
                 <div ref={ref}>
-                    <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={layoutSize}>
-                        <ParallaxLayer offset={0} speed={0} factor={layoutSize} style={{
+                    <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={4.5}>
+                        <ParallaxLayer offset={0} speed={0} factor={4.5} style={{
                             backgroundImage:
                                 `radial-gradient(closest-corner, ${theme.priBack} 0%, ${theme.secBack} 100%)`,
                             backgroundColor: theme.priBack
@@ -282,9 +260,6 @@ const Home = () => {
                         <ParallaxLayer
                             offset={0} speed={-0.5} factor={1.5}
                         >
-                            {/* <animated.div style={spring}>
-                              
-                            </animated.div> */}
                             <div>
                                 <NetworkAni
                                     theme={theme}
@@ -399,7 +374,7 @@ const Home = () => {
                             </div>
                         </ParallaxLayer>
                         <ParallaxLayer
-                            offset={matches1 ? 4.1 : (layoutSize - 1) + 0.1}
+                            offset={3.6}
                             speed={0.1}
                         >
                             <Contact
