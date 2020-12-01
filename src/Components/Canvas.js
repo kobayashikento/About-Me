@@ -1,9 +1,5 @@
 import React from 'react'
 
-import primes from '../Assets/prime.js';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
-
 const Canvas = props => {
     const canvasRef = React.useRef(null);
 

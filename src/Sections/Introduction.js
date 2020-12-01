@@ -29,11 +29,9 @@ import { useSpring, useChain, config, useTrail, animated, useTransition } from '
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-import Canvas from '../Components/Canvas.js';
+import face from '../Assets/Pictures/chicagome.jpg';
 
-import face from '../Assets/chicagome.jpg';
-
-import catImg from '../Assets/cat.JPG';
+import catImg from '../Assets/Pictures/cat.JPG';
 import { StyledContainer } from '../Styles/introductionStyle.js';
 
 const buttonTheme = createMuiTheme({ palette: { primary: { main: "#FFFFFF" } } })

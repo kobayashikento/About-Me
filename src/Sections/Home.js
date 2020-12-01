@@ -13,14 +13,14 @@ import { AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
 
 import '../Styles/resumeStyle.css';
 
-import Canvas from '../Components/Canvas.js';
-
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
 import ResumeDetails from '../Components/ResumeDetails.js';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
+
+import NetworkAni from '../Components/NetworkAni.js';
 
 import { useSpring, animated, } from 'react-spring'
 import { Keyframes } from 'react-spring/renderprops'
@@ -286,14 +286,8 @@ const Home = () => {
                               
                             </animated.div> */}
                             <div>
-                            <Canvas
-                                      size={50}
-                                      xAxis={0}
-                                      yAxis={0}
-                                      open={false}
-                                      theme={theme}
-                                      startIndex={0}
-                                      type={1}
+                                <NetworkAni 
+                                    theme={theme}
                                 />
                             </div>
                         </ParallaxLayer>

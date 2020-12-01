@@ -30,7 +30,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
-import face from '../Assets/face.jpg';
+import face from '../Assets/Pictures/face.jpg';
 
 import resume from '../Assets/resume.js';
 

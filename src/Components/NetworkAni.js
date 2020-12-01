@@ -1,12 +1,18 @@
 import React from 'react'
+import '../Styles/network.scss';
 
 const NetworkAni = (props) => {
 	//Initialize Canvas
 	const canvasRef = React.useRef(null);
-	const canvas = canvasRef.current
-	const context = canvas.getContext('2d')
-	context.canvas.width = window.innerWidth;
-	context.canvas.height = window.innerHeight;
+	const canvas = undefined;
+	const context = undefined;
+
+	React.useEffect(() => {
+		const canvas = canvasRef.current;
+		const context = canvas.getContext('2d')
+		context.canvas.width = window.innerWidth;
+		context.canvas.height = window.innerHeight;
+	  }, []);
 
 	//Config for network 
 	var config = {
@@ -186,7 +192,7 @@ const NetworkAni = (props) => {
 	};
 
 	return (
-		<canvas ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
+		<canvas className="article-network-animation" ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
 	)
 }
 
