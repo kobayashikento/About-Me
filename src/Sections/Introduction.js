@@ -239,7 +239,7 @@ const Contact = (props) => {
                         <Typography variant="h4" style={{ color: props.theme.priColor, fontWeight: "bold" }}>
                             3.
             </Typography>
-                        <Typography variant="h4" style={{ paddingLeft: "1rem", color: props.theme.priTxtColor, fontWeight: "bold" }}>
+                        <Typography variant="h4" style={{ paddingLeft: "1rem", color: props.theme.priColor, fontWeight: "bold" }}>
                             Get In Touch
             </Typography>
                         <Divider style={{ marginLeft: "3rem", width: "5rem", backgroundColor: props.theme.priTxtColor }} />
@@ -323,7 +323,7 @@ const AboutMe = (props) => {
         type: 0
     },
     {
-        content: <Typography variant="h4" style={{ paddingLeft: "1rem", color: props.theme.priTxtColor, fontWeight: "bold" }}>About Me </Typography>,
+        content: <Typography variant="h4" style={{ paddingLeft: "1rem", color: props.theme.priColor, fontWeight: "bold" }}>About Me </Typography>,
         type: 0,
     },
     {
@@ -584,7 +584,7 @@ const LineDescription = (props) => {
         </div>
     }, {
         content: <Typography variant="subtitle2" align="justify" style={{ color: props.theme.priTxtColor, paddingTop: "1rem", paddingLeft: "1rem", fontWeight: "400", width: "fit-content" }}>
-            These lines are generated using the properties of 1500 digits, for every prime the lines turns 90 degrees.
+            The number of dots and lines present on the canvas is set to be within the limit of 17000 pixels.
     </Typography>
     }]
 

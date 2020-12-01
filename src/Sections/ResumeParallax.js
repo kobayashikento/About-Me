@@ -13,7 +13,7 @@ const ResumeParallax = (props) => {
     const items = [{
         content: <div style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}>
             <Typography variant="h5" style={{ color: props.theme.priColor, fontWeight: "bold" }}>2.</Typography>
-            <Typography variant="h4" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", fontWeight: "bold" }}>
+            <Typography variant="h4" style={{ color: props.theme.priColor, paddingLeft: "1rem", fontWeight: "bold" }}>
                 My Experiences
          </Typography>
             <Divider style={{ marginLeft: "3rem", width: "13rem", backgroundColor: props.theme.priTxtColor }} />

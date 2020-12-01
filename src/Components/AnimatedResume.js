@@ -162,11 +162,11 @@ const AnimateTimeline = (props) => {
     return (
         <ThemeProvider theme={theme}>
             <div style={{
-                height: "42px", width: "420px", position: "relative", display: "flex", marginLeft: "auto", marginRight: "auto", marginTop: "3rem"
+                height: "42px", width: "420px", position: "relative", display: "flex", marginLeft: "auto", marginRight: "auto",
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                     <animated.div key={index} style={{ border: `2px solid ${props.theme.secColor}`, borderRadius: "17px", overflow: "hidden", transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                        <Button size="large" disabled={page === index ? true : false} onClick={() => handleClick(index)}>
+                        <Button style={{ borderRadius: "17px" }} size="large" disabled={page === index ? true : false} onClick={() => handleClick(index)}>
                             {items[index].icon}
                             {items[index].content}
                         </Button>
@@ -306,7 +306,7 @@ const AnimatedGrid = (props) => {
     return (
         <React.Fragment >
             <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-               marginTop: "4rem", paddingRight: "16px", paddingLeft: "16px", height: props.activePage !== 0 ? 400 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
+                marginTop: "1rem", paddingRight: "16px", paddingLeft: "16px", height: props.activePage !== 0 ? 400 : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
             }}>
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                     <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
@@ -324,10 +324,10 @@ const AnimatedGrid = (props) => {
                 <div style={{ width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
                     <div style={{}}>
                         <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
-                            <ChevronLeftIcon clsssname="icon" style={{ color: props.theme.secColor }} />
+                            <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
                         </IconButton>
-                        <IconButton disabled={getItems().length - 2 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
-                            <ChevronRightIcon clsssname="icon" style={{ color: props.theme.secColor }} />
+                        <IconButton disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
+                            <ChevronRightIcon clsssname="icon" style={{ color: getItems().length - 1 === props.cardIndex ? `${props.theme.secColor}33` : props.theme.secColor }} />
                         </IconButton>
                     </div>
                 </div>

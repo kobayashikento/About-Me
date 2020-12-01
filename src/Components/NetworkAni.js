@@ -1,40 +1,36 @@
 import React from 'react'
-import '../Styles/network.scss';
 
 const NetworkAni = (props) => {
 	//Initialize Canvas
 	const canvasRef = React.useRef(null);
-	const canvas = undefined;
-	const context = undefined;
 
 	React.useEffect(() => {
 		const canvas = canvasRef.current;
 		const context = canvas.getContext('2d')
 		context.canvas.width = window.innerWidth;
 		context.canvas.height = window.innerHeight;
-	  }, []);
-
-	//Config for network 
-	var config = {
-		velocity: 1.5, // the higher the faster
-		density: 1000, // the lower the denser
-		netLineDistance: 200,
-		netLineColor: '#929292',
-		particleColors: [props.theme.secColor]
-	}
+		var parent = { canvas: canvas, ctx: context }
+		console.log(parent)
+		var pna = new ParticleNetwork(parent);
+		pna.init()
+	}, []);
 
 	//The animation is split into two sections 1. the particles 2. the network
 	// 1. The particles 
 	class Particle {
 		constructor(x, y) {
-			this.particleColor = returnRandomArrayitem(config.particleColors);
+		constructor(parent, x, y) {
+			this.network = parent;
+			this.canvas = parent.canvas;
+			this.ctx = parent.ctx;
+			this.particleColor = returnRandomArrayitem(this.network.options.particleColors);
 			this.radius = getLimitedRandom(1.5, 2.5);
 			this.opacity = 0;
-			this.x = x || Math.random() * context.canvas.width;
-			this.y = y || Math.random() * context.canvas.height;
+			this.x = x || Math.random() * this.canvas.width;
+			this.y = y || Math.random() * this.canvas.height;
 			this.velocity = {
-				x: (Math.random() - 0.5) * config.velocity,
-				y: (Math.random() - 0.5) * config.velocity
+				x: (Math.random() - 0.5) * parent.options.velocity,
+				y: (Math.random() - 0.5) * parent.options.velocity
 			};
 		}
 		update() {
@@ -44,10 +40,10 @@ const NetworkAni = (props) => {
 				this.opacity = 1;
 			}
 			// Change dir if outside map
-			if (this.x > context.canvas.width + 100 || this.x < -100) {
+			if (this.x > this.canvas.width + 100 || this.x < -100) {
 				this.velocity.x = -this.velocity.x;
 			}
-			if (this.y > context.canvas.height + 100 || this.y < -100) {
+			if (this.y > this.canvas.height + 100 || this.y < -100) {
 				this.velocity.y = -this.velocity.y;
 			}
 
@@ -57,18 +53,26 @@ const NetworkAni = (props) => {
 		}
 		draw() {
 			// Draw particle
-			context.beginPath();
-			context.fillStyle = this.particleColor;
-			context.globalAlpha = this.opacity;
-			context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-			context.fill();
+			this.ctx.beginPath();
+			this.ctx.fillStyle = this.particleColor;
+			this.ctx.globalAlpha = this.opacity;
+			this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+			this.ctx.fill();
 		}
 	}
 
+
 	class ParticleNetwork {
 		constructor(parent) {
-			this.canvas = canvas;
-			this.ctx = context;
+			this.options = {
+				velocity: 1,
+				density: 17000,
+				netLineDistance: 200,
+				netLineColor: `${props.theme.secColor}80`,
+				particleColors: [`${props.theme.secColor}80`] // ['#6D4E5C', '#aaa', '#FFC458' ]
+			};
+			this.canvas = parent.canvas;
+			this.ctx = parent.ctx;
 
 			this.init();
 		}
@@ -78,7 +82,6 @@ const NetworkAni = (props) => {
 
 			// Update canvas
 			this.animationFrame = requestAnimationFrame(this.update.bind(this));
-
 		}
 		createParticles(isInitial) {
 			// Initialise / reset particles
@@ -192,7 +195,9 @@ const NetworkAni = (props) => {
 	};
 
 	return (
-		<canvas className="article-network-animation" ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
+		<canvas style={{
+			position: "fixed", top: "0", left: "0", right: "0", height: "100vh"
+		}} ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
 	)
 }
 

@@ -35,7 +35,7 @@ const themes = [
         secBack: "#FFFFFF",
         priColor: "#05878a",
         secColor: "#437FC7",
-        priTxtColor: "#1d3557"
+        priTxtColor: "#264572"
     },
     {
         //f1faee
@@ -252,9 +252,9 @@ const Home = () => {
                 <Transition
                     items={showNav}
                     config={{ duration: 500 }}
-                    from={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: firstRender ? emptyShadow : shadow }}
+                    from={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: emptyShadow }}
                     enter={{ opacity: 1, transform: "translate(0, 0px)", boxShadow: emptyShadow }}
-                    leave={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: shadow }}>
+                    leave={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: emptyShadow }}>
                     {showNav => showNav && (props =>
                         <div style={{
                             ...props, height: "48px", width: "100%", position: "absolute", zIndex: "1", marginRight: "1rem",
@@ -280,13 +280,13 @@ const Home = () => {
                             backgroundColor: theme.priBack
                         }} ></ParallaxLayer>
                         <ParallaxLayer
-                            offset={0} speed={-0.5} factor={2}
+                            offset={0} speed={-0.5} factor={1.5}
                         >
                             {/* <animated.div style={spring}>
                               
                             </animated.div> */}
                             <div>
-                                <NetworkAni 
+                                <NetworkAni
                                     theme={theme}
                                 />
                             </div>
@@ -345,8 +345,8 @@ const Home = () => {
                             />
                         </ParallaxLayer>
                         <ParallaxLayer
-                            offset={2.3}
-                            speed={-0.1}
+                            offset={2.2}
+                            speed={0.2}
                         >
                             <ResumeParallax
                                 parallax={parallax}
@@ -357,11 +357,11 @@ const Home = () => {
                                 theme={theme}
                                 render={forth}
                             />
-                        </ParallaxLayer>
-                        <ParallaxLayer
-                            offset={2.7}
-                            speed={0.2}
-                        >
+                            <AnimateTimeline
+                                theme={theme}
+                                activePage={activePage}
+                                handleTimeClick={(index) => handleTimeClick(index)}
+                            />
                             <div>
                                 <AnimatedGrid
                                     theme={theme}
@@ -397,16 +397,6 @@ const Home = () => {
 
                                 </Modal>
                             </div>
-                        </ParallaxLayer>
-                        <ParallaxLayer
-                            offset={2.6}
-                            speed={0.1}
-                        >
-                            <AnimateTimeline
-                                theme={theme}
-                                activePage={activePage}
-                                handleTimeClick={(index) => handleTimeClick(index)}
-                            />
                         </ParallaxLayer>
                         <ParallaxLayer
                             offset={matches1 ? 4.1 : (layoutSize - 1) + 0.1}
