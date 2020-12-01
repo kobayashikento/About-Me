@@ -4,8 +4,8 @@ import { Fade, Slide } from 'react-reveal';
 
 import { useTransition, animated } from 'react-spring';
 
-import { AnimatedIcon, AnimateTimeline, AnimatedGrid } from '../Components/AnimatedResume.js';
-import ResumeDetails from '../Components/ResumeDetails.js';
+import { AnimatedIcon, AnimateTimeline, AnimatedGrid } from '../../Components/AnimatedResume.js';
+import ResumeDetails from '../../Components/ResumeDetails.js';
 
 const Resume = (props) => {
     // 0-none, 1-education, 2-work, 3-extra

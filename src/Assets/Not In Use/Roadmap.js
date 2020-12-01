@@ -21,7 +21,7 @@ import EventIcon from '@material-ui/icons/Event';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
-import timeline from '../Assets/timeline.js';
+import timeline from '../timeline.js';
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 

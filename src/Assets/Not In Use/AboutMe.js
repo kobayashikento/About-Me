@@ -7,9 +7,9 @@ import Paper from '@material-ui/core/Paper';
 import Roadmap from '../Sections/Roadmap.js';
 import Resume from '../Sections/Resume.js';
 
-import { MenuButton, AboutLines, BottomMenu } from '../Sections/Introduction.js';
+import { MenuButton, AboutLines, BottomMenu } from '../../Sections/Introduction.js';
 import { RoadmapTitle, TimelineAccordion } from '../Sections/Roadmap.js';
-import Canvas from '../Components/Canvas.js';
+import Canvas from '../../Components/Canvas.js';
 
 import torontoImg from '../Assets/toronto.jpg';
 import graduation from '../Assets/graduation.jpg';

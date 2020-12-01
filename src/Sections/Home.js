@@ -49,14 +49,14 @@ const themes = [
     {
         priBack: "#88BDBC",
         secBack: "#254E58",
-        priColor: "#FEFFFF",
+        priColor: "#e76f51",
         secColor: "#112D32",
         priTxtColor: "#DEF2F1"
     },
     {
         priBack: "#3AAFA9",
         secBack: "#2B7A78",
-        priColor: "#FEFFFF",
+        priColor: "#e9c46a",
         secColor: "#17252A",
         priTxtColor: "#DEF2F1"
     },
@@ -285,15 +285,15 @@ const Home = () => {
                             {/* <animated.div style={spring}>
                               
                             </animated.div> */}
-                            <div style={{transform: "translate(50%, 20%)"}}>
+                            <div>
                             <Canvas
                                       size={50}
                                       xAxis={0}
                                       yAxis={0}
-                                      home={true}
                                       open={false}
                                       theme={theme}
                                       startIndex={0}
+                                      type={1}
                                 />
                             </div>
                         </ParallaxLayer>
