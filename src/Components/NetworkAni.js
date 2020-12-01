@@ -18,7 +18,6 @@ const NetworkAni = (props) => {
 	//The animation is split into two sections 1. the particles 2. the network
 	// 1. The particles 
 	class Particle {
-		constructor(x, y) {
 		constructor(parent, x, y) {
 			this.network = parent;
 			this.canvas = parent.canvas;
