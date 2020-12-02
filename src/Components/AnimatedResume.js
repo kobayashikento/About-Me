@@ -3,19 +3,13 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import { Transition } from 'react-spring/renderprops'
-import { useTransition, animated, } from 'react-spring'
-
-import classNames from 'classnames';
+import { useTransition, animated, config } from 'react-spring'
 
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Fab from '@material-ui/core/Fab';
-import Typography from '@material-ui/core/Typography';
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 // Icons 
 import AppsIcon from '@material-ui/icons/Apps';
@@ -39,12 +33,6 @@ import useObserver from '../Components/useMeasure.js'
 import AnimatedCard from '../Components/AnimatedCard.js';
 
 import Fade from 'react-reveal';
-
-import styles from '../Styles/resumeStyle.css';
-import { Tooltip } from '@material-ui/core';
-
-import { withStyles } from '@material-ui/core/styles';
-import { Apps } from '@material-ui/icons';
 
 const AnimatedIcon = () => {
     const isExpanded = true;
@@ -288,20 +276,25 @@ const AnimatedGrid = (props) => {
             } else {
                 column = heights.indexOf(Math.min(...heights));
                 xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2]
+                // console.log(width, columns, column, heights, xy)
                 return { ...child, xy, width: (width / columns), height: (child.height / 2) }
             }
         })
         return [heights, gridItems]
     }, [columns, width, props.activePage, props.cardIndex])
 
+    console.log(gridItems)
+
     const transitions = useTransition(gridItems, (item) => item.title, {
         from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0, }),
         enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
         update: ({ xy, width, height }) => ({ xy, width, height }),
         leave: { opacity: 0 },
-        config: { mass: 5, tension: 300, friction: 100 },
-        trail: 10
+        config: config.slow,
+        trail: 5
     })
+
+    console.log(transitions)
 
     return (
         <React.Fragment >

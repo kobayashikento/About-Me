@@ -10,7 +10,6 @@ const NetworkAni = (props) => {
 		context.canvas.width = window.innerWidth;
 		context.canvas.height = window.innerHeight;
 		var parent = { canvas: canvas, ctx: context }
-		console.log(parent)
 		var pna = new ParticleNetwork(parent);
 		pna.init()
 	}, []);

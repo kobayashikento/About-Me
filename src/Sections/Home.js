@@ -86,8 +86,8 @@ const Home = () => {
     const [activeCard, setActiveCard] = React.useState(null);
     const [showDetails, setShowDetails] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
-    const [layout, setLayout] = React.useState(matches1 ? 4 : 4.5);
-    const [contactPosition, setContactPosition] = React.useState(matches1 ? 3 : 3.6);
+    const [layout, setLayout] = React.useState(matches1 ? 4 : 4.3);
+    const [contactPosition, setContactPosition] = React.useState(matches1 ? 3 : 3.4);
     const [preload, setPreload] = React.useState(false);
 
     // Detect esc button
@@ -146,8 +146,8 @@ const Home = () => {
             }
         } else { 
             if (!matches1){
-                setLayout(4.5);
-                setContactPosition(3.6);
+                setLayout(4.3);
+                setContactPosition(3.4);
             }
         }
     }, [activePage, matches1])

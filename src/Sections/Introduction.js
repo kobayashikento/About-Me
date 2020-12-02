@@ -11,14 +11,14 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 
-import { createMuiTheme } from '@material-ui/core/styles';
-
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
-import { useTrail, animated, useTransition } from 'react-spring'
+import { useTrail, animated, useTransition } from 'react-spring';
+import { Transition } from 'react-spring/renderprops';
+
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -27,7 +27,6 @@ import face from '../Assets/Pictures/chicagome.jpg';
 import hurtme from '../Assets/Pictures/hurtme.jpg';
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
-const shadow1 = "rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 2px 4px, rgba(0, 0, 0, 0.1) 0px 4px 8px, rgba(0, 0, 0, 0.1) 0px 8px 16px, rgba(0, 0, 0, 0.1) 0px 16px 32px, rgba(0, 0, 0, 0.1) 0px 32px 64px";
 
 const Introduction = (props) => {
     const theme = useTheme();
@@ -41,7 +40,7 @@ const Introduction = (props) => {
         },
         {
             content: <Typography variant="h2" align="justify" style={{ opacity: "0.9", paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", color: props.theme.priColor === "#86C232" ? "#FEFFFF" : props.theme.priColor }}>
-                Kento Kobayashi.
+                Kento Kobayashi
         </Typography>
         },
         {
@@ -82,6 +81,7 @@ const Introduction = (props) => {
 
 const NavBar = (props) => {
 
+    const priColor = props.theme.priColor;
     const navItems = ["About", "Experience", "Contact"];
     const navTrail = useTrail(navItems.length, {
         config: { mass: 5, tension: 2000, friction: 200 },
@@ -90,32 +90,14 @@ const NavBar = (props) => {
         height: props.open ? 110 : 0,
         from: { opacity: 0, x: 20, height: 0, },
     })
-    const [open, setOpen] = React.useState(false);
     const [hover, setHover] = React.useState(0);
-    const [itemHover, setItemHover] = React.useState(0);
 
     const handleClose = (index) => {
-        if (index !== 0) {
-            props.handlePopClick(index);
-        }
         setHover(0);
-        setItemHover(0);
-        setOpen(false);
     };
 
     const handleMouseEnter = (index) => {
-        if (index === 1) {
-            setOpen(true);
-        }
         setHover(index + 1);
-    }
-
-    const handleItemEnter = (index) => {
-        setItemHover(index)
-    }
-
-    const handleItemLeave = (index) => {
-        setItemHover(index)
     }
 
     return (
@@ -128,13 +110,24 @@ const NavBar = (props) => {
                     <animated.div key={`navicons${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "8px" }}>
                         <Button className="navText" style={{ backgroundColor: "transparent" }} onClick={() => props.handleNavClick(index)}
                             onMouseLeave={() => handleClose(0)} onMouseEnter={() => handleMouseEnter(index)}>
-                            <Typography variant="subtitle2" align="justify" style={{ marginRight: "8px", color: props.theme.priColor, fontWeight: "bolder" }}>
-                                {`${index + 1}.`}
-                            </Typography>
-                            <div>
-                                <Typography variant="body2" align="justify" style={{ color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8" }}>
-                                    {navItems[index]}
-                                </Typography>
+                            <div style={{ display: "flex", flexDirection: "column" }}>
+                                <div style={{ display: "flex", flexDirection: "row" }}>
+                                    <Typography variant="body2" align="justify" style={{ marginRight: "8px", color: props.theme.priColor, fontWeight: "bolder" }}>
+                                        {`${index + 1}.`}
+                                    </Typography>
+                                    <Typography variant="body2" align="justify" style={{ color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8" }}>
+                                        {navItems[index]}
+                                    </Typography>
+                                </div>
+                                <Transition
+                                    items={hover === index + 1}
+                                    from={{ opacity: 0, width: "0px" }}
+                                    enter={{ opacity: 1, width: index === 0 ? "77px" : index === 1 ? "119px" : "97px" }}
+                                    leave={{ opacity: 0, width: "0px" }}>
+                                    {show => show && (props => <div style={props}>
+                                        <Divider style={{ height: "2px", marginTop: "2px", backgroundColor: priColor }} />
+                                    </div>)}
+                                </Transition>
                             </div>
                         </Button>
                     </animated.div>
