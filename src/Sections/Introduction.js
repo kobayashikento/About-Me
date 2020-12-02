@@ -313,7 +313,7 @@ const Contact = (props) => {
             >
                 <Grid item sm={2} />
                 <Grid item xs={12} sm={8} style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <Typography variant="body1" align={props.mobile ? "justify" : "center"} style={{ color: props.theme.priTxtColor, textIndent: "1rem", paddingLeft: "1rem", marginBottom: "1rem" }}>
+                    <Typography variant="body1" align={props.mobile ? "justify" : "center"} style={{ color: props.theme.priTxtColor, textIndent: "1rem", paddingLeft: "1rem", paddingRight: props.mobile ? "1rem" : "", marginBottom: "1rem" }}>
                         If you have any suggestions whether it's the design, animation, color scheme, etc... I am always eager to make improvements so leave me a message.
             </Typography>
                 </Grid>
@@ -350,7 +350,7 @@ const Picture = (props) => {
     })
 
     return (
-        <Container maxWidth={props.mobile ? "xs" : "md"} style={{ marginTop: props.mobile ? "1rem" : "", position: "absolute", top: mobile ? "0%" : "5%", left: "50%", display: "flex", transform: props.mobile ? "translate(-50%, 0%)" : "translate(-50%, 5%)" }}>
+        <Container maxWidth={props.mobile ? "xs" : "md"} style={{ marginTop: props.mobile ? "1rem" : "", position: "absolute", top: mobile ? "5%" : "5%", left: "50%", display: "flex", transform: props.mobile ? "translate(-50%, 0%)" : "translate(-50%, 5%)" }}>
             <Grid
                 container
                 direction="row"
@@ -470,7 +470,7 @@ const SecondPicture = (props) => {
     })
 
     return (
-        <Container maxWidth={"md"} style={{ position: "absolute", top: props.mobile ? "0%" : "20%", left: props.mobile ? "50%" : "48%", display: "flex", transform: props.mobile ? "translate(-50%, 0%)" : "translate(-40%, -26%)" }}>
+        <Container maxWidth={"md"} style={{ position: "absolute", top: props.mobile ? "5%" : "20%", left: props.mobile ? "50%" : "48%", display: "flex", transform: props.mobile ? "translate(-50%, 0%)" : "translate(-40%, -26%)" }}>
             <Grid
                 container
                 direction="row"
@@ -520,7 +520,7 @@ const AboutMeSecond = (props) => {
         delay: 500
     })
     return (
-        <Container maxWidth={props.mobile ? "xs" : "md"} style={{ position: "absolute", top: props.mobile ? "0%" : "20%", left: props.mobile ? "50%" : "64%", display: "flex", transform: props.mobile ? "translate(-50%, 0%)" : "translate(-60%, -35%)" }}>
+        <Container maxWidth={props.mobile ? "xs" : "md"} style={{ position: "absolute", top: props.mobile ? "5%" : "20%", left: props.mobile ? "50%" : "64%", display: "flex", transform: props.mobile ? "translate(-50%, 0%)" : "translate(-60%, -35%)" }}>
             <Grid
                 container
                 direction="row"

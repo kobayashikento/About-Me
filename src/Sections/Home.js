@@ -146,8 +146,8 @@ const Home = () => {
     React.useEffect(() => {
         // 0 is grid view
         if (mobile) {
-            setLayout(5);
-            setContactPosition(4);
+            setLayout(5.4);
+            setContactPosition(4.3);
         } else {
             if (activePage !== 0) {
                 setLayout(4);
@@ -183,7 +183,7 @@ const Home = () => {
                     parallax.scrollTo(1.1)
                     break;
                 case 1:
-                    parallax.scrollTo(2.8)
+                    parallax.scrollTo(3)
                     break;
                 case 2:
                     parallax.scrollTo(contactPosition)
@@ -334,7 +334,7 @@ const Home = () => {
                     </ParallaxLayer>
                     {/* About me second picture */}
                     <ParallaxLayer
-                        offset={mobile ? 2.4 : 1.4}
+                        offset={mobile ? 2.5 : 1.4}
                         speed={0.1}
                     >
                         <SecondPicture
@@ -356,7 +356,7 @@ const Home = () => {
                     </ParallaxLayer>
                     {/* Experience section */}
                     <ParallaxLayer
-                        offset={mobile ? 2.8 : 2.1}
+                        offset={mobile ? 3 : 2.1}
                         speed={mobile ? 0.1 : 0.2}
                     >
                         <ResumeParallax

@@ -35,7 +35,7 @@ const ResumeParallax = (props) => {
 
     return (
         <React.Fragment>
-            <Container maxWidth={props.mobile ? "xs" : "md"} style={{ paddingTop: "2%", display: "flex", flexDirection: "column", paddingBottom: "1rem" }}>
+            <Container maxWidth={props.mobile ? "xs" : "md"} style={{ paddingTop: "5%", display: "flex", flexDirection: "column", paddingBottom: "1rem" }}>
                 <Grid
                     container
                     direction="row"
