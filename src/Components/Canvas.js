@@ -59,7 +59,6 @@ const Canvas = props => {
     }
 
     let points = calcWaypoints(getVertices());
-    console.log(points)
 
     function calcWaypoints(vertices) {
         var waypoints = [];

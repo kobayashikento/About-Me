@@ -5,18 +5,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { Transition } from 'react-spring/renderprops'
 import { useTransition, animated, config } from 'react-spring'
 
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-
 // Icons 
-import AppsIcon from '@material-ui/icons/Apps';
-import SchoolIcon from '@material-ui/icons/School';
-import WorkIcon from '@material-ui/icons/Work';
-import RowingIcon from '@material-ui/icons/Rowing';
-import LaptopIcon from '@material-ui/icons/Laptop';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
@@ -28,9 +20,9 @@ import face from '../Assets/Pictures/face.jpg';
 
 import resume from '../Assets/resume.js';
 
-import useMedia from '../Components/useMedia.js'
-import useObserver from '../Components/useMeasure.js'
-import AnimatedCard from '../Components/AnimatedCard.js';
+import useMedia from './useMedia.js'
+import useObserver from './useMeasure.js'
+import AnimatedCard from './AnimatedCard.js';
 
 import Fade from 'react-reveal';
 
@@ -84,92 +76,10 @@ const AnimatedIcon = () => {
     )
 }
 
-const AnimateTimeline = (props) => {
-    const page = props.activePage
-
-    const handleClick = (index) => {
-        props.handleTimeClick(index);
-    }
-
-    const theme = createMuiTheme({
-        overrides: {
-            MuiButton: {
-                root: {
-                    backgroundColor: props.theme.secBack,
-                    color: props.theme.priTxtColor,
-                    boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
-                    "&$disabled": {
-                        color: props.theme.priTxtColor,
-                        backgroundColor: props.theme.secBack,
-                        boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
-                    },
-                    '&:hover': {
-                        backgroundColor: props.theme.secBack,
-                    }
-                },
-                textSizeLarge: {
-                    padding: "6px 9px"
-                }
-            }
-        }
-    });
-
-    // Coding the animation
-    const items = [{ width: 84, icon: <AppsIcon style={{ marginRight: "11px" }} />, content: "All" }, { width: 148, icon: <SchoolIcon style={{ marginRight: "11px" }} />, content: "Education" },
-    { width: 105, icon: <WorkIcon style={{ marginRight: "11px" }} />, content: "Work" }, { width: 110, icon: <LaptopIcon style={{ marginRight: "11px" }} />, content: "Skills" },
-    { width: 108, icon: <RowingIcon style={{ marginRight: "11px" }} />, content: "Extra" }]
-
-    const [gridItems] = React.useMemo(() => {
-        // this index keeps track of the position of the cards
-        let starting = 0;
-
-        let gridItems = items.map((child, idx) => {
-            let xy;
-            if (idx === page) {
-                xy = [starting, 0]
-                starting += 20
-                return { ...child, xy, width: child.width, height: 42 }
-            } else {
-                xy = [starting, 0]
-                starting += 20
-                return { ...child, xy, width: 46, height: 42 }
-            }
-        })
-        return [gridItems]
-    }, [page])
-
-    const transitions = useTransition(gridItems, (item) => item.content, {
-        from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0 }),
-        enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
-        update: ({ xy, width, height }) => ({ xy, width, height }),
-        leave: { opacity: 0 },
-        config: { mass: 5, tension: 300, friction: 100 },
-        trail: 10
-    })
-
-    return (
-        <ThemeProvider theme={theme}>
-            <div style={{
-                height: "42px", width: "420px", position: "relative", display: "flex", marginLeft: "auto", marginRight: "auto",
-            }}>
-                {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                    <animated.div key={index} style={{ border: `2px solid ${props.theme.secColor}`, borderRadius: "17px", overflow: "hidden", transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                        <Button style={{ borderRadius: "17px" }} size="large" disabled={page === index ? true : false} onClick={() => handleClick(index)}>
-                            {items[index].icon}
-                            {items[index].content}
-                        </Button>
-                    </animated.div>
-                ))}
-            </div >
-        </ThemeProvider >
-    )
-}
-
 const AnimatedGrid = (props) => {
-    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [5, 4, 3], 1)
+    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [5, 4, 3], 2)
     const ref = React.useRef(null);
     const [width, setWidth] = React.useState(0);
-
     // center display of card distance
     const dist = ((window.innerWidth * 0.7) / 2) - 315
 
@@ -178,31 +88,36 @@ const AnimatedGrid = (props) => {
     }
 
     useObserver({ callback: callback, element: ref })
+
     const getItems = () => {
         let len = resume.length
         let temp = [...resume]
-        if (props.activePage === 1) {
+        let activePage = props.activePage;
+        if (props.mobile) {
+            activePage = props.activePage + 1
+        }
+        if (activePage === 1) {
             while (len--) {
                 if (temp[len].type !== "education") {
                     temp.splice(len, 1);
                 }
             }
             return (temp);
-        } else if (props.activePage === 2) {
+        } else if (activePage === 2) {
             while (len--) {
                 if (temp[len].type !== "experience") {
                     temp.splice(len, 1);
                 }
             }
             return (temp);
-        } else if (props.activePage === 3) {
+        } else if (activePage === 3) {
             while (len--) {
                 if (temp[len].type !== "coding") {
                     temp.splice(len, 1);
                 }
             }
             return (temp);
-        } else if (props.activePage === 4) {
+        } else if (activePage === 4) {
             while (len--) {
                 if (temp[len].type !== "extra") {
                     temp.splice(len, 1);
@@ -225,9 +140,27 @@ const AnimatedGrid = (props) => {
         let gridItems = items.map((child, idx) => {
             let column;
             let xy;
-            if (props.activePage !== 0) {
+            // code cards for mobile view remove grid entirely
+            if (props.mobile) {
+                let center = (window.innerWidth / 2) - 155
+                if (idx > props.cardIndex) {
+                    xy = [(290 * leftIndex) + center, 0]
+                    leftIndex += 1;
+                    column = heights.indexOf(Math.min(...heights));
+                    return { ...child, xy, width: 250, height: 350 }
+                } else if (idx < props.cardIndex) {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [center - ((250) * rightIndex), 0]
+                    rightIndex -= 1;
+                    return { ...child, xy, width: 250, height: 350 }
+                } else {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [center, 0]
+                    leftIndex += 1;
+                    return { ...child, xy, width: 300, height: 400 }
+                }
+            } else if (props.activePage !== 0) {
                 //code it so it react different on different screen size
-
                 // If card index is less than 2 of the cardIndex, then it should be in focus
                 // If theres only 1 card
                 if (items.length === 1) {
@@ -276,14 +209,11 @@ const AnimatedGrid = (props) => {
             } else {
                 column = heights.indexOf(Math.min(...heights));
                 xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2]
-                // console.log(width, columns, column, heights, xy)
                 return { ...child, xy, width: (width / columns), height: (child.height / 2) }
             }
         })
         return [heights, gridItems]
     }, [columns, width, props.activePage, props.cardIndex])
-
-    console.log(gridItems)
 
     const transitions = useTransition(gridItems, (item) => item.title, {
         from: ({ xy, width, height }) => ({ xy, width, height, opacity: 0, }),
@@ -294,42 +224,68 @@ const AnimatedGrid = (props) => {
         trail: 5
     })
 
-    console.log(transitions)
-
     return (
-        <React.Fragment >
-            <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-                marginTop: "1rem", paddingRight: "16px", height: props.activePage !== 0 ? "500px" : Math.max(...heights), width: props.activePage !== 0 ? window.innerWidth * 0.7 : "", position: "relative"
-            }}>
-                {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                    <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                        <AnimatedCard
-                            item={item}
-                            theme={props.theme}
-                            activePage={props.activePage}
-                            handleCardClick={(index) => props.handleCardClick(index)}
-                            handleActiveCard={(item) => props.handleActiveCard(item)}
-                            width={width}
-                        />
-                    </animated.div>
-                ))}
-            </div >
-            <Fade bottom when={props.activePage !== 0}>
-                <div style={{ position: "relative", top: "-100px", left: "-11px", width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
-                    <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleNavClick('left')}>
-                        <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
-                    </IconButton>
-                    <IconButton disabled={getItems().length < 3 ? true : getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleNavClick('right')}>
-                        <ChevronRightIcon clsssname="icon" style={{
-                            color: getItems().length < 3 ? `${props.theme.secColor}33` :
-                                getItems().length - 1 === props.cardIndex ? `${props.theme.secColor}33` : props.theme.secColor
-                        }} />
-                    </IconButton>
-                </div>
-            </Fade>
-        </React.Fragment >
+        props.mobile ?
+            <React.Fragment >
+                <IconButton style={{ paddingTop: "160px", position: "absolute", left: "0px ", zIndex: "2" }} disabled={props.cardIndex === 0 ? true : false} onClick={() => props.handleArrowClick('left')}>
+                    <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
+                </IconButton>
+                <IconButton style={{ paddingTop: "160px", position: "absolute", right: "0px ", zIndex: "2" }} disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleArrowClick('right')}>
+                    <ChevronRightIcon clsssname="icon" style={{
+                        color: getItems().length - 1 === props.cardIndex ? `${props.theme.secColor}33` : props.theme.secColor
+                    }} />
+                </IconButton>
+                <div ref={ref} className="listCard" style={{
+                    marginTop: "1rem", paddingRight: "16px", height: "450px",
+                    width: "95%", position: "relative"
+                }}>
+                    {transitions.map(({ item, props: { xy, ...rest } }, index) => (
+                        <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                            <AnimatedCard
+                                item={item}
+                                theme={props.theme}
+                                activePage={props.activePage}
+                                handleCardClick={(index) => props.handleCardClick(index)}
+                                handleActiveCard={(item) => props.handleActiveCard(item)}
+                                width={width}
+                            />
+                        </animated.div>
+                    ))}
+                </div >
+            </React.Fragment >
+            : <React.Fragment >
+                <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
+                    marginTop: "1rem", paddingRight: "16px", height: props.activePage !== 0 ? "500px" : Math.max(...heights),
+                    width: props.activePage !== 0 ? window.innerWidth * 0.7 : "60%", position: "relative"
+                }}>
+                    {transitions.map(({ item, props: { xy, ...rest } }, index) => (
+                        <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                            <AnimatedCard
+                                item={item}
+                                theme={props.theme}
+                                activePage={props.activePage}
+                                handleCardClick={(index) => props.handleCardClick(index)}
+                                handleActiveCard={(item) => props.handleActiveCard(item)}
+                                width={width}
+                            />
+                        </animated.div>
+                    ))}
+                </div >
+                <Fade bottom when={props.activePage !== 0}>
+                    <div style={{ position: "relative", top: "-100px", left: "-11px", width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
+                        <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleArrowClick('left')}>
+                            <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
+                        </IconButton>
+                        <IconButton disabled={getItems().length < 3 ? true : getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleArrowClick('right')}>
+                            <ChevronRightIcon clsssname="icon" style={{
+                                color: getItems().length < 3 ? `${props.theme.secColor}33` :
+                                    getItems().length - 1 === props.cardIndex ? `${props.theme.secColor}33` : props.theme.secColor
+                            }} />
+                        </IconButton>
+                    </div>
+                </Fade>
+            </React.Fragment >
     )
 }
 
 export default React.memo(AnimatedGrid)
-export { AnimatedIcon, AnimateTimeline, AnimatedGrid }
