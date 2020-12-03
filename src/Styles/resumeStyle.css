@@ -5,9 +5,7 @@
 .list {
   font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto,
     segoe ui, arial, sans-serif;
-  left: 50%;
   margin-top: 2rem;
-  transform: translate(-50%);
 }
 
 .listCard {

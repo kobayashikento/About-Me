@@ -67,7 +67,7 @@ const NetworkAni = (props) => {
 				density: 17000,
 				netLineDistance: 200,
 				netLineColor: `${props.theme.secColor}99`,
-				particleColors: [`${props.theme.secColor}99`] // ['#6D4E5C', '#aaa', '#FFC458' ]
+				particleColors: [`${props.theme.secColor}99`] 
 			};
 			this.canvas = parent.canvas;
 			this.ctx = parent.ctx;
@@ -156,7 +156,7 @@ const NetworkAni = (props) => {
 						this.ctx.beginPath();
 						this.ctx.strokeStyle = this.options.netLineColor;
 						this.ctx.globalAlpha = (this.options.netLineDistance - distance) / this.options.netLineDistance * p1.opacity * p2.opacity;
-						this.ctx.lineWidth = 0.7;
+						this.ctx.lineWidth = 1;
 						this.ctx.moveTo(p1.x, p1.y);
 						this.ctx.lineTo(p2.x, p2.y);
 						this.ctx.stroke();

@@ -72,7 +72,7 @@ const Home = () => {
     let ref = React.useRef();
     // condition that changes parallax size depending on the window size
     // if its 1500px or higher, then keep layout size at 4 
-    const matches1 = useMediaQuery('(min-width:1500px)');
+    const lgUp = useMediaQuery('(min-width:1500px)');
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [open, setOpen] = React.useState(true);
@@ -88,8 +88,8 @@ const Home = () => {
     const [activeCard, setActiveCard] = React.useState(null);
     const [showDetails, setShowDetails] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
-    const [layout, setLayout] = React.useState(4.3);
-    const [contactPosition, setContactPosition] = React.useState(3.3);
+    const [layout, setLayout] = React.useState(4.5);
+    const [contactPosition, setContactPosition] = React.useState(3.6);
 
     // Detect esc button
     React.useEffect(() => {
@@ -150,14 +150,25 @@ const Home = () => {
             setContactPosition(4.3);
         } else {
             if (activePage !== 0) {
-                setLayout(4);
-                setContactPosition(3);
+                if (lgUp){
+                    setLayout(3.9);
+                    setContactPosition(3);
+                } else {
+                    setLayout(4.1);
+                    setContactPosition(3.2);
+                }
+                // if its grid layout
             } else {
-                setLayout(4.3);
-                setContactPosition(3.3);
+                if (lgUp){
+                    setLayout(4.1);
+                    setContactPosition(3.2);
+                } else {
+                    setLayout(4.5);
+                    setContactPosition(3.6);
+                }  
             }
         }
-    }, [activePage, matches1, mobile])
+    }, [activePage, lgUp, mobile])
 
     // Detect esc buttton to close modal 
     const escFunction = React.useCallback((event) => {
@@ -192,7 +203,7 @@ const Home = () => {
             }
         } else {
             if (index === 1) {
-                parallax.scrollTo((2.1))
+                parallax.scrollTo(2)
             } else {
                 if (index === 2) {
                     parallax.scrollTo(contactPosition)
@@ -281,7 +292,7 @@ const Home = () => {
                     }} ></ParallaxLayer>
                     {/* Landing page animation */}
                     <ParallaxLayer
-                        offset={0} speed={-0.5} factor={1.5}
+                        offset={0} speed={-0.1} factor={1.1}
                     >
                         <div>
                             <NetworkAni
@@ -322,8 +333,8 @@ const Home = () => {
                         />
                     </ParallaxLayer>
                     {/* About me description first picture */}
-                    <ParallaxLayer
-                        offset={mobile ? 1.6 : 1.1}
+                    {/* <ParallaxLayer
+                        offset={mobile ? 1.6 : 1.2}
                         speed={mobile ? 0.1 : -0.1}
                     >
                         <Picture
@@ -331,9 +342,9 @@ const Home = () => {
                             render={second}
                             theme={colorScheme}
                         />
-                    </ParallaxLayer>
+                    </ParallaxLayer> */}
                     {/* About me second picture */}
-                    <ParallaxLayer
+                    {/* <ParallaxLayer
                         offset={mobile ? 2.5 : 1.4}
                         speed={0.1}
                     >
@@ -342,11 +353,11 @@ const Home = () => {
                             render={third}
                             theme={colorScheme}
                         />
-                    </ParallaxLayer>
+                    </ParallaxLayer> */}
                     {/* About me second description */}
                     <ParallaxLayer
-                        offset={mobile ? 2 : 1.5}
-                        speed={mobile ? 0.1 : -0.1}
+                        offset={mobile ? 2 : 1.7}
+                        speed={mobile ? 0.1 : 0.1}
                     >
                         <AboutMeSecond
                             mobile={mobile}
@@ -359,20 +370,20 @@ const Home = () => {
                         offset={mobile ? 3 : 2.1}
                         speed={mobile ? 0.1 : 0.2}
                     >
-                        <ResumeParallax
-                            mobile={mobile}
-                            parallax={parallax}
-                            cardIndex={cardIndex}
-                            theme={colorScheme}
-                            render={forth}
-                        />
-                        <AnimateTimeline
-                            mobile={mobile}
-                            theme={colorScheme}
-                            activePage={activePage}
-                            handleTimeClick={(index) => handleTimeClick(index)}
-                        />
-                        <div>
+                        <div style={{ paddingTop: "5rem" }}>
+                            <ResumeParallax
+                                mobile={mobile}
+                                parallax={parallax}
+                                cardIndex={cardIndex}
+                                theme={colorScheme}
+                                render={forth}
+                            />
+                            <AnimateTimeline
+                                mobile={mobile}
+                                theme={colorScheme}
+                                activePage={activePage}
+                                handleTimeClick={(index) => handleTimeClick(index)}
+                            />
                             <AnimatedGrid
                                 mobile={mobile}
                                 theme={colorScheme}

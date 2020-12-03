@@ -242,6 +242,7 @@ const AnimatedGrid = (props) => {
                     {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                         <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                             <AnimatedCard
+                                mobile={props.mobile}
                                 item={item}
                                 theme={props.theme}
                                 activePage={props.activePage}
@@ -255,13 +256,14 @@ const AnimatedGrid = (props) => {
             </React.Fragment >
             : <React.Fragment >
                 <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-                    marginTop: "1rem", paddingRight: "16px", height: props.activePage !== 0 ? "500px" : Math.max(...heights),
-                    width: props.activePage !== 0 ? window.innerWidth * 0.7 : "60%", position: "relative"
+                    height: props.activePage !== 0 ? "500px" : Math.max(...heights),
+                    width: props.activePage !== 0 ? window.innerWidth * 0.7 : "65%", marginRight: "auto", marginLeft: "auto", paddingLeft: "1rem"
                 }}>
                     {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                         <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                             <AnimatedCard
                                 item={item}
+                                mobile={props.mobile}
                                 theme={props.theme}
                                 activePage={props.activePage}
                                 handleCardClick={(index) => props.handleCardClick(index)}
@@ -272,7 +274,7 @@ const AnimatedGrid = (props) => {
                     ))}
                 </div >
                 <Fade bottom when={props.activePage !== 0}>
-                    <div style={{ position: "relative", top: "-100px", left: "-11px", width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto" }}>
+                    <div style={{ position: "relative", top: "-100px", left: "5px", width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto", zIndex: "2" }}>
                         <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleArrowClick('left')}>
                             <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
                         </IconButton>

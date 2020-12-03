@@ -24,7 +24,7 @@ const ResumeDetails = (props) => {
 
     return (
         props.activeCard !== null ?
-            <Container maxWidth="md" style={{
+            <Container maxWidth={props.mobile ? "xs" : "md"} style={{
                 paddingRight: "8px", display: "flex", flexDirection: "column", backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem",
                 marginRight: "auto", marginLeft: "auto", transform: "translate(1rem)"
             }}>
