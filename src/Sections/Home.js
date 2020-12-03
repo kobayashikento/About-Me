@@ -88,8 +88,8 @@ const Home = () => {
     const [activeCard, setActiveCard] = React.useState(null);
     const [showDetails, setShowDetails] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
-    const [layout, setLayout] = React.useState(4.3);
-    const [contactPosition, setContactPosition] = React.useState(3.3);
+    const [layout, setLayout] = React.useState(4.4);
+    const [contactPosition, setContactPosition] = React.useState(3.5);
 
     // Detect esc button
     React.useEffect(() => {
@@ -151,10 +151,10 @@ const Home = () => {
         } else {
             if (activePage !== 0) {
                 setLayout(4);
-                setContactPosition(3);
+                setContactPosition(3.1);
             } else {
-                setLayout(4.3);
-                setContactPosition(3.3);
+                setLayout(4.4);
+                setContactPosition(3.5);
             }
         }
     }, [activePage, matches1, mobile])
@@ -192,7 +192,7 @@ const Home = () => {
             }
         } else {
             if (index === 1) {
-                parallax.scrollTo((2.1))
+                parallax.scrollTo(2)
             } else {
                 if (index === 2) {
                     parallax.scrollTo(contactPosition)
@@ -281,7 +281,7 @@ const Home = () => {
                     }} ></ParallaxLayer>
                     {/* Landing page animation */}
                     <ParallaxLayer
-                        offset={0} speed={-0.5} factor={1.5}
+                        offset={0} speed={-0.1} factor={1.1}
                     >
                         <div>
                             <NetworkAni
@@ -323,7 +323,7 @@ const Home = () => {
                     </ParallaxLayer>
                     {/* About me description first picture */}
                     <ParallaxLayer
-                        offset={mobile ? 1.6 : 1.1}
+                        offset={mobile ? 1.6 : 1.2}
                         speed={mobile ? 0.1 : -0.1}
                     >
                         <Picture
@@ -345,8 +345,8 @@ const Home = () => {
                     </ParallaxLayer>
                     {/* About me second description */}
                     <ParallaxLayer
-                        offset={mobile ? 2 : 1.5}
-                        speed={mobile ? 0.1 : -0.1}
+                        offset={mobile ? 2 : 1.7}
+                        speed={mobile ? 0.1 : 0.1}
                     >
                         <AboutMeSecond
                             mobile={mobile}
@@ -359,20 +359,20 @@ const Home = () => {
                         offset={mobile ? 3 : 2.1}
                         speed={mobile ? 0.1 : 0.2}
                     >
-                        <ResumeParallax
-                            mobile={mobile}
-                            parallax={parallax}
-                            cardIndex={cardIndex}
-                            theme={colorScheme}
-                            render={forth}
-                        />
-                        <AnimateTimeline
-                            mobile={mobile}
-                            theme={colorScheme}
-                            activePage={activePage}
-                            handleTimeClick={(index) => handleTimeClick(index)}
-                        />
-                        <div>
+                        <div style={{ paddingTop: "5rem" }}>
+                            <ResumeParallax
+                                mobile={mobile}
+                                parallax={parallax}
+                                cardIndex={cardIndex}
+                                theme={colorScheme}
+                                render={forth}
+                            />
+                            <AnimateTimeline
+                                mobile={mobile}
+                                theme={colorScheme}
+                                activePage={activePage}
+                                handleTimeClick={(index) => handleTimeClick(index)}
+                            />
                             <AnimatedGrid
                                 mobile={mobile}
                                 theme={colorScheme}
