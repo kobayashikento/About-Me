@@ -191,10 +191,10 @@ const Home = () => {
         if (mobile) {
             switch (index) {
                 case 0:
-                    parallax.scrollTo(1.1)
+                    parallax.scrollTo(1)
                     break;
                 case 1:
-                    parallax.scrollTo(3)
+                    parallax.scrollTo(3.2)
                     break;
                 case 2:
                     parallax.scrollTo(contactPosition)
