@@ -156,7 +156,7 @@ const NetworkAni = (props) => {
 						this.ctx.beginPath();
 						this.ctx.strokeStyle = this.options.netLineColor;
 						this.ctx.globalAlpha = (this.options.netLineDistance - distance) / this.options.netLineDistance * p1.opacity * p2.opacity;
-						this.ctx.lineWidth = 1;
+						this.ctx.lineWidth = 0.9;
 						this.ctx.moveTo(p1.x, p1.y);
 						this.ctx.lineTo(p2.x, p2.y);
 						this.ctx.stroke();

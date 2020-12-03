@@ -33,27 +33,25 @@ import montrealme from '../Assets/Pictures/montrealme.jpg';
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 
 const Introduction = (props) => {
-    const theme = useTheme();
     //sm down
     const open = true
     const items = [
         {
-            content: <Typography variant={props.mobile ? "h6" : "h5"} align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", fontWeight: "400", textIndent: "2rem", opacity: "0.8" }}>
+            content: <Typography variant={props.mobile ? "h6" : "h5"} align="justify" style={{ color: props.theme.secColor, marginBottom: "6rem", fontWeight: "400", opacity: "0.8" }}>
                 Hello! My name is
                     </Typography>
         },
         {
-            content: <Typography variant={props.mobile ? "h5" : "h2"} align="justify" style={{ opacity: "0.9", paddingTop: "1rem", textIndent: "2rem", fontWeight: "bold", color: props.theme.priColor === "#86C232" ? "#FEFFFF" : props.theme.priColor }}>
-                Kento Kobayashi
-        </Typography>
-        },
-        {
-            content: <Typography variant={props.mobile ? "h6" : "h5"} align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", textIndent: "2rem", fontWeight: "400", opacity: "1" }}>
+            content: <Typography variant={props.mobile ? "h6" : "h5"} align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", fontWeight: "400", opacity: "1" }}>
                 I'm a Developer and Analyst
 </Typography>
         },
         {
-            content: <Typography variant="body1" align="justify" style={{ textIndent: props.mobile ? "1rem" : "", color: props.theme.priTxtColor, paddingTop: props.mobile ? "3rem" : "1rem", fontWeight: "400", paddingLeft: "2rem", width: props.mobile ? "100%" : "70%", paddingRight: props.mobile ? "2rem" : "" }}>
+            content: <Typography variant="body1" align="center"
+                style={{
+                    textIndent: props.mobile ? "1rem" : "1rem", marginRight: "auto", marginLeft: "auto", color: props.theme.priTxtColor, paddingTop: props.mobile ? "3rem" : "2rem",
+                    fontWeight: "400", width: props.mobile ? "100%" : "50%", paddingLight: props.mobile ? "2rem" : ""
+                }}>
                 I recently obtained my Honours Bachelors of Science degree from the University of Toronto with experiences in Application and Web Development.
                 </Typography>
 
@@ -66,12 +64,12 @@ const Introduction = (props) => {
         x: open ? 0 : 20,
         height: open ? 110 : 0,
         from: { opacity: 0, x: 20, height: 0 },
-        delay: 1500
+        delay: 2800
     })
 
     return (
         <React.Fragment>
-            < Container maxWidth={props.mobile ? "xs" : "md"} style={{ position: "absolute", top: props.mobile ? "48%" : "45%", left: props.mobile ? "50%" : "45%", transform: "translate(-50%, -50%)" }}>
+            < Container maxWidth={props.mobile ? "xs" : "md"} style={{ height: "100vh", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                 {trail.map(({ x, height, ...rest }, index) => (
                     <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
                         {items[index].content}
@@ -259,7 +257,7 @@ const SideIcons = (props) => {
                 from={{ opacity: 0, transform: `translate3d(0,0px,0)`, height: "0px" }}
                 enter={{ opacity: 1, transform: 'translate3d(0,0px,0)', height: "40px" }}
                 leave={{ opacity: 0, transform: 'translate3d(0,0px,0)', height: "0px" }}
-                config={{ mass: 5, tension: 2000, friction: 200, delay: 1800 }}
+                config={{ mass: 5, tension: 2000, friction: 200, delay: 4000 }}
             >
                 {item => props =>
                     <div style={props}>
@@ -315,7 +313,7 @@ const Contact = (props) => {
             </Typography>
                 </Grid>
                 <Grid item sm={2} />
-                <Button style={{ marginTop: props.mobile? "2rem" : "4rem", color: props.theme.priTxtColor, border: `1px solid ${props.theme.secColor}` }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                <Button style={{ marginTop: props.mobile ? "2rem" : "4rem", color: props.theme.priTxtColor, border: `1px solid ${props.theme.secColor}` }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
                     Leave A Message
                 </Button>
             </Grid>

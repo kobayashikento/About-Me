@@ -7,8 +7,6 @@ import { Transition } from 'react-spring/renderprops'
 // import from material ui 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 
@@ -19,6 +17,7 @@ import ResumeParallax from '../Sections/ResumeParallax.js';
 import NetworkAni from '../Components/NetworkAni.js';
 import ResumeDetails from '../Components/ResumeDetails.js';
 import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription } from '../Sections/Introduction.js';
+import Preload from './Preload.js';
 
 // import styles
 import '../Styles/resumeStyle.css';
@@ -78,7 +77,8 @@ const Home = () => {
     const [open, setOpen] = React.useState(true);
     const [cardIndex, setCardIndex] = React.useState(0);
     const [activePage, setActivePage] = React.useState(0);
-    const [showNav, setShowNav] = React.useState(true);
+    const [showNav, setShowNav] = React.useState(false);
+    const [preload, setPreload] = React.useState(true);
     const [firstRender, setFirstRender] = React.useState(true);
     const [colorScheme, setTheme] = React.useState(themes[0]);
     const [first, setFirst] = React.useState(false)
@@ -98,6 +98,9 @@ const Home = () => {
             setContactPosition(3.8);
         }
         document.addEventListener("keydown", escFunction, false);
+        setTimeout(() => {
+            setShowNav(true);
+        }, 3000)
         return () => {
             document.removeEventListener("keydown", escFunction, false);
         };
@@ -150,7 +153,7 @@ const Home = () => {
             setContactPosition(4.5);
         } else {
             if (activePage !== 0) {
-                if (lgUp){
+                if (lgUp) {
                     setLayout(3.9);
                     setContactPosition(3);
                 } else {
@@ -159,13 +162,13 @@ const Home = () => {
                 }
                 // if its grid layout
             } else {
-                if (lgUp){
+                if (lgUp) {
                     setLayout(4.1);
                     setContactPosition(3.2);
                 } else {
                     setLayout(4.5);
                     setContactPosition(3.6);
-                }  
+                }
             }
         }
     }, [activePage, lgUp, mobile])
@@ -262,7 +265,7 @@ const Home = () => {
         <div>
             <Transition
                 items={showNav}
-                config={{ duration: 500 }}
+                config={{ duration: 1000 }}
                 from={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: emptyShadow }}
                 enter={{ opacity: 1, transform: "translate(0, 0px)", boxShadow: emptyShadow }}
                 leave={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: emptyShadow }}>
@@ -291,6 +294,16 @@ const Home = () => {
                         backgroundColor: colorScheme.priBack
                     }} ></ParallaxLayer>
                     {/* Landing page animation */}
+                    <ParallaxLayer
+                        style={{ zIndex: "1" }}
+                        offset={0}
+                        speed={0.1}
+                    >
+                        <Preload
+                            mobile={mobile}
+                            theme={colorScheme}
+                        />
+                    </ParallaxLayer>
                     <ParallaxLayer
                         offset={0} speed={-0.1} factor={1.1}
                     >
