@@ -288,7 +288,7 @@ const Contact = (props) => {
                 direction="row"
                 justify="center"
                 alignItems="center"
-                style={{ padding: "1rem"}}
+                style={{ padding: "1rem" }}
             >
                 <Grid item sm={2} />
                 <Grid item xs={12} sm={8} style={{ display: "flex", justifyContent: "center" }}>
@@ -315,14 +315,14 @@ const Contact = (props) => {
             </Typography>
                 </Grid>
                 <Grid item sm={2} />
-                <Button style={{ marginTop: "4rem", color: props.theme.priTxtColor, border: `1px solid ${props.theme.secColor}` }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                <Button style={{ marginTop: props.mobile? "2rem" : "4rem", color: props.theme.priTxtColor, border: `1px solid ${props.theme.secColor}` }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
                     Leave A Message
                 </Button>
             </Grid>
-            <Typography variant="body1" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: "6rem" }}>
+            <Typography variant="body1" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: props.mobile ? "2rem" : "6rem" }}>
                 These are some potential themes I was considering...
             </Typography>
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: props.mobile ? "center" : "", marginTop: "1rem", marginRight: "auto", marginLeft: "auto", height: "40px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: props.mobile ? "center" : "", marginTop: props.mobile ? "0rem" : "1rem", marginRight: "auto", marginLeft: "auto", height: "40px" }}>
                 {props.themes.map((theme, index) => {
                     return (
                         <Button key={`theme${index}`} style={{ marginRight: "1rem", marginTop: props.mobile ? "1rem" : "", color: theme.priColor, border: `1px solid ${theme.priColor}` }} onClick={() => handleClick(index)}>
@@ -331,7 +331,7 @@ const Contact = (props) => {
                     )
                 })}
             </div>
-            <Typography variant="body2" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", marginTop: "5rem" }}>
+            <Typography variant="body2" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: "5rem", marginTop: props.mobile ? "2rem" : "" }}>
                 Based in Toronto, Fueled by coffee
             </Typography>
         </Container >
@@ -366,15 +366,15 @@ const AboutMe = (props) => {
     const open = props.render
 
     const headerItems = [{
-        content: <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "7rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
+        content: <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "3rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
         type: 0
     },
     {
-        content: <Typography variant={props.mobile ? "h6" : "h4"} style={{ paddingLeft: props.mobile ? "" : "3rem", color: props.theme.priColor, fontWeight: "bold" }}>About Me </Typography>,
+        content: <Typography variant={props.mobile ? "h6" : "h4"} style={{ paddingLeft: props.mobile ? "1rem" : "3rem", color: props.theme.priColor, fontWeight: "bold" }}>About Me </Typography>,
         type: 0,
     },
     {
-        content: <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "7rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
+        content: <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "3rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
         type: 0,
     }
     ]
@@ -438,13 +438,13 @@ const AboutMe = (props) => {
         <Container maxWidth="md" style={{ position: "absolute", top: "10%", left: "50%", transform: "translate(-50%, -10%)" }}>
             <Grid
                 container
-                direction="row"
+                direction={props.mobile ? "column" : "row"}
                 justify="space-between"
                 alignItems="center"
                 style={{ padding: "1rem" }}
             >
                 <Grid item xs={12}>
-                    <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "" : "5rem", justifyContent: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "2rem" : "5rem", justifyContent: "center" }}>
                         {headerTrail.map(({ x, height, ...rest }, index) => (
                             <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
                                 {headerItems[index].content}
@@ -467,8 +467,8 @@ const AboutMe = (props) => {
                             </animated.div>))}
                     </div>
                 </Grid>
-                <Grid item sm={5} xs={12} >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                <Grid item sm={5} xs={12} style={{ width: "100%" }}>
+                    <div style={{ display: "flex", height: "300px", paddingTop: props.mobile ? "2rem" : "", alignItems: "center", justifyContent: "flex-end" }}>
                         <Picture
                             mobile={props.mobile}
                             render={props.render}
@@ -527,32 +527,59 @@ const AboutMeSecond = (props) => {
     })
     return (
         <Container maxWidth={props.mobile ? "xs" : "md"} >
-            <Grid
-                container
-                direction="row"
-                justify="space-between"
-                alignItems="center"
-                style={{ marginLeft: "3rem", paddingTop: "5rem" }}
-            >
-                <Grid item xs={12} sm={5} >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
-                        <SecondPicture
-                            mobile={props.mobile}
-                            render={props.render}
-                            theme={props.theme}
-                        />
-                    </div>
+            {props.mobile ?
+                <Grid
+                    container
+                    direction="column"
+                    justify="space-between"
+                    alignItems="center"
+                >
+                    <Grid item xs={12} sm={7} style={{ paddingRight: props.mobile ? "" : "3rem" }}>
+                        {contentTrail.map(({ x, height, ...rest }, index) => (
+                            <animated.div key={`aboutSec${index}`} style={{
+                                ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
+                            }}>
+                                {items[index].content}
+                            </animated.div>
+                        ))}
+                    </Grid>
+                    <Grid item xs={12} sm={5} style={{ width: "100%" }}>
+                        <div style={{ display: "flex", height: "290px", alignItems: "center", justifyContent: "flex-start", paddingLeft: "1rem" }}>
+                            <SecondPicture
+                                mobile={props.mobile}
+                                render={props.render}
+                                theme={props.theme}
+                            />
+                        </div>
+                    </Grid>
+                </Grid> :
+                <Grid
+                    container
+                    direction="row"
+                    justify="space-between"
+                    alignItems="center"
+                    style={{ marginLeft: "3rem", paddingTop: "5rem" }}
+                >
+                    <Grid item xs={12} sm={5} >
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
+                            <SecondPicture
+                                mobile={props.mobile}
+                                render={props.render}
+                                theme={props.theme}
+                            />
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} sm={7} style={{ paddingRight: props.mobile ? "" : "3rem" }}>
+                        {contentTrail.map(({ x, height, ...rest }, index) => (
+                            <animated.div key={`aboutSec${index}`} style={{
+                                ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
+                            }}>
+                                {items[index].content}
+                            </animated.div>
+                        ))}
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} sm={7} style={{ paddingRight: props.mobile ? "" : "3rem" }}>
-                    {contentTrail.map(({ x, height, ...rest }, index) => (
-                        <animated.div key={`aboutSec${index}`} style={{
-                            ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
-                        }}>
-                            {items[index].content}
-                        </animated.div>
-                    ))}
-                </Grid>
-            </Grid>
+            }
         </Container >
     )
 }

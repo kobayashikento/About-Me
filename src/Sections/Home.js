@@ -147,7 +147,7 @@ const Home = () => {
         // 0 is grid view
         if (mobile) {
             setLayout(5.4);
-            setContactPosition(4.3);
+            setContactPosition(4.5);
         } else {
             if (activePage !== 0) {
                 if (lgUp){
@@ -356,7 +356,7 @@ const Home = () => {
                     </ParallaxLayer> */}
                     {/* About me second description */}
                     <ParallaxLayer
-                        offset={mobile ? 2 : 1.7}
+                        offset={mobile ? 2.4 : 1.7}
                         speed={mobile ? 0.1 : 0.1}
                     >
                         <AboutMeSecond
