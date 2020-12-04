@@ -21,7 +21,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ListIcon from '@material-ui/icons/List';
 
-import { useTrail, animated, useTransition } from 'react-spring';
+import { useSpring, useChain, useTrail, animated, useTransition } from 'react-spring';
 import { Transition } from 'react-spring/renderprops';
 
 
@@ -32,8 +32,9 @@ import montrealme from '../Assets/Pictures/montrealme.jpg';
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 
-const Introduction = (props) => {
+const Introduction = React.memo(props => {
     //sm down
+    const theme = props.theme
     const open = true
     const items = [
         {
@@ -58,17 +59,91 @@ const Introduction = (props) => {
         }
     ]
 
+    const trailRef = React.useRef();
+    const springFirstRef = React.useRef();
+    const springLastRef = React.useRef();
+    const springFirstMobileRef = React.useRef();
+    const springLastMobileRef = React.useRef();
     const trail = useTrail(items.length, {
         config: { mass: 5, tension: 2000, friction: 200 },
         opacity: open ? 1 : 0,
         x: open ? 0 : 20,
         height: open ? 110 : 0,
         from: { opacity: 0, x: 20, height: 0 },
-        delay: 2800
+        delay: 2800,
+        ref: trailRef
     })
+
+    const springFirst = useSpring({
+        to: async (next, cancel) => {
+            await next({ width: "38px", transform: "translate(-38px, 0px)", paddingLeft: "0px", })
+            await next({ width: "38px", transform: "translate(-38px, -30px)" })
+            await next({ width: "165px", transform: "translate(-165px, -30px)" })
+            await next({ width: "165px", transform: "translate(-173px, 0px)" })
+        },
+        from: { position: "absolute", width: "0px", overflow: "hidden", float: "right", height: "77px", paddingLeft: "36px", transform: "translate(-38px, 0px)" },
+        ref: springFirstRef
+    })
+    const springLast = useSpring({
+        to: async (next, cancel) => {
+            await next({ width: "38px", transform: "translate( 0px, 0px)" })
+            await next({ width: "38px", transform: "translate( -38px, 30px)" })
+            await next({ width: "290px", transform: "translate( -38px, 30px)" })
+            await next({ width: "290px", transform: "translate( 8px, 0px)" })
+        },
+        from: { position: "absolute", width: "0px", overflow: "hidden", height: "77px", transform: "translate(0px, 0px)" },
+        ref: springLastRef
+    })
+    const springFirstMobile = useSpring({
+        to: async (next, cancel) => {
+            await next({ width: "22px", transform: "translate(-22px, 0px)", paddingLeft: "0px", })
+            await next({ width: "22px", transform: "translate(-22px, -15px)" })
+            await next({ width: "94px", transform: "translate(-94px,-15px)" })
+            await next({ width: "94px", transform: "translate(-102px, 0px)" })
+        },
+        from: { position: "absolute", width: "0px", overflow: "hidden", float: "right", height: "44px", paddingLeft: "22px", transform: "translate(-22px, 0px)" },
+        ref: springFirstMobileRef
+    })
+    const springLastMobile = useSpring({
+        to: async (next, cancel) => {
+            await next({ width: "22px", transform: "translate( 0px, 0px)" })
+            await next({ width: "22px", transform: "translate( -22px, 15px)" })
+            await next({ width: "290px", transform: "translate( -22px, 15px)" })
+            await next({ width: "290px", transform: "translate( 8px, 0px)" })
+        },
+        from: { position: "absolute", width: "0px", overflow: "hidden", height: "44px", transform: "translate(0px, 0px)" },
+        ref: springLastMobileRef
+    })
+
+    useChain([props.mobile ? springFirstMobileRef : springFirstRef, props.mobile ? springLastMobileRef : springLastRef, trailRef], [0, 0, 0.8])
 
     return (
         <React.Fragment>
+            {props.mobile ? <div style={{ height: "100vh", display: "flex", alignItems: "center", position: "absolute", left: "42%", paddingBottom: "9rem" }}>
+                <animated.div style={springFirstMobile}>
+                    <Typography variant={"h4"} style={{ width: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
+                        Kento
+        </Typography>
+                </animated.div>
+                <animated.div style={springLastMobile}>
+                    <Typography variant={"h4"} style={{ width: "fit-content", height: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
+                        Kobayashi
+        </Typography>
+                </animated.div>
+            </div> :
+                <div style={{ height: "100vh", display: "flex", alignItems: "center", position: "absolute", left: "46%", paddingBottom: "6rem" }}>
+                    <animated.div style={springFirst}>
+                        <Typography variant={"h2"} style={{ width: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
+                            Kento
+        </Typography>
+                    </animated.div>
+                    <animated.div style={springLast}>
+                        <Typography variant={"h2"} style={{ width: "fit-content", height: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
+                            Kobayashi
+        </Typography>
+                    </animated.div>
+                </div>
+            }
             < Container maxWidth={props.mobile ? "xs" : "md"} style={{ height: "100vh", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                 {trail.map(({ x, height, ...rest }, index) => (
                     <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
@@ -78,12 +153,12 @@ const Introduction = (props) => {
             </Container >
         </React.Fragment>
     )
-}
+})
 
 const NavBar = (props) => {
 
     const priColor = props.theme.priColor;
-    const navItems = ["About", "Experience", "Contact"];
+    const navItems = ["About", "Experience", "Projects", "Contact"];
     const navTrail = useTrail(navItems.length, {
         config: { mass: 5, tension: 2000, friction: 200 },
         opacity: props.open ? 1 : 0,
@@ -123,9 +198,6 @@ const NavBar = (props) => {
                 {navItems.map((text, index) => (
                     <ListItem button key={text} style={{ display: "flex", flexDirection: "column" }}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Typography variant="body1" align="justify" style={{ marginLeft: "1rem", marginRight: "8px", color: props.theme.priColor, fontWeight: "bolder" }}>
-                                {`${index + 1}.`}
-                            </Typography>
                             <Button style={{ width: "fit-content" }} onClick={() => props.handleNavClick(index)}>
                                 <Typography variant="body1" align="justify" style={{ color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8" }}>
                                     {navItems[index]}
@@ -163,27 +235,24 @@ const NavBar = (props) => {
                 </React.Fragment>
             </div> :
             <div style={{
-                display: "flex", height: "48px", width: "100%", position: "absolute",
-                top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", background: props.firstRender ? "transparent" : `${props.theme.priBack}`
+                display: "flex", height: "56px", width: "100%", position: "absolute",
+                top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", background: props.firstRender ? "transparent" : `${props.theme.priBack}`, paddingRight: "1rem"
             }}>
                 <div style={{ display: "flex", marginLeft: "auto" }}>
                     {navTrail.map(({ x, height, ...rest }, index) => (
-                        <animated.div key={`navicons${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "8px" }}>
+                        <animated.div key={`navicons${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "1rem" }}>
                             <Button className="navText" style={{ backgroundColor: "transparent" }} onClick={() => props.handleNavClick(index)}
                                 onMouseLeave={() => handleClose(0)} onMouseEnter={() => handleMouseEnter(index)}>
                                 <div style={{ display: "flex", flexDirection: "column" }}>
                                     <div style={{ display: "flex", flexDirection: "row" }}>
-                                        <Typography variant="body2" align="justify" style={{ marginRight: "8px", color: props.theme.priColor, fontWeight: "bolder" }}>
-                                            {`${index + 1}.`}
-                                        </Typography>
                                         <Typography variant="body2" align="justify" style={{ color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8" }}>
                                             {navItems[index]}
                                         </Typography>
                                     </div>
                                     <Transition
                                         items={hover === index + 1}
-                                        from={{ opacity: 0, width: "0px" }}
-                                        enter={{ opacity: 1, width: index === 0 ? "66px" : index === 1 ? "99px" : "83px" }}
+                                        from={{ position: "absolute", opacity: 0, width: "0px", paddingTop: "1rem" }}
+                                        enter={{ opacity: 1, width: index === 0 ? "47px" : index === 1 ? "80px" : index === 2 ? "65px" : "63px" }}
                                         leave={{ opacity: 0, width: "0px" }}>
                                         {show => show && (props => <div style={props}>
                                             <Divider style={{ height: "2px", marginTop: "2px", backgroundColor: priColor }} />
@@ -233,19 +302,19 @@ const SideIcons = (props) => {
     const iconItems = [{
         content:
             <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} onMouseEnter={() => setHover(1)} onMouseLeave={() => setHover(0)}>
-                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.priColor : props.theme.secColor }} />
+                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.secColor: props.theme.priColor  }} />
             </div>,
         key: 0
     },
     {
         content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} onMouseEnter={() => setHover(2)} onMouseLeave={() => setHover(0)}>
-            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.priColor : props.theme.secColor, }} />
+            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.secColor: props.theme.priColor }} />
         </div>,
         key: 1
     },
     {
         content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} onMouseEnter={() => setHover(3)} onMouseLeave={() => setHover(0)}>
-            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.priColor : props.theme.secColor, }} />
+            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.secColor: props.theme.priColor }} />
         </div>,
         key: 2
     }];
@@ -255,7 +324,7 @@ const SideIcons = (props) => {
             <Transition
                 items={iconItems} keys={item => item.key}
                 from={{ opacity: 0, transform: `translate3d(0,0px,0)`, height: "0px" }}
-                enter={{ opacity: 1, transform: 'translate3d(0,0px,0)', height: "40px" }}
+                enter={{ opacity: 1, transform: 'translate3d(0,0px,0)', height: "30px" }}
                 leave={{ opacity: 0, transform: 'translate3d(0,0px,0)', height: "0px" }}
                 config={{ mass: 5, tension: 2000, friction: 200, delay: 4000 }}
             >

@@ -18,6 +18,7 @@ import NetworkAni from '../Components/NetworkAni.js';
 import ResumeDetails from '../Components/ResumeDetails.js';
 import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription } from '../Sections/Introduction.js';
 import Preload from './Preload.js';
+import Projects from './Projects';
 
 // import styles
 import '../Styles/resumeStyle.css';
@@ -65,7 +66,7 @@ const themes = [
     },
 ]
 
-const Home = () => {
+const Home = React.memo(props => {
     const navBarHeight = 120;
     let parallax = React.useRef();
     let ref = React.useRef();
@@ -85,6 +86,7 @@ const Home = () => {
     const [second, setSecond] = React.useState(false);
     const [third, setThird] = React.useState(false);
     const [forth, setForth] = React.useState(false);
+    const [fith, setFith] = React.useState(false);
     const [activeCard, setActiveCard] = React.useState(null);
     const [showDetails, setShowDetails] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
@@ -93,10 +95,6 @@ const Home = () => {
 
     // Detect esc button
     React.useEffect(() => {
-        if (mobile) {
-            setLayout(4.7);
-            setContactPosition(3.8);
-        }
         document.addEventListener("keydown", escFunction, false);
         setTimeout(() => {
             setShowNav(true);
@@ -125,12 +123,19 @@ const Home = () => {
                 if (window.innerWidth * 0.7 < st) {
                     setForth(true)
                 }
+                if (window.innerHeight * 2.7 < st && activePage === 0) {
+                    setFith(true)
+                }
+                if (window.innerHeight * 2.45 < st && activePage !== 0) {
+                    setFith(true)
+                }
                 if (st === 0) {
                     setSecond(false)
                     setThird(false)
                     setFirst(false)
                     setFirstRender(true)
                     setForth(false)
+                    setFith(false)
                 }
                 if (st > lastScrollTop) {
                     // downscroll code
@@ -152,26 +157,63 @@ const Home = () => {
             setLayout(5.4);
             setContactPosition(4.5);
         } else {
+            // if the view is in card view
             if (activePage !== 0) {
                 if (lgUp) {
-                    setLayout(3.9);
-                    setContactPosition(3);
+                    setLayout(5);
+                    setContactPosition(3.1);
+                    // screen size lg down
                 } else {
-                    setLayout(4.1);
+                    setLayout(5.4);
                     setContactPosition(3.2);
                 }
                 // if its grid layout
             } else {
                 if (lgUp) {
-                    setLayout(4.1);
+                    setLayout(5);
                     setContactPosition(3.2);
+                    // screen size lg down
                 } else {
-                    setLayout(4.5);
-                    setContactPosition(3.6);
+                    setLayout(5.9);
+                    setContactPosition(3.7);
                 }
             }
         }
     }, [activePage, lgUp, mobile])
+
+     // Handle when button on the nav menu is clicked 
+     const handleNavClick = (index) => {
+        if (mobile) {
+            switch (index) {
+                case 0:
+                    parallax.scrollTo(1)
+                    break;
+                case 1:
+                    parallax.scrollTo(3.2)
+                    break;
+                case 2:
+                    parallax.scrollTo(contactPosition)
+                    break;
+                default:
+            }
+        } else {
+            switch (index) {
+                case 0:
+                    parallax.scrollTo(1)
+                    break;
+                case 1:
+                    parallax.scrollTo(2.1)
+                    break;
+                case 2:
+                    parallax.scrollTo(contactPosition - 0.1)
+                    break;
+                case 3:
+                    parallax.scrollTo(contactPosition + 1.5)
+                    break;
+                default:
+            }
+        }
+    }
 
     // Detect esc buttton to close modal 
     const escFunction = React.useCallback((event) => {
@@ -189,33 +231,6 @@ const Home = () => {
         setTheme(themes[index])
     }
 
-    // Handle when button on the nav menu is clicked 
-    const handleNavClick = (index) => {
-        if (mobile) {
-            switch (index) {
-                case 0:
-                    parallax.scrollTo(1)
-                    break;
-                case 1:
-                    parallax.scrollTo(3.2)
-                    break;
-                case 2:
-                    parallax.scrollTo(contactPosition)
-                    break;
-                default:
-            }
-        } else {
-            if (index === 1) {
-                parallax.scrollTo(2)
-            } else {
-                if (index === 2) {
-                    parallax.scrollTo(contactPosition)
-                } else {
-                    parallax.scrollTo(1)
-                }
-            }
-        }
-    }
 
     // Handle timeline click on the experience section
     const handleTimeClick = (index) => {
@@ -294,7 +309,7 @@ const Home = () => {
                         backgroundColor: colorScheme.priBack
                     }} ></ParallaxLayer>
                     {/* Landing page animation */}
-                    <ParallaxLayer
+                    {/* <ParallaxLayer
                         style={{ zIndex: "1" }}
                         offset={0}
                         speed={0.1}
@@ -303,7 +318,7 @@ const Home = () => {
                             mobile={mobile}
                             theme={colorScheme}
                         />
-                    </ParallaxLayer>
+                    </ParallaxLayer> */}
                     <ParallaxLayer
                         offset={0} speed={-0.1} factor={1.1}
                     >
@@ -433,11 +448,21 @@ const Home = () => {
                             </Modal>
                         </div>
                     </ParallaxLayer>
+                    <ParallaxLayer
+                        offset={contactPosition}
+                        speed={0.1}
+                    >
+                        <Projects
+                            render={fith}
+                            mobile={mobile}
+                            theme={colorScheme}
+                        />
+                    </ParallaxLayer>
                     {/* Contact me section, change the location depending on the secreen view 
                             set it to 3.6 when width is less than 1500 and 3 when its higher.
                         */}
                     <ParallaxLayer
-                        offset={contactPosition}
+                        offset={lgUp ? (contactPosition + 1) : (contactPosition + 1.3)}
                         speed={0.1}
                     >
                         <Contact
@@ -467,6 +492,7 @@ const Home = () => {
             />
         </div >
     )
-}
+})
+
 
 export default React.memo(Home);

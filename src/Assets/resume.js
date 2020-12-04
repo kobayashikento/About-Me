@@ -78,7 +78,7 @@ let resume = [
         imgCardWidth: "63%",
         cardMargin: "35px",
         chip: "Experience",
-        titleDescription: "Learned in CSC209 - Software Tools and Systems Programming",
+        titleDescription: "IT Internship",
         date: "June, 2016 - August, 2016 \n( 3 months )",
         bodySummary: "\n My responsibilities as an IT intern was to fix and maintain all physical and virtual networks. Attend to all physical network issues such as faulty wiring and made sure it was fixed promptly and efficiently." +
             "\n I contributed to the implementation of a new server that would upgrade the existing server and would be estimated to save the corporation at least 4 hours of network downtime per week. Under the supervision of the IT manager, I learned how to migrate existing data from the old servers to the new servers and was also informed how to set up the security of the servers to prevent any malicious access. " +
@@ -252,7 +252,7 @@ let resume = [
         date: "Experience - 1 year",
         bodySummary: "\n My knowledge of Java comes from the course CSC207 Software Design and I was first exposed to the language in my programming course I took in the International Baccalaureate higher-level Computer Science course. As a final assessment of my CSC207 course, we were required to build an android application using Android Studio in a team of 3. " +
             "\n Below is a list of the concepts that I learned from this course." +
-            "\n \f \v Version Control \v Unit Testting \v Refactoring \v Object-Oriented Design and Development \v Design Patterns \v IDE Usage, \v Regular Expressions ",
+            "\n \f \v Version Control \v Unit Testting \v Refactoring \v OOP Design and Development \v Design Patterns \v IDE Usage, \v Regular Expressions ",
         cardSubtitle: "Experience - 1 year",
         cardSubtitleMargin: 1,
     },
