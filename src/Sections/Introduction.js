@@ -386,7 +386,7 @@ const Contact = (props) => {
                     Leave A Message
                 </Button>
             </Grid>
-            <Typography variant="body1" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: props.mobile ? "2rem" : "6rem" }}>
+            <Typography variant="body1" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: props.mobile ? "2rem" : "4rem" }}>
                 These are some potential themes I was considering...
             </Typography>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: props.mobile ? "center" : "", marginTop: props.mobile ? "0rem" : "1rem", marginRight: "auto", marginLeft: "auto", height: "40px" }}>
