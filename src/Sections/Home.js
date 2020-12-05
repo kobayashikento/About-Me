@@ -404,6 +404,7 @@ const Home = React.memo(props => {
                                     {showModal => showModal && (props =>
                                         <div style={props}>
                                             <ResumeDetails
+                                                mobile={mobile}
                                                 handleDetailsChange={() => handleDetailsChange()}
                                                 activeCard={activeCard}
                                             />

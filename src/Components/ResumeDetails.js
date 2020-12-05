@@ -26,7 +26,7 @@ const ResumeDetails = (props) => {
         props.activeCard !== null ?
             <Container maxWidth={props.mobile ? "xs" : "md"} style={{
                 paddingRight: "8px", display: "flex", flexDirection: "column", backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem",
-                marginRight: "auto", marginLeft: "auto", transform: "translate(1rem)"
+                marginRight: "auto", marginLeft: "auto"
             }}>
                 {/* Header  */}
                 <React.Fragment>
@@ -41,13 +41,13 @@ const ResumeDetails = (props) => {
                             <img alt={`${props.activeCard.title}img`} src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
                         </Grid>
                         <Grid item xs={8} style={{ marginTop: "16px" }} fontWeight="fontWeightBold">
-                            <StyledTypography variant="h5" style={{ margin: "4px" }}>
+                            <StyledTypography variant={props.mobile ? "h6" : "h5"} style={{ margin: "4px" }}>
                                 {props.activeCard.title}
                             </StyledTypography>
-                            <Typography variant="h6" style={{ margin: "4px" }}>
+                            <Typography variant={props.mobile ? "body1" : "h6"} style={{ margin: "4px" }}>
                                 {props.activeCard.titleDescription}
                             </Typography>
-                            <Typography variant="body1" style={{ margin: "4px" }}>
+                            <Typography variant={props.mobile ? "body2" : "body1"} style={{ margin: "4px" }}>
                                 {props.activeCard.date}
                             </Typography>
                         </Grid>
@@ -57,7 +57,7 @@ const ResumeDetails = (props) => {
                             </IconButton>
                         </Grid>
                     </Grid>
-                    <div style={{ whiteSpace: "pre-wrap", textIndent: "2rem", margin: "2rem" }}>
+                    <div style={{ whiteSpace: "pre-wrap", textIndent: props.mobile ? "1rem" : "2rem", margin: props.mobile ? "" : "2rem" }}>
                         <Typography variant="body1" style={{ margin: "8px" }} align="justify">
                             {props.activeCard.bodySummary.split("\n").map((i, key) => {
                                 // Create link by detecting \r
@@ -75,7 +75,7 @@ const ResumeDetails = (props) => {
                                 } else if (/\f/.test(i)) {
                                     // make colums 1, when size is less than xs
                                     return (
-                                        <ul style={{ columns: matches ? "2" : "1", margin: "1rem", paddingBottom: "1rem" }}>
+                                        <ul style={{ columns: matches ? "2" : "1", margin: props.mobile ? "" : "1rem", paddingBottom: "1rem", textAlign: "left" }}>
                                             {i.split("\v").map((item, index) => {
                                                 if (index !== 0) {
                                                     return (
