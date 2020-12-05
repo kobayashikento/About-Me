@@ -38,7 +38,7 @@ let resume = [
             "\n Philosophy helped me engage in critical thinking, which was different from the way of thinking in my statistics, mathematics, or computer sciences, it taught me to think about problems from different angles which helped in my multivariate analysis. " +
             "\n Listed below are the courses I took that have relevance in programming and data analysis." +
             "\n Statistics: " + "\n \f \v STA437H1: Methods for Multivariate Data \v STA305H1: Design and Analysis of Experiments \v STA303H1: Methods of Data Analysis II \v STA304H1: Surveys, Sampling and Observational Data \v STA302H1: Methods of Data Analysis I \v STA248H1: Statistics for Computer Scientists" +
-            "\n Computer Science: " + "\n \f \v CSC343H1: Introduction to Databases \v CSC309H1: Programming on the Web \v CSC209H1: Software Tools and Systems Programming \v CSC207H1: Software Design" +
+            "\n Computer Science: " + "\n \f \v CSC343H1: Introduction to Databases \v CSC309H1: Programming on the Web \vCSC209H1: Software Tools and Systems Programming \v CSC207H1: Software Design" +
             "\n Mathematics: " + "\n \f \v MAT334H1: Complex Variables \v MAT235Y1: Calculus II \v MAT223H1: Linear Algebra I \v MAT224H1: Linear Algebra II \v MAT246H1: Concepts in Abstract Mathematics",
         additionalImage: false,
         cardSubtitleMargin: 0,

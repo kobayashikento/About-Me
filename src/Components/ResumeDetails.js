@@ -75,7 +75,7 @@ const ResumeDetails = (props) => {
                                 } else if (/\f/.test(i)) {
                                     // make colums 1, when size is less than xs
                                     return (
-                                        <ul style={{ columns: matches ? "2" : "1", width: "75%", margin: "auto", paddingBottom: "1rem" }}>
+                                        <ul style={{ columns: matches ? "2" : "1", margin: "1rem", paddingBottom: "1rem" }}>
                                             {i.split("\v").map((item, index) => {
                                                 if (index !== 0) {
                                                     return (
