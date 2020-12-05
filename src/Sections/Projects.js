@@ -37,17 +37,17 @@ const Projects = (props) => {
 
     const firstProject = [
         {
-            content: <Typography variant={props.mobile ? "h6" : "h5"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "bold" }}>UAssist</Typography>,
+            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{ marginTop: props.mobile ? "2rem" : "", paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "bold" }}>UAssist</Typography>,
             key: 0
         },
         {
-            content: <Typography variant={props.mobile ? "h6" : "body2"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "bold" }}>CSC309 Project</Typography>,
+            content: <Typography variant={"body2"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "bold" }}>CSC309 Project</Typography>,
             key: 1
         },
         {
             content:
-                <div style={{ background: `${theme.priBack}`, borderRadius: "3px", transform: "translate(1rem)", width: "90%" }}>
-                    <Typography variant={props.mobile ? "h6" : "body1"} align="left" style={{ padding: "1rem", color: props.theme.priTxtColor }}>
+                <div style={{ background: `${theme.priBack}`, borderRadius: "3px", transform: "translate(1rem)", width: props.mobile ? "95%" : "90%" }}>
+                    <Typography variant={"body1"} align="left" style={{ padding: "1rem", color: props.theme.priTxtColor }}>
                         Website that provides a user interface for course selections and provides schedule recommendations such as least amount of time spent on campus, time between each course, and travel time between courses.
 </Typography>
                 </div>,
@@ -85,17 +85,17 @@ const Projects = (props) => {
 
     const secondProject = [
         {
-            content: <Typography variant={props.mobile ? "h6" : "h5"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "bold" }}>Routine Recorder</Typography>,
+            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "bold" }}>Routine Recorder</Typography>,
             key: 0
         },
         {
-            content: <Typography variant={props.mobile ? "h6" : "body2"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "bold" }}>Personal Project</Typography>,
+            content: <Typography variant={"body2"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "bold" }}>Personal Project</Typography>,
             key: 1
         },
         {
             content:
-                <div style={{ background: `${theme.priBack}CC`, borderRadius: "3px", width: "80%", float: "right" }}>
-                    <Typography variant={props.mobile ? "h6" : "body1"} align="right" style={{ padding: "1rem", color: props.theme.priTxtColor }}>
+                <div style={{ background: `${theme.priBack}CC`, borderRadius: "3px", width: props.mobile ? "100%" : "80%", float: props.mobile ? "left" : "right" }}>
+                    <Typography variant={"body1"} align={props.mobile ? "left" : "right"} style={{ padding: "1rem", color: props.theme.priTxtColor }}>
                         Website that manages my gym progress and displays it in a graph that can be used to see progress overtime. This website was built with the intent to learn React, Redux, and data management on Firestore.
 </Typography>
                 </div>,
@@ -158,56 +158,109 @@ const Projects = (props) => {
 
     return (
         <Container maxWidth="md">
-            <Grid
-                container
-                direction={props.mobile ? "column" : "row"}
-                justify="space-between"
-                alignItems="center"
-            >
-                <Grid item xs={12}>
-                    <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "2rem" : "3rem", justifyContent: "center" }}>
-                        {headerTrail.map(({ x, height, ...rest }, index) => (
-                            <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                {headerItems[index].content}
-                            </animated.div>))}
-                    </div>
-                </Grid>
+            {props.mobile ?
                 <Grid
                     container
                     direction={props.mobile ? "column" : "row"}
+                    justify="space-between"
                     alignItems="center"
                 >
-                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
-                        {firstTrans.map(({ item, props, key }) =>
-                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
-                        )}
+                    <Grid item xs={12}>
+                        <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "2rem" : "3rem", justifyContent: "center" }}>
+                            {headerTrail.map(({ x, height, ...rest }, index) => (
+                                <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                                    {headerItems[index].content}
+                                </animated.div>))}
+                        </div>
                     </Grid>
-                    <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "flex-end" }}>
-                        <img src={UAssist} style={{
-                            width: "500px", borderRadius: "5px",
-                            boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
-                        }} />
+                    <Grid
+                        container
+                        direction={props.mobile ? "column" : "row"}
+                        alignItems="center"
+                    >
+                        <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
+                            {firstTrans.map(({ item, props, key }) =>
+                                <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                            )}
+                        </Grid>
+                        <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "center" }}>
+                            <img src={UAssist} style={{
+                                width: "318px", height: "200px", borderRadius: "5px",
+                                boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
+                            }} />
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        container
+                        direction={props.mobile ? "column" : "row"}
+                        style={{ marginTop: "7rem" }}
+                        alignItems="center"
+                    >
+                        <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
+                            {secondTrans.map(({ item, props, key }) =>
+                                <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
+                            )}
+                        </Grid>
+                        <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "center" }}>
+                            <img src={sample1} style={{
+                                width: "337px", height: "169px", borderRadius: "5px", marginLeft: "1rem",
+                                boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
+                            }} />
+                        </Grid>
                     </Grid>
                 </Grid>
+                :
                 <Grid
                     container
                     direction={props.mobile ? "column" : "row"}
-                    style={{ marginTop: "7rem" }}
+                    justify="space-between"
                     alignItems="center"
                 >
-                    <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
-                        <img src={sample1} style={{
-                            width: "500px", borderRadius: "5px", marginLeft: "1rem",
-                            boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
-                        }} />
+                    <Grid item xs={12}>
+                        <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "2rem" : "3rem", justifyContent: "center" }}>
+                            {headerTrail.map(({ x, height, ...rest }, index) => (
+                                <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                                    {headerItems[index].content}
+                                </animated.div>))}
+                        </div>
                     </Grid>
-                    <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", zIndex: "1" }}>
-                        {secondTrans.map(({ item, props, key }) =>
-                            <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
-                        )}
+                    <Grid
+                        container
+                        direction={props.mobile ? "column" : "row"}
+                        alignItems="center"
+                    >
+                        <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
+                            {firstTrans.map(({ item, props, key }) =>
+                                <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                            )}
+                        </Grid>
+                        <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "flex-end" }}>
+                            <img src={UAssist} style={{
+                                width: "500px", borderRadius: "5px",
+                                boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
+                            }} />
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        container
+                        direction={props.mobile ? "column" : "row"}
+                        style={{ marginTop: "7rem" }}
+                        alignItems="center"
+                    >
+                        <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
+                            <img src={sample1} style={{
+                                width: "500px", borderRadius: "5px", marginLeft: "1rem",
+                                boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
+                            }} />
+                        </Grid>
+                        <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", zIndex: "1" }}>
+                            {secondTrans.map(({ item, props, key }) =>
+                                <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
+                            )}
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            }
         </Container >
     )
 }

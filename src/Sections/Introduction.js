@@ -38,22 +38,17 @@ const Introduction = React.memo(props => {
     const open = true
     const items = [
         {
-            content: <Typography variant={props.mobile ? "h6" : "h5"} align="justify" style={{ color: props.theme.secColor, marginBottom: "6rem", fontWeight: "400", opacity: "0.8" }}>
-                Hello! My name is
-                    </Typography>
-        },
-        {
-            content: <Typography variant={props.mobile ? "h6" : "h5"} align="justify" style={{ color: props.theme.secColor, paddingTop: "1rem", fontWeight: "400", opacity: "1" }}>
-                I'm a Developer and Analyst
+            content: <Typography variant={props.mobile ? "h6" : "h5"} align="justify" style={{ color: props.theme.secColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1" }}>
+                Developer and Analyst
 </Typography>
         },
         {
             content: <Typography variant="body1" align="center"
                 style={{
-                    textIndent: props.mobile ? "1rem" : "1rem", marginRight: "auto", marginLeft: "auto", color: props.theme.priTxtColor, paddingTop: props.mobile ? "3rem" : "2rem",
-                    fontWeight: "400", width: props.mobile ? "100%" : "50%", paddingLight: props.mobile ? "2rem" : ""
+                    textIndent: props.mobile ? "1rem" : "1rem", marginRight: "auto", marginLeft: "auto", color: props.theme.priTxtColor, paddingTop: props.mobile ? "3rem" : "1rem",
+                    fontWeight: "400", width: props.mobile ? "100%" : "50%"
                 }}>
-                I recently obtained my Honours Bachelors of Science degree from the University of Toronto with experiences in Application and Web Development.
+                Recently obtained my Honours Bachelors of Science degree from the University of Toronto with experiences in Application and Web Development.
                 </Typography>
 
         }
@@ -78,8 +73,8 @@ const Introduction = React.memo(props => {
         to: async (next, cancel) => {
             await next({ width: "38px", transform: "translate(-38px, 0px)", paddingLeft: "0px", })
             await next({ width: "38px", transform: "translate(-38px, -30px)" })
-            await next({ width: "165px", transform: "translate(-165px, -30px)" })
-            await next({ width: "165px", transform: "translate(-173px, 0px)" })
+            await next({ width: "170px", transform: "translate(-170px, -30px)" })
+            await next({ width: "170px", transform: "translate(-170px, 0px)" })
         },
         from: { position: "absolute", width: "0px", overflow: "hidden", float: "right", height: "77px", paddingLeft: "36px", transform: "translate(-38px, 0px)" },
         ref: springFirstRef
@@ -88,8 +83,8 @@ const Introduction = React.memo(props => {
         to: async (next, cancel) => {
             await next({ width: "38px", transform: "translate( 0px, 0px)" })
             await next({ width: "38px", transform: "translate( -38px, 30px)" })
-            await next({ width: "290px", transform: "translate( -38px, 30px)" })
-            await next({ width: "290px", transform: "translate( 8px, 0px)" })
+            await next({ width: "295px", transform: "translate( -38px, 30px)" })
+            await next({ width: "295px", transform: "translate( 8px, 0px)" })
         },
         from: { position: "absolute", width: "0px", overflow: "hidden", height: "77px", transform: "translate(0px, 0px)" },
         ref: springLastRef
@@ -98,8 +93,8 @@ const Introduction = React.memo(props => {
         to: async (next, cancel) => {
             await next({ width: "22px", transform: "translate(-22px, 0px)", paddingLeft: "0px", })
             await next({ width: "22px", transform: "translate(-22px, -15px)" })
-            await next({ width: "94px", transform: "translate(-94px,-15px)" })
-            await next({ width: "94px", transform: "translate(-102px, 0px)" })
+            await next({ width: "100px", transform: "translate(-100px,-15px)" })
+            await next({ width: "100px", transform: "translate(-108px, 0px)" })
         },
         from: { position: "absolute", width: "0px", overflow: "hidden", float: "right", height: "44px", paddingLeft: "22px", transform: "translate(-22px, 0px)" },
         ref: springFirstMobileRef
@@ -131,7 +126,7 @@ const Introduction = React.memo(props => {
         </Typography>
                 </animated.div>
             </div> :
-                <div style={{ height: "100vh", display: "flex", alignItems: "center", position: "absolute", left: "46%", paddingBottom: "6rem" }}>
+                <div style={{ height: "100vh", display: "flex", alignItems: "center", position: "absolute", left: "47%", paddingBottom: "6rem" }}>
                     <animated.div style={springFirst}>
                         <Typography variant={"h2"} style={{ width: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
                             Kento
@@ -144,7 +139,7 @@ const Introduction = React.memo(props => {
                     </animated.div>
                 </div>
             }
-            < Container maxWidth={props.mobile ? "xs" : "md"} style={{ height: "100vh", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+            < Container maxWidth={props.mobile ? "xs" : "md"} style={{ height: "100vh", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", paddingTop: props.mobile ? "" : "7rem" }}>
                 {trail.map(({ x, height, ...rest }, index) => (
                     <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
                         {items[index].content}
@@ -302,19 +297,19 @@ const SideIcons = (props) => {
     const iconItems = [{
         content:
             <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} onMouseEnter={() => setHover(1)} onMouseLeave={() => setHover(0)}>
-                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.secColor: props.theme.priColor  }} />
+                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.secColor : props.theme.priColor }} />
             </div>,
         key: 0
     },
     {
         content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} onMouseEnter={() => setHover(2)} onMouseLeave={() => setHover(0)}>
-            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.secColor: props.theme.priColor }} />
+            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.secColor : props.theme.priColor }} />
         </div>,
         key: 1
     },
     {
         content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} onMouseEnter={() => setHover(3)} onMouseLeave={() => setHover(0)}>
-            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.secColor: props.theme.priColor }} />
+            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.secColor : props.theme.priColor }} />
         </div>,
         key: 2
     }];
@@ -433,7 +428,7 @@ const AboutMe = (props) => {
     const open = props.render
 
     const headerItems = [{
-        content: <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "3rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
+        content: <Divider style={{ marginLeft: props.mobile ? "" : "3rem", width: props.mobile ? "3rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
         type: 0
     },
     {
@@ -535,7 +530,7 @@ const AboutMe = (props) => {
                     </div>
                 </Grid>
                 <Grid item sm={5} xs={12} style={{ width: "100%" }}>
-                    <div style={{ display: "flex", height: "300px", paddingTop: props.mobile ? "2rem" : "", alignItems: "center", justifyContent: "flex-end" }}>
+                    <div style={{ display: "flex", height: "300px", paddingTop: props.mobile ? "2rem" : "", alignItems: "center", justifyContent: props.mobile ? "center" : "flex-end" }}>
                         <Picture
                             mobile={props.mobile}
                             render={props.render}
@@ -601,7 +596,7 @@ const AboutMeSecond = (props) => {
                     justify="space-between"
                     alignItems="center"
                 >
-                    <Grid item xs={12} sm={7} style={{ paddingRight: props.mobile ? "" : "3rem" }}>
+                    <Grid item xs={12} sm={7}>
                         {contentTrail.map(({ x, height, ...rest }, index) => (
                             <animated.div key={`aboutSec${index}`} style={{
                                 ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
@@ -611,7 +606,7 @@ const AboutMeSecond = (props) => {
                         ))}
                     </Grid>
                     <Grid item xs={12} sm={5} style={{ width: "100%" }}>
-                        <div style={{ display: "flex", height: "290px", alignItems: "center", justifyContent: "flex-start", paddingLeft: "1rem" }}>
+                        <div style={{ display: "flex", height: "290px", alignItems: "center", justifyContent: "center" }}>
                             <SecondPicture
                                 mobile={props.mobile}
                                 render={props.render}
@@ -625,7 +620,7 @@ const AboutMeSecond = (props) => {
                     direction="row"
                     justify="space-between"
                     alignItems="center"
-                    style={{ marginLeft: "3rem", paddingTop: "5rem" }}
+                    style={{ marginLeft: "3rem", height: "380px" }}
                 >
                     <Grid item xs={12} sm={5} >
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
@@ -741,7 +736,7 @@ const LineDescription = (props) => {
     const open = props.render;
 
     const items = [{
-        content: <div style={{ display: "flex", alignItems: "center", marginRight: "auto", marginLeft: "auto", width: "fit-content" }}>
+        content: <div style={{ display: "flex", alignItems: "center", marginRight: "auto", marginLeft: "auto", justifyContent: "center", width: "fit-content" }}>
             <Divider style={{ marginRight: "1rem", width: "2rem", backgroundColor: props.theme.priTxtColor }} />
             <Typography variant="body2" align="justify" style={{ color: props.theme.priTxtColor, fontWeight: "400", width: "fit-content" }}>
                 About The Lines
@@ -749,7 +744,7 @@ const LineDescription = (props) => {
             <Divider style={{ marginLeft: "1rem", width: "2rem", backgroundColor: props.theme.priTxtColor }} />
         </div>
     }, {
-        content: <Typography variant="subtitle2" align="justify" style={{ color: props.theme.priTxtColor, marginLeft: props.mobile ? "2rem" : "", marginRight: props.mobile ? "2rem" : "", paddingTop: "1rem", paddingLeft: "1rem", fontWeight: "400", width: "fit-content" }}>
+        content: <Typography variant="subtitle2" align="center" style={{ color: props.theme.priTxtColor, marginLeft: props.mobile ? "2rem" : "", marginRight: props.mobile ? "2rem" : "", paddingTop: "1rem", paddingLeft: "1rem", fontWeight: "400", width: "fit-content" }}>
             The number of dots and lines present on the canvas is set to be within the limit of 17000 pixels.
     </Typography>
     }]

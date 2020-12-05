@@ -42,7 +42,6 @@ const ResumeParallax = (props) => {
                 direction="row"
                 justify="center"
                 alignItems="center"
-                style={{ padding: props.mobile ? "1rem" : "" }}
             >
                 <Grid item xs={12}>
                     {contentTrail.map(({ x, height, ...rest }, index) => (

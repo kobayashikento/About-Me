@@ -37,10 +37,9 @@ let resume = [
             "\n My mathematics courses that taught advanced integrals and matrix algebra aided my understanding of my statistics courses, especially in the calculation of MANOVA and MANCOVA in a multivariate analysis that required a good understanding of vector calculations of integration of vectors. " +
             "\n Philosophy helped me engage in critical thinking, which was different from the way of thinking in my statistics, mathematics, or computer sciences, it taught me to think about problems from different angles which helped in my multivariate analysis. " +
             "\n Listed below are the courses I took that have relevance in programming and data analysis." +
-            "\n Statistics: " + "\n \t STA437H1: Methods for Multivariate Data \t \t STA305H1: Design and Analysis of Experiments" + "\n \t STA303H1: Methods of Data Analysis II \t \t STA304H1: Surveys, Sampling and Observational Data" +
-            "\n \t STA302H1: Methods of Data Analysis I \t \t STA248H1: Statistics for Computer Scientists" +
-            "\n Computer Science: " + "\n \t CSC343H1: Introduction to Databases \t \t CSC309H1: Programming on the Web" + "\n \t CSC209H1: Software Tools and Systems Programming" + "\n \t CSC207H1: Software Design" +
-            "\n Mathematics: " + "\n \t MAT334H1: Complex Variables \t \t \t \t MAT235Y1: Calculus II " + "\n \t MAT223H1: Linear Algebra I \t \t \t \t MAT224H1: Linear Algebra II" + "\n \t MAT246H1: Concepts in Abstract Mathematics",
+            "\n Statistics: " + "\n \f \v STA437H1: Methods for Multivariate Data \v STA305H1: Design and Analysis of Experiments \v STA303H1: Methods of Data Analysis II \v STA304H1: Surveys, Sampling and Observational Data \v STA302H1: Methods of Data Analysis I \v STA248H1: Statistics for Computer Scientists" +
+            "\n Computer Science: " + "\n \f \v CSC343H1: Introduction to Databases \v CSC309H1: Programming on the Web \v CSC209H1: Software Tools and Systems Programming \v CSC207H1: Software Design" +
+            "\n Mathematics: " + "\n \f \v MAT334H1: Complex Variables \v MAT235Y1: Calculus II \v MAT223H1: Linear Algebra I \v MAT224H1: Linear Algebra II \v MAT246H1: Concepts in Abstract Mathematics",
         additionalImage: false,
         cardSubtitleMargin: 0,
         cardSubtitle: "September, 2014 - May, 2020"
@@ -80,7 +79,7 @@ let resume = [
         chip: "Experience",
         titleDescription: "IT Internship",
         date: "June, 2016 - August, 2016 \n( 3 months )",
-        bodySummary: "\n My responsibilities as an IT intern was to fix and maintain all physical and virtual networks. Attend to all physical network issues such as faulty wiring and made sure it was fixed promptly and efficiently." +
+        bodySummary: "\n My responsibilities as an IT intern was to fix and maintain all physical and virtual networks. Attend to all physical network issues such as faulty wiring anzd made sure it was fixed promptly and efficiently." +
             "\n I contributed to the implementation of a new server that would upgrade the existing server and would be estimated to save the corporation at least 4 hours of network downtime per week. Under the supervision of the IT manager, I learned how to migrate existing data from the old servers to the new servers and was also informed how to set up the security of the servers to prevent any malicious access. " +
             "\n My other responsibilities were... " + "(a) Collaborated with several employees, at least 4 employers out of the 40 working employers per day to determine the cause of hardware, software or network issues; (b) Checking file integrity on computers when visiting storage facilities; (c) Performing weekly backups on the server every Saturday",
         cardSubtitle: "June, 2016 - August, 2016 \n( 3 months )",

@@ -72,16 +72,17 @@ const Home = React.memo(props => {
     let ref = React.useRef();
     // condition that changes parallax size depending on the window size
     // if its 1500px or higher, then keep layout size at 4 
-    const lgUp = useMediaQuery('(min-width:1500px)');
+    const lgUp = useMediaQuery('(min-width:1440px)');
+    const mdUp = useMediaQuery('(min-width:1024px)');
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [open, setOpen] = React.useState(true);
     const [cardIndex, setCardIndex] = React.useState(0);
     const [activePage, setActivePage] = React.useState(0);
     const [showNav, setShowNav] = React.useState(false);
-    const [preload, setPreload] = React.useState(true);
     const [firstRender, setFirstRender] = React.useState(true);
     const [colorScheme, setTheme] = React.useState(themes[0]);
+    // animation timing based on scroll position
     const [first, setFirst] = React.useState(false)
     const [second, setSecond] = React.useState(false);
     const [third, setThird] = React.useState(false);
@@ -90,8 +91,52 @@ const Home = React.memo(props => {
     const [activeCard, setActiveCard] = React.useState(null);
     const [showDetails, setShowDetails] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
-    const [layout, setLayout] = React.useState(4.5);
-    const [contactPosition, setContactPosition] = React.useState(3.6);
+    const [layout, setLayout] = React.useState(1);
+    const [aboutMePos, setAboutMePos] = React.useState(2);
+    const [aboutMeSecPos, setAboutMeSecPos] = React.useState(2.1);
+    const [expPos, setExpPos] = React.useState(3);
+    const [projPos, setProjPos] = React.useState(3.5)
+    const [contactPos, setContactPos] = React.useState(3.6);
+
+    // Calculate layout height 
+    // about me 1 : 462, 2: 385, grid: 1097 card 815, project 800, contact 552
+    // space betweeen each section is 0.2 of the innerHeight and between each about me section 0.1 
+    React.useEffect(() => {
+        // 0 is grid view
+        let currentHeight = window.innerHeight;
+        if (mobile) {
+            const section1 = window.innerHeight, section2 = 822, section3 = 505, section4 = 782, section5 = 1218, section6 = 530;
+            const totalHeight = section1 + (section2 + section3) + section4 + section5 + section6 + ((window.innerHeight * 0.1) * 4)
+            const layoutSize = ((totalHeight / window.innerHeight).toFixed(1))
+            setLayout(layoutSize)
+            setAboutMePos(1);
+            currentHeight += (section2 + window.innerHeight * 0.1);
+            setAboutMeSecPos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section3 + window.innerHeight * 0.1);
+            setExpPos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section4 + window.innerHeight * 0.1);
+            setProjPos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section5 + window.innerHeight * 0.1);
+            setContactPos((currentHeight / window.innerHeight).toFixed(1));
+        } else {
+            // if the view is in card view
+            const section1 = window.innerHeight, section2 = 463, section3 = 285, section4 = activePage === 0 ? 1027 : 745, section5 = 800, section6 = 552;
+            const totalHeight = section1 + (section2 + section3) + section4 + section5 + section6 + ((window.innerHeight * 0.2) * 3) + ((window.innerHeight * 0.1) * 2)
+            const layoutSize = ((totalHeight / window.innerHeight).toFixed(1))
+            setLayout(layoutSize)
+            // total layout size is (section1 height) + (section2 height) + .... + (window.innerHeight * 0.2)*5(spaces) 
+            // landing page always takes window.innerHeight as height 
+            setAboutMePos(1);
+            currentHeight += (section2 + window.innerHeight * 0.1);
+            setAboutMeSecPos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section3 + window.innerHeight * 0.2);
+            setExpPos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section4 + window.innerHeight * 0.1);
+            setProjPos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section5 + window.innerHeight * 0.2);
+            setContactPos((currentHeight / window.innerHeight).toFixed(1));
+        }
+    }, [activePage, lgUp, mobile, window.innerHeight])
 
     // Detect esc button
     React.useEffect(() => {
@@ -150,68 +195,22 @@ const Home = React.memo(props => {
         }
     }, [ref])
 
-    // Change the size of the layout
-    React.useEffect(() => {
-        // 0 is grid view
-        if (mobile) {
-            setLayout(5.4);
-            setContactPosition(4.5);
-        } else {
-            // if the view is in card view
-            if (activePage !== 0) {
-                if (lgUp) {
-                    setLayout(5);
-                    setContactPosition(3.1);
-                    // screen size lg down
-                } else {
-                    setLayout(5.4);
-                    setContactPosition(3.2);
-                }
-                // if its grid layout
-            } else {
-                if (lgUp) {
-                    setLayout(5);
-                    setContactPosition(3.2);
-                    // screen size lg down
-                } else {
-                    setLayout(5.9);
-                    setContactPosition(3.7);
-                }
-            }
-        }
-    }, [activePage, lgUp, mobile])
-
-     // Handle when button on the nav menu is clicked 
-     const handleNavClick = (index) => {
-        if (mobile) {
-            switch (index) {
-                case 0:
-                    parallax.scrollTo(1)
-                    break;
-                case 1:
-                    parallax.scrollTo(3.2)
-                    break;
-                case 2:
-                    parallax.scrollTo(contactPosition)
-                    break;
-                default:
-            }
-        } else {
-            switch (index) {
-                case 0:
-                    parallax.scrollTo(1)
-                    break;
-                case 1:
-                    parallax.scrollTo(2.1)
-                    break;
-                case 2:
-                    parallax.scrollTo(contactPosition - 0.1)
-                    break;
-                case 3:
-                    parallax.scrollTo(contactPosition + 1.5)
-                    break;
-                default:
-            }
+    // Handle when button on the nav menu is clicked 
+    const handleNavClick = (index) => {
+        switch (index) {
+            case 0:
+                parallax.scrollTo(1)
+                break;
+            case 1:
+                parallax.scrollTo(expPos)
+                break;
+            case 2:
+                parallax.scrollTo(projPos)
+                break;
+            case 3:
+                parallax.scrollTo(contactPos)
+                break;
+            default:
         }
     }
 
@@ -230,7 +229,6 @@ const Home = React.memo(props => {
     const handleThemeChange = (index) => {
         setTheme(themes[index])
     }
-
 
     // Handle timeline click on the experience section
     const handleTimeClick = (index) => {
@@ -308,17 +306,6 @@ const Home = React.memo(props => {
                             `radial-gradient(closest-corner, ${colorScheme.priBack} 0%, ${colorScheme.secBack} 100%)`,
                         backgroundColor: colorScheme.priBack
                     }} ></ParallaxLayer>
-                    {/* Landing page animation */}
-                    {/* <ParallaxLayer
-                        style={{ zIndex: "1" }}
-                        offset={0}
-                        speed={0.1}
-                    >
-                        <Preload
-                            mobile={mobile}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer> */}
                     <ParallaxLayer
                         offset={0} speed={-0.1} factor={1.1}
                     >
@@ -351,7 +338,7 @@ const Home = React.memo(props => {
                     </ParallaxLayer>
                     {/* About me description */}
                     <ParallaxLayer
-                        offset={1}
+                        offset={aboutMePos}
                         speed={0.1}
                     >
                         <AboutMe
@@ -360,32 +347,10 @@ const Home = React.memo(props => {
                             theme={colorScheme}
                         />
                     </ParallaxLayer>
-                    {/* About me description first picture */}
-                    {/* <ParallaxLayer
-                        offset={mobile ? 1.6 : 1.2}
-                        speed={mobile ? 0.1 : -0.1}
-                    >
-                        <Picture
-                            mobile={mobile}
-                            render={second}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer> */}
-                    {/* About me second picture */}
-                    {/* <ParallaxLayer
-                        offset={mobile ? 2.5 : 1.4}
-                        speed={0.1}
-                    >
-                        <SecondPicture
-                            mobile={mobile}
-                            render={third}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer> */}
                     {/* About me second description */}
                     <ParallaxLayer
-                        offset={mobile ? 2.4 : 1.7}
-                        speed={mobile ? 0.1 : 0.1}
+                        offset={aboutMeSecPos}
+                        speed={0.1}
                     >
                         <AboutMeSecond
                             mobile={mobile}
@@ -395,10 +360,10 @@ const Home = React.memo(props => {
                     </ParallaxLayer>
                     {/* Experience section */}
                     <ParallaxLayer
-                        offset={mobile ? 3 : 2.1}
-                        speed={mobile ? 0.1 : 0.2}
+                        offset={ expPos}
+                        speed={ 0.1}
                     >
-                        <div style={{ paddingTop: "5rem" }}>
+                        <div>
                             <ResumeParallax
                                 mobile={mobile}
                                 parallax={parallax}
@@ -449,7 +414,7 @@ const Home = React.memo(props => {
                         </div>
                     </ParallaxLayer>
                     <ParallaxLayer
-                        offset={contactPosition}
+                        offset={projPos}
                         speed={0.1}
                     >
                         <Projects
@@ -462,7 +427,7 @@ const Home = React.memo(props => {
                             set it to 3.6 when width is less than 1500 and 3 when its higher.
                         */}
                     <ParallaxLayer
-                        offset={lgUp ? (contactPosition + 1) : (contactPosition + 1.3)}
+                        offset={contactPos}
                         speed={0.1}
                     >
                         <Contact
@@ -495,4 +460,4 @@ const Home = React.memo(props => {
 })
 
 
-export default React.memo(Home);
+export default React.memo(Home); 
