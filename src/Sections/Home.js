@@ -92,10 +92,10 @@ const Home = React.memo(props => {
     const [showDetails, setShowDetails] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
     const [layout, setLayout] = React.useState(1);
-    const [aboutMePos, setAboutMePos] = React.useState(2);
-    const [aboutMeSecPos, setAboutMeSecPos] = React.useState(2.1);
-    const [expPos, setExpPos] = React.useState(3);
-    const [projPos, setProjPos] = React.useState(3.5)
+    const [aboutMePos, setAboutMePos] = React.useState(3.1);
+    const [aboutMeSecPos, setAboutMeSecPos] = React.useState(3.1);
+    const [expPos, setExpPos] = React.useState(1);
+    const [projPos, setProjPos] = React.useState(2)
     const [contactPos, setContactPos] = React.useState(3.6);
 
     // Calculate layout height 
@@ -109,31 +109,32 @@ const Home = React.memo(props => {
             const totalHeight = section1 + (section2 + section3) + section4 + section5 + section6 + ((window.innerHeight * 0.1) * 4)
             const layoutSize = ((totalHeight / window.innerHeight).toFixed(1))
             setLayout(layoutSize)
-            setAboutMePos(1);
-            currentHeight += (section2 + window.innerHeight * 0.1);
-            setAboutMeSecPos((currentHeight / window.innerHeight).toFixed(1));
-            currentHeight += (section3 + window.innerHeight * 0.1);
-            setExpPos((currentHeight / window.innerHeight).toFixed(1));
+            setExpPos(1);
             currentHeight += (section4 + window.innerHeight * 0.1);
             setProjPos((currentHeight / window.innerHeight).toFixed(1));
             currentHeight += (section5 + window.innerHeight * 0.1);
+            setAboutMePos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section2 + window.innerHeight * 0.1);
+            setAboutMeSecPos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section3 + window.innerHeight * 0.1);
             setContactPos((currentHeight / window.innerHeight).toFixed(1));
         } else {
             // if the view is in card view
+            //section 2 - about me, section 3 - about me 2, section 4 - exp section, section 5 - projects, section 6 - contact
             const section1 = window.innerHeight, section2 = 463, section3 = 285, section4 = activePage === 0 ? 1027 : 745, section5 = 800, section6 = 552;
-            const totalHeight = section1 + (section2 + section3) + section4 + section5 + section6 + ((window.innerHeight * 0.2) * 3) + ((window.innerHeight * 0.1) * 2)
+            const totalHeight = section1 + (section2 + section3) + section4 + section5 + section6 + ((window.innerHeight * 0.2) * 4) + ((window.innerHeight * 0.1) * 1)
             const layoutSize = ((totalHeight / window.innerHeight).toFixed(1))
             setLayout(layoutSize)
             // total layout size is (section1 height) + (section2 height) + .... + (window.innerHeight * 0.2)*5(spaces) 
             // landing page always takes window.innerHeight as height 
-            setAboutMePos(1);
-            currentHeight += (section2 + window.innerHeight * 0.1);
-            setAboutMeSecPos((currentHeight / window.innerHeight).toFixed(1));
-            currentHeight += (section3 + window.innerHeight * 0.2);
-            setExpPos((currentHeight / window.innerHeight).toFixed(1));
-            currentHeight += (section4 + window.innerHeight * 0.1);
+            setExpPos(1);
+            currentHeight += (section4 + window.innerHeight * 0.2);
             setProjPos((currentHeight / window.innerHeight).toFixed(1));
             currentHeight += (section5 + window.innerHeight * 0.2);
+            setAboutMePos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section2 + window.innerHeight * 0.1);
+            setAboutMeSecPos((currentHeight / window.innerHeight).toFixed(1));
+            currentHeight += (section3 + window.innerHeight * 0.3);
             setContactPos((currentHeight / window.innerHeight).toFixed(1));
         }
     }, [activePage, lgUp, mobile, window.innerHeight])
@@ -149,30 +150,29 @@ const Home = React.memo(props => {
         };
     }, []);
 
+    console.log(aboutMePos, aboutMeSecPos, window.innerWidth * (aboutMePos - 0.4), window.innerHeight * (aboutMeSecPos - 0.1) )
     // Detect scroll
     React.useEffect(() => {
         if (!mobile && ref.current.children[0] !== undefined) {
             var lastScrollTop = 0;
             ref.current.children[0].addEventListener("scroll", function () {
                 var st = ref.current.children[0].scrollTop || document.documentElement.scrollTop;
-                // render about me 
+                // second = about me, third = about me 2, forth = exp, fith proj
                 if (window.innerHeight * 0.1 < st) {
                     setFirst(true)
                 }
-                if (window.innerHeight * 0.5 < st) {
-                    setSecond(true)
-                }
-                if (window.innerHeight * 0.6 < st) {
-                    setThird(true)
-                }
-                if (window.innerWidth * 0.7 < st) {
+                if (window.innerHeight * (expPos - 0.4) < st) {
                     setForth(true)
                 }
-                if (window.innerHeight * 2.7 < st && activePage === 0) {
+                if (window.innerHeight * (projPos - 0.4) < st) {
                     setFith(true)
                 }
-                if (window.innerHeight * 2.45 < st && activePage !== 0) {
-                    setFith(true)
+                if (window.innerHeight * (aboutMePos - 0.4) < st) {
+                    console.log("opaaas")
+                    setSecond(true)
+                }
+                if (window.innerHeight * (aboutMeSecPos - 0.1) < st) {
+                    setThird(true)
                 }
                 if (st === 0) {
                     setSecond(false)
@@ -202,10 +202,10 @@ const Home = React.memo(props => {
                 parallax.scrollTo(1)
                 break;
             case 1:
-                parallax.scrollTo(expPos)
+                parallax.scrollTo(projPos)
                 break;
             case 2:
-                parallax.scrollTo(projPos)
+                parallax.scrollTo(aboutMePos)
                 break;
             case 3:
                 parallax.scrollTo(contactPos)
@@ -336,32 +336,10 @@ const Home = React.memo(props => {
                             render={first}
                         />
                     </ParallaxLayer>
-                    {/* About me description */}
-                    <ParallaxLayer
-                        offset={aboutMePos}
-                        speed={0.1}
-                    >
-                        <AboutMe
-                            mobile={mobile}
-                            render={second}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* About me second description */}
-                    <ParallaxLayer
-                        offset={aboutMeSecPos}
-                        speed={0.1}
-                    >
-                        <AboutMeSecond
-                            mobile={mobile}
-                            render={third}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
                     {/* Experience section */}
                     <ParallaxLayer
-                        offset={ expPos}
-                        speed={ 0.1}
+                        offset={expPos}
+                        speed={0.1}
                     >
                         <div>
                             <ResumeParallax
@@ -414,6 +392,7 @@ const Home = React.memo(props => {
                             </Modal>
                         </div>
                     </ParallaxLayer>
+                    {/* Projects section */}
                     <ParallaxLayer
                         offset={projPos}
                         speed={0.1}
@@ -421,6 +400,28 @@ const Home = React.memo(props => {
                         <Projects
                             render={fith}
                             mobile={mobile}
+                            theme={colorScheme}
+                        />
+                    </ParallaxLayer>
+                    {/* About me description */}
+                    <ParallaxLayer
+                        offset={aboutMePos}
+                        speed={0.1}
+                    >
+                        <AboutMe
+                            mobile={mobile}
+                            render={second}
+                            theme={colorScheme}
+                        />
+                    </ParallaxLayer>
+                    {/* About me second description */}
+                    <ParallaxLayer
+                        offset={aboutMeSecPos}
+                        speed={0.1}
+                    >
+                        <AboutMeSecond
+                            mobile={mobile}
+                            render={third}
                             theme={colorScheme}
                         />
                     </ParallaxLayer>

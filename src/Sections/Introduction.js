@@ -153,7 +153,7 @@ const Introduction = React.memo(props => {
 const NavBar = (props) => {
 
     const priColor = props.theme.priColor;
-    const navItems = ["About", "Experience", "Projects", "Contact"];
+    const navItems = ["Experience", "Projects","About",  "Contact"];
     const navTrail = useTrail(navItems.length, {
         config: { mass: 5, tension: 2000, friction: 200 },
         opacity: props.open ? 1 : 0,
@@ -393,7 +393,7 @@ const Contact = (props) => {
                     )
                 })}
             </div>
-            <Typography variant="body2" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: "5rem", marginTop: props.mobile ? "2rem" : "" }}>
+            <Typography variant="body2" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: "4rem", marginTop: "2rem" }}>
                 Based in Toronto, Fueled by coffee
             </Typography>
         </Container >
