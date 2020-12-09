@@ -7,7 +7,7 @@ const NetworkAni = (props) => {
 	React.useEffect(() => {
 		const canvas = canvasRef.current;
 		const context = canvas.getContext('2d')
-		context.canvas.width = window.innerWidth;
+		context.canvas.width = window.innerWidth / 2;
 		context.canvas.height = window.innerHeight;
 		var parent = { canvas: canvas, ctx: context }
 		var pna = new ParticleNetwork(parent);
@@ -67,7 +67,7 @@ const NetworkAni = (props) => {
 				density: 17000,
 				netLineDistance: 200,
 				netLineColor: `${props.theme.secColor}99`,
-				particleColors: [`${props.theme.secColor}99`] 
+				particleColors: [`${props.theme.secColor}99`]
 			};
 			this.canvas = parent.canvas;
 			this.ctx = parent.ctx;

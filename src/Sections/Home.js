@@ -9,6 +9,7 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
+import Grid from '@material-ui/core/Grid';
 
 // import components 
 import AnimateTimeline from '../Components/AnimatedTimeline.js';
@@ -19,6 +20,7 @@ import ResumeDetails from '../Components/ResumeDetails.js';
 import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription } from '../Sections/Introduction.js';
 import Preload from './Preload.js';
 import Projects from './Projects';
+
 
 // import styles
 import '../Styles/resumeStyle.css';
@@ -150,7 +152,6 @@ const Home = React.memo(props => {
         };
     }, []);
 
-    console.log(aboutMePos, aboutMeSecPos, window.innerWidth * (aboutMePos - 0.4), window.innerHeight * (aboutMeSecPos - 0.1) )
     // Detect scroll
     React.useEffect(() => {
         if (!mobile && ref.current.children[0] !== undefined) {
@@ -168,7 +169,6 @@ const Home = React.memo(props => {
                     setFith(true)
                 }
                 if (window.innerHeight * (aboutMePos - 0.4) < st) {
-                    console.log("opaaas")
                     setSecond(true)
                 }
                 if (window.innerHeight * (aboutMeSecPos - 0.1) < st) {
@@ -276,7 +276,7 @@ const Home = React.memo(props => {
 
     return (
         <div>
-            <Transition
+            {/* <Transition
                 items={showNav}
                 config={{ duration: 1000 }}
                 from={{ opacity: 0, transform: "translate(0, -100px)", boxShadow: emptyShadow }}
@@ -297,7 +297,7 @@ const Home = React.memo(props => {
                         />
                     </div>
                 )}
-            </Transition>
+            </Transition> */}
             {/* Main Content area animated with parallax */}
             <div ref={ref}>
                 <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={layout}>
@@ -309,11 +309,23 @@ const Home = React.memo(props => {
                     <ParallaxLayer
                         offset={0} speed={-0.1} factor={1.1}
                     >
-                        <div>
-                            <NetworkAni
-                                theme={colorScheme}
-                            />
-                        </div>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                        >
+                            <Grid item sm={6}>
+
+                            </Grid>
+                            <Grid item sm={6}>
+                                <div>
+                                    <NetworkAni
+                                        theme={colorScheme}
+                                    />
+                                </div>
+                            </Grid>
+                        </Grid>
                     </ParallaxLayer>
                     {/* Landing page */}
                     <ParallaxLayer
@@ -325,7 +337,7 @@ const Home = React.memo(props => {
                             theme={colorScheme}
                         />
                     </ParallaxLayer>
-                    {/* Content between landing page and about me */}
+                    {/* Content between landing page and about me
                     <ParallaxLayer
                         offset={0.6}
                         speed={0.3}
@@ -335,6 +347,13 @@ const Home = React.memo(props => {
                             theme={colorScheme}
                             render={first}
                         />
+                    </ParallaxLayer> */}
+                    {/* About new section that is easy to read */}
+                    <ParallaxLayer
+                        offset={expPos}
+                        speed={0.1}
+                    >
+
                     </ParallaxLayer>
                     {/* Experience section */}
                     <ParallaxLayer

@@ -24,6 +24,10 @@ import ListIcon from '@material-ui/icons/List';
 import { useSpring, useChain, useTrail, animated, useTransition } from 'react-spring';
 import { Transition } from 'react-spring/renderprops';
 
+import Typist from 'react-typist';
+import 'react-typist/dist/Typist.css';
+
+import DesignerAni from '../Components/DesignerAni.js';
 
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 
@@ -36,25 +40,24 @@ const Introduction = React.memo(props => {
     //sm down
     const theme = props.theme
     const open = true
+    const title = "<Developer/>"
     const items = [
         {
-            content: <Typography variant={props.mobile ? "h6" : "h5"} align="justify" style={{ color: props.theme.secColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1" }}>
-                Developer and Analyst
+            content:
+                <Typography variant={props.mobile ? "h6" : "body1"} align="justify" style={{ color: props.theme.priTxtColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1" }}>
+                    Front End Developer who focuses on writing clean, elegant and efficient code.
 </Typography>
-        },
+        }
+    ]
+    const itemsDesign = [
         {
-            content: <Typography variant="body1" align="center"
-                style={{
-                    textIndent: props.mobile ? "1rem" : "1rem", marginRight: "auto", marginLeft: "auto", color: props.theme.priTxtColor, paddingTop: props.mobile ? "3rem" : "1rem",
-                    fontWeight: "400", width: props.mobile ? "100%" : "50%"
-                }}>
-                Recently obtained my Honours Bachelors of Science degree from the University of Toronto with experiences in Application and Web Development.
-                </Typography>
-
+            content:
+                <Typography variant={props.mobile ? "h6" : "body1"} align="justify" style={{ color: props.theme.priTxtColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1" }}>
+                    Aspiring Designer with a passion for designing beautiful and functional user experiences.
+                      </Typography>
         }
     ]
 
-    const trailRef = React.useRef();
     const springFirstRef = React.useRef();
     const springLastRef = React.useRef();
     const springFirstMobileRef = React.useRef();
@@ -65,95 +68,67 @@ const Introduction = React.memo(props => {
         x: open ? 0 : 20,
         height: open ? 110 : 0,
         from: { opacity: 0, x: 20, height: 0 },
-        delay: 2800,
-        ref: trailRef
+        delay: 2500,
     })
 
-    const springFirst = useSpring({
-        to: async (next, cancel) => {
-            await next({ width: "38px", transform: "translate(-38px, 0px)", paddingLeft: "0px", })
-            await next({ width: "38px", transform: "translate(-38px, -30px)" })
-            await next({ width: "170px", transform: "translate(-170px, -30px)" })
-            await next({ width: "170px", transform: "translate(-170px, 0px)" })
-        },
-        from: { position: "absolute", width: "0px", overflow: "hidden", float: "right", height: "77px", paddingLeft: "36px", transform: "translate(-38px, 0px)" },
-        ref: springFirstRef
-    })
-    const springLast = useSpring({
-        to: async (next, cancel) => {
-            await next({ width: "38px", transform: "translate( 0px, 0px)" })
-            await next({ width: "38px", transform: "translate( -38px, 30px)" })
-            await next({ width: "295px", transform: "translate( -38px, 30px)" })
-            await next({ width: "295px", transform: "translate( 8px, 0px)" })
-        },
-        from: { position: "absolute", width: "0px", overflow: "hidden", height: "77px", transform: "translate(0px, 0px)" },
-        ref: springLastRef
-    })
-    const springFirstMobile = useSpring({
-        to: async (next, cancel) => {
-            await next({ width: "22px", transform: "translate(-22px, 0px)", paddingLeft: "0px", })
-            await next({ width: "22px", transform: "translate(-22px, -15px)" })
-            await next({ width: "100px", transform: "translate(-100px,-15px)" })
-            await next({ width: "100px", transform: "translate(-108px, 0px)" })
-        },
-        from: { position: "absolute", width: "0px", overflow: "hidden", float: "right", height: "44px", paddingLeft: "22px", transform: "translate(-22px, 0px)" },
-        ref: springFirstMobileRef
-    })
-    const springLastMobile = useSpring({
-        to: async (next, cancel) => {
-            await next({ width: "22px", transform: "translate( 0px, 0px)" })
-            await next({ width: "22px", transform: "translate( -22px, 15px)" })
-            await next({ width: "290px", transform: "translate( -22px, 15px)" })
-            await next({ width: "290px", transform: "translate( 8px, 0px)" })
-        },
-        from: { position: "absolute", width: "0px", overflow: "hidden", height: "44px", transform: "translate(0px, 0px)" },
-        ref: springLastMobileRef
+    const trailDesign = useTrail(itemsDesign.length, {
+        config: { mass: 5, tension: 2000, friction: 200 },
+        opacity: open ? 1 : 0,
+        x: open ? 0 : 20,
+        height: open ? 110 : 0,
+        from: { opacity: 0, x: 20, height: 0 },
+        delay: 2500,
     })
 
-    useChain([props.mobile ? springFirstMobileRef : springFirstRef, props.mobile ? springLastMobileRef : springLastRef, trailRef], [0, 0, 0.8])
+    //useChain([props.mobile ? springFirstMobileRef : springFirstRef, props.mobile ? springLastMobileRef : springLastRef, trailRef], [0, 0, 0.8])
 
     return (
-        <React.Fragment>
-            {props.mobile ? <div style={{ height: "100vh", display: "flex", alignItems: "center", position: "absolute", left: "42%", paddingBottom: "9rem" }}>
-                <animated.div style={springFirstMobile}>
-                    <Typography variant={"h4"} style={{ width: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
-                        Kento
-        </Typography>
-                </animated.div>
-                <animated.div style={springLastMobile}>
-                    <Typography variant={"h4"} style={{ width: "fit-content", height: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
-                        Kobayashi
-        </Typography>
-                </animated.div>
-            </div> :
-                <div style={{ height: "100vh", display: "flex", alignItems: "center", position: "absolute", left: "47%", paddingBottom: "6rem" }}>
-                    <animated.div style={springFirst}>
-                        <Typography variant={"h2"} style={{ width: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
-                            Kento
-        </Typography>
-                    </animated.div>
-                    <animated.div style={springLast}>
-                        <Typography variant={"h2"} style={{ width: "fit-content", height: "fit-content", opacity: "0.9", fontWeight: "bold", color: theme.priColor }}>
-                            Kobayashi
-        </Typography>
-                    </animated.div>
+        <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            style={{ height: "100%" }}
+        >
+            <Grid item sm={6} >
+                <div style={{ width: "340px", marginLeft: "auto", marginRight: "5rem" }}>
+                    <DesignerAni
+                        theme={props.theme}
+                    />
+                    {trailDesign.map(({ x, height, ...rest }, index) => (
+                        <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                            {itemsDesign[index].content}
+                        </animated.div>
+                    ))}
                 </div>
-            }
-            < Container maxWidth={props.mobile ? "xs" : "md"} style={{ height: "100vh", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", paddingTop: props.mobile ? "" : "7rem" }}>
-                {trail.map(({ x, height, ...rest }, index) => (
-                    <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                        {items[index].content}
-                    </animated.div>
-                ))}
-            </Container >
-        </React.Fragment>
+            </Grid>
+            <Grid item sm={6} >
+                <div style={{
+                    width: "340px", marginLeft: "5rem",
+                    color: props.theme.priTxtColor, fontWeight: "400", fontFamily: "'Montserrat', sans-serif",
+                    fontSize: "3rem"
+                }}>
+                    <Typist
+                        startDelay={1000}
+                        avgTypingDelay={150}
+                    >
+                        {title}
+                    </Typist>
+                    {trail.map(({ x, height, ...rest }, index) => (
+                        <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                            {items[index].content}
+                        </animated.div>
+                    ))}
+                </div>
+            </Grid>
+        </Grid>
     )
 })
 
 const NavBar = (props) => {
 
     const priColor = props.theme.priColor;
-    const navItems = ["Experience", "Projects","About",  "Contact"];
+    const navItems = ["Experience", "Projects", "About", "Contact"];
     const navTrail = useTrail(navItems.length, {
         config: { mass: 5, tension: 2000, friction: 200 },
         opacity: props.open ? 1 : 0,
@@ -228,26 +203,29 @@ const NavBar = (props) => {
                         {list}
                     </SwipeableDrawer>
                 </React.Fragment>
-            </div> :
+            </div>
+            :
             <div style={{
                 display: "flex", height: "56px", width: "100%", position: "absolute",
                 top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", background: props.firstRender ? "transparent" : `${props.theme.priBack}`, paddingRight: "1rem"
             }}>
-                <div style={{ display: "flex", marginLeft: "auto" }}>
+                <div style={{ display: "flex", marginLeft: "auto", marginRight: "auto" }}>
                     {navTrail.map(({ x, height, ...rest }, index) => (
                         <animated.div key={`navicons${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), margin: "1rem" }}>
                             <Button className="navText" style={{ backgroundColor: "transparent" }} onClick={() => props.handleNavClick(index)}
                                 onMouseLeave={() => handleClose(0)} onMouseEnter={() => handleMouseEnter(index)}>
                                 <div style={{ display: "flex", flexDirection: "column" }}>
                                     <div style={{ display: "flex", flexDirection: "row" }}>
-                                        <Typography variant="body2" align="justify" style={{ color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8" }}>
+                                        <Typography variant="body2" align="justify" style={{
+                                            color: hover === index + 1 ? props.theme.priColor : props.theme.secColor, fontWeight: "bold", opacity: "0.8", fontFamily: "'Montserrat', sans-serif"
+                                        }}>
                                             {navItems[index]}
                                         </Typography>
                                     </div>
                                     <Transition
                                         items={hover === index + 1}
                                         from={{ position: "absolute", opacity: 0, width: "0px", paddingTop: "1rem" }}
-                                        enter={{ opacity: 1, width: index === 0 ? "47px" : index === 1 ? "80px" : index === 2 ? "65px" : "63px" }}
+                                        enter={{ opacity: 1, width: index === 0 ? "94px" : index === 1 ? "76px" : index === 2 ? "54px" : "70px" }}
                                         leave={{ opacity: 0, width: "0px" }}>
                                         {show => show && (props => <div style={props}>
                                             <Divider style={{ height: "2px", marginTop: "2px", backgroundColor: priColor }} />
@@ -356,7 +334,7 @@ const Contact = (props) => {
                 <Grid item xs={12} sm={8} style={{ display: "flex", justifyContent: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "1rem" : "3rem" }}>
                         <Divider style={{ marginRight: props.mobile ? "1rem" : "3rem", width: props.mobile ? "2rem" : "8rem", backgroundColor: props.theme.priTxtColor }} />
-                        <Typography variant={props.mobile ? "h6" : "h4"} style={{ paddingLeft: "1rem", color: props.theme.priColor, fontWeight: "bold" }}>
+                        <Typography variant={props.mobile ? "h6" : "h4"} style={{ color: props.theme.priColor, fontWeight: "bold" }}>
                             Get In Touch
             </Typography>
                         <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "2rem" : "8rem", backgroundColor: props.theme.priTxtColor }} />

@@ -15,9 +15,20 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiTypography: {
+      h2: {
+        fontFamily: "'Montserrat', 'Comfortaa' sans-serif"
+      },
+      h4: {
+        fontFamily: "'Montserrat', sans-serif"
+      },
+      h5: {
+        fontFamily: "'Montserrat', sans-serif"
+      }
+    }
   },
   typography: {
-    "fontFamily": "'Open Sans', sans-serif"
+    fontFamily: "'Roboto', sans-serif"
   },
 });
 

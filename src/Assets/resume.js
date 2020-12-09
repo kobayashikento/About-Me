@@ -274,26 +274,6 @@ let resume = [
         cardSubtitle: "Septermber, 2017 - August, 2018 \n( 11 months )",
         key: 6
     },
-    // ISM
-    {
-        title: "IB Dipolma",
-        subtitle: "International School Manila",
-        height: 500,
-        type: "education",
-        img: ismLogo,
-        imgWidth: "38%",
-        logoMargin: "16px",
-        imgCardWidth: "50%",
-        cardMargin: "10px",
-        chip: "Education",
-        key: 10,
-        cardSubtitleMargin: 1,
-        cardSubtitle: "August, 2010 - May, 2014",
-        titleDescription: "High School International Baccalaureate Diploma",
-        date: "August, 2010 - May, 2014",
-        bodySummary: "\n I graduated from the International School Manila with a International Baccalaureate Diploma in higher-level Computer Science, Japanese, Ecnomics and standard-level English, Mathematics. I applied to the University of Toronto and got accepted to New College on 2014 where I started my study towards from Bachelors of Science.",
-        cardSubtitle: "August, 2010 - May, 2014",
-    },
 ]
 
 export default resume;
