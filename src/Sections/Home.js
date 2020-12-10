@@ -11,7 +11,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Grid from '@material-ui/core/Grid';
 
-import Scroll from 'react-scroll';
+
 import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
 // import components 
@@ -158,45 +158,45 @@ const Home = React.memo(props => {
 
     // Detect scroll
     React.useEffect(() => {
-        if (!mobile && ref.current.children[0] !== undefined) {
-            var lastScrollTop = 0;
-            ref.current.children[0].addEventListener("scroll", function () {
-                var st = ref.current.children[0].scrollTop || document.documentElement.scrollTop;
-                // second = about me, third = about me 2, forth = exp, fith proj
-                if (window.innerHeight * 0.1 < st) {
-                    setFirst(true)
-                }
-                if (window.innerHeight * (expPos - 0.4) < st) {
-                    setForth(true)
-                }
-                if (window.innerHeight * (projPos - 0.4) < st) {
-                    setFith(true)
-                }
-                if (window.innerHeight * (aboutMePos - 0.4) < st) {
-                    setSecond(true)
-                }
-                if (window.innerHeight * (aboutMeSecPos - 0.1) < st) {
-                    setThird(true)
-                }
-                if (st === 0) {
-                    setSecond(false)
-                    setThird(false)
-                    setFirst(false)
-                    setFirstRender(true)
-                    setForth(false)
-                    setFith(false)
-                }
-                if (st > lastScrollTop) {
-                    // downscroll code
-                    setShowNav(false);
-                    setFirstRender(false);
-                } else {
-                    // upscroll code
-                    setShowNav(true);
-                }
-                lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-            }, false);
-        }
+        // if (!mobile && ref.current.children[0] !== undefined) {
+        //     var lastScrollTop = 0;
+        //     ref.current.children[0].addEventListener("scroll", function () {
+        //         var st = ref.current.children[0].scrollTop || document.documentElement.scrollTop;
+        //         // second = about me, third = about me 2, forth = exp, fith proj
+        //         if (window.innerHeight * 0.1 < st) {
+        //             setFirst(true)
+        //         }
+        //         if (window.innerHeight * (expPos - 0.4) < st) {
+        //             setForth(true)
+        //         }
+        //         if (window.innerHeight * (projPos - 0.4) < st) {
+        //             setFith(true)
+        //         }
+        //         if (window.innerHeight * (aboutMePos - 0.4) < st) {
+        //             setSecond(true)
+        //         }
+        //         if (window.innerHeight * (aboutMeSecPos - 0.1) < st) {
+        //             setThird(true)
+        //         }
+        //         if (st === 0) {
+        //             setSecond(false)
+        //             setThird(false)
+        //             setFirst(false)
+        //             setFirstRender(true)
+        //             setForth(false)
+        //             setFith(false)
+        //         }
+        //         if (st > lastScrollTop) {
+        //             // downscroll code
+        //             setShowNav(false);
+        //             setFirstRender(false);
+        //         } else {
+        //             // upscroll code
+        //             setShowNav(true);
+        //         }
+        //         lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+        //     }, false);
+        // }
     }, [ref])
 
     // Handle when button on the nav menu is clicked 
@@ -278,9 +278,19 @@ const Home = React.memo(props => {
         }, 300)
     }
 
+    const [scroll, setScroll] = React.useState(0)
+
+    React.useEffect(() => {
+        var lastScrollTop = 0;
+        window.addEventListener("scroll", function () {
+            var st = window.scrollTop || document.documentElement.scrollTop;
+            setScroll(st)
+            lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+        }, false);
+    }, [])
+
     return (
-        
-        <div>
+        <div style={{ height: window.innerHeight * 2 }}>
             {/* <Transition
                 items={showNav}
                 config={{ duration: 1000 }}
@@ -304,40 +314,12 @@ const Home = React.memo(props => {
                 )}
             </Transition> */}
             {/* Main Content area animated with parallax */}
-            <div ref={ref}>
-                <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={layout}>
-                    {/* Landing page */}
-                    <ParallaxLayer
-                        offset={expPos - 0.4}
-                        speed={0}
-                        factor={1.5}
-                        style={{ backgroundColor: colorScheme.lightColor }}
-                    />
-                    <ParallaxLayer
-                        offset={0}
-                        factor={1}
-                        speed={0.2}
-                    >
-                        <Introduction
-                            mobile={mobile}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* About new section that is easy to read */}
-                    <ParallaxLayer
-                        offset={expPos}
-                        speed={0.1}
-                    >
-                        <MyDescription
-                            mobile={mobile}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* Experience section */}
-                </Parallax>
-            </div>
             {/* SideIcons */}
-            <div style={{ position: "absolute", padding: "32px", bottom: "0px", left: "0px", zIndex: "1" }}>
+            <Introduction
+                theme={colorScheme}
+                scroll={scroll}
+            />
+            <div style={{ position: "fixed", padding: "32px", bottom: "0px", left: "0px", zIndex: "1" }}>
                 <SideIcons
                     theme={colorScheme}
                     open={open}

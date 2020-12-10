@@ -123,7 +123,7 @@ const DesignIntro = React.memo(props => {
                 midtoneColor: props.theme.darkColor,
                 lowlightColor: props.theme.darkestColor,
                 baseColor: "#000",
-                blurFactor: 0.19,
+                blurFactor: 0.25,
                 zoom: 0.40
             }))
         }
@@ -176,54 +176,74 @@ const Introduction = React.memo(props => {
     const theme = props.theme
     const centerX = window.innerWidth / 2
     const blockSize = 450;
-    const [hover, setHover] = React.useState(false);
+    const [scrolled, setScrolled] = React.useState(false);
     const [mouseDesign, setMouseDesign] = React.useState(-((window.innerWidth - blockSize) - centerX));
     const [mouseCoder, setMouseCoder] = React.useState(-((window.innerWidth - blockSize) - centerX));
+    const [moveAmt, setMoveAmt] = React.useState(0);
+    const [left, setLeft] = React.useState(0);
 
     const updateMousePosition = ev => {
         // get the center of the page
-        if (ev.clientY < window.innerHeight) {
-            if (window.innerWidth / 2 > blockSize) {
-                // mouse towards right
-                if (ev.clientX > centerX) {
-                    if (ev.clientX > (window.innerWidth - blockSize)) {
-                        setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)))
-                        setMouseCoder(0);
-                    } else {
-                        setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + (ev.clientX - centerX)))
-                        setMouseCoder(-((window.innerWidth - blockSize) - centerX) + (ev.clientX - (centerX)));
-                    }
-                    // mouse towards left
-                } else if (ev.clientX < centerX) {
-                    if (ev.clientX < blockSize) {
-                        setMouseDesign(0);
-                        setMouseCoder(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)));
-                    } else {
-                        setMouseDesign((-((window.innerWidth - blockSize) - centerX)) - (ev.clientX - (centerX)))
-                        setMouseCoder(-(((window.innerWidth - blockSize) - centerX) - (ev.clientX - centerX)));
+        if (props.scroll < 20) {
+            if (ev.clientY < window.innerHeight) {
+                if (window.innerWidth / 2 > blockSize) {
+                    // mouse towards right
+                    if (ev.clientX > centerX) {
+                        if (ev.clientX > (window.innerWidth - blockSize)) {
+                            setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)))
+                            setMouseCoder(0);
+                        } else {
+                            setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + (ev.clientX - centerX)))
+                            setMouseCoder(-((window.innerWidth - blockSize) - centerX) + (ev.clientX - (centerX)));
+                        }
+                        // mouse towards left
+                    } else if (ev.clientX < centerX) {
+                        if (ev.clientX < blockSize) {
+                            setMouseDesign(0);
+                            setMouseCoder(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)));
+                        } else {
+                            setMouseDesign((-((window.innerWidth - blockSize) - centerX)) - (ev.clientX - (centerX)))
+                            setMouseCoder(-(((window.innerWidth - blockSize) - centerX) - (ev.clientX - centerX)));
+                        }
                     }
                 }
+            } else {
+                setMouseDesign(-((window.innerWidth - blockSize) - centerX));
+                setMouseCoder(-((window.innerWidth - blockSize) - centerX));
             }
-        } else {
-            setMouseDesign(-((window.innerWidth - blockSize) - centerX));
-            setMouseCoder(-((window.innerWidth - blockSize) - centerX));
         }
     };
 
     React.useEffect(() => {
-        setTimeout(() => {
-            window.addEventListener("mousemove", updateMousePosition);
-        }, 500)
+        window.addEventListener("mousemove", updateMousePosition);
+        if (props.scroll > 0) {
+            if (scrolled === false) {
+                // get amount of scrolling left
+                let diff = 0;
+                if (mouseCoder < 0) {
+                    diff = blockSize + (-mouseCoder)
+                } else {
+                    diff = blockSize - (mouseCoder)
+                }
+                setLeft(mouseCoder)
+                setMoveAmt(diff / window.innerHeight);
+                setScrolled(true);
+            } else {
+                // calculate amount needed to move 
+                setMouseCoder(moveAmt * props.scroll + left)
+            }
+        }
         return () => window.removeEventListener("mousemove", updateMousePosition);
-    }, []);
+    }, [props.scroll]);
 
     return (
-        <div style={{ height: "100vh" }}>
+        <div style={{ position: "fixed", height: "100vh", width: "100vw", overflowX: "hidden" }}>
             <div style={{ width: window.innerWidth - blockSize }}>
                 <DesignIntro
                     theme={theme}
                     pos={mouseDesign}
                     blockSize={blockSize}
+                    scroll={props.scroll}
                 />
             </div>
             <div style={{ width: window.innerWidth - blockSize, float: "right" }}>
