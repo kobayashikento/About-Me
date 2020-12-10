@@ -11,7 +11,11 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Grid from '@material-ui/core/Grid';
 
+import Scroll from 'react-scroll';
+import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+
 // import components 
+import MyDescription from '../Sections/MyDescription.js';
 import AnimateTimeline from '../Components/AnimatedTimeline.js';
 import AnimatedGrid from '../Components/AnimatedGrid.js';
 import ResumeParallax from '../Sections/ResumeParallax.js';
@@ -30,42 +34,42 @@ const emptyShadow = "0 9px 12px 1px rgba(0,0,0,0), 0 3px 16px 2px rgba(0,0,0,0),
 const themes = [
     {
         //EDF6FF
-        priBack: "#EDF6FF",
-        secBack: "#FFFFFF",
-        priColor: "#05878a",
-        secColor: "#437FC7",
-        priTxtColor: "#264572"
+        darkestColor: "#010A26",
+        darkColor: "#011640",
+        lightColor: "#B6D6F2",
+        lightestColor: "#FFFFFF",
+        stdColor: "#E83338"
     },
-    {
-        priBack: "#222629",
-        secBack: "#464866",
-        priColor: "#86C232",
-        secColor: "#61892F",
-        priTxtColor: "#6B6E70"
-    },
-    {
-        //f1faee
-        //a8dadc
-        priBack: "#f1faee",
-        secBack: "#a8dadc",
-        priColor: "#e63946",
-        secColor: "#457b9d",
-        priTxtColor: "#1d3557"
-    },
-    {
-        priBack: "#88BDBC",
-        secBack: "#254E58",
-        priColor: "#e76f51",
-        secColor: "#112D32",
-        priTxtColor: "#DEF2F1"
-    },
-    {
-        priBack: "#3AAFA9",
-        secBack: "#2B7A78",
-        priColor: "#e9c46a",
-        secColor: "#17252A",
-        priTxtColor: "#DEF2F1"
-    },
+    // {
+    //     priBack: "#222629",
+    //     secBack: "#464866",
+    //     priColor: "#86C232",
+    //     secColor: "#61892F",
+    //     priTxtColor: "#6B6E70"
+    // },
+    // {
+    //     //f1faee
+    //     //a8dadc
+    //     priBack: "#f1faee",
+    //     secBack: "#a8dadc",
+    //     priColor: "#e63946",
+    //     secColor: "#457b9d",
+    //     priTxtColor: "#1d3557"
+    // },
+    // {
+    //     priBack: "#88BDBC",
+    //     secBack: "#254E58",
+    //     priColor: "#e76f51",
+    //     secColor: "#112D32",
+    //     priTxtColor: "#DEF2F1"
+    // },
+    // {
+    //     priBack: "#3AAFA9",
+    //     secBack: "#2B7A78",
+    //     priColor: "#e9c46a",
+    //     secColor: "#17252A",
+    //     priTxtColor: "#DEF2F1"
+    // },
 ]
 
 const Home = React.memo(props => {
@@ -275,6 +279,7 @@ const Home = React.memo(props => {
     }
 
     return (
+        
         <div>
             {/* <Transition
                 items={showNav}
@@ -301,35 +306,16 @@ const Home = React.memo(props => {
             {/* Main Content area animated with parallax */}
             <div ref={ref}>
                 <Parallax className="homeContainer" ref={(ref) => { parallax = ref }} pages={layout}>
-                    <ParallaxLayer offset={0} speed={0} factor={layout} style={{
-                        backgroundImage:
-                            `radial-gradient(closest-corner, ${colorScheme.priBack} 0%, ${colorScheme.secBack} 100%)`,
-                        backgroundColor: colorScheme.priBack
-                    }} ></ParallaxLayer>
-                    <ParallaxLayer
-                        offset={0} speed={-0.1} factor={1.1}
-                    >
-                        <Grid
-                            container
-                            direction="row"
-                            justify="center"
-                            alignItems="center"
-                        >
-                            <Grid item sm={6}>
-
-                            </Grid>
-                            <Grid item sm={6}>
-                                <div>
-                                    <NetworkAni
-                                        theme={colorScheme}
-                                    />
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </ParallaxLayer>
                     {/* Landing page */}
                     <ParallaxLayer
+                        offset={expPos - 0.4}
+                        speed={0}
+                        factor={1.5}
+                        style={{ backgroundColor: colorScheme.lightColor }}
+                    />
+                    <ParallaxLayer
                         offset={0}
+                        factor={1}
                         speed={0.2}
                     >
                         <Introduction
@@ -337,127 +323,17 @@ const Home = React.memo(props => {
                             theme={colorScheme}
                         />
                     </ParallaxLayer>
-                    {/* Content between landing page and about me
-                    <ParallaxLayer
-                        offset={0.6}
-                        speed={0.3}
-                    >
-                        <LineDescription
-                            mobile={mobile}
-                            theme={colorScheme}
-                            render={first}
-                        />
-                    </ParallaxLayer> */}
                     {/* About new section that is easy to read */}
                     <ParallaxLayer
                         offset={expPos}
                         speed={0.1}
                     >
-
+                        <MyDescription
+                            mobile={mobile}
+                            theme={colorScheme}
+                        />
                     </ParallaxLayer>
                     {/* Experience section */}
-                    <ParallaxLayer
-                        offset={expPos}
-                        speed={0.1}
-                    >
-                        <div>
-                            <ResumeParallax
-                                mobile={mobile}
-                                parallax={parallax}
-                                cardIndex={cardIndex}
-                                theme={colorScheme}
-                                render={forth}
-                            />
-                            <AnimateTimeline
-                                mobile={mobile}
-                                theme={colorScheme}
-                                activePage={activePage}
-                                handleTimeClick={(index) => handleTimeClick(index)}
-                            />
-                            <AnimatedGrid
-                                mobile={mobile}
-                                theme={colorScheme}
-                                cardIndex={cardIndex}
-                                activePage={activePage}
-                                handleArrowClick={(dir) => handleArrowClick(dir)}
-                                handleActiveCard={(item) => handleActiveCard(item)}
-                                handleCardClick={(index) => handleCardClick(index)}
-                            />
-                            <Modal
-                                open={showDetails}
-                                onClose={() => handleDetailsChange()}
-                                closeAfterTransition
-                                BackdropComponent={Backdrop}
-                                BackdropProps={{
-                                    timeout: 500,
-                                }}
-                                style={{ overflow: "auto" }}
-                            >
-                                <Transition
-                                    items={showModal}
-                                    from={{ opacity: 0, transform: "translate(0, 100%)" }}
-                                    enter={{ opacity: 1, transform: "translate(0, 0%)" }}
-                                    leave={{ opacity: 0, transform: "translate(0, 80%)" }}>
-                                    {showModal => showModal && (props =>
-                                        <div style={props}>
-                                            <ResumeDetails
-                                                mobile={mobile}
-                                                handleDetailsChange={() => handleDetailsChange()}
-                                                activeCard={activeCard}
-                                            />
-                                        </div>)}
-                                </Transition>
-
-                            </Modal>
-                        </div>
-                    </ParallaxLayer>
-                    {/* Projects section */}
-                    <ParallaxLayer
-                        offset={projPos}
-                        speed={0.1}
-                    >
-                        <Projects
-                            render={fith}
-                            mobile={mobile}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* About me description */}
-                    <ParallaxLayer
-                        offset={aboutMePos}
-                        speed={0.1}
-                    >
-                        <AboutMe
-                            mobile={mobile}
-                            render={second}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* About me second description */}
-                    <ParallaxLayer
-                        offset={aboutMeSecPos}
-                        speed={0.1}
-                    >
-                        <AboutMeSecond
-                            mobile={mobile}
-                            render={third}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* Contact me section, change the location depending on the secreen view 
-                            set it to 3.6 when width is less than 1500 and 3 when its higher.
-                        */}
-                    <ParallaxLayer
-                        offset={contactPos}
-                        speed={0.1}
-                    >
-                        <Contact
-                            mobile={mobile}
-                            theme={colorScheme}
-                            themes={themes}
-                            handleThemeChange={(index) => handleThemeChange(index)}
-                        />
-                    </ParallaxLayer>
                 </Parallax>
             </div>
             {/* SideIcons */}

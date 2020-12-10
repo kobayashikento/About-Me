@@ -1,0 +1,102 @@
+      <ParallaxLayer
+                        offset={expPos}
+                        speed={0.1}
+                    >
+                        <div>
+                            <ResumeParallax
+                                mobile={mobile}
+                                parallax={parallax}
+                                cardIndex={cardIndex}
+                                theme={colorScheme}
+                                render={forth}
+                            />
+                            <AnimateTimeline
+                                mobile={mobile}
+                                theme={colorScheme}
+                                activePage={activePage}
+                                handleTimeClick={(index) => handleTimeClick(index)}
+                            />
+                            <AnimatedGrid
+                                mobile={mobile}
+                                theme={colorScheme}
+                                cardIndex={cardIndex}
+                                activePage={activePage}
+                                handleArrowClick={(dir) => handleArrowClick(dir)}
+                                handleActiveCard={(item) => handleActiveCard(item)}
+                                handleCardClick={(index) => handleCardClick(index)}
+                            />
+                            <Modal
+                                open={showDetails}
+                                onClose={() => handleDetailsChange()}
+                                closeAfterTransition
+                                BackdropComponent={Backdrop}
+                                BackdropProps={{
+                                    timeout: 500,
+                                }}
+                                style={{ overflow: "auto" }}
+                            >
+                                <Transition
+                                    items={showModal}
+                                    from={{ opacity: 0, transform: "translate(0, 100%)" }}
+                                    enter={{ opacity: 1, transform: "translate(0, 0%)" }}
+                                    leave={{ opacity: 0, transform: "translate(0, 80%)" }}>
+                                    {showModal => showModal && (props =>
+                                        <div style={props}>
+                                            <ResumeDetails
+                                                mobile={mobile}
+                                                handleDetailsChange={() => handleDetailsChange()}
+                                                activeCard={activeCard}
+                                            />
+                                        </div>)}
+                                </Transition>
+
+                            </Modal>
+                        </div>
+                    </ParallaxLayer>
+                    {/* Projects section */}
+                    <ParallaxLayer
+                        offset={projPos}
+                        speed={0.1}
+                    >
+                        <Projects
+                            render={fith}
+                            mobile={mobile}
+                            theme={colorScheme}
+                        />
+                    </ParallaxLayer>
+                    {/* About me description */}
+                    <ParallaxLayer
+                        offset={aboutMePos}
+                        speed={0.1}
+                    >
+                        <AboutMe
+                            mobile={mobile}
+                            render={second}
+                            theme={colorScheme}
+                        />
+                    </ParallaxLayer>
+                    {/* About me second description */}
+                    <ParallaxLayer
+                        offset={aboutMeSecPos}
+                        speed={0.1}
+                    >
+                        <AboutMeSecond
+                            mobile={mobile}
+                            render={third}
+                            theme={colorScheme}
+                        />
+                    </ParallaxLayer>
+                    {/* Contact me section, change the location depending on the secreen view 
+                            set it to 3.6 when width is less than 1500 and 3 when its higher.
+                        */}
+                    <ParallaxLayer
+                        offset={contactPos}
+                        speed={0.1}
+                    >
+                        <Contact
+                            mobile={mobile}
+                            theme={colorScheme}
+                            themes={themes}
+                            handleThemeChange={(index) => handleThemeChange(index)}
+                        />
+                    </ParallaxLayer>

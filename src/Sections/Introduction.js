@@ -22,91 +22,66 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ListIcon from '@material-ui/icons/List';
 
 import { useSpring, useChain, useTrail, animated, useTransition } from 'react-spring';
-import { Transition } from 'react-spring/renderprops';
+import { Transition, Spring } from 'react-spring/renderprops';
 
 import Typist from 'react-typist';
 import 'react-typist/dist/Typist.css';
 
 import DesignerAni from '../Components/DesignerAni.js';
 
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import NET from 'vanta/dist/vanta.net.min';
+import BIRDS from 'vanta/dist/vanta.birds.min';
+import FOG from 'vanta/dist/vanta.fog.min';
 
 import face from '../Assets/Pictures/chicagome.jpg';
 import montrealme from '../Assets/Pictures/montrealme.jpg';
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 
-const Introduction = React.memo(props => {
-    //sm down
-    const theme = props.theme
-    const open = true
-    const title = "<Developer/>"
-    const items = [
-        {
-            content:
-                <Typography variant={props.mobile ? "h6" : "body1"} align="justify" style={{ color: props.theme.priTxtColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1" }}>
-                    Front End Developer who focuses on writing clean, elegant and efficient code.
-</Typography>
-        }
-    ]
-    const itemsDesign = [
-        {
-            content:
-                <Typography variant={props.mobile ? "h6" : "body1"} align="justify" style={{ color: props.theme.priTxtColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1" }}>
-                    Aspiring Designer with a passion for designing beautiful and functional user experiences.
-                      </Typography>
-        }
-    ]
+const CoderIntro = React.memo(props => {
+    const title = "<Developer/>";
+    const open = true;
+    const [vantaEffect, setVantaEffect] = React.useState(0);
+    const myRef = React.useRef(null);
 
-    const springFirstRef = React.useRef();
-    const springLastRef = React.useRef();
-    const springFirstMobileRef = React.useRef();
-    const springLastMobileRef = React.useRef();
-    const trail = useTrail(items.length, {
+    React.useEffect(() => {
+        if (!vantaEffect) {
+            setVantaEffect(NET({
+                el: myRef.current,
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: window.innerHeight,
+                minWidth: window.innerWidth / 2,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: props.theme.lightColor,
+                backgroundColor: props.theme.lightestColor,
+                points: 16.00,
+                maxDistance: 17.00,
+                spacing: 14.00
+            }))
+        }
+        return () => {
+            if (vantaEffect) vantaEffect.destroy()
+        }
+    }, [vantaEffect])
+
+    const trail = useTrail(1, {
         config: { mass: 5, tension: 2000, friction: 200 },
         opacity: open ? 1 : 0,
         x: open ? 0 : 20,
         height: open ? 110 : 0,
         from: { opacity: 0, x: 20, height: 0 },
-        delay: 2500,
+        delay: 1500,
     })
-
-    const trailDesign = useTrail(itemsDesign.length, {
-        config: { mass: 5, tension: 2000, friction: 200 },
-        opacity: open ? 1 : 0,
-        x: open ? 0 : 20,
-        height: open ? 110 : 0,
-        from: { opacity: 0, x: 20, height: 0 },
-        delay: 2500,
-    })
-
-    //useChain([props.mobile ? springFirstMobileRef : springFirstRef, props.mobile ? springLastMobileRef : springLastRef, trailRef], [0, 0, 0.8])
 
     return (
-        <Grid
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
-            style={{ height: "100%" }}
-        >
-            <Grid item sm={6} >
-                <div style={{ width: "340px", marginLeft: "auto", marginRight: "5rem" }}>
-                    <DesignerAni
-                        theme={props.theme}
-                    />
-                    {trailDesign.map(({ x, height, ...rest }, index) => (
-                        <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                            {itemsDesign[index].content}
-                        </animated.div>
-                    ))}
-                </div>
-            </Grid>
-            <Grid item sm={6} >
+        <div style={{ right: `${props.pos}px`, position: "absolute" }}>
+            < div ref={myRef} >
                 <div style={{
-                    width: "340px", marginLeft: "5rem",
-                    color: props.theme.priTxtColor, fontWeight: "400", fontFamily: "'Montserrat', sans-serif",
-                    fontSize: "3rem"
+                    width: `${window.innerWidth - props.blockSize}px`, color: "#010A26", fontWeight: "400", fontFamily: "'Montserrat', sans-serif", fontSize: "3rem",
+                    display: "flex", flexDirection: "column", justifyContent: "center", height: "100vh", paddingLeft: "5rem"
                 }}>
                     <Typist
                         startDelay={1000}
@@ -116,12 +91,149 @@ const Introduction = React.memo(props => {
                     </Typist>
                     {trail.map(({ x, height, ...rest }, index) => (
                         <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                            {items[index].content}
+                            <Typography variant={props.mobile ? "h6" : "body1"} align="justify" style={{
+                                width: "340px",
+                                color: "#010A26", paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1"
+                            }}>
+                                Front End Developer who focuses on writing clean, elegant and efficient code.
+</Typography>
                         </animated.div>
                     ))}
                 </div>
-            </Grid>
-        </Grid>
+            </div>
+        </div>
+    )
+})
+
+const DesignIntro = React.memo(props => {
+    const open = true;
+    const [vantaEffect, setVantaEffect] = React.useState(0);
+    const myRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (!vantaEffect) {
+            setVantaEffect(FOG({
+                el: myRef.current,
+                mouseControls: false,
+                touchControls: false,
+                gyroControls: false,
+                minHeight: window.innerHeight,
+                minWidth: window.innerWidth / 2,
+                highlightColor: props.theme.lightColor,
+                midtoneColor: props.theme.darkColor,
+                lowlightColor: props.theme.darkestColor,
+                baseColor: "#000",
+                blurFactor: 0.19,
+                zoom: 0.40
+            }))
+        }
+        return () => {
+            if (vantaEffect) vantaEffect.destroy()
+        }
+    }, [vantaEffect])
+
+    const trail = useTrail(1, {
+        config: { mass: 5, tension: 2000, friction: 200 },
+        opacity: open ? 1 : 0,
+        x: open ? 0 : 20,
+        height: open ? 110 : 0,
+        from: { opacity: 0, x: 20, height: 0 },
+        delay: 1500,
+    })
+
+    return (
+        <div style={{ left: `${props.pos}px`, position: "absolute" }}>
+            <div
+                ref={myRef} style={{ height: "100vh" }}
+            >
+                < div style={{
+                    width: `${window.innerWidth - props.blockSize}px`, alignItems: "flex-end", paddingRight: "5rem",
+                    display: "flex", flexDirection: "column", justifyContent: "center", height: "100vh"
+                }}
+                >
+                    <DesignerAni
+                        theme={props.theme}
+                    />
+                    {
+                        trail.map(({ x, height, ...rest }, index) => (
+                            <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                                <Typography variant={props.mobile ? "h6" : "body1"} align="justify" style={{
+                                    width: "340px",
+                                    color: "#FFFFFF", paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1"
+                                }}>
+                                    Aspiring Designer with a passion for designing beautiful and functional user experiences.
+                      </Typography>
+                            </animated.div>
+                        ))
+                    }
+                </div >
+            </div>
+        </div>
+    )
+})
+
+const Introduction = React.memo(props => {
+    const theme = props.theme
+    const centerX = window.innerWidth / 2
+    const blockSize = 450;
+    const [hover, setHover] = React.useState(false);
+    const [mouseDesign, setMouseDesign] = React.useState(-((window.innerWidth - blockSize) - centerX));
+    const [mouseCoder, setMouseCoder] = React.useState(-((window.innerWidth - blockSize) - centerX));
+
+    const updateMousePosition = ev => {
+        // get the center of the page
+        if (ev.clientY < window.innerHeight) {
+            if (window.innerWidth / 2 > blockSize) {
+                // mouse towards right
+                if (ev.clientX > centerX) {
+                    if (ev.clientX > (window.innerWidth - blockSize)) {
+                        setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)))
+                        setMouseCoder(0);
+                    } else {
+                        setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + (ev.clientX - centerX)))
+                        setMouseCoder(-((window.innerWidth - blockSize) - centerX) + (ev.clientX - (centerX)));
+                    }
+                    // mouse towards left
+                } else if (ev.clientX < centerX) {
+                    if (ev.clientX < blockSize) {
+                        setMouseDesign(0);
+                        setMouseCoder(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)));
+                    } else {
+                        setMouseDesign((-((window.innerWidth - blockSize) - centerX)) - (ev.clientX - (centerX)))
+                        setMouseCoder(-(((window.innerWidth - blockSize) - centerX) - (ev.clientX - centerX)));
+                    }
+                }
+            }
+        } else {
+            setMouseDesign(-((window.innerWidth - blockSize) - centerX));
+            setMouseCoder(-((window.innerWidth - blockSize) - centerX));
+        }
+    };
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            window.addEventListener("mousemove", updateMousePosition);
+        }, 500)
+        return () => window.removeEventListener("mousemove", updateMousePosition);
+    }, []);
+
+    return (
+        <div style={{ height: "100vh" }}>
+            <div style={{ width: window.innerWidth - blockSize }}>
+                <DesignIntro
+                    theme={theme}
+                    pos={mouseDesign}
+                    blockSize={blockSize}
+                />
+            </div>
+            <div style={{ width: window.innerWidth - blockSize, float: "right" }}>
+                <CoderIntro
+                    theme={theme}
+                    pos={mouseCoder}
+                    blockSize={blockSize}
+                />
+            </div>
+        </div >
     )
 })
 
@@ -146,7 +258,7 @@ const NavBar = (props) => {
         setHover(index + 1);
     }
 
-    // Drawer 
+    // Drawer
     const anchor = 'right'
     const [rightOpen, setRightOpen] = React.useState(false);
 
@@ -269,25 +381,24 @@ const ToTop = (props) => {
 }
 
 const SideIcons = (props) => {
-    const open = props.open;
     const [hover, setHover] = React.useState(0);
 
     const iconItems = [{
         content:
             <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} onMouseEnter={() => setHover(1)} onMouseLeave={() => setHover(0)}>
-                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.secColor : props.theme.priColor }} />
+                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.stdColor : props.theme.stdColor }} />
             </div>,
         key: 0
     },
     {
         content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} onMouseEnter={() => setHover(2)} onMouseLeave={() => setHover(0)}>
-            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.secColor : props.theme.priColor }} />
+            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.stdColor : props.theme.stdColor }} />
         </div>,
         key: 1
     },
     {
         content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} onMouseEnter={() => setHover(3)} onMouseLeave={() => setHover(0)}>
-            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.secColor : props.theme.priColor }} />
+            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.stdColor : props.theme.stdColor }} />
         </div>,
         key: 2
     }];

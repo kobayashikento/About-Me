@@ -19,7 +19,7 @@ const DesignerAni = (props) => {
         context.lineWidth = 3;
         context.lineJoin = "round";
         context.globalAlpha = 1;
-        context.strokeStyle = context.fillStyle = props.theme.priTxtColor;
+        context.strokeStyle = context.fillStyle = "#FFFFFF";
 
         const loop = () => {
             context.clearRect(x, 0, 55, 150);
@@ -44,7 +44,7 @@ const DesignerAni = (props) => {
     return (
         <canvas style={{
             position: "fixed", top: "0", left: "0", right: "0",
-        }} ref={canvasRef} style={{ width: "100%", height: "100%", margin: "0", }} />
+        }} ref={canvasRef} style={{ width: "360px", height: "72px", margin: "0", }} />
     )
 }
 

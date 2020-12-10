@@ -28,6 +28,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0",
+    "react-scroll": "^1.8.1",
     "react-slick": "^0.27.13",
     "react-spring": "^8.0.27",
     "react-spring-3d-carousel": "^1.2.0",
@@ -36,7 +37,8 @@
     "resize-observer-polyfill": "^1.5.1",
     "simplex-noise": "^2.4.0",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "vanta": "^0.5.21"
   },
   "scripts": {
     "start": "react-scripts start",
