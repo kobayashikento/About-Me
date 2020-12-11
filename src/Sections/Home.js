@@ -311,17 +311,17 @@ const Home = React.memo(props => {
                         offset={expPos - 0.4}
                         speed={0}
                         factor={1.5}
-                        style={{ backgroundColor: colorScheme.lightColor }}
+                        style={{ backgroundColor: colorScheme.lightestColor }}
                     />
                     <ParallaxLayer
                         offset={0}
                         factor={1}
                         speed={0.2}
                     >
-                        <Introduction
+                        {/* <Introduction
                             mobile={mobile}
                             theme={colorScheme}
-                        />
+                        /> */}
                     </ParallaxLayer>
                     {/* About new section that is easy to read */}
                     <ParallaxLayer
@@ -329,6 +329,7 @@ const Home = React.memo(props => {
                         speed={0.1}
                     >
                         <MyDescription
+                            render={first}
                             mobile={mobile}
                             theme={colorScheme}
                         />
@@ -346,12 +347,12 @@ const Home = React.memo(props => {
                 />
             </div>
             {/* Navigation Arrow on the side */}
-            <ToTop
+            {/* <ToTop
                 theme={colorScheme}
                 handleTopClick={() => handleTopClick()}
                 showNav={showNav}
                 mobile={mobile}
-            />
+            /> */}
         </div >
     )
 })

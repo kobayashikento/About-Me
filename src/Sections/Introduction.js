@@ -123,7 +123,7 @@ const DesignIntro = React.memo(props => {
                 midtoneColor: props.theme.darkColor,
                 lowlightColor: props.theme.darkestColor,
                 baseColor: "#000",
-                blurFactor: 0.19,
+                blurFactor: 0.25,
                 zoom: 0.40
             }))
         }
@@ -213,7 +213,7 @@ const Introduction = React.memo(props => {
     React.useEffect(() => {
         setTimeout(() => {
             window.addEventListener("mousemove", updateMousePosition);
-        }, 500)
+        }, 1000)
         return () => window.removeEventListener("mousemove", updateMousePosition);
     }, []);
 

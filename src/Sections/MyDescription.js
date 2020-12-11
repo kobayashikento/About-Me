@@ -5,19 +5,25 @@ import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
+import '../Styles/descriptionStyle.css';
+
+import scarfme from '../Assets/Pictures/scarfme.png';
+
 import { useSpring, useChain, useTrail, animated, useTransition } from 'react-spring';
 
 const MyDescription = (props) => {
-    const open = true;
+    const open = props.render;
     //props.render;
 
     const headerItems = [
         {
-            content: <Typography variant={props.mobile ? "h6" : "h4"} style={{ width: "max-content", paddingLeft: props.mobile ? "1rem" : "3rem", color: props.theme.darkestColor, fontWeight: "bold" }}>About Me </Typography>,
+            content: <Typography variant={props.mobile ? "h6" : "h4"} style={{
+                width: "max-content", color: props.theme.darkestColor, fontWeight: "400", fontFamily: "'Montserrat', sans-serif",
+            }}>ABOUT</Typography>,
             type: 0,
         },
         {
-            content: <Divider style={{ height: "4px", marginLeft: props.mobile ? "" : "3rem", width: props.mobile ? "3rem" : "8rem", backgroundColor: props.theme.priTxtColor }} />,
+            content: <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "5rem", backgroundColor: props.theme.darkestColor }} />,
             type: 0
         },
     ]
@@ -36,12 +42,13 @@ const MyDescription = (props) => {
 
             </Container>
             :
-            <Container maxWidth="md" style={{ height: "100vh" }}>
+            <Container maxWidth="md">
                 <Grid
                     container
                     direction="column"
                     justify="center"
                     alignItems="center"
+                    spacing={3}
                 >
                     <Grid item sm={2}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -51,11 +58,30 @@ const MyDescription = (props) => {
                                 </animated.div>))}
                         </div>
                     </Grid>
-                    <Grid>
-
-                    </Grid>
-                    <Grid>
-
+                    <Grid item sm={10}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                        >
+                            <Grid item sm={5}>
+                                <Grid
+                                    container
+                                    direction="column"
+                                    justify="center"
+                                    alignItems="center"
+                                    spacing={3}
+                                >
+                                    <Grid item xs={7}>
+                                        <img src={scarfme} style={{ height: "250px", width: "280px" }} />
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                       
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Container>
