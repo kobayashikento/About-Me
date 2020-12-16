@@ -15,7 +15,7 @@ const DesignerAni = (props) => {
         const context = canvas.getContext('2d')
         context.canvas.width = 360;
         context.canvas.height = 72;
-        context.font = "3rem Comfortaa, sans-serif";
+        context.font = "3rem Playfair Display, serif";
         context.lineWidth = 3;
         context.lineJoin = "round";
         context.globalAlpha = 1;

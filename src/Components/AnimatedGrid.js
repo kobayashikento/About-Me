@@ -26,65 +26,14 @@ import AnimatedCard from './AnimatedCard.js';
 
 import Fade from 'react-reveal';
 
-const AnimatedIcon = () => {
-    const isExpanded = true;
-    return (
-        <div style={{ display: "flex", zIndex: "2" }}>
-            < Transition
-                config={{ duration: 1000 }}
-                items={isExpanded}
-                from={{ transform: 'translate(50%, 0)', opacity: 0, position: "fixed", left: "-50%" }}
-                enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", left: "0" }}
-                leave={{ transform: 'translate3d(0,-40px,0)' }}>
-                {isExpanded => isExpanded && (props =>
-                    <animated.div style={{ ...props, display: "flex", justifyContent: "left", paddingLeft: "2rem", paddingTop: "8px" }}>
-                        <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} >
-                            <GitHubIcon className="icon" />
-                        </div>
-                        <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }}>
-                            <LinkedInIcon className="icon" />
-                        </div>
-                        <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }}>
-                            <MailIcon className="icon" />
-                        </div>
-                    </animated.div>)}
-            </Transition >
-            < Transition
-                items={isExpanded}
-                from={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", right: "0", zoom: "1" }}
-                enter={{ transform: 'translate(0,0)', opacity: 1, position: "fixed", top: "0", right: "0", zoom: "1" }}
-                leave={{ transform: 'translate3d(0,-40px,0)' }}>
-                {isExpanded => isExpanded && (props =>
-                    <animated.div style={{ ...props, display: "flex", justifyContent: "right", paddingTop: "1rem", paddingRight: "2rem" }}>
-                        {/* <Button
-                            style={{ marginRight: "1rem", color: "grey" }}
-                            to={"/portfolio"}
-                            component={Link}
-                        >
-                            Portfolio
-                        </Button> */}
-                        <Link to="/" style={{ textDecoration: "none", color: "grey" }}>
-                            <IconButton
-                                size="small" style={{ marginRight: "1rem", color: "grey", backgroundColor: "transparent" }}
-                            >
-                                <Avatar style={{ border: "2px solid grey" }} src={face} ></Avatar>
-                            </IconButton>
-                        </Link>
-                    </animated.div>)}
-            </Transition >
-        </div >
-    )
-}
-
 const AnimatedGrid = (props) => {
-    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [5, 4, 3], 2)
+    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [6, 5, 4], 3)
     const ref = React.useRef(null);
     const [width, setWidth] = React.useState(0);
     // center display of card distance
-    const dist = ((window.innerWidth * 0.7) / 2) - 315
 
     const callback = () => {
-        setWidth(ref.current.offsetWidth)
+        setWidth(ref.current.clientWidth)
     }
 
     useObserver({ callback: callback, element: ref })
@@ -132,84 +81,97 @@ const AnimatedGrid = (props) => {
     const [heights, gridItems] = React.useMemo(() => {
         let heights = new Array(columns).fill(0)
         let items = getItems();
-        // this index keeps track of the position of the cards
-        let leftIndex = 0;
-        // index that keeps track of scrolled cards
-        let rightIndex = props.cardIndex
+
+        // index of left and right
+        let index = 0;
+        let left = (Math.ceil(columns / 2)) - 1;
+        let right = (Math.ceil(columns / 2))
+        // 0 is left, 1 is right
+        let dir = 0;
+
+        // need to check if item is on the second row AND the number of items is less than the number of columns
+        // need to find at which column the starting items is not filled to the max of width: if there isnt any then return 0, 
+        // if there is then return the index to watch for
+        // we know that a grid will be uneven if theres a remainder when divided by the number of columns which can be done using modulo
+        let leftover = 0
+        let change = false;
+        if (items.length % columns !== 0) {
+            // if remainder exists 
+            // modulo will return at which index from the last will not fit the grid 
+            leftover = (items.length - (items.length % columns));
+            change = true;
+        }
+
 
         let gridItems = items.map((child, idx) => {
             let column;
             let xy;
-            // code cards for mobile view remove grid entirely
-            if (props.mobile) {
-                let center = (window.innerWidth / 2) - 155
-                if (idx > props.cardIndex) {
-                    xy = [(290 * leftIndex) + center, 0]
-                    leftIndex += 1;
+
+            if ((left === -1) && (right === columns)) {
+                left = (Math.ceil(columns / 2)) - 1
+                right = (Math.ceil(columns / 2))
+                dir = 0;
+            }
+            if (items.length === 2) {
+                if (items.length % 2 !== columns % 2) {
                     column = heights.indexOf(Math.min(...heights));
-                    return { ...child, xy, width: 250, height: 350 }
-                } else if (idx < props.cardIndex) {
-                    column = heights.indexOf(Math.min(...heights));
-                    xy = [center - ((250) * rightIndex), 0]
-                    rightIndex -= 1;
-                    return { ...child, xy, width: 250, height: 350 }
-                } else {
-                    column = heights.indexOf(Math.min(...heights));
-                    xy = [center, 0]
-                    leftIndex += 1;
-                    return { ...child, xy, width: 300, height: 400 }
+                    xy = [Math.floor(((width / 2) - ((width / columns))) + ((width / columns) * index)), (heights[column] += child.height / 2) - child.height / 2]
+                    index += 1;
+                    return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
                 }
-            } else if (props.activePage !== 0) {
-                //code it so it react different on different screen size
-                // If card index is less than 2 of the cardIndex, then it should be in focus
-                // If theres only 1 card
-                if (items.length === 1) {
-                    column = heights.indexOf(Math.min(...heights));
-                    xy = [dist + 153, 0]
-                    leftIndex += 1;
-                    return { ...child, xy, width: 300, height: 400 }
-                    // if theres more than 1 card and the cards are in the starting position
-                } else if (props.cardIndex === 0) {
-                    // display the first 2 cards that are in focus
-                    if (idx === 0 || idx === 1) {
-                        column = heights.indexOf(Math.min(...heights));
-                        xy = [((300 + 5) * leftIndex) + dist, 0]
-                        leftIndex += 1;
-                        return { ...child, xy, width: 300, height: 400 }
-                    } else {
-                        column = heights.indexOf(Math.min(...heights));
-                        xy = [((300 + 15) * leftIndex) + dist, 25]
-                        leftIndex += 1;
-                        return { ...child, xy, width: 250, height: 350 }
-                    }
-                } else if (idx < props.cardIndex) {
-                    column = heights.indexOf(Math.min(...heights));
-                    xy = [dist - ((250) * rightIndex), 25]
-                    rightIndex -= 1;
-                    return { ...child, xy, width: 250, height: 350 }
-                } else if (idx > props.cardIndex) {
-                    if (idx === props.cardIndex || idx === props.cardIndex + 1) {
-                        column = heights.indexOf(Math.min(...heights));
-                        xy = [((300 + 10) * leftIndex) + dist, 0]
-                        leftIndex += 1;
-                        return { ...child, xy, width: 300, height: 400 }
-                    } else {
-                        xy = [((300) * leftIndex) + dist, 25]
-                        leftIndex += 1;
-                        column = heights.indexOf(Math.min(...heights));
-                        return { ...child, xy, width: 250, height: 350 }
-                    }
-                } else {
-                    column = heights.indexOf(Math.min(...heights));
-                    xy = [dist, 0]
-                    leftIndex += 1;
-                    return { ...child, xy, width: 300, height: 400 }
-                }
-                //condition when its in grid view
-            } else {
+            }
+            if (items.length === 1) {
                 column = heights.indexOf(Math.min(...heights));
-                xy = [(width / columns) * column, (heights[column] += child.height / 2) - child.height / 2]
-                return { ...child, xy, width: (width / columns), height: (child.height / 2) }
+                xy = [Math.floor(((width / 2) - ((width / columns) / 2))), (heights[column] += child.height / 2) - child.height / 2]
+                return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+            }
+            if (change && idx >= leftover) {
+                // modulo = 0 even 
+                if (columns % 2 === 0) {
+                    if (dir === 0) {
+                        column = heights.indexOf(Math.min(...heights));
+                        xy = [Math.floor((width / columns) * left), (heights[column] += child.height / 2) - child.height / 2]
+                        left -= 1
+                        dir = 1;
+                        return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                    } else if (dir === 1) {
+                        column = heights.indexOf(Math.min(...heights));
+                        xy = [Math.floor((width / columns) * right), (heights[column] += child.height / 2) - child.height / 2]
+                        right += 1
+                        dir = 0;
+                        return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                    }
+                } else {
+                    // 1 = odd
+                    console.log(left, right)
+                    if (dir === 0) {
+                        column = heights.indexOf(Math.min(...heights));
+                        xy = [Math.floor((width / 2) - (width / columns) * (left - 1)), (heights[column] += child.height / 2) - child.height / 2]
+                        left -= 1
+                        dir = 1;
+                        return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                    } else if (dir === 1) {
+                        column = heights.indexOf(Math.min(...heights));
+                        xy = [Math.floor((width / (columns - 1)) * (right - 1)), (heights[column] += child.height / 2) - child.height / 2]
+                        right += 1
+                        dir = 0;
+                        return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                    }
+                }
+            } else {
+                if (dir === 0) {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [Math.floor((width / columns) * left), (heights[column] += child.height / 2) - child.height / 2]
+                    left -= 1
+                    dir = 1;
+                    return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                } else if (dir === 1) {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [Math.floor((width / columns) * right), (heights[column] += child.height / 2) - child.height / 2]
+                    right += 1
+                    dir = 0;
+                    return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                }
             }
         })
         return [heights, gridItems]
@@ -220,7 +182,7 @@ const AnimatedGrid = (props) => {
         enter: ({ xy, width, height }) => ({ xy, width, height, opacity: 1 }),
         update: ({ xy, width, height }) => ({ xy, width, height }),
         leave: { opacity: 0 },
-        config: config.slow,
+        config: config.stiff,
         trail: 5
     })
 
@@ -254,39 +216,23 @@ const AnimatedGrid = (props) => {
                     ))}
                 </div >
             </React.Fragment >
-            : <React.Fragment >
-                <div ref={ref} className={props.activePage !== 0 ? "listCard" : "list"} style={{
-                    height: props.activePage !== 0 ? "500px" : Math.max(...heights),
-                    width: props.activePage !== 0 ? window.innerWidth * 0.7 : "65%", marginRight: "auto", marginLeft: "auto", paddingLeft: "1rem"
-                }}>
-                    {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                        <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                            <AnimatedCard
-                                item={item}
-                                mobile={props.mobile}
-                                theme={props.theme}
-                                activePage={props.activePage}
-                                handleCardClick={(index) => props.handleCardClick(index)}
-                                handleActiveCard={(item) => props.handleActiveCard(item)}
-                                width={width}
-                            />
-                        </animated.div>
-                    ))}
-                </div >
-                <Fade bottom when={props.activePage !== 0}>
-                    <div style={{ position: "relative", top: "-100px", left: "5px", width: "fit-content", overflow: "hidden", marginRight: "auto", marginLeft: "auto", zIndex: "2" }}>
-                        <IconButton disabled={props.cardIndex === 0 ? true : false} style={{ marginRight: "16px" }} onClick={() => props.handleArrowClick('left')}>
-                            <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
-                        </IconButton>
-                        <IconButton disabled={getItems().length < 3 ? true : getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleArrowClick('right')}>
-                            <ChevronRightIcon clsssname="icon" style={{
-                                color: getItems().length < 3 ? `${props.theme.secColor}33` :
-                                    getItems().length - 1 === props.cardIndex ? `${props.theme.secColor}33` : props.theme.secColor
-                            }} />
-                        </IconButton>
-                    </div>
-                </Fade>
-            </React.Fragment >
+            :
+            <div ref={ref} style={{ height: Math.max(...heights), overflow: "hidden", width: props.clientWidth }} className="list">
+                {transitions.map(({ item, props: { xy, ...rest } }, index) => (
+                    <animated.div key={`list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                        <AnimatedCard
+                            item={item}
+                            index={index}
+                            mobile={props.mobile}
+                            theme={props.theme}
+                            activePage={props.activePage}
+                            handleCardClick={(index) => props.handleCardClick(index)}
+                            handleActiveCard={(item) => props.handleActiveCard(item)}
+                            width={width}
+                        />
+                    </animated.div>
+                ))}
+            </div >
     )
 }
 

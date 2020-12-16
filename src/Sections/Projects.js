@@ -11,43 +11,115 @@ import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 import UAssist from '../Assets/Pictures/UAssist.png';
 import sample1 from '../Assets/Pictures/sample1.png';
+import shopifyImg from '../Assets/Pictures/myhealthy.png';
 
 import { useTrail, animated, useTransition, useChain } from 'react-spring';
 
-const Projects = (props) => {
+const Projects = React.memo(props => {
 
     const open = props.render;
     const theme = props.theme
-    const headerRef = React.useRef();
-    const firstProjectRef = React.useRef();
-    const secondProjectRef = React.useRef();
+    const headerRef = React.useRef(null);
+    const firstProjectRef = React.useRef(null);
+    const firstImgRef = React.useRef(null);
+    const secondProjectRef = React.useRef(null);
+    const secondImgRef = React.useRef(null);
 
-    const headerItems = [{
-        content: <Divider style={{ marginLeft: props.mobile ? "1rem" : "1rem", width: props.mobile ? "3rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
-        type: 0
-    },
-    {
-        content: <Typography variant={props.mobile ? "h6" : "h4"} style={{ paddingLeft: props.mobile ? "1rem" : "3rem", color: props.theme.priColor, fontWeight: "bold" }}>Projects</Typography>,
-        type: 0,
-    },
-    {
-        content: <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "3rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
-        type: 0,
-    }]
 
-    const firstProject = [
+    const headerItems = [
         {
-            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{ marginTop: props.mobile ? "2rem" : "", paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "bold" }}>UAssist</Typography>,
+            content: <Typography variant={props.mobile ? "h6" : "h4"} style={{
+                width: "max-content", color: props.theme.darkestColor, fontWeight: "400", fontFamily: "'Roboto Mono', monospace",
+            }}>
+                PROJECTS
+            </Typography>,
+            type: 0,
+        },
+        {
+            content: <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "5rem", backgroundColor: props.theme.darkestColor }} />,
+            type: 0
+        }
+    ]
+
+    const shopifyProject = [
+        {
+            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{
+                fontFamily: "'Montserrat', sans-serif",
+                marginTop: props.mobile ? "2rem" : "", paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "400"
+            }}>MyHealthyFamily</Typography>,
             key: 0
         },
         {
-            content: <Typography variant={"body2"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "bold" }}>CSC309 Project</Typography>,
+            content: <Typography variant={"body2"} style={{
+                fontFamily: "'Montserrat', sans-serif",
+                paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
+            }}>Shopify Project</Typography>,
             key: 1
         },
         {
             content:
-                <div style={{ background: `${theme.priBack}`, borderRadius: "3px", transform: "translate(1rem)", width: props.mobile ? "95%" : "90%" }}>
-                    <Typography variant={"body1"} align="left" style={{ padding: "1rem", color: props.theme.priTxtColor }}>
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: "translate(1rem)", width: props.mobile ? "95%" : "90%" }}>
+                    <Typography variant={"body1"} align="left" style={{
+                        fontFamily: "'Roboto', sans-serif",
+                        padding: "1rem", color: props.theme.priTxtColor
+                    }}>
+                        Added more functionalities to the already existing limitations on the Shopify service. Made some minor changes such as layout size, location, font size, and color to major changes that required knowledge in JavaScript such as implementing the on hover navigation drop down and scroll bar that changes the color of the lighted mirrors instead of the 3 static pictures.
+</Typography>
+                </div>,
+            key: 2
+        },
+        {
+            content: <div style={{ display: "flex", paddingTop: "1rem" }}>
+                <Typography variant="body2" style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, }}>
+                    HTML/CSS
+                </Typography>
+                <Typography variant="body2" style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, }}>
+                    Liquid
+                </Typography>
+                <Typography variant="body2" style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, }}>
+                    JavaScript
+                </Typography>
+                <Typography variant="body2" style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, }}>
+                    Shopify
+                </Typography>
+            </div>,
+            key: 3
+        },
+        {
+            content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
+                <IconButton disabled={true} style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/UAssist") }}>
+                    <GitHubIcon style={{ color: props.theme.stdColor }} />
+                </IconButton>
+                <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("https://myhealthy.family/") }}>
+                    <OpenInNewIcon style={{ color: props.theme.stdColor }} />
+                </IconButton>
+            </div>,
+            key: 4
+        },
+    ]
+
+    const firstProject = [
+        {
+            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{
+                fontFamily: "'Montserrat', sans-serif",
+                marginTop: props.mobile ? "2rem" : "", paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "400"
+            }}>UAssist</Typography>,
+            key: 0
+        },
+        {
+            content: <Typography variant={"body2"} style={{
+                fontFamily: "'Montserrat', sans-serif",
+                paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
+            }}>CSC309 Project</Typography>,
+            key: 1
+        },
+        {
+            content:
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: "translate(1rem)", width: props.mobile ? "95%" : "90%" }}>
+                    <Typography variant={"body1"} align="left" style={{
+                        fontFamily: "'Roboto', sans-serif",
+                        padding: "1rem", color: props.theme.priTxtColor
+                    }}>
                         Website that provides a user interface for course selections and provides schedule recommendations such as least amount of time spent on campus, time between each course, and travel time between courses.
 </Typography>
                 </div>,
@@ -73,10 +145,10 @@ const Projects = (props) => {
         {
             content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
                 <IconButton style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/UAssist") }}>
-                    <GitHubIcon style={{ color: props.theme.priColor }} />
+                    <GitHubIcon style={{ color: props.theme.stdColor }} />
                 </IconButton>
                 <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("http://aqueous-reef-85157.herokuapp.com/") }}>
-                    <OpenInNewIcon style={{ color: props.theme.priColor }} />
+                    <OpenInNewIcon style={{ color: props.theme.stdColor }} />
                 </IconButton>
             </div>,
             key: 4
@@ -85,16 +157,21 @@ const Projects = (props) => {
 
     const secondProject = [
         {
-            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "bold" }}>Routine Recorder</Typography>,
+            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{
+                fontFamily: "'Montserrat', sans-serif", paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "400"
+            }}>Routine Recorder</Typography>,
             key: 0
         },
         {
-            content: <Typography variant={"body2"} style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "bold" }}>Personal Project</Typography>,
+            content: <Typography variant={"body2"} style={{
+                fontFamily: "'Montserrat', sans-serif",
+                paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
+            }}>Personal Project</Typography>,
             key: 1
         },
         {
             content:
-                <div style={{ background: `${theme.priBack}CC`, borderRadius: "3px", width: props.mobile ? "100%" : "80%", float: props.mobile ? "left" : "right" }}>
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", width: props.mobile ? "100%" : "80%", float: props.mobile ? "left" : "right" }}>
                     <Typography variant={"body1"} align={props.mobile ? "left" : "right"} style={{ padding: "1rem", color: props.theme.priTxtColor }}>
                         Website that manages my gym progress and displays it in a graph that can be used to see progress overtime. This website was built with the intent to learn React, Redux, and data management on Firestore.
 </Typography>
@@ -121,10 +198,10 @@ const Projects = (props) => {
         {
             content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
                 <IconButton style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/personal-event-tracker") }}>
-                    <GitHubIcon style={{ color: props.theme.priColor }} />
+                    <GitHubIcon style={{ color: props.theme.stdColor }} />
                 </IconButton>
                 <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("https://life-tracker-7fb87.web.app/") }}>
-                    <OpenInNewIcon style={{ color: props.theme.priColor }} />
+                    <OpenInNewIcon style={{ color: props.theme.stdColor }} />
                 </IconButton>
             </div>,
             key: 4
@@ -140,129 +217,129 @@ const Projects = (props) => {
         ref: headerRef
     })
 
-    const firstTrans = useTransition(firstProject, item => item.key, {
-        from: { transform: 'translate3d(0,-40px,0)' },
-        enter: { transform: 'translate3d(0,0px,0)' },
-        leave: { transform: 'translate3d(0,-40px,0)' },
+    const shopTrans = useTransition(open ? shopifyProject : [], item => item.key, {
+        from: { opacity: 0, transform: 'translate3d(-100px,0,0)' },
+        enter: { opacity: 1, transform: 'translate3d(0px,0,0)' },
+        leave: { opacity: 0, transform: 'translate3d(-100px,0,0)' },
+    })
+
+    const firstTrans = useTransition(open ? firstProject : [], item => item.key, {
+        from: { opacity: 0, transform: 'translate3d(-100px,0,0)' },
+        enter: { opacity: 1, transform: 'translate3d(0px,0,0)' },
+        leave: { opacity: 0, transform: 'translate3d(-100px,0,0)' },
         ref: firstProjectRef
     })
 
-    const secondTrans = useTransition(secondProject, item => item.key, {
-        from: { transform: 'translate3d(0,-40px,0)' },
-        enter: { transform: 'translate3d(0,0px,0)' },
-        leave: { transform: 'translate3d(0,-40px,0)' },
+    const firstImgTrans = useTransition(open, null, {
+        from: { transform: 'translate3d(100px,0,0)' },
+        enter: { transform: 'translate3d(0px,0,0)' },
+        leave: { transform: 'translate3d(100px,0,0)' },
+        ref: firstImgRef
+    })
+
+    const secondTrans = useTransition(open ? secondProject : [], item => item.key, {
+        from: { transform: 'translate3d(100px,0,0)' },
+        enter: { transform: 'translate3d(0px,0,0)' },
+        leave: { transform: 'translate3d(100px,0,0)' },
         ref: secondProjectRef
     })
 
-    useChain([headerRef, firstProjectRef, secondProjectRef], [0, 0.5, 1])
+    const secondImgTrans = useTransition(open, null, {
+        from: { transform: 'translate3d(-100px,0,0)' },
+        enter: { transform: 'translate3d(0px,0,0)' },
+        leave: { transform: 'translate3d(-100px,0,0)' },
+        ref: secondImgRef
+    })
+
+    useChain([headerRef, firstProjectRef, firstImgRef, secondProjectRef, secondImgRef], [0, 0.5, 0.5, 1, 1])
 
     return (
-        <Container maxWidth="md">
-            {props.mobile ?
+        <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+            style={{ minHeight: "100vh", margin: "0px", paddingBottom: "4rem", overflow: "hidden" }}
+        >
+            <Grid item sm={1} style={{ margin: "1rem", marginTop: "3rem" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                    {headerTrail.map(({ x, height, ...rest }, index) => (
+                        <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                            {headerItems[index].content}
+                        </animated.div>))}
+                </div>
+            </Grid>
+            <Grid item sm={5} style={{ maxWidth: "70%", margin: "2rem" }} >
                 <Grid
                     container
-                    direction={props.mobile ? "column" : "row"}
-                    justify="space-between"
                     alignItems="center"
+                    direction="row"
+                    spacing={3}
                 >
-                    <Grid item xs={12}>
-                        <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "2rem" : "3rem", justifyContent: "center" }}>
-                            {headerTrail.map(({ x, height, ...rest }, index) => (
-                                <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                    {headerItems[index].content}
-                                </animated.div>))}
-                        </div>
+                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
+                        {shopTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                        )}
                     </Grid>
-                    <Grid
-                        container
-                        direction={props.mobile ? "column" : "row"}
-                        alignItems="center"
-                    >
-                        <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
-                            {firstTrans.map(({ item, props, key }) =>
-                                <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
-                            )}
-                        </Grid>
-                        <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "center" }}>
-                            <img src={UAssist} style={{
-                                width: "318px", height: "200px", borderRadius: "5px",
-                                boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
-                            }} />
-                        </Grid>
-                    </Grid>
-                    <Grid
-                        container
-                        direction={props.mobile ? "column" : "row"}
-                        style={{ marginTop: "7rem" }}
-                        alignItems="center"
-                    >
-                        <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
-                            {secondTrans.map(({ item, props, key }) =>
-                                <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
-                            )}
-                        </Grid>
-                        <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "center" }}>
-                            <img src={sample1} style={{
-                                width: "337px", height: "169px", borderRadius: "5px", marginLeft: "1rem",
-                                boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
-                            }} />
-                        </Grid>
+                    <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "flex-end" }}>
+                        {firstImgTrans.map(({ item, props, key }) => item &&
+                            <animated.div key={`firstImgTrans${key}`} style={props}>
+                                <img src={shopifyImg} style={{
+                                    width: "500px", borderRadius: "5px",
+                                }} />
+                            </animated.div>
+                        )}
                     </Grid>
                 </Grid>
-                :
+            </Grid>
+            <Grid item sm={5} style={{ maxWidth: "70%", margin: "2rem" }}>
                 <Grid
                     container
-                    direction={props.mobile ? "column" : "row"}
-                    justify="space-between"
                     alignItems="center"
+                    direction="row"
+                    spacing={3}
                 >
-                    <Grid item xs={12}>
-                        <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "2rem" : "3rem", justifyContent: "center" }}>
-                            {headerTrail.map(({ x, height, ...rest }, index) => (
-                                <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                    {headerItems[index].content}
-                                </animated.div>))}
-                        </div>
+                    <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
+                        {secondImgTrans.map(({ item, props, key }) => item &&
+                            <animated.div key={`secondImgTrans${key}`} style={props}>
+                                <img src={sample1} style={{
+                                    width: "500px", borderRadius: "5px", marginLeft: "1rem",
+                                }} />
+                            </animated.div>
+                        )}
                     </Grid>
-                    <Grid
-                        container
-                        direction={props.mobile ? "column" : "row"}
-                        alignItems="center"
-                    >
-                        <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
-                            {firstTrans.map(({ item, props, key }) =>
-                                <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
-                            )}
-                        </Grid>
-                        <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "flex-end" }}>
-                            <img src={UAssist} style={{
-                                width: "500px", borderRadius: "5px",
-                                boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
-                            }} />
-                        </Grid>
-                    </Grid>
-                    <Grid
-                        container
-                        direction={props.mobile ? "column" : "row"}
-                        style={{ marginTop: "7rem" }}
-                        alignItems="center"
-                    >
-                        <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
-                            <img src={sample1} style={{
-                                width: "500px", borderRadius: "5px", marginLeft: "1rem",
-                                boxShadow: `0 9px 12px 1px ${props.theme.priColor}33, 0 3px 16px 2px ${props.theme.priColor}26, 0 5px 6px -3px ${props.theme.priColor}33`
-                            }} />
-                        </Grid>
-                        <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", zIndex: "1" }}>
-                            {secondTrans.map(({ item, props, key }) =>
-                                <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
-                            )}
-                        </Grid>
+                    <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", zIndex: "1" }}>
+                        {secondTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
+                        )}
                     </Grid>
                 </Grid>
-            }
-        </Container >
+            </Grid>
+            <Grid item sm={5} style={{ maxWidth: "70%", margin: "2rem" }} >
+                <Grid
+                    container
+                    alignItems="center"
+                    direction="row"
+                    spacing={3}
+                >
+                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
+                        {firstTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                        )}
+                    </Grid>
+                    <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "flex-end" }}>
+                        {firstImgTrans.map(({ item, props, key }) => item &&
+                            <animated.div key={`firstImgTrans${key}`} style={props}>
+                                <img src={UAssist} style={{
+                                    width: "500px", borderRadius: "5px",
+                                }} />
+                            </animated.div>
+                        )}
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
     )
-}
+})
 
 export default React.memo(Projects)

@@ -10,7 +10,6 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Fade from 'react-reveal';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Styles/carouselStyle.css';
 
 const ImageCarousel = (props) => {
     //Get the array of img srcs 

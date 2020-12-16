@@ -1,13 +1,12 @@
 import uoft from '../Assets/Pictures/uoftlogo.png'
 import Rlogo from '../Assets/Pictures/Rlogo.svg'
 import jsLogo from '../Assets/Pictures/jsLogo.png'
-import sqlLogo from '../Assets/Pictures/sqlLogo.jpeg'
+import sqlLogo from '../Assets/Pictures/sqlLogo.png'
 import kroger from '../Assets/Pictures/kroger.png'
 import ucLogo from '../Assets/Pictures/ucLogo.png'
-import cLogo from '../Assets/Pictures/cLogo.jpeg'
+import cLogo from '../Assets/Pictures/cLogo.png'
 import javaLogo from '../Assets/Pictures/javaLogo.png'
-import kindeLogo from '../Assets/Pictures/kindeLogo.jpg'
-import ismLogo from '../Assets/Pictures/ismLogo.jpg'
+import kindenLogo from '../Assets/Pictures/kindenLogo.png'
 import reactLogo from '../Assets/Pictures/reactLogo.png'
 import mongoLogo from '../Assets/Pictures/mongoDB.png'
 import sample1 from '../Assets/Pictures/sample1.png'
@@ -22,7 +21,7 @@ let resume = [
         titleDescription: "Statistics, Mathematics, and Philosophy",
         img: uoft,
         height: 500,
-        imgWidth: "69%",
+        imgWidth: "90%",
         logoMargin: "0px",
         imgCardWidth: "84%",
         cardMargin: "17px",
@@ -50,7 +49,7 @@ let resume = [
         subtitle: "at Kroger",
         img: kroger,
         height: 500,
-        imgWidth: "57%",
+        imgWidth: "68%",
         imgCardWidth: "72%",
         logoMargin: "13px",
         cardMargin: "26px",
@@ -72,9 +71,9 @@ let resume = [
         type: "experience",
         logoPadding: "10px",
         logoMargin: "10px",
-        img: kindeLogo,
+        img: kindenLogo,
         imgWidth: "78%",
-        imgCardWidth: "63%",
+        imgCardWidth: "66%",
         cardMargin: "35px",
         chip: "Experience",
         titleDescription: "IT Internship",
@@ -91,7 +90,6 @@ let resume = [
         subtitle: "Web Framework",
         img: reactLogo,
         height: 500,
-        imgHeight: "34%",
         imgWidth: "63%",
         imgCardWidth: "75%",
         cardMargin: "16px",
@@ -130,7 +128,7 @@ let resume = [
         subtitle: "Programming Language",
         img: jsLogo,
         height: 500,
-        imgWidth: "30%",
+        imgWidth: "40%",
         logoMargin: "10px",
         imgCardWidth: "35%",
         cardMargin: "24px",
@@ -161,7 +159,7 @@ let resume = [
         key: 12,
         titleDescription: "Learned in CSC309 - Web Development",
         date: "September, 2018 - December, 2018",
-        bodySummary: "\n My knowledge of Mongo DB comes from my web development course where the first half of the course focused on styling the DOM elements and the latter half focused on the backend and server-side functionalities.   We learned and implemented Node JS that was responsible for handling the communications from Mongoose and the client." +
+        bodySummary: "\n My knowledge of Mongo DB comes from my web development course where the first half of the course focused on styling the DOM elements and the latter half focused on the backend and server-side functionalities. We learned and implemented Node JS that was responsible for handling the communications from Mongoose and the client." +
             "\n I have also learned how to implement a website using Firebase and Firestore. This website and my task managing website coded in React JS both were deployed using Firebase. ",
         cardSubtitle: "Experience - 4 months",
         cardSubtitleMargin: 1,
@@ -219,7 +217,7 @@ let resume = [
         height: 500,
         type: "coding",
         img: cLogo,
-        imgWidth: "38%",
+        imgWidth: "33%",
         imgCardWidth: "50%",
         cardMargin: "16px",
         chip: "Skill",
@@ -254,25 +252,6 @@ let resume = [
             "\n \f \v Version Control \v Unit Testting \v Refactoring \v OOP Design and Development \v Design Patterns \v IDE Usage, \v Regular Expressions ",
         cardSubtitle: "Experience - 1 year",
         cardSubtitleMargin: 1,
-    },
-    //UC
-    {
-        title: "UC Dragon Boat",
-        subtitle: "Paddler",
-        height: 500,
-        type: "extra",
-        img: ucLogo,
-        imgWidth: "34%",
-        logoMargin: "12px",
-        imgCardWidth: "50%",
-        cardMargin: "23px",
-        chip: "Athletic Activity",
-        titleDescription: "UC Dragon Boat Paddler",
-        date: "Septermber, 2017 - August, 2018 \n( 11 months )",
-        bodySummary: "\n I was part of the University of Toronto, University College dragon boat team during the 3rd year of my undergraduate program. As a team, we competed in 3 regattas throughout the year and even traveled to Montreal to compete in the Montreal Challenge during the summer. " +
-            "\n I personally enjoyed the sport because of the high-intensity training and the overall competitive atmosphere. For me, every Dragon Boat training session helped me refresh my mind and kept me focus throughout the day. Moreover, the practices helped me keep a steady routine that I followed throughout the academic year. At the end of this experience, I was also able to learn how to keep a healthy balance between my school work, physical health, and social life. ",
-        cardSubtitle: "Septermber, 2017 - August, 2018 \n( 11 months )",
-        key: 6
     },
 ]
 

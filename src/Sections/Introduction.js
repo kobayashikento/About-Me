@@ -20,9 +20,12 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ListIcon from '@material-ui/icons/List';
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 
 import { useSpring, useChain, useTrail, animated, useTransition } from 'react-spring';
 import { Transition, Spring } from 'react-spring/renderprops';
+
+import { withStyles } from '@material-ui/core/styles';
 
 import Typist from 'react-typist';
 import 'react-typist/dist/Typist.css';
@@ -76,13 +79,14 @@ const CoderIntro = React.memo(props => {
         delay: 1500,
     })
 
+    const [hover, setHover] = React.useState(false)
+
     return (
-        <div style={{ right: `${props.pos}px`, position: "absolute" }}>
-            < div ref={myRef} >
-                <div style={{
-                    width: `${window.innerWidth - props.blockSize}px`, color: "#010A26", fontWeight: "400", fontFamily: "'Montserrat', sans-serif", fontSize: "3rem",
-                    display: "flex", flexDirection: "column", justifyContent: "center", height: "100vh", paddingLeft: "5rem"
-                }}>
+        <div ref={myRef} style={{ overflowX: "hidden", right: `${props.pos}px`, position: "absolute", willChange: "left", }}>
+            <div style={{
+                width: `${window.innerWidth - props.blockSize}px`, display: "flex", height: "100vh", alignItems: "center"
+            }}>
+                <div style={{ paddingLeft: "5rem", display: "flex", flexDirection: "column", color: props.theme.darkestColor, fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "3rem", }}>
                     <Typist
                         startDelay={1000}
                         avgTypingDelay={150}
@@ -99,6 +103,16 @@ const CoderIntro = React.memo(props => {
 </Typography>
                         </animated.div>
                     ))}
+                </div>
+                <div style={{ marginTop: "1rem", fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", fontWeight: "400", fontFamily: "'Montserrat', sans-serif", marginLeft: "auto", paddingRight: "3rem", alignItems: "center" }}>
+                    <Typist
+                        startDelay={1000}
+                        avgTypingDelay={150}
+                    >
+                        See My Experiences
+                        </Typist>
+                    <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleExpClick()}
+                        style={{ margin: "1rem", color: hover ? props.theme.stdColor : props.theme.darkestColor }} />
                 </div>
             </div>
         </div>
@@ -141,31 +155,41 @@ const DesignIntro = React.memo(props => {
         delay: 1500,
     })
 
+    const [hover, setHover] = React.useState(false)
+
     return (
-        <div style={{ left: `${props.pos}px`, position: "absolute" }}>
+        <div style={{ overflowX: "hidden", left: `${props.pos}px`, position: "absolute", willChange: "transform" }}>
             <div
                 ref={myRef} style={{ height: "100vh" }}
             >
                 < div style={{
-                    width: `${window.innerWidth - props.blockSize}px`, alignItems: "flex-end", paddingRight: "5rem",
-                    display: "flex", flexDirection: "column", justifyContent: "center", height: "100vh"
+                    width: `${window.innerWidth - props.blockSize}px`, display: "flex", height: "100vh", alignItems: "center", justifyContent: "flex-end", overflow: "hidden"
                 }}
                 >
-                    <DesignerAni
-                        theme={props.theme}
-                    />
-                    {
-                        trail.map(({ x, height, ...rest }, index) => (
-                            <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                <Typography variant={props.mobile ? "h6" : "body1"} align="justify" style={{
-                                    width: "340px",
-                                    color: "#FFFFFF", paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1"
-                                }}>
-                                    Aspiring Designer with a passion for designing beautiful and functional user experiences.
+                    <div style={{ marginTop: "1rem", fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", marginRight: "auto", paddingLeft: "3rem", alignItems: "center" }}>
+                        <Typography variant="body1" style={{ color: props.theme.lightestColor, fontFamily: "'Comfortaa', sans-serif" }}>
+                            See My Projects
+                        </Typography>
+                        <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleProjClick()}
+                            style={{ margin: "1rem", color: hover ? props.theme.stdColor : props.theme.lightestColor }} />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", paddingRight: "5rem", justifyContent: "center" }}>
+                        <DesignerAni
+                            theme={props.theme}
+                        />
+                        {
+                            trail.map(({ x, height, ...rest }, index) => (
+                                <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                                    <Typography variant={props.mobile ? "h6" : "body1"} align="justify" style={{
+                                        width: "340px",
+                                        color: "#FFFFFF", paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1"
+                                    }}>
+                                        Aspiring Designer with a passion for designing beautiful and functional user experiences.
                       </Typography>
-                            </animated.div>
-                        ))
-                    }
+                                </animated.div>
+                            ))
+                        }
+                    </div>
                 </div >
             </div>
         </div>
@@ -176,61 +200,69 @@ const Introduction = React.memo(props => {
     const theme = props.theme
     const centerX = window.innerWidth / 2
     const blockSize = 450;
-    const [hover, setHover] = React.useState(false);
     const [mouseDesign, setMouseDesign] = React.useState(-((window.innerWidth - blockSize) - centerX));
     const [mouseCoder, setMouseCoder] = React.useState(-((window.innerWidth - blockSize) - centerX));
 
     const updateMousePosition = ev => {
-        // get the center of the page
-        if (ev.clientY < window.innerHeight) {
-            if (window.innerWidth / 2 > blockSize) {
-                // mouse towards right
-                if (ev.clientX > centerX) {
-                    if (ev.clientX > (window.innerWidth - blockSize)) {
-                        setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)))
-                        setMouseCoder(0);
-                    } else {
-                        setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + (ev.clientX - centerX)))
-                        setMouseCoder(-((window.innerWidth - blockSize) - centerX) + (ev.clientX - (centerX)));
-                    }
-                    // mouse towards left
-                } else if (ev.clientX < centerX) {
-                    if (ev.clientX < blockSize) {
-                        setMouseDesign(0);
-                        setMouseCoder(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)));
-                    } else {
-                        setMouseDesign((-((window.innerWidth - blockSize) - centerX)) - (ev.clientX - (centerX)))
-                        setMouseCoder(-(((window.innerWidth - blockSize) - centerX) - (ev.clientX - centerX)));
-                    }
+        setTimeout(function () {
+            if (ev.clientY < window.innerHeight && props.navIndex === 0) {
+                if (window.innerWidth / 2 > blockSize) {
+                    // mouse towards right
+                    if (ev.clientX > centerX) {
+                        if (ev.clientX > (window.innerWidth - blockSize)) {
+                            setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)))
+                            setMouseCoder(0);
+                        } else {
+                            setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + (ev.clientX - centerX)))
+                            setMouseCoder(-((window.innerWidth - blockSize) - centerX) + (ev.clientX - (centerX)));
+                        }
+                        // mouse towards left
+                    } else if (ev.clientX < centerX)
+                        if (ev.clientX < blockSize) {
+                            setMouseDesign(0);
+                            setMouseCoder(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)));
+                        } else {
+                            setMouseDesign((-((window.innerWidth - blockSize) - centerX)) - (ev.clientX - (centerX)))
+                            setMouseCoder(-(((window.innerWidth - blockSize) - centerX) - (ev.clientX - centerX)));
+                        }
                 }
+            } else {
+                setMouseDesign(-((window.innerWidth - blockSize) - centerX));
+                setMouseCoder(-((window.innerWidth - blockSize) - centerX));
             }
-        } else {
-            setMouseDesign(-((window.innerWidth - blockSize) - centerX));
-            setMouseCoder(-((window.innerWidth - blockSize) - centerX));
-        }
+        }, 200)
     };
 
     React.useEffect(() => {
         setTimeout(() => {
-            window.addEventListener("mousemove", updateMousePosition);
-        }, 1000)
+            window.addEventListener("mousemove", updateMousePosition)
+        }, 2500)
         return () => window.removeEventListener("mousemove", updateMousePosition);
     }, []);
 
+    React.useEffect(() => {
+        if (props.navIndex !== 0) {
+            setMouseDesign(-((window.innerWidth - blockSize) - centerX));
+            setMouseCoder(-((window.innerWidth - blockSize) - centerX));
+        }
+    }, [props.navIndex])
+
     return (
-        <div style={{ height: "100vh" }}>
-            <div style={{ width: window.innerWidth - blockSize }}>
+        <div style={{ height: "100vh", overflowX: "hidden", width: '-webkit-fill-available', position: "relative" }}>
+            <div style={{ overflow: "hidden" }}>
                 <DesignIntro
                     theme={theme}
                     pos={mouseDesign}
                     blockSize={blockSize}
+                    handleProjClick={() => props.handleProjClick()}
                 />
             </div>
-            <div style={{ width: window.innerWidth - blockSize, float: "right" }}>
+            <div style={{ overflow: "hidden", float: "right" }}>
                 <CoderIntro
                     theme={theme}
                     pos={mouseCoder}
                     blockSize={blockSize}
+                    handleExpClick={() => props.handleExpClick()}
                 />
             </div>
         </div >
@@ -240,7 +272,7 @@ const Introduction = React.memo(props => {
 const NavBar = (props) => {
 
     const priColor = props.theme.priColor;
-    const navItems = ["Experience", "Projects", "About", "Contact"];
+    const navItems = ["Experience", "Projects", "Home", "About", "Contact"];
     const navTrail = useTrail(navItems.length, {
         config: { mass: 5, tension: 2000, friction: 200 },
         opacity: props.open ? 1 : 0,
@@ -319,7 +351,8 @@ const NavBar = (props) => {
             :
             <div style={{
                 display: "flex", height: "56px", width: "100%", position: "absolute",
-                top: "0px", right: "0px", zIndex: "1", marginRight: "1rem", background: props.firstRender ? "transparent" : `${props.theme.priBack}`, paddingRight: "1rem"
+                top: "0px", right: "0px", zIndex: "1",
+                marginRight: "1rem", background: props.firstRender ? "transparent" : `${props.theme.priBack}`, paddingRight: "1rem"
             }}>
                 <div style={{ display: "flex", marginLeft: "auto", marginRight: "auto" }}>
                     {navTrail.map(({ x, height, ...rest }, index) => (
@@ -428,130 +461,112 @@ const SideIcons = (props) => {
     )
 }
 
-const Contact = (props) => {
+const Contact = React.memo(props => {
     const handleClick = (index) => {
         props.handleThemeChange(index)
     }
+
+    const StyledButton = withStyles({
+        root: {
+            borderRadius: 0,
+            border: `2px solid ${props.theme.stdColor}`,
+            '&:hover': {
+                background: props.theme.stdColor,
+            },
+        },
+    })(Button);
+
     return (
-        <Container maxWidth={props.mobile ? "xs" : "md"} style={{ position: "absolute", top: props.mobile ? "0%" : "20%", left: "50%", display: "flex", flexDirection: "column", transform: props.mobile ? "translate(-50%, 0%)" : "translate(-50%, -20%)" }}>
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                style={{ padding: "1rem" }}
-            >
-                <Grid item sm={2} />
-                <Grid item xs={12} sm={8} style={{ display: "flex", justifyContent: "center" }}>
-                    <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "1rem" : "3rem" }}>
-                        <Divider style={{ marginRight: props.mobile ? "1rem" : "3rem", width: props.mobile ? "2rem" : "8rem", backgroundColor: props.theme.priTxtColor }} />
-                        <Typography variant={props.mobile ? "h6" : "h4"} style={{ color: props.theme.priColor, fontWeight: "bold" }}>
-                            Get In Touch
-            </Typography>
-                        <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "2rem" : "8rem", backgroundColor: props.theme.priTxtColor }} />
-                    </div>
-                </Grid>
-                <Grid item sm={2} />
+        <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+            style={{ margin: "0px", minHeight: "100vh", backgroundColor: props.theme.lightestColor, overflow: "hidden", width: '-webkit-fill-available' }}
+            spacing={5}
+        >
+            <Grid item sm={1} style={{ display: "flex", justifyContent: "center", maxWidth: "fit-content" }}>
+                <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "1rem" : "3rem", flexDirection: "column" }}>
+                    <Typography variant={props.mobile ? "h6" : "h4"} style={{ color: props.theme.darkestColor, fontWeight: "bold", fontFamily: "'Roboto Mono', monospace" }}>
+                        Get In Touch
+                         </Typography>
+                    <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "9rem", backgroundColor: props.theme.darkestColor }} />
+                </div>
             </Grid>
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-            >
-                <Grid item sm={2} />
-                <Grid item xs={12} sm={8} style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <Typography variant="body1" align={props.mobile ? "justify" : "center"} style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", paddingRight: "1rem" }}>
-                        If you have any suggestions whether it's the design, animation, color scheme, etc... I am always eager to make improvements so leave me a message.
+            <Grid item sm={2} style={{ maxWidth: "35%" }}>
+                <Typography variant="body1" align={props.mobile ? "justify" : "center"} style={{ color: props.theme.darkestColor }}>
+                    If you have any suggestions whether it's the design, animation, color scheme, etc... I am always eager to make improvements so leave me a message.
             </Typography>
-                </Grid>
-                <Grid item sm={2} />
-                <Button style={{ marginTop: props.mobile ? "2rem" : "4rem", color: props.theme.priTxtColor, border: `1px solid ${props.theme.secColor}` }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-                    Leave A Message
-                </Button>
             </Grid>
-            <Typography variant="body1" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: props.mobile ? "2rem" : "4rem" }}>
-                These are some potential themes I was considering...
+            <Grid item sm={2}>
+                <StyledButton onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                    <Typography variant="body1" align="center" style={{ color: props.theme.darkestColor }}>
+                        Leave A Message
+                    </Typography>
+                </StyledButton>
+            </Grid>
+            <Grid item sm={2} style={{ maxWidth: "fit-content" }}>
+                <Typography variant="body1" align="center" style={{ color: props.theme.darkestColor }}>
+                    These are some potential themes I was considering...
+                    </Typography>
+            </Grid>
+            <Grid item sm={2} style={{ maxWidth: "fit-content" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", height: "40px" }}>
+                    {props.themes.map((theme, index) => {
+                        return (
+                            <Button key={`theme${index}`} style={{ marginRight: "1rem", color: theme.stdColor, borderRadius: 0, border: `2px solid ${theme.stdColor}` }} onClick={() => handleClick(index)}>
+                                {`${theme.stdColor}`}
+                            </Button>
+                        )
+                    })}
+                </div>
+            </Grid>
+            <Grid item sm={1} style={{ maxWidth: "fit-content" }}>
+                <Typography variant="body2" align="center" style={{ color: props.theme.darkestColor }}>
+                    Based in Toronto, Fueled by coffee :)
             </Typography>
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: props.mobile ? "center" : "", marginTop: props.mobile ? "0rem" : "1rem", marginRight: "auto", marginLeft: "auto", height: "40px" }}>
-                {props.themes.map((theme, index) => {
-                    return (
-                        <Button key={`theme${index}`} style={{ marginRight: "1rem", marginTop: props.mobile ? "1rem" : "", color: theme.priColor, border: `1px solid ${theme.priColor}` }} onClick={() => handleClick(index)}>
-                            {`${theme.priColor}`}
-                        </Button>
-                    )
-                })}
-            </div>
-            <Typography variant="body2" align="center" style={{ color: props.theme.priTxtColor, marginBottom: "1rem", paddingTop: "4rem", marginTop: "2rem" }}>
-                Based in Toronto, Fueled by coffee
-            </Typography>
-        </Container >
+            </Grid>
+        </Grid >
     )
-}
+})
 
-const Picture = (props) => {
-
-    const open = props.render;
-    const mobile = props.mobile
-    const priColor = props.theme.secColor
-    const transitions = useTransition(open, null, {
-        from: { position: 'absolute', opacity: 0, transform: "translate(0, -20%)" },
-        enter: { opacity: 1, transform: "translate(0, -5%)" },
-        leave: { opacity: 0, transform: "translate(0, -20%)" },
-    })
-
-    return (
-        transitions.map(({ item, key, props }) =>
-            item && <animated.div key={key} style={props}>
-                <img src={face} style={{
-                    width: "290px", height: "300px", borderRadius: "5px",
-                    boxShadow: `0 9px 12px 1px ${priColor}33, 0 3px 16px 2px ${priColor}26, 0 5px 6px -3px ${priColor}33`
-                }} />
-            </animated.div>
-        )
-    );
-}
-
-const AboutMe = (props) => {
+const AboutMe = React.memo(props => {
 
     const open = props.render
 
-    const headerItems = [{
-        content: <Divider style={{ marginLeft: props.mobile ? "" : "3rem", width: props.mobile ? "3rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
-        type: 0
-    },
-    {
-        content: <Typography variant={props.mobile ? "h6" : "h4"} style={{ paddingLeft: props.mobile ? "1rem" : "3rem", color: props.theme.priColor, fontWeight: "bold" }}>About Me </Typography>,
-        type: 0,
-    },
-    {
-        content: <Divider style={{ marginLeft: props.mobile ? "1rem" : "3rem", width: props.mobile ? "3rem" : "13rem", backgroundColor: props.theme.priTxtColor }} />,
-        type: 0,
-    }
+    const headerItems = [
+        {
+            content: <Typography variant={props.mobile ? "h6" : "h4"} style={{ color: props.theme.lightestColor, fontWeight: "bold", fontFamily: "'Playfair Display', serif" }}>About Me </Typography>,
+            type: 0,
+        },
+        {
+            content: <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "8rem", backgroundColor: props.theme.lightestColor }} />,
+            type: 0,
+        }
     ]
 
     const contentItems = [
         {
-            content: <Typography variant="body1" style={{ display: "block", color: props.theme.priTxtColor, textIndent: "1rem", marginBottom: "1rem" }}> I am Developer based in Toronto, Ontario with a mild addiction to coffee. </Typography>,
-            paddingLeft: "1rem", marginBottom: "1rem", textIndent: "1rem"
+            content: <Typography variant="body1" style={{ display: "block", color: props.theme.lightestColor, textIndent: "1rem", marginBottom: "1rem", fontFamily: "'Roboto', sans-serif" }}> I am Developer based in Toronto, Ontario with a mild addiction to coffee. </Typography>,
+            paddingLeft: "1rem", marginBottom: "1rem", textIndent: "1rem",
         },
         {
-            content: <Typography variant="body1" style={{ display: "inline", paddingLeft: "1rem", color: props.theme.priTxtColor }}>I recently obtained my </Typography>,
+            content: <Typography variant="body1" style={{ display: "inline", paddingLeft: "1rem", color: props.theme.lightestColor, fontFamily: "'Roboto', sans-serif" }}>I recently obtained my </Typography>,
             paddingLeft: "1rem", marginBottom: "inherit", textIndent: "1rem"
         },
         {
-            content: <Typography variant="body1" style={{ display: "inline", boxDecorationBreak: "clone", color: props.theme.secColor }}> Bachelors of Science in Mathematics, Statistics, and Philosophy from the University of Toronto. </Typography>
+            content: <Typography variant="body1" style={{ display: "inline", boxDecorationBreak: "clone", color: props.theme.lightestColor, fontFamily: "'Roboto', sans-serif" }}> Bachelors of Science in Mathematics, Statistics, and Philosophy from the University of Toronto. </Typography>
             , paddingLeft: "1rem", marginBottom: "inherit", textIndent: "0"
         },
         {
-            content: <Typography variant="body1" style={{ display: "inline", boxDecorationBreak: "clone", color: props.theme.priTxtColor }}> I put pride in making functional and beautiful products by focusing on every single detail, from the animations to the color schemes.  </Typography>
+            content: <Typography variant="body1" style={{ display: "inline", boxDecorationBreak: "clone", color: props.theme.lightestColor, fontFamily: "'Roboto', sans-serif" }}> I put pride in making functional and beautiful products by focusing on every single detail, from the animations to the color schemes.  </Typography>
             , paddingLeft: "1rem", marginBottom: "inherit", textIndent: "0"
         },
     ]
 
     const secondContentItems = [
         {
-            content: <Typography variant="body1" style={{ paddingTop: "1rem", display: "block", color: props.theme.priTxtColor, textIndent: "1rem", marginBottom: "1rem" }}>
+            content: <Typography variant="body1" style={{ paddingTop: "1rem", display: "block", color: props.theme.lightestColor, textIndent: "1rem", marginBottom: "1rem", fontFamily: "'Roboto', sans-serif" }}>
                 After completing my third year at U of T, I got the opportunity to work in Chicago where I worked as an Application Developer at Kroger to build an app that would manage and notify the user of any close to expiry products. After which, I came back to finish my bachelor's degree.
             </Typography>,
             paddingLeft: "1rem", marginBottom: "1rem", textIndent: "1rem"
@@ -585,25 +600,38 @@ const AboutMe = (props) => {
         delay: 800
     })
 
+    const firstTrans = useTransition(open, null, {
+        from: { transform: 'translate3d(100px,0,0)' },
+        enter: { transform: 'translate3d(0px,0,0)' },
+        leave: { transform: 'translate3d(100px,0,0)' },
+    })
+
     return (
-        <Container maxWidth="md" style={{ position: "absolute", top: "10%", left: "50%", transform: "translate(-50%, -10%)" }}>
-            <Grid
-                container
-                direction={props.mobile ? "column" : "row"}
-                justify="space-between"
-                alignItems="center"
-                style={{ padding: "1rem" }}
-            >
-                <Grid item xs={12}>
-                    <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "2rem" : "5rem", justifyContent: "center" }}>
-                        {headerTrail.map(({ x, height, ...rest }, index) => (
-                            <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                {headerItems[index].content}
-                            </animated.div>))}
-                    </div>
-                </Grid>
-                <Grid item sm={7} xs={12}>
-                    <div style={{ marginBottom: "1rem", paddingLeft: props.mobile ? "" : "2rem" }}>
+        <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+            style={{ margin: "0px", backgroundColor: props.theme.darkColor, overflow: "hidden", width: "-webkit-fill-available" }}
+            spacing={5}
+        >
+            <Grid item sm={2} style={{ marginTop: "4rem" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                    {headerTrail.map(({ x, height, ...rest }, index) => (
+                        <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                            {headerItems[index].content}
+                        </animated.div>))}
+                </div>
+            </Grid>
+            <Grid item sm={10} style={{ margin: "0px", maxWidth: "75%" }}>
+                <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                    spacing={5}
+                >
+                    <Grid item sm={7} style={{ paddingLeft: "3rem" }}>
                         {contentTrail.map(({ x, height, ...rest }, index) => (
                             <animated.div key={`aboutContent${index}`} style={{
                                 ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), display: index === 0 ? "block" : "inline",
@@ -616,58 +644,38 @@ const AboutMe = (props) => {
                             }}>
                                 {secondContentItems[index].content}
                             </animated.div>))}
-                    </div>
-                </Grid>
-                <Grid item sm={5} xs={12} style={{ width: "100%" }}>
-                    <div style={{ display: "flex", height: "300px", paddingTop: props.mobile ? "2rem" : "", alignItems: "center", justifyContent: props.mobile ? "center" : "flex-end" }}>
-                        <Picture
-                            mobile={props.mobile}
-                            render={props.render}
-                            theme={props.theme}
-                        />
-                    </div>
+                    </Grid>
+                    <Grid item sm={5} style={{ display: "flex", justifyContent: "flex-start" }}>
+                        {firstTrans.map(({ item, props, key }) => item &&
+                            <animated.div key={`firstImgTrans${key}`} style={props}>
+                                <img src={face} style={{
+                                    width: "290px", height: "300px", borderRadius: "5px",
+                                }} />
+                            </animated.div>
+                        )}
+                    </Grid>
                 </Grid>
             </Grid>
-        </Container >
+        </Grid >
     )
-}
-
-const SecondPicture = (props) => {
-
-    const open = props.render;
-    const priColor = props.theme.secColor
-    const transitions = useTransition(open, null, {
-        from: { position: 'absolute', opacity: 0, transform: "translate(0, -10%)" },
-        enter: { opacity: 1, transform: "translate(0, 0%)" },
-        leave: { opacity: 0, transform: "translate(0, -10%)" },
-    })
-
-    return (
-        transitions.map(({ item, key, props }) =>
-            item && <animated.div key={key} style={props}>
-                <img src={montrealme} style={{
-                    width: "330px", height: "272px", borderRadius: "5px",
-                    boxShadow: `0 9px 12px 1px ${priColor}33, 0 3px 16px 2px ${priColor}26, 0 5px 6px -3px ${priColor}33`
-                }} />
-            </animated.div>
-        ));
-}
+})
 
 const AboutMeSecond = (props) => {
 
     const open = props.render
     const items = [
         {
-            content: <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem", marginBottom: "1rem" }}>
+            content: <Typography variant="body1" align="right" style={{ color: props.theme.lightestColor, paddingLeft: "1rem", textIndent: "1rem", marginBottom: "1rem", fontFamily: "'Roboto', sans-serif" }}>
                 When I am not coding I enjoy playing video games, playing the piano, and occasionally check myself out while working out.
 </Typography>
         },
         {
-            content: <Typography variant="body1" style={{ color: props.theme.priTxtColor, paddingLeft: "1rem", textIndent: "1rem" }}>
+            content: <Typography variant="body1" align="right" style={{ color: props.theme.lightestColor, paddingLeft: "1rem", textIndent: "1rem", fontFamily: "'Roboto', sans-serif" }}>
                 I enjoy playing all kinds of pieces on the piano from Ghibli films, to Chopin's Waltz, and Jazz music, while carefully making sure that I don't annoy my neighbors.
 </Typography>
         },
     ]
+
     const contentTrail = useTrail(items.length, {
         config: { mass: 5, tension: 2000, friction: 200 },
         opacity: open ? 1 : 0,
@@ -676,62 +684,45 @@ const AboutMeSecond = (props) => {
         from: { opacity: 0, x: 20, height: 0 },
         delay: 500
     })
+
+    const firstTrans = useTransition(open, null, {
+        from: { transform: 'translate3d(-100px,0,0)' },
+        enter: { transform: 'translate3d(0px,0,0)' },
+        leave: { transform: 'translate3d(-100px,0,0)' },
+    })
+
     return (
-        <Container maxWidth={props.mobile ? "xs" : "md"} >
-            {props.mobile ?
-                <Grid
-                    container
-                    direction="column"
-                    justify="space-between"
-                    alignItems="center"
-                >
-                    <Grid item xs={12} sm={7}>
-                        {contentTrail.map(({ x, height, ...rest }, index) => (
-                            <animated.div key={`aboutSec${index}`} style={{
-                                ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
-                            }}>
-                                {items[index].content}
+        <div style={{ backgroundColor: props.theme.darkColor, display: "flex", justifyContent: "center" }}>
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+                style={{ margin: "0px", width: "75%", marginBottom: "4rem" }}
+                spacing={5}
+            >
+                <Grid item xs={12} sm={5} >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                        {firstTrans.map(({ item, props, key }) => item &&
+                            <animated.div key={`firstImgTrans${key}`} style={props}>
+                                <img src={montrealme} style={{
+                                    width: "330px", height: "272px", borderRadius: "5px",
+                                }} />
                             </animated.div>
-                        ))}
-                    </Grid>
-                    <Grid item xs={12} sm={5} style={{ width: "100%" }}>
-                        <div style={{ display: "flex", height: "290px", alignItems: "center", justifyContent: "center" }}>
-                            <SecondPicture
-                                mobile={props.mobile}
-                                render={props.render}
-                                theme={props.theme}
-                            />
-                        </div>
-                    </Grid>
-                </Grid> :
-                <Grid
-                    container
-                    direction="row"
-                    justify="space-between"
-                    alignItems="center"
-                    style={{ marginLeft: "3rem", height: "380px" }}
-                >
-                    <Grid item xs={12} sm={5} >
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
-                            <SecondPicture
-                                mobile={props.mobile}
-                                render={props.render}
-                                theme={props.theme}
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item xs={12} sm={7} style={{ paddingRight: props.mobile ? "" : "3rem" }}>
-                        {contentTrail.map(({ x, height, ...rest }, index) => (
-                            <animated.div key={`aboutSec${index}`} style={{
-                                ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
-                            }}>
-                                {items[index].content}
-                            </animated.div>
-                        ))}
-                    </Grid>
+                        )}
+                    </div>
                 </Grid>
-            }
-        </Container >
+                <Grid item xs={12} sm={7} style={{ paddingRight: props.mobile ? "" : "3rem" }}>
+                    {contentTrail.map(({ x, height, ...rest }, index) => (
+                        <animated.div key={`aboutSec${index}`} style={{
+                            ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
+                        }}>
+                            {items[index].content}
+                        </animated.div>
+                    ))}
+                </Grid>
+            </Grid>
+        </div>
     )
 }
 
@@ -860,4 +851,4 @@ const LineDescription = (props) => {
 }
 
 export default React.memo(Introduction);
-export { MenuButton, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription };
+export { MenuButton, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, AboutMeSecond, LineDescription };
