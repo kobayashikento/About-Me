@@ -27,7 +27,7 @@ import AnimatedCard from './AnimatedCard.js';
 import Fade from 'react-reveal';
 
 const AnimatedGrid = (props) => {
-    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [6, 5, 4], 3)
+    const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [6, 5, 4], 2)
     const ref = React.useRef(null);
     const [width, setWidth] = React.useState(0);
     // center display of card distance
@@ -42,9 +42,6 @@ const AnimatedGrid = (props) => {
         let len = resume.length
         let temp = [...resume]
         let activePage = props.activePage;
-        if (props.mobile) {
-            activePage = props.activePage + 1
-        }
         if (activePage === 1) {
             while (len--) {
                 if (temp[len].type !== "education") {
@@ -88,6 +85,7 @@ const AnimatedGrid = (props) => {
         let right = (Math.ceil(columns / 2))
         // 0 is left, 1 is right
         let dir = 0;
+        const mobileHeight = 400;
 
         // need to check if item is on the second row AND the number of items is less than the number of columns
         // need to find at which column the starting items is not filled to the max of width: if there isnt any then return 0, 
@@ -102,32 +100,86 @@ const AnimatedGrid = (props) => {
             change = true;
         }
 
-
         let gridItems = items.map((child, idx) => {
             let column;
             let xy;
 
-            if ((left === -1) && (right === columns)) {
-                left = (Math.ceil(columns / 2)) - 1
-                right = (Math.ceil(columns / 2))
-                dir = 0;
-            }
-            if (items.length === 2) {
-                if (items.length % 2 !== columns % 2) {
+            if (props.mobile) {
+                // check if the idx is even or odd, even => left side, odd => right side
+                if ((idx % 2 === 0) && (idx === items.length - 1)) {
                     column = heights.indexOf(Math.min(...heights));
-                    xy = [Math.floor(((width / 2) - ((width / columns))) + ((width / columns) * index)), (heights[column] += child.height / 2) - child.height / 2]
-                    index += 1;
+                    xy = [Math.floor((width / columns)) / 2, (heights[column] += mobileHeight / 2) - mobileHeight / 2]
+                    return { ...child, xy, width: Math.floor((width / columns)), height: (mobileHeight / 2) }
+                } else if (idx % 2 === 0) {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [0, (heights[column] += mobileHeight / 2) - mobileHeight / 2]
+                    return { ...child, xy, width: Math.floor((width / columns)), height: (mobileHeight / 2) }
+                } else {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [window.innerWidth / 2, (heights[column] += mobileHeight / 2) - mobileHeight / 2]
+                    return { ...child, xy, width: Math.floor((width / columns)), height: (mobileHeight / 2) }
+                }
+            } else {
+                if ((left === -1) && (right === columns)) {
+                    left = (Math.ceil(columns / 2)) - 1
+                    right = (Math.ceil(columns / 2))
+                    dir = 0;
+                }
+                if (items.length === 2) {
+                    if (items.length % 2 !== columns % 2) {
+                        column = heights.indexOf(Math.min(...heights));
+                        xy = [Math.floor(((width / 2) - ((width / columns))) + ((width / columns) * index)), (heights[column] += child.height / 2) - child.height / 2]
+                        index += 1;
+                        return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                    }
+                }
+                if (items.length === 1) {
+                    column = heights.indexOf(Math.min(...heights));
+                    xy = [Math.floor(((width / 2) - ((width / columns) / 2))), (heights[column] += child.height / 2) - child.height / 2]
                     return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
                 }
-            }
-            if (items.length === 1) {
-                column = heights.indexOf(Math.min(...heights));
-                xy = [Math.floor(((width / 2) - ((width / columns) / 2))), (heights[column] += child.height / 2) - child.height / 2]
-                return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
-            }
-            if (change && idx >= leftover) {
-                // modulo = 0 even 
-                if (columns % 2 === 0) {
+                if (change && idx >= leftover) {
+                    // modulo = 0 even 
+                    if (columns % 2 === 0) {
+                        // check if theres only one item 
+                        if (items.length - leftover === 1) {
+                            column = heights.indexOf(Math.min(...heights));
+                            xy = [Math.floor((width / 2) - (width / columns) / 2), (heights[column] += child.height / 2) - child.height / 2]
+                            left -= 1
+                            dir = 1;
+                            return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                        }
+                        if (dir === 0) {
+                            column = heights.indexOf(Math.min(...heights));
+                            xy = [Math.floor((width / columns) * left), (heights[column] += child.height / 2) - child.height / 2]
+                            left -= 1
+                            dir = 1;
+                            return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                        } else if (dir === 1) {
+                            column = heights.indexOf(Math.min(...heights));
+                            xy = [Math.floor((width / columns) * right), (heights[column] += child.height / 2) - child.height / 2]
+                            right += 1
+                            dir = 0;
+                            return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                        }
+                    } else {
+                        // 1 = odd
+                        // center middle 
+                        if (dir === 0) {
+                            column = heights.indexOf(Math.min(...heights));
+                            xy = [Math.floor((width / 2) - (width / columns) * (left - 1)), (heights[column] += child.height / 2) - child.height / 2]
+                            left -= 1
+                            dir = 1;
+                            return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                        } else if (dir === 1) {
+                            column = heights.indexOf(Math.min(...heights));
+                            xy = [Math.floor((width / (columns - 1)) * (right - 1)), (heights[column] += child.height / 2) - child.height / 2]
+                            right += 1
+                            dir = 0;
+                            return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
+                        }
+                    }
+                } else {
                     if (dir === 0) {
                         column = heights.indexOf(Math.min(...heights));
                         xy = [Math.floor((width / columns) * left), (heights[column] += child.height / 2) - child.height / 2]
@@ -141,36 +193,6 @@ const AnimatedGrid = (props) => {
                         dir = 0;
                         return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
                     }
-                } else {
-                    // 1 = odd
-                    console.log(left, right)
-                    if (dir === 0) {
-                        column = heights.indexOf(Math.min(...heights));
-                        xy = [Math.floor((width / 2) - (width / columns) * (left - 1)), (heights[column] += child.height / 2) - child.height / 2]
-                        left -= 1
-                        dir = 1;
-                        return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
-                    } else if (dir === 1) {
-                        column = heights.indexOf(Math.min(...heights));
-                        xy = [Math.floor((width / (columns - 1)) * (right - 1)), (heights[column] += child.height / 2) - child.height / 2]
-                        right += 1
-                        dir = 0;
-                        return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
-                    }
-                }
-            } else {
-                if (dir === 0) {
-                    column = heights.indexOf(Math.min(...heights));
-                    xy = [Math.floor((width / columns) * left), (heights[column] += child.height / 2) - child.height / 2]
-                    left -= 1
-                    dir = 1;
-                    return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
-                } else if (dir === 1) {
-                    column = heights.indexOf(Math.min(...heights));
-                    xy = [Math.floor((width / columns) * right), (heights[column] += child.height / 2) - child.height / 2]
-                    right += 1
-                    dir = 0;
-                    return { ...child, xy, width: Math.floor((width / columns)), height: (child.height / 2) }
                 }
             }
         })
@@ -188,34 +210,22 @@ const AnimatedGrid = (props) => {
 
     return (
         props.mobile ?
-            <React.Fragment >
-                <IconButton style={{ paddingTop: "160px", position: "absolute", left: "0px ", zIndex: "2" }} disabled={props.cardIndex === 0 ? true : false} onClick={() => props.handleArrowClick('left')}>
-                    <ChevronLeftIcon clsssname="icon" style={{ color: props.cardIndex === 0 ? `${props.theme.secColor}33` : props.theme.secColor }} />
-                </IconButton>
-                <IconButton style={{ paddingTop: "160px", position: "absolute", right: "0px ", zIndex: "2" }} disabled={getItems().length - 1 === props.cardIndex ? true : false} onClick={() => props.handleArrowClick('right')}>
-                    <ChevronRightIcon clsssname="icon" style={{
-                        color: getItems().length - 1 === props.cardIndex ? `${props.theme.secColor}33` : props.theme.secColor
-                    }} />
-                </IconButton>
-                <div ref={ref} className="listCard" style={{
-                    marginTop: "1rem", paddingRight: "16px", height: "450px",
-                    width: "95%", position: "relative"
-                }}>
-                    {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                        <animated.div key={props.activePage !== 0 ? `listCard-${item.key}` : `list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                            <AnimatedCard
-                                mobile={props.mobile}
-                                item={item}
-                                theme={props.theme}
-                                activePage={props.activePage}
-                                handleCardClick={(index) => props.handleCardClick(index)}
-                                handleActiveCard={(item) => props.handleActiveCard(item)}
-                                width={width}
-                            />
-                        </animated.div>
-                    ))}
-                </div >
-            </React.Fragment >
+            <div ref={ref} style={{ height: Math.max(...heights), overflow: "hidden", width: props.clientWidth }} className="list">
+                {transitions.map(({ item, props: { xy, ...rest } }, index) => (
+                    <animated.div key={`list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                        <AnimatedCard
+                            item={item}
+                            index={index}
+                            mobile={props.mobile}
+                            theme={props.theme}
+                            activePage={props.activePage}
+                            handleCardClick={(index) => props.handleCardClick(index)}
+                            handleActiveCard={(item) => props.handleActiveCard(item)}
+                            width={width}
+                        />
+                    </animated.div>
+                ))}
+            </div >
             :
             <div ref={ref} style={{ height: Math.max(...heights), overflow: "hidden", width: props.clientWidth }} className="list">
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (

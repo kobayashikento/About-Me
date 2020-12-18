@@ -21,7 +21,7 @@ const WorkValues = (props) => {
                 {props.content.value}
             </Typography>
             <Typography variant="body1" align="center" style={{
-                width: "max-content", color: props.theme.darkestColor, fontFamily: "'Roboto', sans-serif", width: "100%"
+                width: "max-content", color: props.theme.darkestColor, fontFamily: "'Poppins', sans-serif", width: "100%"
             }}>
                 {props.content.info}
             </Typography>

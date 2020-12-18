@@ -12,7 +12,7 @@ const ResumeParallax = (props) => {
     const open = props.render
     const items = [{
         content: <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            <Typography variant={props.mobile ? "h6" : "h4"} style={{ color: props.theme.lightestColor, fontWeight: "bold", fontFamily: "'Playfair Display', serif" }}>
+            <Typography variant={props.mobile ? "h5" : "h4"} style={{ color: props.theme.lightestColor, fontWeight: "bold", fontFamily: "'Comfortaa', sans-serif" }}>
                 EXPERIENCE
          </Typography>
             <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "12rem", backgroundColor: props.theme.lightestColor }} />

@@ -29,8 +29,8 @@ const MyDescription = React.memo(props => {
 
     const headerItems = [
         {
-            content: <Typography variant={props.mobile ? "h6" : "h4"} style={{
-                width: "max-content", color: props.theme.darkestColor, fontWeight: "400", fontFamily: "'Roboto Mono', monospace",
+            content: <Typography variant={props.mobile ? "h5" : "h4"} style={{
+                width: "max-content", color: props.theme.darkestColor, fontWeight: "bold", fontFamily: "'Poppins', sans-serif",
             }}>ABOUT</Typography>,
             type: 0,
         },
@@ -84,9 +84,139 @@ const MyDescription = React.memo(props => {
     })
     return (
         props.mobile ?
-            <Container>
-
-            </Container>
+            <div style={{ minHeight: "100vh", backgroundColor: props.theme.lightestColor }}>
+                <Grid
+                    container
+                    direction="column"
+                    justify="space-evenly"
+                    alignItems="center"
+                    style={{ minHeight: "100vh", margin: "0px", paddingBottom: "6.6vmax", paddingTop: "6.6vmax", overflow: "hidden" }}
+                >
+                    <Grid item sm={1} xs={1} style={{ display: "flex", alignItems: "center", maxWidth: "min-content", margin: "1rem" }}>
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                            {headerTrail.map(({ x, height, ...rest }, index) => (
+                                <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                                    {headerItems[index].content}
+                                </animated.div>))}
+                        </div>
+                    </Grid>
+                    <Grid item sm={9} xs={3} style={{ display: "flex", alignItems: "center", maxWidth: "90%", margin: "1rem" }}>
+                        <Fade left when={props.second}>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                <img src={restme} style={{
+                                    height: "250px", width: "280px", marginBottom: "2rem"
+                                }} /> <Typography align="center" variant="h6" style={{ width: "80%", fontWeight: "bold", marginBottom: "1rem" }}>
+                                    Hello, I'm Kento Kobayashi
+                                </Typography>
+                                <Typography align="justify" variant="body1" style={{ width: "80%", textIndent: "1rem" }}>
+                                    I recently obtained my Honours Bachelors of Science degree from the University of Toronto with experiences in Application and Web Development.
+                                </Typography>
+                            </div>
+                        </Fade>
+                    </Grid>
+                    <Grid item xs={4} style={{maxWidth: "90%", paddingTop: "6.6vmax"}}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                            spacing={3}
+                        >
+                            {trail.map(({ x, height, ...rest }, index) => (
+                                <Grid item xs={6}>
+                                    <animated.div
+                                        key={jobValues[index].key}
+                                        className="trails-text"
+                                        style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${x}px,0)`) }}>
+                                        <animated.div style={{ height }}>
+                                            <WorkValues
+                                                mobile={mobile}
+                                                theme={theme}
+                                                content={jobValues[index]}
+                                            />
+                                        </animated.div>
+                                    </animated.div>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Grid>
+                    <Grid item sm={7} xs={4} style={{ display: "flex", flexDirection: "column", alignItems: "center", transform: "scale(0.6)" }}>
+                        {/* 90 - expert, 67.5 - advanced, 45 - intermediate, 22.5 novice */}
+                        <Fade right when={props.second}>
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"HTML"}
+                                percentage={90}
+                                delay={700}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"CSS"}
+                                percentage={90}
+                                delay={800}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"JavaScript"}
+                                percentage={90}
+                                delay={900}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"React"}
+                                percentage={67.5}
+                                delay={1000}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"Swift"}
+                                percentage={67.5}
+                                delay={1100}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"Node.js"}
+                                percentage={45}
+                                delay={1200}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"MongoDB"}
+                                percentage={45}
+                                delay={1300}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"Liquid"}
+                                percentage={45}
+                                delay={1400}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"UI Design"}
+                                percentage={45}
+                                delay={1500}
+                            />
+                            <ExperienceBar
+                                render={props.second}
+                                theme={props.theme}
+                                name={"Vue JS"}
+                                percentage={22.5}
+                                delay={1600}
+                            />
+                        </Fade>
+                    </Grid>
+                </Grid >
+            </div >
             :
             <div style={{ minHeight: "100vh", backgroundColor: props.theme.lightestColor }}>
                 <Grid
@@ -94,9 +224,10 @@ const MyDescription = React.memo(props => {
                     direction="column"
                     justify="space-evenly"
                     alignItems="center"
-                    style={{ minHeight: "100vh", margin: "0px", paddingBottom: "4rem", overflow:"hidden" }}
+                    style={{ minHeight: "100vh", margin: "0px", paddingBottom: "6.6vmax", paddingTop: "6.6vmax", overflow: "hidden" }}
+                    spacing={5}
                 >
-                    <Grid item sm={1} xs={12} style={{ display: "flex", alignItems: "center", maxWidth: "min-content", margin: "1rem", marginTop: "3rem" }}>
+                    <Grid item sm={1} xs={12} style={{ display: "flex", alignItems: "center", maxWidth: "min-content", margin: "1rem" }}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                             {headerTrail.map(({ x, height, ...rest }, index) => (
                                 <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
@@ -218,7 +349,7 @@ const MyDescription = React.memo(props => {
                                         percentage={45}
                                         delay={1500}
                                     />
-                                       <ExperienceBar
+                                    <ExperienceBar
                                         render={props.second}
                                         theme={props.theme}
                                         name={"Vue JS"}

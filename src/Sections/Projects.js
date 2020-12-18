@@ -24,12 +24,12 @@ const Projects = React.memo(props => {
     const firstImgRef = React.useRef(null);
     const secondProjectRef = React.useRef(null);
     const secondImgRef = React.useRef(null);
-
+    const mobile = props.mobile
 
     const headerItems = [
         {
-            content: <Typography variant={props.mobile ? "h6" : "h4"} style={{
-                width: "max-content", color: props.theme.darkestColor, fontWeight: "400", fontFamily: "'Roboto Mono', monospace",
+            content: <Typography variant={props.mobile ? "h5" : "h4"} style={{
+                width: "max-content", color: props.theme.darkestColor, fontWeight: "bold", fontFamily: "'Poppins', sans serif",
             }}>
                 PROJECTS
             </Typography>,
@@ -43,9 +43,8 @@ const Projects = React.memo(props => {
 
     const shopifyProject = [
         {
-            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{
-                fontFamily: "'Montserrat', sans-serif",
-                marginTop: props.mobile ? "2rem" : "", paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "400"
+            content: <Typography variant={props.mobile ? "h6" : "h5"} style={{
+                fontFamily: "'Montserrat', sans-serif", paddingLeft: props.mobile ? "" : "1rem", color: props.theme.priColor, fontWeight: "400"
             }}>MyHealthyFamily</Typography>,
             key: 0
         },
@@ -58,9 +57,8 @@ const Projects = React.memo(props => {
         },
         {
             content:
-                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: "translate(1rem)", width: props.mobile ? "95%" : "90%" }}>
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: mobile ? "" : "translate(1rem)", width: props.mobile ? "" : "90%" }}>
                     <Typography variant={"body1"} align="left" style={{
-                        fontFamily: "'Roboto', sans-serif",
                         padding: "1rem", color: props.theme.priTxtColor
                     }}>
                         Added more functionalities to the already existing limitations on the Shopify service. Made some minor changes such as layout size, location, font size, and color to major changes that required knowledge in JavaScript such as implementing the on hover navigation drop down and scroll bar that changes the color of the lighted mirrors instead of the 3 static pictures.
@@ -100,24 +98,23 @@ const Projects = React.memo(props => {
 
     const firstProject = [
         {
-            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{
+            content: <Typography variant={props.mobile ? "h6" : "h5"} style={{
                 fontFamily: "'Montserrat', sans-serif",
-                marginTop: props.mobile ? "2rem" : "", paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "400"
+                marginTop: props.mobile ? "2rem" : "", paddingLeft: props.mobile ? "" : "1rem", color: props.theme.priColor, fontWeight: "400"
             }}>UAssist</Typography>,
             key: 0
         },
         {
             content: <Typography variant={"body2"} style={{
                 fontFamily: "'Montserrat', sans-serif",
-                paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
+                paddingLeft: props.mobile ? "" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
             }}>CSC309 Project</Typography>,
             key: 1
         },
         {
             content:
-                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: "translate(1rem)", width: props.mobile ? "95%" : "90%" }}>
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: props.mobile ? "" : "translate(1rem)", width: props.mobile ? "" : "90%" }}>
                     <Typography variant={"body1"} align="left" style={{
-                        fontFamily: "'Roboto', sans-serif",
                         padding: "1rem", color: props.theme.priTxtColor
                     }}>
                         Website that provides a user interface for course selections and provides schedule recommendations such as least amount of time spent on campus, time between each course, and travel time between courses.
@@ -157,15 +154,15 @@ const Projects = React.memo(props => {
 
     const secondProject = [
         {
-            content: <Typography variant={props.mobile ? "body1" : "h5"} style={{
-                fontFamily: "'Montserrat', sans-serif", paddingLeft: props.mobile ? "1rem" : "1rem", color: props.theme.priColor, fontWeight: "400"
+            content: <Typography variant={props.mobile ? "h6" : "h5"} style={{
+                fontFamily: "'Montserrat', sans-serif", paddingLeft: props.mobile ? "" : "1rem", color: props.theme.priColor, fontWeight: "400"
             }}>Routine Recorder</Typography>,
             key: 0
         },
         {
             content: <Typography variant={"body2"} style={{
                 fontFamily: "'Montserrat', sans-serif",
-                paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
+                paddingLeft: props.mobile ? "" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
             }}>Personal Project</Typography>,
             key: 1
         },
@@ -259,9 +256,10 @@ const Projects = React.memo(props => {
             direction="column"
             justify="center"
             alignItems="center"
-            style={{ minHeight: "100vh", margin: "0px", paddingBottom: "4rem", overflow: "hidden" }}
+            style={{ minHeight: "100vh", margin: "0px", paddingBottom: "6.6vmax", paddingTop: "6.6vmax", overflow: "hidden", width: props.mobile ? "100vw" : "" }}
+            spacing={5}
         >
-            <Grid item sm={1} style={{ margin: "1rem", marginTop: "3rem" }}>
+            <Grid item sm={1} style={{ margin: props.mobile ? "" : "1rem" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
                     {headerTrail.map(({ x, height, ...rest }, index) => (
                         <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
@@ -269,60 +267,85 @@ const Projects = React.memo(props => {
                         </animated.div>))}
                 </div>
             </Grid>
-            <Grid item sm={5} style={{ maxWidth: "70%", margin: "2rem" }} >
+            <Grid item sm={5} xs={5} style={{ maxWidth: props.mobile ? "100%" : "70%", margin: props.mobile ? "" : "2rem" }} >
                 <Grid
                     container
                     alignItems="center"
                     direction="row"
                     spacing={3}
                 >
-                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
+                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1" }}>
                         {shopTrans.map(({ item, props, key }) =>
                             <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
                         )}
                     </Grid>
-                    <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: props.mobile ? "center" : "flex-end" }}>
                         {firstImgTrans.map(({ item, props, key }) => item &&
                             <animated.div key={`firstImgTrans${key}`} style={props}>
                                 <img src={shopifyImg} style={{
-                                    width: "500px", borderRadius: "5px",
+                                    width: mobile ? "100%" : "500px", borderRadius: "5px"
                                 }} />
                             </animated.div>
                         )}
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item sm={5} style={{ maxWidth: "70%", margin: "2rem" }}>
-                <Grid
-                    container
-                    alignItems="center"
-                    direction="row"
-                    spacing={3}
-                >
-                    <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
-                        {secondImgTrans.map(({ item, props, key }) => item &&
-                            <animated.div key={`secondImgTrans${key}`} style={props}>
-                                <img src={sample1} style={{
-                                    width: "500px", borderRadius: "5px", marginLeft: "1rem",
-                                }} />
-                            </animated.div>
-                        )}
-                    </Grid>
-                    <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", zIndex: "1" }}>
-                        {secondTrans.map(({ item, props, key }) =>
-                            <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
-                        )}
-                    </Grid>
-                </Grid>
+            <Grid item sm={5} xs={5} style={{ maxWidth: props.mobile ? "100%" : "70%", margin: props.mobile ? "" : "2rem" }}>
+                {
+                    mobile ?
+                        <Grid
+                            container
+                            alignItems="center"
+                            direction="row"
+                            spacing={3}
+                        >
+                            <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "center", zIndex: "1" }}>
+                                {secondTrans.map(({ item, props, key }) =>
+                                    <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
+                                )}
+                            </Grid>
+                            <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
+                                {secondImgTrans.map(({ item, props, key }) => item &&
+                                    <animated.div key={`secondImgTrans${key}`} style={props}>
+                                        <img src={sample1} style={{
+                                            width: "100%", borderRadius: "5px"
+                                        }} />
+                                    </animated.div>
+                                )}
+                            </Grid>
+                        </Grid>
+                        :
+                        <Grid
+                            container
+                            alignItems="center"
+                            direction="row"
+                            spacing={3}
+                        >
+                            <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
+                                {secondImgTrans.map(({ item, props, key }) => item &&
+                                    <animated.div key={`secondImgTrans${key}`} style={props}>
+                                        <img src={sample1} style={{
+                                            width: "500px", borderRadius: "5px", marginLeft: "1rem",
+                                        }} />
+                                    </animated.div>
+                                )}
+                            </Grid>
+                            <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", zIndex: "1" }}>
+                                {secondTrans.map(({ item, props, key }) =>
+                                    <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
+                                )}
+                            </Grid>
+                        </Grid>
+                }
             </Grid>
-            <Grid item sm={5} style={{ maxWidth: "70%", margin: "2rem" }} >
+            <Grid item sm={5} xs={5} style={{ maxWidth: props.mobile ? "100%" : "70%", margin: props.mobile ? "" : "2rem" }} >
                 <Grid
                     container
                     alignItems="center"
                     direction="row"
                     spacing={3}
                 >
-                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", zIndex: "1" }}>
+                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1" }}>
                         {firstTrans.map(({ item, props, key }) =>
                             <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
                         )}
@@ -331,7 +354,7 @@ const Projects = React.memo(props => {
                         {firstImgTrans.map(({ item, props, key }) => item &&
                             <animated.div key={`firstImgTrans${key}`} style={props}>
                                 <img src={UAssist} style={{
-                                    width: "500px", borderRadius: "5px",
+                                    width: mobile ? "100%" : "500px", borderRadius: "5px",
                                 }} />
                             </animated.div>
                         )}

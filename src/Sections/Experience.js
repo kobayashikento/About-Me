@@ -12,14 +12,15 @@ import { Grid } from '@material-ui/core';
 const Experience = (props) => {
 
     return (
-        <div style={{ backgroundColor: props.theme.darkColor, minHeight: "100vh", paddingBottom: "4rem" }}>
+        <div style={{ backgroundColor: props.theme.darkColor, minHeight: "100vh", paddingBottom: "7.5vmax", paddingTop: "6.6vmax" }}>
             <Grid
                 container
                 direction="column"
                 justify="center"
                 alignItems="center"
+                spacing={5}
             >
-                <Grid item sm={1} style={{ marginTop: "3rem" }}>
+                <Grid item sm={1}>
                     <ResumeParallax
                         mobile={props.mobile}
                         cardIndex={props.cardIndex}

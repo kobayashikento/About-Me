@@ -16,14 +16,89 @@ const ResumeDetails = (props) => {
         props.handleDetailsChange()
     }
 
-    const StyledTypography = withStyles(({
-        root: {
-            fontWeight: "bold"
-        },
-    }))(Typography)
-
     return (
-        props.activeCard !== null ?
+        props.activeCard !== null ? props.mobile ?
+            <div style={{
+                backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", width: "90%", top: "0%", left: "50%", transform: "translate(-50%, 0%)", position: "absolute"
+            }}>
+                {/* Header  */}
+                <Grid
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="center"
+                    style={{ marginTop: "16px",  marginBottom: "6.6vmax", width: "100%"}}
+                    spacing={3}
+                >
+                    <Grid item xs={3} style={{ margin: "0px", marginLeft: "1rem", display: "flex", alignItems: "center", justifyContent: "center" }} >
+                        <img alt={`${props.activeCard.title}img`} src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
+                    </Grid>
+                    <Grid item xs={7} style={{ margin: "0px", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }} >
+                        <Typography variant={props.mobile ? "body1" : "h5"} style={{ margin: "2px", fontWeight: "bold", fontFamily: "'Comfortaa', sans-serif" }}>
+                            {props.activeCard.title}
+                        </Typography>
+                        <Typography variant={props.mobile ? "body2" : "h6"} style={{ margin: "2px", fontFamily: "'Comfortaa', sans-serif" }}>
+                            {props.activeCard.titleDescription}
+                        </Typography>
+                        <Typography variant={props.mobile ? "body2" : "body1"} style={{ margin: "2px", fontFamily: "'Comfortaa', sans-serif" }}>
+                            {props.activeCard.date}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={1} style={{ margin: "0px", display: "flex", alignSelf: "flex-start", paddingRight: "1rem" }}>
+                        <IconButton size="small" style={{ height: "fit-content", marginTop: "8px" }} onClick={() => handleClick()}>
+                            <CancelIcon />
+                        </IconButton>
+                    </Grid>
+                </Grid>
+                <div style={{ whiteSpace: "pre-wrap", textIndent: props.mobile ? "1rem" : "2rem", margin: props.mobile ? "" : "2rem" }}>
+                    <Typography variant="body2" style={{ margin: "8px", fontFamily: "'Roboto', sans-serif" }} align="justify">
+                        {props.activeCard.bodySummary.split("\n").map((i, key) => {
+                            // Create link by detecting \r
+                            if (key === 0) {
+                                return null;
+                            } else if (/\r/.test(i)) {
+                                let match1 = /^[^\r]+/.exec(i)
+                                let match2 = /\r(.*)/.exec(i)
+                                return (
+                                    <div key={`${props.activeCard.title}link${key}`}>
+                                        {match1}
+                                        <a href={match2} style={{ textDecoration: "none" }}>{props.activeCard.urlDescription}</a>
+                                    </div>
+                                )
+                            } else if (/\f/.test(i)) {
+                                // make colums 1, when size is less than xs
+                                return (
+                                    <ul style={{ columns: matches ? "2" : "1", margin: props.mobile ? "" : "1rem", paddingBottom: "1rem", textAlign: "left" }}>
+                                        {i.split("\v").map((item, index) => {
+                                            if (index !== 0) {
+                                                return (
+                                                    <li style={{ textIndent: "-1em", padding: "0px 0 10px 20px" }} key={`listitem${index}`}>{item}</li>
+                                                )
+                                            } else {
+                                                return null
+                                            }
+                                        })}
+                                    </ul>
+                                )
+                            } else if (key === 1) {
+                                return <p style={{ backgroundColor: "rgb(240, 247, 238)", borderRadius: "3px", padding: "8px" }} key={`${props.activeCard.title}summaryParagraph${key}`}>{i}</p>;
+                            } else {
+                                return <p style={{ padding: "8px" }} key={`${props.activeCard.title}paragraph${key}`}>{i}</p>;
+                            }
+                        })}
+                    </Typography>
+                    {props.activeCard.additionalImage === true ?
+                        <div style={{paddingBottom: "6.6vmax"}}>
+                            <Divider style={{ marginTop: "3rem" }} variant="middle" />
+                            <ImageCarousel
+                                mobile={props.mobile}
+                                srcs={props.activeCard.additionalSrc}
+                            />
+                        </div>
+                        : null}
+                </div>
+            </div>
+            :
             <div style={{
                 backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem", width: "960px", top: "0%", left: "50%", transform: "translate(-50%, 0%)", position: "absolute"
             }}>
@@ -32,31 +107,31 @@ const ResumeDetails = (props) => {
                     container
                     direction="row"
                     justify="space-between"
-                    alignItems="flex-start"
+                    alignItems="center"
                     style={{ marginTop: "16px" }}
                 >
                     <Grid item xs={3} style={{ margin: "0px", marginLeft: "2rem", display: "flex", alignItems: "center", justifyContent: "center" }} >
                         <img alt={`${props.activeCard.title}img`} src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
                     </Grid>
                     <Grid item xs={7} style={{ margin: "0px", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }} >
-                        <StyledTypography variant={props.mobile ? "h6" : "h5"} style={{ margin: "4px", fontWeight: "bold", fontFamily: "'Comfortaa', sans-serif" }}>
+                        <Typography variant={props.mobile ? "h6" : "h5"} style={{ margin: "4px", fontWeight: "bold", fontFamily: "'Comfortaa', sans-serif" }}>
                             {props.activeCard.title}
-                        </StyledTypography>
-                        <Typography variant={props.mobile ? "body1" : "h6"} style={{ margin: "4px", fontFamily: "'Comfortaa', sans-serif"  }}>
+                        </Typography>
+                        <Typography variant={props.mobile ? "body1" : "h6"} style={{ margin: "4px", fontFamily: "'Comfortaa', sans-serif" }}>
                             {props.activeCard.titleDescription}
                         </Typography>
-                        <Typography variant={props.mobile ? "body2" : "body1"} style={{ margin: "4px", fontFamily: "'Comfortaa', sans-serif"  }}>
+                        <Typography variant={props.mobile ? "body2" : "body1"} style={{ margin: "4px", fontFamily: "'Comfortaa', sans-serif" }}>
                             {props.activeCard.date}
                         </Typography>
                     </Grid>
-                    <Grid item xs={1} style={{ margin: "0px", display: "flex" }}>
+                    <Grid item xs={1} style={{ margin: "0px", display: "flex", alignSelf: "flex-start" }}>
                         <IconButton size="small" style={{ height: "fit-content", marginTop: "8px" }} onClick={() => handleClick()}>
                             <CancelIcon />
                         </IconButton>
                     </Grid>
                 </Grid>
                 <div style={{ whiteSpace: "pre-wrap", textIndent: props.mobile ? "1rem" : "2rem", margin: props.mobile ? "" : "2rem" }}>
-                    <Typography variant="body1" style={{ margin: "8px", fontFamily: "'Roboto', sans-serif"  }} align="justify">
+                    <Typography variant="body1" style={{ margin: "8px", fontFamily: "'Poppins', sans-serif" }} align="justify">
                         {props.activeCard.bodySummary.split("\n").map((i, key) => {
                             // Create link by detecting \r
                             if (key === 0) {
@@ -96,6 +171,7 @@ const ResumeDetails = (props) => {
                         <div>
                             <Divider style={{ marginTop: "3rem" }} variant="middle" />
                             <ImageCarousel
+                                mobile={props.mobile}
                                 srcs={props.activeCard.additionalSrc}
                             />
                         </div>

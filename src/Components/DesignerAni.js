@@ -7,7 +7,7 @@ const DesignerAni = (props) => {
     let dashOffset = dashLen
     const speed = 20;
     const txt = "Designer";
-    let x = 70;
+    let x = 90;
     let i = 0;
 
     React.useEffect(() => {

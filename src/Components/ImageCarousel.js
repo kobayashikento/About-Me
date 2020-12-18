@@ -35,10 +35,10 @@ const ImageCarousel = (props) => {
             {imgs.map((src, key) => {
                 return (
                     <div style={{ display: key === index - 1 ? "" : "none", margin: "1rem" }}>
-                        <Typography key={`carouselimg${key}-descrip`} variant="h6" >
+                        <Typography key={`carouselimg${key}-descrip`} variant={props.mobile ? "body1" : "h6"} >
                             {src.description}
                         </Typography>
-                        <Typography key={`carouselimg${key}-subtitle`} variant="body1">
+                        <Typography key={`carouselimg${key}-subtitle`} variant={props.mobile ? "body2" : "body1"}>
                             {src.subtitle}
                         </Typography>
                     </div>
@@ -48,8 +48,7 @@ const ImageCarousel = (props) => {
                 {imgs.map((src, key) => {
                     return (
                         <Carousel.Item key={`carousel${key}`} style={{ cursor: "pointer" }} onClick={handleOpen} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-                            <img src={src.src} className={hover ? "imageHover" : "image"} alt="" />
-                            <Typography className={hover ? "overlay" : "overlayHide"} variant="h6">View Image</Typography>
+                            <img src={src.src} style={{ maxWidth: "-webkit-fill-available" }} className={hover ? "imageHover" : "image"} alt="" />
                         </Carousel.Item>
                     )
                 })}

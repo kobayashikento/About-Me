@@ -73,16 +73,15 @@ const Home = React.memo(props => {
     // condition that changes parallax size depending on the window size
     // if its 1500px or higher, then keep layout size at 4 
     const lgUp = useMediaQuery('(min-width:1440px)');
-    const mdUp = useMediaQuery('(min-width:1024px)');
     const theme = useTheme();
-    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    let mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [open, setOpen] = React.useState(true);
     const [cardIndex, setCardIndex] = React.useState(0);
     const [activePage, setActivePage] = React.useState(0);
     const [showNav, setShowNav] = React.useState(false);
     const [firstRender, setFirstRender] = React.useState(true);
     const [colorScheme, setTheme] = React.useState(themes[0]);
-    const [clientWidth, setClientWidth] = React.useState(window.innerWIdth);
+    const [clientWidth, setClientWidth] = React.useState(window.innerWidth);
     // animation timing based on scroll position
     const [first, setFirst] = React.useState(false)
     const [second, setSecond] = React.useState(false);
@@ -172,10 +171,6 @@ const Home = React.memo(props => {
         };
     }, []);
 
-    // Handle when button on the nav menu is clicked 
-    const handleNavClick = (index) => {
-    }
-
     // Detect esc buttton to close modal 
     const escFunction = React.useCallback((event) => {
         if (event.keyCode === 27) {
@@ -251,75 +246,129 @@ const Home = React.memo(props => {
             smooth: true,
         })
     }
+
+    // Handle when button on the nav menu is clicked 
+    const handleNavClick = (index) => {
+        switch (index) {
+            case 0: 
+            scroller.scrollTo('introduction', {
+                duration: 1500,
+                delay: 100,
+                smooth: true,
+            })
+            break;
+            case 1: 
+            scroller.scrollTo('description', {
+                duration: 1500,
+                delay: 100,
+                smooth: true,
+            })
+            break;
+            case 2: 
+            scroller.scrollTo('experience', {
+                duration: 1500,
+                delay: 100,
+                smooth: true,
+            })
+            break;
+            case 3: 
+            scroller.scrollTo('projects', {
+                duration: 1500,
+                delay: 100,
+                smooth: true,
+            })
+            break;
+            case 4: 
+            scroller.scrollTo('aboutme', {
+                duration: 1500,
+                delay: 100,
+                smooth: true,
+            })
+            break;
+            case 5: 
+            scroller.scrollTo('contact', {
+                duration: 1500,
+                delay: 100,
+                smooth: true,
+            })
+            break;
+        }
+    }
+
     return (
         <div ref={body} style={{ overflow: "hidden" }}>
-            {/* Main Content area animated with parallax */}
-            <Transition
-                items={showNav}
-                config={{ duration: 500 }}
-                from={{ position: "fixed", opacity: 0, transform: "translate(0, -100px)", zIndex: 0 }}
-                enter={{ opacity: 1, transform: "translate(0, 0px)", zIndex: 20 }}
-                leave={i => async (next, cancel) => {
-                    await next({ opacity: 0, transform: "translate(0, -100px)", zIndex: 20 })
-                    await next({ opacity: 0, transform: "translate(0, 0px)", zIndex: 0 })
-                }}
-            >
-                {showNav => showNav && (prop =>
-                    <animated.div onMouseEnter={() => setShowNav(true)} onMouseLeave={() => setShowNav(false)}
-                        style={{
-                            ...prop, height: "54px", display: "flex", backgroundColor: colorScheme.lightestColor, top: "0px", width: "-webkit-fill-available",
-                        }}>
-                        <Link onMouseEnter={() => setNavHover(1)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(0)}
-                            activeClass="active" className="introduction" to="introduction" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", marginLeft: "1rem", textDecoration: "none" }} >
-                            <Typography variant="body1" style={{ color: navHover === 1 ? colorScheme.stdColor : navIndex === 0 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
-                                HOME
-                    </Typography>
-                        </Link>
-                        <Link onMouseEnter={() => setNavHover(2)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(1)}
-                            activeClass="active" className="description" to="description" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
-                            <Typography variant="body1" style={{ color: navHover === 2 ? colorScheme.stdColor : navIndex === 1 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
-                                ABOUT
-                    </Typography>
-                        </Link>
-                        <Link onMouseEnter={() => setNavHover(3)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(2)}
-                            activeClass="active" className="experience" to="experience" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
-                            <Typography variant="body1" style={{ color: navHover === 3 ? colorScheme.stdColor : navIndex === 2 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
-                                EXPERIENCE
-                    </Typography>
-                        </Link>
-                        <Link onMouseEnter={() => setNavHover(4)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(3)}
-                            activeClass="active" className="projects" to="projects" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
-                            <Typography variant="body1" style={{ color: navHover === 4 ? colorScheme.stdColor : navIndex === 3 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
-                                PROJECTS
-                    </Typography>
-                        </Link>
-                        <Link onMouseEnter={() => setNavHover(5)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(4)}
-                            activeClass="active" className="aboutme" to="aboutme" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
-                            <Typography variant="body1" style={{ color: navHover === 5 ? colorScheme.stdColor : navIndex === 4 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
-                                PERSONAL
-                    </Typography>
-                        </Link>
-                        <div style={{ marginLeft: "auto", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                            <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} >
-                                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: colorScheme.stdColor }} />
-                            </div>
-                            <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-                                <LinkedInIcon className="icon" style={{ color: colorScheme.stdColor }} />
-                            </div>
-                            <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-                                <MailIcon className="icon" style={{ color: colorScheme.stdColor }} />
-                            </div>
-                            <Link onMouseEnter={() => setNavHover(6)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(5)}
-                                activeClass="active" className="contact" to="contact" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
-                                <Typography variant="body1" style={{ color: navHover === 6 ? colorScheme.stdColor : navIndex === 5 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
-                                    CONTACT
+            {mobile ?
+                <NavBar
+                    theme={colorScheme}
+                    handleNavClick={(index) => handleNavClick(index)}
+                />
+                :
+                < Transition
+                    items={showNav}
+                    config={{ duration: 500 }}
+                    from={{ position: "fixed", opacity: 0, transform: "translate(0, -100px)", zIndex: 0 }}
+                    enter={{ opacity: 1, transform: "translate(0, 0px)", zIndex: 20 }}
+                    leave={i => async (next, cancel) => {
+                        await next({ opacity: 0, transform: "translate(0, -100px)", zIndex: 20 })
+                        await next({ opacity: 0, transform: "translate(0, 0px)", zIndex: 0 })
+                    }}
+                >
+                    {showNav => showNav && (prop =>
+                        <animated.div onMouseEnter={() => setShowNav(true)} onMouseLeave={() => setShowNav(false)}
+                            style={{
+                                ...prop, height: "54px", display: "flex", backgroundColor: colorScheme.lightestColor, top: "0px", width: "-webkit-fill-available",
+                            }}>
+                            <Link onMouseEnter={() => setNavHover(1)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(0)}
+                                activeClass="active" className="introduction" to="introduction" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", marginLeft: "1rem", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 1 ? colorScheme.stdColor : navIndex === 0 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    HOME
                     </Typography>
                             </Link>
-                        </div>
-                    </animated.div>
-                )}
-            </Transition>
-
+                            <Link onMouseEnter={() => setNavHover(2)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(1)}
+                                activeClass="active" className="description" to="description" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 2 ? colorScheme.stdColor : navIndex === 1 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    ABOUT
+                    </Typography>
+                            </Link>
+                            <Link onMouseEnter={() => setNavHover(3)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(2)}
+                                activeClass="active" className="experience" to="experience" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 3 ? colorScheme.stdColor : navIndex === 2 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    EXPERIENCE
+                    </Typography>
+                            </Link>
+                            <Link onMouseEnter={() => setNavHover(4)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(3)}
+                                activeClass="active" className="projects" to="projects" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 4 ? colorScheme.stdColor : navIndex === 3 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    PROJECTS
+                    </Typography>
+                            </Link>
+                            <Link onMouseEnter={() => setNavHover(5)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(4)}
+                                activeClass="active" className="aboutme" to="aboutme" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 5 ? colorScheme.stdColor : navIndex === 4 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    PERSONAL
+                    </Typography>
+                            </Link>
+                            <div style={{ marginLeft: "auto", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                                    <GitHubIcon className="icon" style={{ borderRadius: "50%", color: colorScheme.stdColor }} />
+                                </div>
+                                <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                                    <LinkedInIcon className="icon" style={{ color: colorScheme.stdColor }} />
+                                </div>
+                                <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                                    <MailIcon className="icon" style={{ color: colorScheme.stdColor }} />
+                                </div>
+                                <Link onMouseEnter={() => setNavHover(6)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(5)}
+                                    activeClass="active" className="contact" to="contact" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                    <Typography variant="body1" style={{ color: navHover === 6 ? colorScheme.stdColor : navIndex === 5 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                        CONTACT
+                    </Typography>
+                                </Link>
+                            </div>
+                        </animated.div>
+                    )}
+                </Transition>
+            }
             <Element name="introduction" className="element" isDynamic={true} >
                 <Introduction
                     mobile={mobile}
@@ -328,9 +377,6 @@ const Home = React.memo(props => {
                     handleProjClick={() => handleProjClick()}
                     navIndex={navIndex}
                 />
-                {/* <div style={{height: "100vh"}}>
-                    hello
-                </div> */}
             </Element>
             <Element name="description" className="element" isDynamic={true} ref={desRef}>
                 <MyDescription
@@ -363,11 +409,6 @@ const Home = React.memo(props => {
             </Element>
             <Element name="aboutme" className="element" isDynamic={true} ref={aboutRef}>
                 <AboutMe
-                    mobile={mobile}
-                    render={fith}
-                    theme={colorScheme}
-                />
-                <AboutMeSecond
                     mobile={mobile}
                     render={fith}
                     theme={colorScheme}
@@ -406,22 +447,6 @@ const Home = React.memo(props => {
                         </div>)}
                 </Transition>
             </Modal>
-            {/* SideIcons */}
-            {/* <div style={{ position: "absolute", padding: "8px", bottom: "0px", left: "0px", zIndex: "1" }}>
-                <SideIcons
-                    theme={colorScheme}
-                    open={open}
-                    mobile={mobile}
-                    side={false}
-                />
-            </div> */}
-            {/* Navigation Arrow on the side */}
-            {/* <ToTop
-                theme={colorScheme}
-                handleTopClick={() => handleTopClick()}
-                showNav={showNav}
-                mobile={mobile}
-            /> */}
         </div >
     )
 })

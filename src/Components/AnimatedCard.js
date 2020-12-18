@@ -64,21 +64,21 @@ const AnimatedCard = (props) => {
             {
                 hover ?
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly", height: "100%" }}>
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", margin: "1rem" }}>
-                            <Typography align="center" variant="h5" style={{
-                                color: textColor, fontWeight: "400", fontFamily: "'Comfortaa', sans-serif", padding: "4px"
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", margin: props.mobile ? "0rem" : "1rem" }}>
+                            <Typography align="center" variant={props.mobile ? "h6" : "h5"} style={{
+                                color: textColor, fontWeight: props.mobile ? "bold" : "400", fontFamily: "'Comfortaa', sans-serif", padding: "4px"
                             }}>
                                 {props.item.title}
                             </Typography>
                             <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "1rem", backgroundColor: textColor }} />
-                            <Typography variant="body1" style={{
-                                color: textColor, fontFamily: "'Roboto', sans-serif", padding: "4px"
+                            <Typography variant="body1" align="center" style={{
+                                color: textColor, fontFamily: "'Poppins', sans-serif", padding: "4px"
                             }}>
                                 {props.item.subtitle}
                             </Typography>
                         </div>
-                        <StyledButton variant="outlined" style={{ margin: "1rem" }} onClick={() => handleClick()}>
-                            <Typography variant="body1" style={{ color: textColor, fontWeight: "400", fontFamily: "'Roboto', sans-serif", padding: "4px" }}>
+                        <StyledButton variant="outlined" style={{ margin: props.mobile ? "0" : "1rem" }} onClick={() => handleClick()}>
+                            <Typography variant="body1" style={{ color: textColor, fontWeight: "400", fontFamily: "'Poppins', sans-serif", padding: "4px" }}>
                                 Learn More
                             </Typography>
                         </StyledButton>
@@ -94,7 +94,7 @@ const AnimatedCard = (props) => {
                             }} />
                     </div>
             }
-        </div>
+        </div >
     )
 }
 
