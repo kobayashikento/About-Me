@@ -415,7 +415,7 @@ const NavBar = (props) => {
         <div style={{ position: "fixed", zIndex: "1", width: "100%", height: "56px", background: props.firstRender ? "transparent" : `${props.theme.lightestColor}` }}>
             <React.Fragment key={anchor}>
                 <IconButton onClick={toggleDrawer(true)} style={{ position: "absolute", top: "0px", right: "0px" }}>
-                    <ListIcon fontSize="large"/>
+                    <ListIcon fontSize="large" />
                 </IconButton>
                 <SwipeableDrawer
                     anchor={anchor}
@@ -579,10 +579,10 @@ const Contact = React.memo(props => {
                 direction="column"
                 justify="center"
                 alignItems="center"
-                style={{ margin: "0px", minHeight: "100vh", backgroundColor: props.theme.lightestColor, overflow: "hidden", width: '-webkit-fill-available' }}
+                style={{ paddingTop: "6.6vmax", margin: "0px", minHeight: "100vh", backgroundColor: props.theme.lightestColor, overflow: "hidden", width: '-webkit-fill-available' }}
                 spacing={5}
             >
-                <Grid item sm={1} style={{ display: "flex", justifyContent: "center", maxWidth: "fit-content" }}>
+                <Grid item sm={1} style={{ display: "flex", justifyContent: "center", maxWidth: "fit-content", maxWidth: "100%", }}>
                     <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "1rem" : "3rem", flexDirection: "column" }}>
                         <Typography variant={props.mobile ? "h6" : "h4"} style={{ color: props.theme.darkestColor, fontWeight: "bold", fontFamily: "'Poppins', sans serif" }}>
                             GET IN TOUCH
@@ -602,12 +602,12 @@ const Contact = React.memo(props => {
                     </Typography>
                     </StyledButton>
                 </Grid>
-                <Grid item sm={2} style={{ maxWidth: "fit-content" }}>
+                <Grid item sm={2} style={{ maxWidth: "fit-content", maxWidth: "100%", }}>
                     <Typography variant="body1" align="center" style={{ color: props.theme.darkestColor }}>
                         These are some potential themes I was considering...
                     </Typography>
                 </Grid>
-                <Grid item sm={2} style={{ maxWidth: "fit-content" }}>
+                <Grid item sm={2} style={{ maxWidth: "100%" }}>
                     <div style={{ display: "flex", flexWrap: "wrap", height: "40px" }}>
                         {props.themes.map((theme, index) => {
                             return (
@@ -618,7 +618,7 @@ const Contact = React.memo(props => {
                         })}
                     </div>
                 </Grid>
-                <Grid item sm={1} style={{ maxWidth: "fit-content" }}>
+                <Grid item sm={1} style={{ maxWidth: "fit-content",  maxWidth: "100%" }}>
                     <Typography variant="body2" align="center" style={{ color: props.theme.darkestColor }}>
                         Based in Toronto, Fueled by coffee :)
             </Typography>

@@ -32,7 +32,7 @@ import Experience from './Experience.js';
 
 // import styles
 import '../Styles/resumeStyle.css';
-import { Typography } from '@material-ui/core';
+import { IconButton, Typography } from '@material-ui/core';
 const emptyShadow = "0 9px 12px 1px rgba(0,0,0,0), 0 3px 16px 2px rgba(0,0,0,0), 0 5px 6px -3px rgba(0,0,0,0)";
 
 // Themes/Color schemes 
@@ -75,7 +75,7 @@ const Home = React.memo(props => {
     const lgUp = useMediaQuery('(min-width:1440px)');
     const theme = useTheme();
     let mobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const [open, setOpen] = React.useState(true);
+    const [showDesc, setShowDesc] = React.useState(true);
     const [cardIndex, setCardIndex] = React.useState(0);
     const [activePage, setActivePage] = React.useState(0);
     const [showNav, setShowNav] = React.useState(false);
@@ -108,7 +108,6 @@ const Home = React.memo(props => {
 
         setAboutMePos(projRef.current.childBindings.domNode.clientHeight);
         // set contact post
-        setContactPos(aboutRef.current.childBindings.domNode.clientHeight);
     }, [activePage, desRef, projRef, aboutRef, lgUp, mobile, window.innerHeight])
 
     React.useEffect(() => {
@@ -250,48 +249,48 @@ const Home = React.memo(props => {
     // Handle when button on the nav menu is clicked 
     const handleNavClick = (index) => {
         switch (index) {
-            case 0: 
-            scroller.scrollTo('introduction', {
-                duration: 1500,
-                delay: 100,
-                smooth: true,
-            })
-            break;
-            case 1: 
-            scroller.scrollTo('description', {
-                duration: 1500,
-                delay: 100,
-                smooth: true,
-            })
-            break;
-            case 2: 
-            scroller.scrollTo('experience', {
-                duration: 1500,
-                delay: 100,
-                smooth: true,
-            })
-            break;
-            case 3: 
-            scroller.scrollTo('projects', {
-                duration: 1500,
-                delay: 100,
-                smooth: true,
-            })
-            break;
-            case 4: 
-            scroller.scrollTo('aboutme', {
-                duration: 1500,
-                delay: 100,
-                smooth: true,
-            })
-            break;
-            case 5: 
-            scroller.scrollTo('contact', {
-                duration: 1500,
-                delay: 100,
-                smooth: true,
-            })
-            break;
+            case 0:
+                scroller.scrollTo('introduction', {
+                    duration: 1500,
+                    delay: 100,
+                    smooth: true,
+                })
+                break;
+            case 1:
+                scroller.scrollTo('description', {
+                    duration: 1500,
+                    delay: 100,
+                    smooth: true,
+                })
+                break;
+            case 2:
+                scroller.scrollTo('experience', {
+                    duration: 1500,
+                    delay: 100,
+                    smooth: true,
+                })
+                break;
+            case 3:
+                scroller.scrollTo('projects', {
+                    duration: 1500,
+                    delay: 100,
+                    smooth: true,
+                })
+                break;
+            case 4:
+                scroller.scrollTo('aboutme', {
+                    duration: 1500,
+                    delay: 100,
+                    smooth: true,
+                })
+                break;
+            case 5:
+                scroller.scrollTo('contact', {
+                    duration: 1500,
+                    delay: 100,
+                    smooth: true,
+                })
+                break;
         }
     }
 
@@ -316,7 +315,7 @@ const Home = React.memo(props => {
                     {showNav => showNav && (prop =>
                         <animated.div onMouseEnter={() => setShowNav(true)} onMouseLeave={() => setShowNav(false)}
                             style={{
-                                ...prop, height: "54px", display: "flex", backgroundColor: colorScheme.lightestColor, top: "0px", width: "-webkit-fill-available",
+                                ...prop, height: "54px", display: "flex", backgroundColor: colorScheme.lightestColor, top: "0px", width: "100%"
                             }}>
                             <Link onMouseEnter={() => setNavHover(1)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(0)}
                                 activeClass="active" className="introduction" to="introduction" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", marginLeft: "1rem", textDecoration: "none" }} >
@@ -340,12 +339,6 @@ const Home = React.memo(props => {
                                 activeClass="active" className="projects" to="projects" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
                                 <Typography variant="body1" style={{ color: navHover === 4 ? colorScheme.stdColor : navIndex === 3 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
                                     PROJECTS
-                    </Typography>
-                            </Link>
-                            <Link onMouseEnter={() => setNavHover(5)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(4)}
-                                activeClass="active" className="aboutme" to="aboutme" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
-                                <Typography variant="body1" style={{ color: navHover === 5 ? colorScheme.stdColor : navIndex === 4 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
-                                    PERSONAL
                     </Typography>
                             </Link>
                             <div style={{ marginLeft: "auto", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
@@ -379,12 +372,20 @@ const Home = React.memo(props => {
                 />
             </Element>
             <Element name="description" className="element" isDynamic={true} ref={desRef}>
-                <MyDescription
-                    render={first}
-                    second={second}
-                    mobile={mobile}
-                    theme={colorScheme}
-                />
+                {showDesc ?
+                    <MyDescription
+                        render={first}
+                        second={second}
+                        mobile={mobile}
+                        theme={colorScheme}
+                    />
+                    :
+                    <AboutMe
+                        mobile={mobile}
+                        render={fith}
+                        theme={colorScheme}
+                    />
+                }
             </Element>
             <Element name="experience" className="element" isDynamic={true} ref={expRef}>
                 <Experience
@@ -404,13 +405,6 @@ const Home = React.memo(props => {
                 <Projects
                     render={forth}
                     mobile={mobile}
-                    theme={colorScheme}
-                />
-            </Element>
-            <Element name="aboutme" className="element" isDynamic={true} ref={aboutRef}>
-                <AboutMe
-                    mobile={mobile}
-                    render={fith}
                     theme={colorScheme}
                 />
             </Element>

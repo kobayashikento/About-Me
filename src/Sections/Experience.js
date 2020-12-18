@@ -28,7 +28,7 @@ const Experience = (props) => {
                         render={props.third}
                     />
                 </Grid>
-                <Grid item sm={1} style={{ display: "flex", justifyContent: "center" }}>
+                <Grid item sm={1} style={{  maxWidth: "100%", display: "flex", justifyContent: "center" }}>
                     <Fade top when={props.third}>
                         <AnimateTimeline
                             mobile={props.mobile}
@@ -38,7 +38,7 @@ const Experience = (props) => {
                         />
                     </Fade>
                 </Grid>
-                <Grid item sm={10} style={{ display: "flex", justifyContent: "center", overflow: "hidden" }}>
+                <Grid item sm={10} style={{ maxWidth: "100%", display: "flex", justifyContent: "center", overflow: "hidden" }}>
                     <Fade bottom when={props.third}>
                         <AnimatedGrid
                             clientWidth={props.clientWidth}

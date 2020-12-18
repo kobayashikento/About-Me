@@ -30,6 +30,11 @@
   }
 }
 
+.navBar { 
+  width: -moz-available;
+  width: -webkit-fill-available;
+}
+
 @-moz-keyframes bounce {
   0%,
   20%,

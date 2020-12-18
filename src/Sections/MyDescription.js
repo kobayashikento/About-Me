@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 
 import Fade from 'react-reveal/Fade';
 
@@ -16,6 +17,8 @@ import DevicesIcon from '@material-ui/icons/Devices';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 import BuildIcon from '@material-ui/icons/Build';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import ExperienceBar from '../Components/ExperienceBar.js';
 import WorkValues from '../Components/WorkValues.js';
@@ -90,7 +93,7 @@ const MyDescription = React.memo(props => {
                     direction="column"
                     justify="space-evenly"
                     alignItems="center"
-                    style={{ minHeight: "100vh", margin: "0px", paddingBottom: "6.6vmax", paddingTop: "6.6vmax", overflow: "hidden" }}
+                    style={{ minHeight: "100vh", width: "100%", margin: "0px", paddingBottom: "6.6vmax", paddingTop: "6.6vmax", overflow: "hidden" }}
                 >
                     <Grid item sm={1} xs={1} style={{ display: "flex", alignItems: "center", maxWidth: "min-content", margin: "1rem" }}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -114,7 +117,7 @@ const MyDescription = React.memo(props => {
                             </div>
                         </Fade>
                     </Grid>
-                    <Grid item xs={4} style={{maxWidth: "90%", paddingTop: "6.6vmax"}}>
+                    <Grid item xs={4} style={{ maxWidth: "90%", paddingTop: "6.6vmax" }}>
                         <Grid
                             container
                             direction="row"
@@ -224,7 +227,7 @@ const MyDescription = React.memo(props => {
                     direction="column"
                     justify="space-evenly"
                     alignItems="center"
-                    style={{ minHeight: "100vh", margin: "0px", paddingBottom: "6.6vmax", paddingTop: "6.6vmax", overflow: "hidden" }}
+                    style={{ minHeight: "100vh", width: "100%", margin: "0px", paddingBottom: "6.6vmax", paddingTop: "6.6vmax", overflow: "hidden" }}
                     spacing={5}
                 >
                     <Grid item sm={1} xs={12} style={{ display: "flex", alignItems: "center", maxWidth: "min-content", margin: "1rem" }}>
