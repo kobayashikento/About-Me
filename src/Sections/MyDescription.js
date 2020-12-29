@@ -23,7 +23,9 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ExperienceBar from '../Components/ExperienceBar.js';
 import WorkValues from '../Components/WorkValues.js';
 
-import { useTrail, animated, useTransition } from 'react-spring';
+import { useTrail, animated, useSpring, interpolate } from 'react-spring';
+
+import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 
 const MyDescription = React.memo(props => {
     const open = props.render;
@@ -85,6 +87,17 @@ const MyDescription = React.memo(props => {
         height: open ? 200 : 0,
         from: { opacity: 0, x: 20, height: 0 },
     })
+
+    const springFace = useSpring({
+        opacity: props.second ? 1 : 0,
+        transform: props.second ? "translate3d(0px, 0, 0)" : "translate3d(-100px, 0, 0)"
+    })
+
+    const springBars = useSpring({
+        opacity: props.second ? 1 : 0,
+        transform: props.second ? "translate3d(0px, 0, 0)" : "translate3d(100px, 0, 0)"
+    })
+
     return (
         props.mobile ?
             <div style={{ minHeight: "100vh", backgroundColor: props.theme.lightestColor }}>
@@ -221,22 +234,20 @@ const MyDescription = React.memo(props => {
                 </Grid >
             </div >
             :
-            <div style={{ minHeight: "100vh", backgroundColor: props.theme.lightestColor }}>
+            <div style={{ minHeight: "100vh", background: "transparent" }}>
                 <Grid
                     container
                     direction="column"
                     justify="space-evenly"
                     alignItems="center"
-                    style={{ minHeight: "100vh", width: "100%", margin: "0px", paddingBottom: "6.6vmax", paddingTop: "6.6vmax", overflow: "hidden" }}
+                    style={{ minHeight: "100vh", width: "100%", margin: "0px", overflow: "hidden", paddingBottom: "6.6vmax" }}
                     spacing={5}
                 >
-                    <Grid item sm={1} xs={12} style={{ display: "flex", alignItems: "center", maxWidth: "min-content", margin: "1rem" }}>
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                            {headerTrail.map(({ x, height, ...rest }, index) => (
-                                <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                    {headerItems[index].content}
-                                </animated.div>))}
-                        </div>
+                    <Grid item sm={1} style={{ display: "flex", alignItems: "center", maxWidth: "min-content", margin: "1rem", flexDirection: "column" }}>
+                        <Typography variant={props.mobile ? "h5" : "h4"} style={{
+                            width: "max-content", color: props.theme.darkestColor, fontWeight: "bold", fontFamily: "'Poppins', sans-serif",
+                        }}>ABOUT</Typography>
+                        <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "5rem", backgroundColor: props.theme.darkestColor }} />
                     </Grid>
                     <Grid item sm={4} style={{ display: "flex", alignItems: "center", maxWidth: "75%", margin: "1rem" }}>
                         <Grid
@@ -273,7 +284,7 @@ const MyDescription = React.memo(props => {
                             spacing={3}
                         >
                             <Grid item sm={5} style={{ display: "flex", flexDirection: "center", alignItems: "center" }}>
-                                <Fade left when={props.second}>
+                                <animated.div style={{ ...springFace, }}>
                                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                         <img src={restme} style={{
                                             height: "250px", width: "280px", marginBottom: "2rem"
@@ -284,11 +295,11 @@ const MyDescription = React.memo(props => {
                                             I recently obtained my Honours Bachelors of Science degree from the University of Toronto with experiences in Application and Web Development.
                                 </Typography>
                                     </div>
-                                </Fade>
+                                </animated.div>
                             </Grid>
                             <Grid item sm={7} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                 {/* 90 - expert, 67.5 - advanced, 45 - intermediate, 22.5 novice */}
-                                <Fade right when={props.second}>
+                                <animated.div style={{ ...springBars, }}>
                                     <ExperienceBar
                                         render={props.second}
                                         theme={props.theme}
@@ -359,12 +370,12 @@ const MyDescription = React.memo(props => {
                                         percentage={22.5}
                                         delay={1600}
                                     />
-                                </Fade>
+                                </animated.div>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-            </div >
+            </div>
     )
 })
 

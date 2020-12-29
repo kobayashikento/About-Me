@@ -5,17 +5,18 @@ const DesignerAni = (props) => {
     const canvasRef = React.useRef(null);
     const dashLen = 220;
     let dashOffset = dashLen
-    const speed = 20;
+    const speed = 19;
     const txt = "Designer";
-    let x = 90;
+    let x = 70;
     let i = 0;
 
     React.useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d')
         context.canvas.width = 360;
-        context.canvas.height = 72;
-        context.font = "3rem Playfair Display, serif";
+        context.canvas.height = 81;
+        //'Indie Flower', cursive
+        context.font = "3.5rem 'Indie Flower', cursive";
         context.lineWidth = 3;
         context.lineJoin = "round";
         context.globalAlpha = 1;
@@ -38,7 +39,7 @@ const DesignerAni = (props) => {
 
         setTimeout(() => {
             loop();
-        }, 1000)
+        }, 0)
     }, []);
 
     return (

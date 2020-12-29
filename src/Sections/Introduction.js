@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Link } from 'react-router-dom';
 
+// import material ui components
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -15,54 +16,82 @@ import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
+// import material ui icons 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ListIcon from '@material-ui/icons/List';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
+import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded';
+import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
+import DescriptionIcon from '@material-ui/icons/Description';
 
-import { useSpring, useChain, useTrail, animated, useTransition } from 'react-spring';
+import { useSpring, useChain, useTrail, animated, useTransition, config } from 'react-spring';
 import { Transition, Spring } from 'react-spring/renderprops';
+
+import { useMove, useGesture } from 'react-use-gesture';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import * as easings from 'd3-ease';
+
+// import typing animation
 import Typist from 'react-typist';
 import 'react-typist/dist/Typist.css';
 
+// import paintbrush animation
 import DesignerAni from '../Components/DesignerAni.js';
 
+// import background animation, i.e. network and fog
 import NET from 'vanta/dist/vanta.net.min';
-import BIRDS from 'vanta/dist/vanta.birds.min';
+import GLOBE from 'vanta/dist/vanta.globe.min';
 import FOG from 'vanta/dist/vanta.fog.min';
 
+// import pictures for description section
 import face from '../Assets/Pictures/chicagome.jpg';
 import montrealme from '../Assets/Pictures/montrealme.jpg';
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
+const phi = 1.6180339887498948482;
 
 const CoderIntro = React.memo(props => {
-    const title = "<Developer/>";
-    const open = true;
+    const [hover, setHover] = React.useState(false)
     const [vantaEffect, setVantaEffect] = React.useState(0);
     const myRef = React.useRef(null);
+    const title = "<Developer/>";
+    const theme = props.theme;
 
+    // background animation settings
     React.useEffect(() => {
         if (!vantaEffect) {
-            setVantaEffect(NET({
+            // setVantaEffect(NET({
+            //     el: myRef.current,
+            //     mouseControls: true,
+            //     touchControls: true,
+            //     gyroControls: false,
+            //     minHeight: props.mobile ? window.innerHeight / 2 : window.innerHeight,
+            //     scale: 1.00,
+            //     scaleMobile: 1.00,
+            //     color: props.theme.lightColor,
+            //     backgroundColor: props.theme.lightestColor,
+            //     points: 4.00,
+            //     maxDistance: 26.00,
+            //     spacing: 13.00
+            // }))
+            setVantaEffect(GLOBE({
                 el: myRef.current,
                 mouseControls: true,
                 touchControls: true,
                 gyroControls: false,
-                minHeight: props.mobile ? 200 : window.innerHeight,
-                minWidth: props.mobile ? window.innerWidth : window.innerWidth / 2,
+                minHeight: 200.00,
+                minWidth: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
                 color: props.theme.lightColor,
-                backgroundColor: props.theme.lightestColor,
-                points: 16.00,
-                maxDistance: 17.00,
-                spacing: 14.00
+                color2: props.theme.darkColor,
+                size: 0.90,
+                backgroundColor: props.theme.lightestColor
             }))
         }
         return () => {
@@ -72,35 +101,17 @@ const CoderIntro = React.memo(props => {
 
     const trail = useTrail(1, {
         config: { mass: 5, tension: 2000, friction: 200 },
-        opacity: open ? 1 : 0,
-        x: open ? 0 : 20,
-        height: open ? 110 : 0,
+        opacity: props.startTrail ? 1 : 0,
+        x: props.startTrail ? 0 : 20,
+        height: props.startTrail ? 110 : 0,
         from: { opacity: 0, x: 20, height: 0 },
-        delay: 1500,
+        delay: 500
     })
-
-    const [hover, setHover] = React.useState(false)
 
     return (
         props.mobile ?
             <div ref={myRef}>
                 <div style={{ alignItems: "center", justifyContent: "center", width: `100vw`, height: "50vh", display: "flex", flexDirection: "column", color: props.theme.darkestColor, fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "1.5rem", }}>
-                    <Typist
-                        startDelay={1000}
-                        avgTypingDelay={150}
-                    >
-                        {title}
-                    </Typist>
-                    {trail.map(({ x, height, ...rest }, index) => (
-                        <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), paddingTop: "2.2vmax" }}>
-                            <Typography variant={"body1"} align="center" style={{
-                                width: "340px",
-                                color: "#010A26", paddingTop: "1rem", fontWeight: "400", opacity: "1"
-                            }}>
-                                Front End Developer who focuses on writing clean, elegant and efficient code.
-</Typography>
-                        </animated.div>
-                    ))}
                 </div>
                 <div style={{ zIndex: "2", marginTop: "1rem", fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", fontWeight: "400", fontFamily: "'Poppins', sans-serif", alignItems: "center" }}>
                     <Typist
@@ -114,47 +125,57 @@ const CoderIntro = React.memo(props => {
                 </div>
             </div>
             :
-            <div ref={myRef} style={{ overflowX: "hidden", transform: `translate3d(${props.pos}px, 0, 0)`, willChange: "transform", }}>
+            <React.Fragment>
                 <div style={{
-                    width: `${window.innerWidth - props.blockSize}px`, display: "flex", height: "100vh", alignItems: "center"
+                    width: `${(props.gRatioA)}px`, zIndex: "-1", overflow: "hidden"
                 }}>
-                    <div style={{ paddingLeft: "5rem", display: "flex", flexDirection: "column", color: props.theme.darkestColor, fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "3rem", }}>
-                        <Typist
-                            startDelay={1000}
-                            avgTypingDelay={150}
-                        >
+                    <div ref={myRef} style={{ height: "100vh" }} />
+                </div>
+                <div style={{
+                    display: "flex", flexDirection: "column", color: props.theme.darkestColor,
+                    fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "3rem", position: "absolute",
+                    top: "50%", transform: `translate(${props.typoDistance}px, -50%)`, opacity: `1`
+                }}>
+                    {props.open ?
+                        <Typist avgTypingDelay={150} onTypingDone={() => props.handleStartTrail()}>
                             {title}
                         </Typist>
-                        {trail.map(({ x, height, ...rest }, index) => (
-                            <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                <Typography variant={props.mobile ? "h6" : "body1"} align="center" style={{
-                                    width: "340px",
-                                    color: "#010A26", paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400", opacity: "1"
-                                }}>
-                                    Front End Developer who focuses on writing clean, elegant and efficient code.
+                        : null
+                    }
+                    {trail.map(({ x, height, ...rest }, index) => (
+                        <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                            <Typography variant={props.mobile ? "h6" : "body1"} align="center" style={{
+                                width: "340px",
+                                color: theme.darkestColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400"
+                            }}>
+                                Front End Developer who specializes in React, Node.JS, and MongoDB.
 </Typography>
-                            </animated.div>
-                        ))}
-                    </div>
-                    <div style={{ marginTop: "1rem", fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", fontWeight: "400", fontFamily: "'Poppins', sans-serif", marginLeft: "auto", paddingRight: "3rem", alignItems: "center" }}>
-                        <Typist
-                            startDelay={1000}
-                            avgTypingDelay={150}
-                        >
-                            See My Experiences
-                        </Typist>
-                        <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleExpClick()}
-                            style={{ margin: "1rem", color: hover ? props.theme.stdColor : props.theme.darkestColor }} />
-                    </div>
+                        </animated.div>
+                    ))}
                 </div>
-            </div>
+                {/* <div style={{
+                    fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", position: "absolute", paddingTop: "3rem",
+                    fontWeight: "400", fontFamily: "'Poppins', sans-serif", alignItems: "center", left: `${props.clientWidth / 2}px`,
+                    top: "50%", transform: "translate(-240px, -50%)",
+                }}>
+                    <Typist
+                        startDelay={1000}
+                        avgTypingDelay={150}
+                    >
+                        See My Experiences
+                        </Typist>
+                    <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleExpClick()}
+                        style={{ margin: "1rem", color: hover ? props.theme.stdColor : props.theme.darkestColor }} />
+                </div> */}
+            </React.Fragment >
     )
 })
 
+//Fog
 const DesignIntro = React.memo(props => {
-    const open = true;
     const [vantaEffect, setVantaEffect] = React.useState(0);
     const myRef = React.useRef(null);
+    const [hover, setHover] = React.useState(false)
 
     React.useEffect(() => {
         if (!vantaEffect) {
@@ -164,13 +185,13 @@ const DesignIntro = React.memo(props => {
                 touchControls: false,
                 gyroControls: false,
                 minHeight: props.mobile ? 200 : window.innerHeight,
-                minWidth: props.mobile ? window.innerWidth : window.innerWidth / 2,
-                highlightColor: props.theme.lightColor,
+                highlightColor: props.theme.lightestColor,
                 midtoneColor: props.theme.darkColor,
-                lowlightColor: props.theme.darkestColor,
-                baseColor: "#000",
-                blurFactor: 0.25,
-                zoom: 0.40
+                lowlightColor: props.theme.lightColor,
+                baseColor: props.theme.darkestColor,
+                blurFactor: (0.37 * (window.innerWidth / 2) / window.innerWidth),
+                zoom: 0.80,
+                speed: 2
             }))
         }
         return () => {
@@ -180,22 +201,23 @@ const DesignIntro = React.memo(props => {
 
     const trail = useTrail(1, {
         config: { mass: 5, tension: 2000, friction: 200 },
-        opacity: open ? 1 : 0,
-        x: open ? 0 : 20,
-        height: open ? 110 : 0,
+        opacity: props.startTrail ? 1 : 0,
+        x: props.startTrail ? 0 : 20,
+        height: props.startTrail ? 110 : 0,
         from: { opacity: 0, x: 20, height: 0 },
-        delay: 1500,
+        delay: 500,
     })
 
-    const [hover, setHover] = React.useState(false)
-
+    //Fog
     return (
         props.mobile ?
             <div
                 ref={myRef} style={{ height: "50vh" }}
             >
                 < div style={{
-                    width: `100vw`, display: "flex", height: "50vh", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden"
+                    width: `100vw`, display: "flex", height: "50vh",
+                    flexDirection: "column", alignItems: "center", justifyContent: "center",
+                    overflow: "hidden",
                 }}
                 >
                     <Typography variant="h5" style={{ fontWeight: "bold", color: props.theme.lightestColor, fontFamily: "'Poppins', sans-serif", zIndex: 2, paddingBottom: "2.2vmax" }}>
@@ -221,117 +243,179 @@ const DesignIntro = React.memo(props => {
                 </div >
             </div>
             :
-            <div style={{ overflowX: "hidden", transform: `translate3d(${props.pos}px,0,0)`, position: "absolute", willChange: "transform" }}>
-                <div
-                    ref={myRef} style={{ height: "100vh" }}
-                >
-                    < div style={{
-                        width: `${window.innerWidth - props.blockSize}px`, display: "flex", height: "100vh", alignItems: "center", justifyContent: "flex-end", overflow: "hidden"
-                    }}
-                    >
-                        <div style={{ marginTop: "1rem", fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", marginRight: "auto", paddingLeft: "3rem", alignItems: "center" }}>
-                            <Typography variant="body1" style={{ fontWeight: "bold", color: props.theme.lightestColor, fontFamily: "'Poppins', sans-serif" }}>
-                                See My Projects
-                        </Typography>
-                            <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleProjClick()}
-                                style={{ margin: "1rem", color: hover ? props.theme.stdColor : props.theme.lightestColor }} />
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", paddingRight: "5rem", justifyContent: "center" }}>
-                            <DesignerAni
-                                theme={props.theme}
-                            />
-                            {
-                                trail.map(({ x, height, ...rest }, index) => (
-                                    <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                        <Typography variant={props.mobile ? "h6" : "body1"} align="center" style={{
-                                            width: "340px", fontFamily: "'Poppins', sans-serif",
-                                            color: "#FFFFFF", paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "bold", opacity: "1"
-                                        }}>
-                                            Aspiring Designer with a passion for designing beautiful user experiences.
-                      </Typography>
-                                    </animated.div>
-                                ))
-                            }
-                        </div>
-                    </div >
+            <React.Fragment>
+                <div ref={myRef} style={{
+                    width: `${(props.gRatioA)}px`, zIndex: "0", height: "100vh", position: "absolute"
+                }}>
+                    <div style={{ display: "flex", height: "100vh", alignItems: "center" }} />
                 </div>
-            </div>
+                <div style={{
+                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                    position: "absolute", top: "50%",
+                    transform: `translate(${props.gRatioA - props.typoDistance}px, -50%)`, zIndex: "1", opacity: `1`
+                }}>
+                    {props.open ?
+                        <DesignerAni
+                            theme={props.theme}
+                        /> : null
+                    }
+                    {
+                        trail.map(({ x, height, ...rest }, index) => (
+                            <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                                <Typography variant={props.mobile ? "h6" : "body1"} align="center" style={{
+                                    width: "340px", fontFamily: "'proxima nova light', 'Helvetica Neue', Helvetica, Arial, Sans-serif",
+                                    color: "#FFFFFF", paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "bold"
+                                }}>
+                                    Aspiring Designer with a passion for designing beautiful user experiences.
+         </Typography>
+                            </animated.div>
+                        ))
+                    }
+                </div>
+                {/* <div style={{
+                    fontSize: "1rem", display: "flex", flexDirection: "column", position: "absolute", paddingTop: "3rem", zIndex: "2",
+                    alignItems: "center", left: `${props.clientWidth / 2}px`, top: "50%", transform: "translate(120px, -50%)", opacity: `${(props.opacity - (props.clientWidth / 4)) / (props.clientWidth / 2)}`
+                }}
+                >
+                    <Typography variant="body1" style={{ fontWeight: "bold", color: props.theme.lightestColor, fontFamily: "'proxima nova light', 'Helvetica Neue', Helvetica, Arial, Sans-serif" }}>
+                        See My Projects
+                        </Typography>
+                    <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleProjClick()}
+                        style={{ margin: "1rem", color: hover ? props.theme.stdColor : props.theme.lightestColor }} />
+                </div> */}
+            </React.Fragment>
     )
 })
 
 const Introduction = React.memo(props => {
-    const theme = props.theme
-    const centerX = window.innerWidth / 2
-    const blockSize = 450;
-    const [mouseDesign, setMouseDesign] = React.useState(-((window.innerWidth - blockSize) - centerX));
-    const [mouseCoder, setMouseCoder] = React.useState(((window.innerWidth - blockSize) - centerX));
-
+    const theme = props.theme;
+    const blockSize = 280;
+    const [initial, setInitial] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
+    const [startTrail, setStartTrail] = React.useState(false);
+    const [bottomNav, setBottomNav] = React.useState(false);
     // for UX purposes need to make it so left and right amout moved to get to the end must be reduced 
     // step 1: divide the total screen by 4 => section 2, 3 is the range where the scroll will move and past section the 
     // mousemove is at max 
     // step 2: map the movement in section 2 and 3 using sqrt to make it so your scroll less towards the end 
     // step 3: convert it into ratios, ratio between the width of the two sections and the width of section 2 and 3. 
 
-    const updateMousePosition = ev => {
-        setTimeout(function () {
-            if (ev.clientY < window.innerHeight && props.navIndex === 0) {
-                if (window.innerWidth / 2 > blockSize) {
-                    // mouse towards right
-                    if (ev.clientX > centerX) {
-                        const sec3end = (window.innerWidth * 0.55);
-                        // if mouse is further than the end of section 3
-                        if (ev.clientX > (sec3end)) {
-                            setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)))
-                            setMouseCoder(0);
-                        } else {
-                            const sec3 = sec3end - window.innerWidth / 2
-                            const mousepos = ev.clientX - window.innerWidth / 2
-                            const perc = mousepos / sec3;
-                            setMouseDesign(-(((window.innerWidth - blockSize) - centerX) + (((window.innerWidth - blockSize) - centerX) * perc)))
-                            setMouseCoder(((window.innerWidth - blockSize) - centerX) - (((window.innerWidth - blockSize) - centerX) * perc));
-                        }
-                        // mouse towards left
-                    } else if (ev.clientX < centerX) {
-                        const sec2beg = (window.innerWidth * 0.45);
-                        if (ev.clientX < sec2beg) {
-                            setMouseDesign(0);
-                            setMouseCoder((((window.innerWidth - blockSize) - centerX) + ((window.innerWidth - blockSize) - centerX)));
-                        } else {
-                            const sec2 = window.innerWidth / 2 - (sec2beg)
-                            const mousepos = window.innerWidth / 2 - (ev.clientX)
-                            const perc = mousepos / sec2;
-                            setMouseDesign(-(((window.innerWidth - blockSize) - centerX) - (((window.innerWidth - blockSize) - centerX) * perc)));
-                            setMouseCoder((((window.innerWidth - blockSize) - centerX) + (((window.innerWidth - blockSize) - centerX) * perc)));
-                        }
+    const handleClick = () => {
+        props.handleArrowClick(1)
+    }
+
+    const handleStartTrail = () => {
+        setStartTrail(true);
+        setTimeout(() => {
+            setBottomNav(true);
+        }, 1500)
+    }
+
+    const spring = useSpring({
+        opacity: bottomNav ? 1 : 0,
+        transform: bottomNav ? "translate3d(0, 0px, 0)" : "translate3d(0, 100px, 0)"
+    })
+
+    const iconSpring = useSpring({
+        opacity: bottomNav ? 1 : 0,
+        transform: bottomNav ? "translate3d(0, 0px, 0)" : "translate3d(0, 100px, 0)"
+    })
+
+    // animated div for left and right mouseover animations 
+    const gRatioA = window.innerWidth / phi;
+    const gRatioB = window.innerWidth - gRatioA;
+    const gRatioAInner = window.innerHeight / phi;
+    // Golden ratio for height 
+    const gRatioBInner = window.innerHeight - gRatioAInner;
+    const designCenter = -((gRatioA) - (window.innerWidth / 2));
+    const designGolden = (window.innerWidth / 2) - gRatioB;
+    const typoLength = 350;
+    const typoDistance = (gRatioB / 2) - (typoLength / 2);
+    const designTypoDistance = (gRatioB / 2) + (typoLength / 2);
+
+    const [scrollX, setScrollX] = React.useState(0);
+    // 0 = left, 1 = right side
+    const { dX } = useSpring({ dX: scrollX, config: config.slow })
+
+    const bind = useMove(({ xy }) =>
+        setTimeout(() => {
+            if (bottomNav) {
+                const center = window.innerWidth / 2;
+                //left side 
+                if (xy[1] < window.innerHeight * 0.85) {
+                    if (xy[0] < center) {
+                        setScrollX(-(center - xy[0]));
+                    } else {
+                        // right side
+                        setScrollX(xy[0] - center);
                     }
                 }
-            } else {
-                setMouseDesign(-((window.innerWidth - blockSize) - centerX));
-                setMouseCoder(((window.innerWidth - blockSize) - centerX));
             }
-        }, 280)
-    };
+        }, 150))
 
-    React.useEffect(() => {
-        setTimeout(() => {
-            window.addEventListener("mousemove", updateMousePosition)
-        }, 2800)
-        return () => window.removeEventListener("mousemove", updateMousePosition);
-    }, []);
+    const designPos = dX.interpolate({
+        range: [-100, 100],
+        output: [`scale3d(0.9, 0.9, 0.5) translate3d(${-designGolden}px,0,0)`, `scale3d(1.1, 1.1, 1) translate3d(${designGolden}px,0,0)`],
+        extrapolate: 'clamp'
+    })
 
-    React.useEffect(() => {
-        if (props.navIndex !== 0) {
-            setMouseDesign(-((window.innerWidth - blockSize) - centerX));
-            setMouseCoder(((window.innerWidth - blockSize) - centerX));
-        }
-    }, [props.navIndex])
+    const designIndex = dX.interpolate({
+        range: [-50, 0],
+        output: [1, 0],
+        extrapolate: 'clamp'
+    })
+
+    const coderIndex = dX.interpolate({
+        range: [0, 50],
+        output: [0, 1],
+        extrapolate: 'clamp'
+    })
+
+    const coderPos = dX.interpolate({
+        range: [-100, 100],
+        output: [`scale3d(1.1, 1.1, 1)  translate3d(${-designGolden}px,0,0)`, `scale3d(0.9, 0.9, 0.5) translate3d(${designGolden}px,0,0)`],
+        extrapolate: 'clamp'
+    })
+
+    const designHeight = dX.interpolate({
+        range: [-100, 0],
+        output: [`${gRatioBInner * 1.2}px`, `${window.innerHeight}px`],
+        extrapolate: 'clamp'
+    })
+
+    const designMargin = dX.interpolate({
+        range: [-100, 0],
+        output: [`${(gRatioAInner / 2) - (gRatioBInner - gRatioBInner * 0.9)}px`, `${0}px`],
+        extrapolate: 'clamp'
+    })
+
+    const coderHeight = dX.interpolate({
+        range: [0, 100],
+        output: [`${window.innerHeight}px`, `${gRatioBInner * 1.2}px`],
+        extrapolate: 'clamp'
+    })
+
+    const coderMargin = dX.interpolate({
+        range: [0, 100],
+        output: [`${0}px`, `${(gRatioAInner / 2) - (gRatioBInner - gRatioBInner * 0.9)}px`],
+        extrapolate: 'clamp'
+    })
+
+
+    // the order of animation 
+    // 1. nothing -> initial transition left and right 
+    // 2. setOpen -> opens typist 
+    // 3. handleStarttTrail -> start the description trail 
+    // 4. 1500 ms timeout 
+    // 5. setBottom Nav -> which queues the transition for the icons 
+    // * 3 active transitions, 4 animated divs where the last aniamted div listens to mouseover (left or right)
 
     return (
         props.mobile ?
-            <div style={{ display: "flex", flexDirection: "column", maxHeight: "100vh", overflow: "hidden" }}>
+            <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
                 <div style={{ height: "50vh", width: "100vw" }}>
                     <DesignIntro
-                        theme={theme}
+                        theme={props.theme}
                         mobile={props.mobile}
                         pos={0}
                         blockSize={blockSize}
@@ -340,7 +424,7 @@ const Introduction = React.memo(props => {
                 </div>
                 <div style={{ height: "50vh", width: "100vw" }}>
                     <CoderIntro
-                        theme={theme}
+                        theme={props.theme}
                         pos={0}
                         mobile={props.mobile}
                         blockSize={blockSize}
@@ -349,26 +433,89 @@ const Introduction = React.memo(props => {
                 </div>
             </div>
             :
-            <div style={{ height: "100vh", overflowX: "hidden", width: '-webkit-fill-available', position: "relative" }}>
-                <div style={{ overflow: "hidden" }}>
-                    <DesignIntro
-                        theme={theme}
-                        pos={mouseDesign}
-                        mobile={props.mobile}
-                        blockSize={blockSize}
-                        handleProjClick={() => props.handleProjClick()}
-                    />
-                </div>
-                <div style={{ overflow: "hidden", float: "right" }}>
-                    <CoderIntro
-                        theme={theme}
-                        pos={mouseCoder}
-                        mobile={props.mobile}
-                        blockSize={blockSize}
-                        handleExpClick={() => props.handleExpClick()}
-                        mobile={props.mobiel}
-                    />
-                </div>
+            <div {...bind()} style={{
+                height: "100vh", width: props.clientWidth, overflow: "hidden", position: "relative"
+            }}>
+                <Transition
+                    items={initial}
+                    from={{ position: 'absolute', transform: `translate(${-gRatioA}px, 0px)` }}
+                    enter={{ transform: `translate(${designCenter}px, 0px)` }}
+                    leave={{ opacity: 0 }}
+                    onRest={() => setOpen(true)}
+                >
+                    {initial => initial && (prop => <animated.div style={{ ...prop, zIndex: designIndex }}>
+                        <animated.div style={{
+                            transform: designPos, height: designHeight, width: gRatioA, marginTop: designMargin,
+                            overflow: "hidden"
+                        }}>
+                            <DesignIntro
+                                gRatioA={gRatioA}
+                                typoDistance={designTypoDistance}
+                                theme={props.theme}
+                                open={open}
+                                startTrail={startTrail}
+                                mobile={props.mobile}
+                                handleProjClick={() => props.handleProjClick()}
+
+                            />
+                        </animated.div>
+                    </animated.div>)}
+                </Transition>
+                <Transition
+                    items={initial}
+                    from={{ position: 'absolute', transform: `translate(${window.innerWidth}px, 0px)` }}
+                    enter={{ transform: `translate(${window.innerWidth / 2}px, 0px)` }}
+                    leave={{ opacity: 0 }}
+                >
+                    {initial => initial && (prop => <animated.div style={{ ...prop, zIndex: coderIndex }}>
+                        <animated.div style={{
+                            transform: coderPos, height: coderHeight, position: "absolute",
+                            width: gRatioA, marginTop: coderMargin, overflow: "hidden"
+                        }}>
+                            <CoderIntro
+                                gRatioA={gRatioA}
+                                typoDistance={typoDistance}
+                                theme={props.theme}
+                                open={open}
+                                startTrail={startTrail}
+                                mobile={props.mobile}
+                                handleStartTrail={() => handleStartTrail()}
+                                handleExpClick={() => props.handleExpClick()}
+                                mobile={props.mobile}
+                            />
+                        </animated.div>
+                    </animated.div>)}
+                </Transition>
+                <animated.div style={{ ...spring, position: "absolute", bottom: "100px", width: `${props.clientWidth}px`, zIndex: "2" }}>
+                    <IconButton size="medium" onClick={() => handleClick()} style={{
+                        display: "flex", marginRight: "auto", marginLeft: "auto", height: "2.25rem", width: "3.5rem", borderRadius: "100px",
+                        boxShadow: "0 2px 6px rgba(60,64,67,.15), 0 1px 2px rgba(60,64,67,.3)", background: theme.stdColor, color: theme.lightestColor
+                    }} >
+                        <KeyboardArrowDownRoundedIcon fontSize="large" />
+                    </IconButton>
+                </animated.div>
+                <animated.div style={{
+                    ...iconSpring, marginLeft: "auto", display: "flex", alignItems: "center", justifyContent: "flex-start", overflow: "hidden",
+                    position: "absolute", bottom: "0", left: "0", paddingLeft: "2rem", paddingBottom: "1.5rem", zIndex: "2", width: "100%", paddingRight: "2rem"
+                }}>
+                    <div className="button" style={{ marginRight: "1rem" }} onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                        <GitHubIcon className="icon" style={{ borderRadius: "50%", color: props.theme.stdColor}} />
+                    </div>
+                    <div className="button" style={{ marginRight: "1rem" }} onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                        <LinkedInIcon className="icon" style={{ color: props.theme.stdColor }} />
+                    </div>
+                    <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                        <MailIcon className="icon" style={{ color: props.theme.stdColor }} />
+                    </div>
+                    <div style={{ marginLeft: "auto", display: "flex" }}>
+                        <div className="button" onClick={() => { window.location.reload(false) }} >
+                            <ReplayRoundedIcon className="icon" style={{ color: props.theme.stdColor }} />
+                        </div>
+                        <div className="button" style={{ marginLeft: "1rem" }} onClick={() => { window.open("https://kento-kobayashi.dev") }} >
+                            <DescriptionIcon className="icon" style={{ color: props.theme.stdColor }} />
+                        </div>
+                    </div>
+                </animated.div>
             </div >
     )
 })
@@ -618,7 +765,7 @@ const Contact = React.memo(props => {
                         })}
                     </div>
                 </Grid>
-                <Grid item sm={1} style={{ maxWidth: "fit-content",  maxWidth: "100%" }}>
+                <Grid item sm={1} style={{ maxWidth: "fit-content", maxWidth: "100%" }}>
                     <Typography variant="body2" align="center" style={{ color: props.theme.darkestColor }}>
                         Based in Toronto, Fueled by coffee :)
             </Typography>

@@ -42,7 +42,7 @@ const ExpereinceBar = (props) => {
             {transPerc.map(({ item, key, props }) =>
                 item && <animated.div key={key} style={{ ...props, backgroundColor: "rgb(235,235,235)", height: "28px", marginLeft: "110px", width: "451px", paddingRight: "8px" }}>
                     <Typography variant="body1" align="right" style={{ fontFamily: "'Montserrat', sans-serif", paddingTop: "3px" }} >
-                        {perc === 90 ? "Expert" : perc === 67.5 ? "Advanced" : perc === 45 ? "Intermediate" : "Noivce"}
+                        {perc === 90 ? "Expert" : perc === 67.5 ? "Advanced" : perc === 45 ? "Intermediate" : "Novice"}
                     </Typography>
                 </animated.div>
             )}
