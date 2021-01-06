@@ -17,6 +17,7 @@
     "d3-ease": "^2.0.0",
     "history": "^5.0.0",
     "install": "^0.13.0",
+    "lethargy": "^1.0.9",
     "node-sass": "^4.14.1",
     "npm": "^7.3.0",
     "react": "^16.14.0",
@@ -32,6 +33,7 @@
     "react-scripts": "^4.0.0",
     "react-scroll": "^1.8.1",
     "react-slick": "^0.27.13",
+    "react-smooth-scrollbar": "^8.0.6",
     "react-spring": "^8.0.27",
     "react-spring-3d-carousel": "^1.2.0",
     "react-transition-group": "^4.4.1",
@@ -40,6 +42,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "simplex-noise": "^2.4.0",
     "slick-carousel": "^1.8.1",
+    "smooth-scrollbar": "^8.5.3",
     "styled-components": "^5.2.1",
     "three": "^0.123.0",
     "vanta": "^0.5.21"

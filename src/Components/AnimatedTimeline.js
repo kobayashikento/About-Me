@@ -15,10 +15,10 @@ const AnimateTimeline = (props) => {
         props.handleTimeClick(index);
     }
 
-    const items = [{ content: "All", key: 0 }, { content: "Education", key: 1 }, { content: "Work", key: 2 }, { content: "Skills", key: 3 }]
+    const items = [{ content: "ALL", key: 0 }, { content: "EDUCATION", key: 1 }, { content: "WORK", key: 2 }, { content: "SKILLS", key: 3 }]
     const springs = useSprings(
         items.length,
-        items.map(item => ({ opacity: item.key === page ? 1 : 0 }))
+        items.map(item => ({ opacity: item.key === page ? 1 : 0, width: item.key === page ? "100%" : "0%" }))
     );
 
     const handleHover = (index) => {
@@ -26,11 +26,11 @@ const AnimateTimeline = (props) => {
     }
 
     return (
-        <div style={{ marginTop: "1rem", display: "flex" }}>
+        <div style={{ display: "flex" }}>
             {springs.map((prop, i) => {
                 return (
                     <div style={{ marginRight: "8px", marginLeft: "8px" }} onMouseEnter={() => handleHover(i)} onMouseLeave={() => handleHover(null)}>
-                        <Typography variant="h6" style={{ color: page === i ? theme.stdColor : hover === i ? theme.stdColor : theme.lightestColor, fontFamily: "'Comfortaa', sans-serif", cursor: "pointer" }} onClick={() => handleClick(i)}>
+                        <Typography variant="body1" style={{ color: page === i ? theme.stdColor : hover === i ? theme.stdColor : theme.lightestColor, fontFamily: "'Quicksand', sans-serif", cursor: "pointer" }} onClick={() => handleClick(i)}>
                             {items[i].content}
                         </Typography>
                         <animated.div style={prop} key={i}>

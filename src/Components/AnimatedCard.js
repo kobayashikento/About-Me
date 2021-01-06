@@ -22,7 +22,7 @@ const AnimatedCard = (props) => {
             textColor = props.theme.darkestColor
             break;
         case 1:
-            backColor = props.theme.darkestColor
+            backColor = props.theme.darkColor
             textColor = props.theme.lightColor
             break;
         case 2:
@@ -57,7 +57,7 @@ const AnimatedCard = (props) => {
 
     return (
         <div
-            style={{ backgroundColor: hover ? backColor : "transparent" }}
+            style={{ backgroundColor: hover ? backColor : "transparent", }}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
@@ -65,19 +65,19 @@ const AnimatedCard = (props) => {
                 hover ?
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly", height: "100%" }}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", margin: props.mobile ? "0rem" : "1rem" }}>
-                            <Typography align="center" variant={props.mobile ? "h6" : "h5"} style={{
-                                color: textColor, fontWeight: props.mobile ? "bold" : "400", fontFamily: "'Comfortaa', sans-serif", padding: "4px"
+                            <Typography align="center"  style={{ fontSize: "20px", lineHeight: "32px",
+                                color: textColor, fontFamily: "'Poppins', sans-serif", padding: "4px", fontWeight: "bold"
                             }}>
                                 {props.item.title}
                             </Typography>
                             <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "1rem", backgroundColor: textColor }} />
-                            <Typography variant="body1" align="center" style={{
+                            <Typography align="center" style={{ fontSize: "16px", lineHeight: "26px",
                                 color: textColor, fontFamily: "'Poppins', sans-serif", padding: "4px"
                             }}>
                                 {props.item.subtitle}
                             </Typography>
                         </div>
-                        <StyledButton variant="outlined" style={{ margin: props.mobile ? "0" : "1rem" }} onClick={() => handleClick()}>
+                        <StyledButton variant="outlined" style={{ margin: props.mobile ? "0" : "1rem", borderRadius: "4px" }} onClick={() => handleClick()}>
                             <Typography variant="body1" style={{ color: textColor, fontWeight: "400", fontFamily: "'Poppins', sans-serif", padding: "4px" }}>
                                 Learn More
                             </Typography>

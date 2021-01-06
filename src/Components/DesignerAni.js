@@ -16,11 +16,11 @@ const DesignerAni = (props) => {
         context.canvas.width = 360;
         context.canvas.height = 81;
         //'Indie Flower', cursive
-        context.font = "3.5rem 'Indie Flower', cursive";
+        context.font = "3.5rem 'Merriweather', serif";
         context.lineWidth = 3;
         context.lineJoin = "round";
         context.globalAlpha = 1;
-        context.strokeStyle = context.fillStyle = "#FFFFFF";
+        context.strokeStyle = context.fillStyle = props.theme.lightestColor;
 
         const loop = () => {
             context.clearRect(x, 0, 55, 150);

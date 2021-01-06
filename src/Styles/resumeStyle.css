@@ -205,17 +205,18 @@
 .button :hover {
   transform: scale(1.2);
   transition: transform 0.6s;
-  background-color: transparent;
+  background-color: #E83338;
 }
 
 .icon {
   transition: transform 0.3s, box-shadow 0.3s;
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(183,180,176,0.9);
 }
 
 .icon :hover {
   transform: scale(1);
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+  color: black;
 }
 
 .arrow {

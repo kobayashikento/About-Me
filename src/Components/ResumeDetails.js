@@ -27,20 +27,20 @@ const ResumeDetails = (props) => {
                     direction="row"
                     justify="flex-start"
                     alignItems="center"
-                    style={{ marginTop: "16px",  marginBottom: "6.6vmax", width: "100%"}}
+                    style={{ marginTop: "16px", marginBottom: "6.6vmax", width: "100%" }}
                     spacing={3}
                 >
                     <Grid item xs={3} style={{ margin: "0px", marginLeft: "1rem", display: "flex", alignItems: "center", justifyContent: "center" }} >
                         <img alt={`${props.activeCard.title}img`} src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
                     </Grid>
                     <Grid item xs={7} style={{ margin: "0px", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }} >
-                        <Typography variant={props.mobile ? "body1" : "h5"} style={{ margin: "2px", fontWeight: "bold", fontFamily: "'Comfortaa', sans-serif" }}>
+                        <Typography variant={props.mobile ? "body1" : "h5"} style={{ margin: "2px", fontWeight: "bold", fontFamily: "'Quicksand', sans-serif" }}>
                             {props.activeCard.title}
                         </Typography>
-                        <Typography variant={props.mobile ? "body2" : "h6"} style={{ margin: "2px", fontFamily: "'Comfortaa', sans-serif" }}>
+                        <Typography variant={props.mobile ? "body2" : "h6"} style={{ margin: "2px", fontFamily: "'Quicksand', sans-serif" }}>
                             {props.activeCard.titleDescription}
                         </Typography>
-                        <Typography variant={props.mobile ? "body2" : "body1"} style={{ margin: "2px", fontFamily: "'Comfortaa', sans-serif" }}>
+                        <Typography variant={props.mobile ? "body2" : "body1"} style={{ margin: "2px", fontFamily: "'Quicksand', sans-serif" }}>
                             {props.activeCard.date}
                         </Typography>
                     </Grid>
@@ -88,7 +88,7 @@ const ResumeDetails = (props) => {
                         })}
                     </Typography>
                     {props.activeCard.additionalImage === true ?
-                        <div style={{paddingBottom: "6.6vmax"}}>
+                        <div style={{ paddingBottom: "6.6vmax" }}>
                             <Divider style={{ marginTop: "3rem" }} variant="middle" />
                             <ImageCarousel
                                 mobile={props.mobile}
@@ -114,13 +114,13 @@ const ResumeDetails = (props) => {
                         <img alt={`${props.activeCard.title}img`} src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
                     </Grid>
                     <Grid item xs={7} style={{ margin: "0px", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }} >
-                        <Typography variant={props.mobile ? "h6" : "h5"} style={{ margin: "4px", fontWeight: "bold", fontFamily: "'Comfortaa', sans-serif" }}>
+                        <Typography style={{ fontSize: "32px", lineHeight: "54px", paddingTop: "2.2vmax", fontWeight: "bold", fontFamily: "'Merriweather', serif" }}>
                             {props.activeCard.title}
                         </Typography>
-                        <Typography variant={props.mobile ? "body1" : "h6"} style={{ margin: "4px", fontFamily: "'Comfortaa', sans-serif" }}>
+                        <Typography style={{ fontSize: "20px", lineHeight: "34px", fontFamily: "'Quicksand', sans-serif" }}>
                             {props.activeCard.titleDescription}
                         </Typography>
-                        <Typography variant={props.mobile ? "body2" : "body1"} style={{ margin: "4px", fontFamily: "'Comfortaa', sans-serif" }}>
+                        <Typography style={{ fontSize: "16px", lineHeight: "28px", fontFamily: "'Quicksand', sans-serif" }}>
                             {props.activeCard.date}
                         </Typography>
                     </Grid>
@@ -131,7 +131,7 @@ const ResumeDetails = (props) => {
                     </Grid>
                 </Grid>
                 <div style={{ whiteSpace: "pre-wrap", textIndent: props.mobile ? "1rem" : "2rem", margin: props.mobile ? "" : "2rem" }}>
-                    <Typography variant="body1" style={{ margin: "8px", fontFamily: "'Poppins', sans-serif" }} align="justify">
+                    <Typography style={{ margin: "8px", fontSize: "16px", fontFamily: "'Quicksand', sans-serif", lineHeight: "28px" }} align="justify">
                         {props.activeCard.bodySummary.split("\n").map((i, key) => {
                             // Create link by detecting \r
                             if (key === 0) {

@@ -24,8 +24,6 @@ import useMedia from './useMedia.js'
 import useObserver from './useMeasure.js'
 import AnimatedCard from './AnimatedCard.js';
 
-import Fade from 'react-reveal';
-
 const AnimatedGrid = (props) => {
     const columns = useMedia(['(min-width: 1500px)', '(min-width: 1200px)', '(min-width: 850px)'], [6, 5, 4], 2)
     const ref = React.useRef(null);
@@ -33,7 +31,7 @@ const AnimatedGrid = (props) => {
     // center display of card distance
 
     const callback = () => {
-        setWidth(ref.current.clientWidth)
+        setWidth(ref.current.offsetWidth)
     }
 
     useObserver({ callback: callback, element: ref })
@@ -210,7 +208,7 @@ const AnimatedGrid = (props) => {
 
     return (
         props.mobile ?
-            <div ref={ref} style={{ height: Math.max(...heights), overflow: "hidden", width: props.clientWidth }} className="list">
+            <div ref={ref} style={{ height: Math.max(...heights), overflow: "hidden", width: "100vw"}} className="list">
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                     <animated.div key={`list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                         <AnimatedCard
@@ -227,7 +225,7 @@ const AnimatedGrid = (props) => {
                 ))}
             </div >
             :
-            <div ref={ref} style={{ height: Math.max(...heights), overflow: "hidden", width: props.clientWidth }} className="list">
+            <div ref={ref} style={{ height: Math.max(...heights), width: window.innerWidth * 0.9}} className="list">
                 {transitions.map(({ item, props: { xy, ...rest } }, index) => (
                     <animated.div key={`list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                         <AnimatedCard

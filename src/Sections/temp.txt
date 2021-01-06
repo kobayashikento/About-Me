@@ -1,102 +1,62 @@
-      <ParallaxLayer
-                        offset={expPos}
-                        speed={0.1}
-                    >
-                        <div>
-                            <ResumeParallax
-                                mobile={mobile}
-                                parallax={parallax}
-                                cardIndex={cardIndex}
-                                theme={colorScheme}
-                                render={forth}
-                            />
-                            <AnimateTimeline
-                                mobile={mobile}
-                                theme={colorScheme}
-                                activePage={activePage}
-                                handleTimeClick={(index) => handleTimeClick(index)}
-                            />
-                            <AnimatedGrid
-                                mobile={mobile}
-                                theme={colorScheme}
-                                cardIndex={cardIndex}
-                                activePage={activePage}
-                                handleArrowClick={(dir) => handleArrowClick(dir)}
-                                handleActiveCard={(item) => handleActiveCard(item)}
-                                handleCardClick={(index) => handleCardClick(index)}
-                            />
-                            <Modal
-                                open={showDetails}
-                                onClose={() => handleDetailsChange()}
-                                closeAfterTransition
-                                BackdropComponent={Backdrop}
-                                BackdropProps={{
-                                    timeout: 500,
-                                }}
-                                style={{ overflow: "auto" }}
-                            >
-                                <Transition
-                                    items={showModal}
-                                    from={{ opacity: 0, transform: "translate(0, 100%)" }}
-                                    enter={{ opacity: 1, transform: "translate(0, 0%)" }}
-                                    leave={{ opacity: 0, transform: "translate(0, 80%)" }}>
-                                    {showModal => showModal && (props =>
-                                        <div style={props}>
-                                            <ResumeDetails
-                                                mobile={mobile}
-                                                handleDetailsChange={() => handleDetailsChange()}
-                                                activeCard={activeCard}
-                                            />
-                                        </div>)}
-                                </Transition>
-
-                            </Modal>
-                        </div>
-                    </ParallaxLayer>
-                    {/* Projects section */}
-                    <ParallaxLayer
-                        offset={projPos}
-                        speed={0.1}
-                    >
-                        <Projects
-                            render={fith}
-                            mobile={mobile}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* About me description */}
-                    <ParallaxLayer
-                        offset={aboutMePos}
-                        speed={0.1}
-                    >
-                        <AboutMe
-                            mobile={mobile}
-                            render={second}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* About me second description */}
-                    <ParallaxLayer
-                        offset={aboutMeSecPos}
-                        speed={0.1}
-                    >
-                        <AboutMeSecond
-                            mobile={mobile}
-                            render={third}
-                            theme={colorScheme}
-                        />
-                    </ParallaxLayer>
-                    {/* Contact me section, change the location depending on the secreen view 
-                            set it to 3.6 when width is less than 1500 and 3 when its higher.
-                        */}
-                    <ParallaxLayer
-                        offset={contactPos}
-                        speed={0.1}
-                    >
-                        <Contact
-                            mobile={mobile}
-                            theme={colorScheme}
-                            themes={themes}
-                            handleThemeChange={(index) => handleThemeChange(index)}
-                        />
-                    </ParallaxLayer>
+  <Spring
+                    items={showNav}
+                    config={{ duration: 500 }}
+                    from={{ position: "fixed", opacity: 0, transform: "translate(0, -100px)", zIndex: 0 }}
+                    enter={i => async (next, cancel) => {
+                        await next({ opacity: 0, transform: "translate(0, -100px)", zIndex: 20 })
+                        await next({ opacity: 1, transform: "translate(0, 0px)", zIndex: 20 })
+                    }}
+                    leave={i => async (next, cancel) => {
+                        await next({ opacity: 0, transform: "translate(0, -100px)", zIndex: 20 })
+                        await next({ opacity: 0, transform: "translate(0, 0px)", zIndex: 0 })
+                    }}
+                >
+                    {showNav => showNav && (prop =>
+                        <animated.div onMouseEnter={() => setShowNav(true)} onMouseLeave={() => setShowNav(false)}
+                            style={{
+                                ...prop, height: "54px", display: "flex", backgroundColor: colorScheme.lightestColor, top: "0px", width: "100%"
+                            }}>
+                            <Link onMouseEnter={() => setNavHover(1)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(0)}
+                                activeClass="active" className="introduction" to="introduction" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", marginLeft: "1rem", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 1 ? colorScheme.stdColor : navIndex === 0 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    HOME
+                    </Typography>
+                            </Link>
+                            <Link onMouseEnter={() => setNavHover(2)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(1)}
+                                activeClass="active" className="description" to="description" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 2 ? colorScheme.stdColor : navIndex === 1 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    ABOUT
+                    </Typography>
+                            </Link>
+                            <Link onMouseEnter={() => setNavHover(3)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(2)}
+                                activeClass="active" className="experience" to="experience" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 3 ? colorScheme.stdColor : navIndex === 2 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    EXPERIENCE
+                    </Typography>
+                            </Link>
+                            <Link onMouseEnter={() => setNavHover(4)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(3)}
+                                activeClass="active" className="projects" to="projects" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                <Typography variant="body1" style={{ color: navHover === 4 ? colorScheme.stdColor : navIndex === 3 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                    PROJECTS
+                    </Typography>
+                            </Link>
+                            <div style={{ marginLeft: "auto", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                                    <GitHubIcon className="icon" style={{ borderRadius: "50%", color: colorScheme.stdColor }} />
+                                </div>
+                                <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                                    <LinkedInIcon className="icon" style={{ color: colorScheme.stdColor }} />
+                                </div>
+                                <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                                    <MailIcon className="icon" style={{ color: colorScheme.stdColor }} />
+                                </div>
+                                <Link onMouseEnter={() => setNavHover(6)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(5)}
+                                    activeClass="active" className="contact" to="contact" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", textDecoration: "none" }} >
+                                    <Typography variant="body1" style={{ color: navHover === 6 ? colorScheme.stdColor : navIndex === 5 ? colorScheme.stdColor : colorScheme.darkColor, fontFamily: "'Montserrat', sans-serif", fontWeight: "500", margin: "1rem" }}>
+                                        CONTACT
+                    </Typography>
+                                </Link>
+                            </div>
+                        </animated.div>
+                    )}
+                </Spring>

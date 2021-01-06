@@ -30,18 +30,18 @@ const ExpereinceBar = (props) => {
     })
 
     return (
-        <div style={{ width: "531px", height: "28px", display: "flex", marginBottom: "1rem" }}>
-            <div style={{ width: "110px", height: "28px", backgroundColor: props.theme.lightColor }}>
-                <Typography variant="body1" align="center" style={{ fontFamily: "'Montserrat', sans-serif", paddingTop: "3px" }} >
+        <div style={{ width: "565px", height: "28px", display: "flex", marginBottom: "1rem" }}>
+            <div style={{ width: "110px", height: "28px", backgroundColor: props.theme.lightColor, borderRadius: "3px" }}>
+                <Typography  align="center" style={{ fontFamily: "'Quicksand', sans-serif", paddingTop: "3px", fontWeight: "500" }} >
                     {props.name}
                 </Typography>
             </div>
             {transitions.map(({ item, key, props }) =>
-                item && <animated.div key={key} style={{ ...props, backgroundColor: theme.darkColor, height: "28px", marginLeft: "110px", zIndex: "1" }}></animated.div>
+                item && <animated.div key={key} style={{ ...props, backgroundColor: theme.darkColor, height: "28px", marginLeft: "110px", zIndex: "1", borderRadius: "3px" }}></animated.div>
             )}
             {transPerc.map(({ item, key, props }) =>
-                item && <animated.div key={key} style={{ ...props, backgroundColor: "rgb(235,235,235)", height: "28px", marginLeft: "110px", width: "451px", paddingRight: "8px" }}>
-                    <Typography variant="body1" align="right" style={{ fontFamily: "'Montserrat', sans-serif", paddingTop: "3px" }} >
+                item && <animated.div key={key} style={{ ...props, backgroundColor: "rgb(235,235,235)", height: "28px", marginLeft: "110px", width: "451px", paddingRight: "8px", borderRadius: "3px" }}>
+                    <Typography variant="body1" align="right" style={{ fontFamily: "'Quicksand', sans-serif", paddingTop: "3px", fontWeight: "500" }} >
                         {perc === 90 ? "Expert" : perc === 67.5 ? "Advanced" : perc === 45 ? "Intermediate" : "Novice"}
                     </Typography>
                 </animated.div>
