@@ -15,8 +15,7 @@ const DesignerAni = (props) => {
         const context = canvas.getContext('2d')
         context.canvas.width = 360;
         context.canvas.height = 81;
-        //'Indie Flower', cursive
-        context.font = "3.5rem 'Merriweather', serif";
+        context.font = "54px 'Merriweather', serif";
         context.lineWidth = 3;
         context.lineJoin = "round";
         context.globalAlpha = 1;
@@ -45,7 +44,7 @@ const DesignerAni = (props) => {
     return (
         <canvas style={{
             position: "fixed", top: "0", left: "0", right: "0",
-        }} ref={canvasRef} style={{ width: "360px", height: "72px", margin: "0", }} />
+        }} ref={canvasRef} style={{ width: "360px", height: "72px", margin: "0", transform: "translateX(-16px)"}} />
     )
 }
 

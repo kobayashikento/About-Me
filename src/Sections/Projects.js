@@ -198,7 +198,7 @@ const Projects = React.memo(props => {
                     Redux
                 </Typography>
                 <Typography variant="body2" style={{ paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, }}>
-                    Firebase / Firestore
+                    Firebase/Firestore
                 </Typography>
             </div>,
             key: 3
@@ -268,7 +268,7 @@ const Projects = React.memo(props => {
             justify="center"
             alignItems="center"
             style={{
-                background: props.theme.lightestColor, minHeight: "100vh", margin: "0px", paddingBottom: "6.6vmax",
+                background: props.theme.lightestColor, minHeight: "100vh", margin: "0px", 
                 overflow: "hidden", width: "100%",
                 paddingTop: "3.3vmax",
             }}

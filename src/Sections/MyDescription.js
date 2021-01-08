@@ -70,7 +70,7 @@ const MyDescription = React.memo(props => {
             <Transition
                 items={props.render}
                 from={{ position: "absolute", width: "0px" }}
-                enter={{ width: `${gRatioA + 24}px` }}
+                enter={{ width: `${gRatioA}px` }}
                 leave={{ width: "0px" }}
             >
                 {show => show && (prop => <div style={{
@@ -80,7 +80,7 @@ const MyDescription = React.memo(props => {
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }}>
                         <animated.div style={{ ...descriptionSpring, marginLeft: "7.7vmax", marginTop: "3.3vmax" }}>
                             <Typography align="justify" style={{ width: "400px", color: `${props.theme.darkestColor}99`, fontFamily: "'Quicksand', sans-serif", fontSize: "0.9rem" }}>
-                                *All animations and transitions are coded using JavaScript (React-Spring) and Aysncronyus calls are used to create a chain of animations.
+                                *All animations and transitions are coded using JavaScript (React-Spring) and Asynchronous calls are used to create a chain of animations.
               </Typography>
                         </animated.div>
                         <animated.div style={{ ...springBars, zoom: matches ? "1" : "0.9", marginLeft: "5.5vmax" }}>

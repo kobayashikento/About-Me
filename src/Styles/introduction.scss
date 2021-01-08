@@ -1,0 +1,9 @@
+$main-color: rgba(183, 180, 176, 0.9);
+$secondary-color: #e83338;
+
+.arrowAni {
+  font-size: 3rem;
+  color: $main-color;
+  // background-image: linear-gradient(0deg, $secondary-color, $secondary-color 50%, $main-color 50%);
+  // background-size: 50% 200%;
+}

@@ -92,6 +92,9 @@ const Home = React.memo(props => {
     const boxShadow = "0 2px 6px rgba(60,64,67,.15), 0 1px 2px rgba(60,64,67,.3)";
 
     let scroll = React.useRef(null);
+    let expContainerRef = React.useRef(null);
+    let aboutContainerRef = React.useRef(null);
+    let contactContainerRef = React.useRef(null);
     // condition that changes parallax size depending on the window size
     // if its 1500px or higher, then keep layout size at 4 
     const lgUp = useMediaQuery('(min-width:1440px)');
@@ -213,9 +216,8 @@ const Home = React.memo(props => {
 
     const [direction, setDirection] = React.useState(false);
 
-    const bind = useWheel(({ wheeling }) => {
-        setDirection(wheeling);
-        if (wheeling && landing) {
+    const bind = useWheel(({ wheeling, direction }) => {
+        if (wheeling && direction[1] === 1) {
             setInitial(false);
         }
     })
@@ -236,6 +238,7 @@ const Home = React.memo(props => {
     const [descriptionOpen, setDescriptionOpen] = React.useState(false);
     const [descriptionOpenSecond, setDescriptionOpenSecond] = React.useState(false);
     const [showNav, setShowNav] = React.useState(false);
+    const [contactShow, setContactShow] = React.useState(false);
 
     const handleTransitionRest = () => {
         if (first) {
@@ -257,12 +260,29 @@ const Home = React.memo(props => {
                 if (s.offset.y > window.innerHeight * 0.25) { setThird(true) } else { setThird(false) }
                 if (s.offset.y > window.innerHeight * 1) { setHideAbout(true) } else { setHideAbout(false) }
                 if (s.offset.y > window.innerHeight * 1.7) { setForth(true) } else { setForth(false) }
+                if (s.offset.y > contactContainerRef.current.offsetTop - window.innerHeight) { setContactShow(true) } else { setContactShow(false) }
                 if (s.offset.y === 0) {
                     setFirst(false); setSecond(false);
                 }
             })
+        } else {
+            return () => scroll.current.scrollbar.removeListener()
         }
     }, [landing]);
+
+    const handleScroll = (type) => {
+        if (scroll.current !== null) {
+            if (type === "about") {
+                scroll.current.scrollbar.scrollTo(0, 10, 800);
+            } else if (type === "experience") {
+                scroll.current.scrollbar.scrollTo(0, aboutContainerRef.current.offsetTop - `${window.innerHeight * 0.025}`, 800);
+            } else if (type === "projects") {
+                scroll.current.scrollbar.scrollTo(0, expContainerRef.current.offsetTop, 800);
+            } else if (type === "contact") {
+                scroll.current.scrollbar.scrollTo(0, contactContainerRef.current.offsetTop, 800);
+            }
+        }
+    }
 
     const navSpring = useSpring({
         opacity: showNav ? 1 : 0,
@@ -270,23 +290,23 @@ const Home = React.memo(props => {
     })
 
     const aboutSpring = useSpring({
-        width: navHover === 2 ? "2rem" : navIndex === 1 ? "2rem" : "0rem",
-        opacity: navHover === 2 ? 1 : navIndex === 1 ? 1 : 0
+        width: navHover === 2 ? "2rem" : (!hideAbout) ? "2rem" : "0rem",
+        opacity: navHover === 2 ? 1 : (!hideAbout) ? 1 : 0
     })
 
     const expSpring = useSpring({
-        width: navHover === 3 ? "4rem" : navIndex === 2 ? "4rem" : "0rem",
-        opacity: navHover === 3 ? 1 : navIndex === 2 ? 1 : 0
+        width: navHover === 3 ? "4rem" : (hideAbout && !forth) ? "4rem" : "0rem",
+        opacity: navHover === 3 ? 1 : (hideAbout && !forth) ? 1 : 0
     })
 
     const projSpring = useSpring({
-        width: navHover === 4 ? "3rem" : navIndex === 3 ? "3rem" : "0rem",
-        opacity: navHover === 4 ? 1 : navIndex === 3 ? 1 : 0
+        width: navHover === 4 ? "3rem" : (forth && !contactShow) ? "3rem" : "0rem",
+        opacity: navHover === 4 ? 1 : (forth && !contactShow) ? 1 : 0
     })
 
     const contactSpring = useSpring({
-        width: navHover === 6 ? "3rem" : navIndex === 5 ? "3rem" : "0rem",
-        opacity: navHover === 6 ? 1 : navIndex === 5 ? 1 : 0
+        width: navHover === 6 ? "3rem" : contactShow ? "3rem" : "0rem",
+        opacity: navHover === 6 ? 1 : contactShow ? 1 : 0
     })
 
     return (
@@ -300,7 +320,7 @@ const Home = React.memo(props => {
                     handleInitialChange={(state) => handleInitialChange(state)}
                 />
                 :
-                <div style={{ background: `${colorScheme.lightColor}66` }}>
+                <div>
                     <animated.div
                         style={{
                             ...navSpring, height: "54px", display: "flex", backgroundColor: "transparent", top: "0px", width: "100%", position: "fixed", zIndex: 2, marginTop: "1.1vmax"
@@ -311,59 +331,55 @@ const Home = React.memo(props => {
                                 HOME
                     </Typography>
                         </Link> */}
-                        <Link onMouseEnter={() => setNavHover(2)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(1)}
-                            activeClass="active" className="description" to="description" spy={true} smooth={true} duration={500}
+                        <a onMouseEnter={() => setNavHover(2)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("about")}
                             style={{ cursor: "pointer", textDecoration: "none", marginLeft: "6.6vmax", display: "flex", flexDirection: "column", alignItems: "center" }} >
                             <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 2 ? colorScheme.stdColor : navIndex === 1 ?
+                                fontSize: "11px", lineHeight: "19px", color: navHover === 2 ? colorScheme.stdColor : (!hideAbout) ?
                                     colorScheme.stdColor : "rgba(183,180,176,0.9)", fontFamily: "'Assistant', sans-serif",
                                 fontWeight: "500", margin: "1rem", marginBottom: "4px"
                             }}>
                                 ABOUT
-                    </Typography>
+                            </Typography>
                             <animated.div style={aboutSpring}>
                                 <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
                             </animated.div>
-                        </Link>
-                        <Link onMouseEnter={() => setNavHover(3)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(2)}
-                            activeClass="active" className="experience" to="experience" spy={true} smooth={true} duration={500}
+                        </a>
+                        <a onMouseEnter={() => setNavHover(3)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("experience")}
                             style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
                             <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 3 ? colorScheme.stdColor : navIndex === 2 ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
+                                fontSize: "11px", lineHeight: "19px", color: navHover === 3 ? colorScheme.stdColor : (hideAbout && !forth) ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
                                 fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
                             }}>
                                 EXPERIENCE
-                    </Typography>
+                            </Typography>
                             <animated.div style={expSpring}>
                                 <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
                             </animated.div>
-                        </Link>
-                        <Link onMouseEnter={() => setNavHover(4)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(3)}
-                            activeClass="active" className="projects" to="projects" spy={true} smooth={true} duration={500}
+                        </a>
+                        <a onMouseEnter={() => setNavHover(4)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("projects")}
                             style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
                             <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 4 ? colorScheme.stdColor : navIndex === 3 ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
+                                fontSize: "11px", lineHeight: "19px", color: navHover === 4 ? colorScheme.stdColor : (forth && !contactShow)  ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
                                 fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
                             }}>
                                 PROJECTS
-                    </Typography>
+                            </Typography>
                             <animated.div style={projSpring}>
                                 <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
                             </animated.div>
-                        </Link>
-                        <Link onMouseEnter={() => setNavHover(6)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(5)}
-                            activeClass="active" className="projects" to="projects" spy={true} smooth={true} duration={500}
+                        </a>
+                        <a onMouseEnter={() => setNavHover(6)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("contact")}
                             style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
                             <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 6 ? colorScheme.stdColor : navIndex === 5 ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
+                                fontSize: "11px", lineHeight: "19px", color: navHover === 6 ? colorScheme.stdColor : contactShow ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
                                 fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
                             }}>
                                 CONTACT
-                    </Typography>
+                            </Typography>
                             <animated.div style={contactSpring}>
                                 <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
                             </animated.div>
-                        </Link>
+                        </a>
                     </animated.div>
                     <Spring
                         to={{
@@ -390,21 +406,19 @@ const Home = React.memo(props => {
                         style={{ width: "100vw", height: "100vh", overflow: "auto" }}
                         damping={0.05}
                     >
-                        <Element name="description" className="element">
-                            <MyDescription
-                                theme={colorScheme}
-                                render={second}
-                                descriptionOpen={descriptionOpenSecond}
-                            />
-                        </Element>
+                        <MyDescription
+                            theme={colorScheme}
+                            render={second}
+                            descriptionOpen={descriptionOpenSecond}
+                        />
                         <div style={{ height: "50vh" }} />
                         <div>
-                            <Element name="experience" className="element" style={{ height: "100vh" }}>
-                                <Spring
-                                    to={{ opacity: 1, }}
-                                    from={{ opacity: 1, width: "100vw", height: "95vh", }}
-                                >
-                                    {prop => (<animated.div style={{
+                            <Spring
+                                to={{ opacity: 1, }}
+                                from={{ opacity: 1, width: "100vw", height: "95vh", }}
+                            >
+                                {prop => (
+                                    <animated.div ref={aboutContainerRef} style={{
                                         ...prop,
                                         background: `rgb(86,33,48)`,
                                         overflow: "hidden",
@@ -416,24 +430,24 @@ const Home = React.memo(props => {
                                             render={true}
                                         />
                                     </animated.div>
-                                    )}
-                                </Spring>
-                            </Element>
-                            <Spring
-                                to={{ opacity: forth ? 1 : 0, width: forth ? `90vw` : "0vw", height: "95vw", marginTop: "5vw" }}
-                                from={{ opacity: 0, width: "0vw", height: "0vw" }}
-                            >
-                                {prop => (<animated.div style={{
-                                    ...prop,
-                                }}>
-                                    <Projects
-                                        render={true}
-                                        mobile={mobile}
-                                        theme={colorScheme}
-                                    />
-                                </animated.div>
                                 )}
                             </Spring>
+                            <Spring
+                                to={{ opacity: forth ? 1 : 0, width: forth ? `90vw` : "0vw", height: "95%", marginTop: "5%" }}
+                                from={{ opacity: 0, width: "0vw", height: "0%" }}
+                            >
+                                {prop => (
+                                    <animated.div ref={expContainerRef} style={{ ...prop }}>
+                                        <Projects
+                                            render={true}
+                                            mobile={mobile}
+                                            theme={colorScheme}
+                                        />
+                                    </animated.div>
+                                )}
+                            </Spring>
+                        </div>
+                        <div ref={contactContainerRef}>
                             <Contact
                                 mobile={mobile}
                                 theme={colorScheme}
@@ -444,25 +458,6 @@ const Home = React.memo(props => {
                     </Scrollbar>
                 </div>
             }
-            {/* <Element name="experience" className="element" >
-                
-            </Element> */}
-            {/* 
-                        <Element name="projects" className="element" isDynamic={true} ref={projRef}>
-                            <Projects
-                                render={forth}
-                                mobile={mobile}
-                                theme={colorScheme}
-                            />
-                        </Element>
-                        <Element name="contact" className="element" isDynamic={true}>
-                            <Contact
-                                mobile={mobile}
-                                theme={colorScheme}
-                                themes={themes}
-                                handleThemeChange={(index) => handleThemeChange(index)}
-                            />
-                        </Element> */}
         </div >
     )
 })

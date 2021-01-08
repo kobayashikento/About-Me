@@ -23,9 +23,11 @@ import MailIcon from '@material-ui/icons/Mail';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ListIcon from '@material-ui/icons/List';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import DescriptionIcon from '@material-ui/icons/Description';
+
+import TrendingFlatRoundedIcon from '@material-ui/icons/TrendingFlatRounded';
 
 import { useSpring, useChain, useTrail, animated, useTransition, config } from 'react-spring';
 import { Transition, Spring } from 'react-spring/renderprops';
@@ -33,8 +35,6 @@ import { Transition, Spring } from 'react-spring/renderprops';
 import { useMove } from 'react-use-gesture';
 
 import { withStyles } from '@material-ui/core/styles';
-
-import * as easings from 'd3-ease';
 
 // import typing animation
 import Typist from 'react-typist';
@@ -52,6 +52,8 @@ import FOG from 'vanta/dist/vanta.fog.min';
 import face from '../Assets/Pictures/chicagome.jpg';
 import montrealme from '../Assets/Pictures/montrealme.jpg';
 
+import '../Styles/introduction.scss';
+
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 const boxShadow = "0 2px 6px rgba(60,64,67,.15), 0 1px 2px rgba(60,64,67,.3)";
 
@@ -62,7 +64,6 @@ const CoderIntro = React.memo(props => {
     const title = "<Developer/>";
     const theme = props.theme;
 
-    // background animation settings
     React.useEffect(() => {
         if (!vantaEffect) {
             setVantaEffect(GLOBE({
@@ -113,13 +114,13 @@ const CoderIntro = React.memo(props => {
             :
             <React.Fragment>
                 <div style={{
-                    width: `${(props.gRatioA)}px`, zIndex: "-1", overflow: "hidden"
+                    width: `${(window.innerWidth / 3) * 2}px`, zIndex: "-1", overflow: "hidden"
                 }}>
                     <div ref={myRef} style={{ height: "100vh" }} />
                 </div>
                 <div style={{
-                    display: "flex", flexDirection: "column", color: props.theme.darkestColor,
-                    fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "3rem", position: "absolute",
+                    display: "flex", flexDirection: "column", color: props.theme.darkestColor, lineHeight: "82px",
+                    fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "50px", position: "absolute",
                     top: "50%", transform: `translate(${(props.typoDistance * 1.2) + 44}px,-50%)`, opacity: `1`
                 }}>
                     {props.open ?
@@ -130,8 +131,10 @@ const CoderIntro = React.memo(props => {
                     }
                     {trail.map(({ x, height, ...rest }, index) => (
                         <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                            <Typography variant={props.mobile ? "h6" : "body1"} align="center" style={{
-                                width: "340px",
+                            <Typography align="center" style={{
+                                fontSize: "15px", lineHeight: "25px",
+                                width: "340px", fontFamily: "'Roboto Mono', monospace", display: "flex",
+                                marginLeft: "auto", marginRight: "auto",
                                 color: theme.darkestColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400"
                             }}>
                                 Front End Developer who specializes in React, Node.JS, and MongoDB.
@@ -240,7 +243,7 @@ const DesignIntro = React.memo(props => {
                 </div>
                 <div style={{
                     display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                    position: "absolute", top: "50%", right: `${props.typoDistance * 1.2}px`,
+                    position: "absolute", top: "50%", right: `${props.typoDistance}px`,
                     transform: `translateY(-50%)`, zIndex: "1", opacity: `1`
                 }}>
                     {props.open ?
@@ -251,9 +254,10 @@ const DesignIntro = React.memo(props => {
                     {
                         trail.map(({ x, height, ...rest }, index) => (
                             <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                                <Typography variant={props.mobile ? "h6" : "body1"} align="center" style={{
-                                    width: "340px", fontFamily: "'proxima nova light', 'Helvetica Neue', Helvetica, Arial, Sans-serif",
-                                    color: props.theme.lightestColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "bold"
+                                <Typography align="center" style={{
+                                    width: "340px", fontFamily: "'Merriweather Sans', sans-serif",
+                                    fontSize: "16px", lineHeight: "27px", display: "flex", marginRight: "auto", marginLeft: "auto",
+                                    color: props.theme.lightestColor, paddingTop: props.mobile ? "8rem" : "1rem", fontWeight: "400"
                                 }}>
                                     Aspiring Designer with a passion for designing beautiful user experiences.
          </Typography>
@@ -289,7 +293,9 @@ const Introduction = React.memo(props => {
     // step 3: convert it into ratios, ratio between the width of the two sections and the width of section 2 and 3. 
 
     const handleLandingChange = () => {
-        props.handleIntroLeave(false);
+        if (!props.initial) {
+            props.handleIntroLeave(false);
+        }
     }
 
     React.useEffect(() => {
@@ -308,7 +314,7 @@ const Introduction = React.memo(props => {
 
     const arrowSpring = useSpring({
         opacity: bottomNav ? 1 : 0,
-        transform: bottomNav ? "translate3d(0, 0px, 0)" : "translate3d(0, 100px, 0)",
+        width: bottomNav ? "5rem" : "0rem",
     })
 
     const iconSpring = useSpring({
@@ -358,17 +364,15 @@ const Introduction = React.memo(props => {
         }, 66)
     )
 
-    //scale3d(0.9, 0.9, 0.5)
-
     const designPos = dX.interpolate({
         range: [-250, 250],
-        output: [`scale(1.2) translate3d(${thirds}px,0,0)`, `scale(0.8) translate3d(${-thirds}px,0,0)`],
+        output: [`scale(1.16) translate3d(${thirds - thirds * 0.16}px,0,0)`, `scale(0.84) translate3d(${-thirds + thirds * 0.16}px,0,0)`],
         extrapolate: 'clamp'
     })
 
     const coderPos = dX.interpolate({
         range: [-250, 250],
-        output: [` scale(0.8) translate3d(${thirds}px,0,0)`, `scale(1.2) translate3d(${-thirds}px,0,0)`],
+        output: [` scale(0.84) translate3d(${thirds - thirds * 0.16}px,0,0)`, `scale(1.16) translate3d(${-thirds + thirds * 0.16}px,0,0)`],
         extrapolate: 'clamp'
     })
 
@@ -456,7 +460,7 @@ const Introduction = React.memo(props => {
                     {initial => initial && (prop => <animated.div style={{ ...prop, zIndex: designIndex, transform: `translate(${designCenter}px, 0px)` }}>
                         <animated.div style={{
                             transform: designPos, height: designHeight, width: "100%",
-                            overflow: "hidden", marginTop: designMargin, borderRadius: "4px", boxShadow: shadow
+                            overflow: "hidden", marginTop: designMargin, boxShadow: shadow
                         }}>
                             <DesignIntro
                                 typoDistance={typoDistance}
@@ -465,7 +469,6 @@ const Introduction = React.memo(props => {
                                 startTrail={startTrail}
                                 mobile={props.mobile}
                                 handleProjClick={() => props.handleProjClick()}
-
                             />
                         </animated.div>
                     </animated.div>
@@ -477,10 +480,13 @@ const Introduction = React.memo(props => {
                     enter={{ width: `${((window.innerWidth / 3) * 2)}px` }}
                     leave={{ width: "0px" }}
                 >
-                    {initial => initial && (prop => <animated.div style={{ ...prop, zIndex: coderIndex, transform: `translate(${window.innerWidth / 2}px, 0px)` }}>
+                    {initial => initial && (prop => <animated.div style={{
+                        ...prop, zIndex: coderIndex,
+                        transform: `translate(${((window.innerWidth / 3) * 2) - (window.innerWidth / 2)}px, 0px)`, right: "0px"
+                    }}>
                         <animated.div style={{
                             transform: coderPos, height: coderHeight, position: "absolute", marginTop: coderMargin,
-                            width: "100%", overflow: "hidden", borderRadius: "4px", boxShadow: shadow,
+                            width: "100%", overflow: "hidden", boxShadow: shadow,
                         }}>
                             <CoderIntro
                                 typoDistance={typoDistance}
@@ -496,32 +502,31 @@ const Introduction = React.memo(props => {
                     </animated.div>)}
                 </Transition>
                 <animated.div style={{ ...arrowSpring, position: "absolute", bottom: "3rem", width: `100vw`, zIndex: "2" }}>
-                    <IconButton size="medium" onClick={() => props.handleInitialChange(false)} style={{
-                        display: "flex", marginRight: "auto", marginLeft: "auto", height: "2.25rem", width: "3.5rem", borderRadius: "4px",
-                        boxShadow: "0 2px 6px rgba(60,64,67,.15), 0 1px 2px rgba(60,64,67,.3)", background: theme.stdColor, color: theme.lightestColor
+                    <div onClick={() => props.handleInitialChange(false)} style={{
+                        display: "flex", marginRight: "auto", marginLeft: "auto", borderRadius: "3px", cursor: "pointer", width: "56px"
                     }} >
-                        <KeyboardArrowUpRoundedIcon style={{ transform: "rotate(90deg)" }} fontSize="large" />
-                    </IconButton>
+                        <KeyboardArrowDownIcon style={{ fontSize: "3.5rem" }} />
+                    </div>
                 </animated.div>
                 <animated.div style={{
                     ...iconSpring, marginLeft: "auto", display: "flex", alignItems: "center", justifyContent: "flex-start", overflow: "hidden",
-                    position: "absolute", top: "0", left: "0", paddingLeft: "2rem", paddingTop: "1.5rem", zIndex: "2", width: "100%", paddingRight: "2rem"
+                    position: "absolute", top: "0", left: "0", paddingLeft: "3.3vmax", paddingTop: "1.2vmax", zIndex: "2", width: "100%",
                 }}>
-                    <div className="button" style={{ marginRight: "1rem" }} onClick={() => { window.open("https://github.com/kobayashikento") }} >
-                        <GitHubIcon className="icon" style={{ borderRadius: "50%", color: props.theme.stdColor }} />
+                    <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                        <GitHubIcon style={{ borderRadius: "50%", }} />
                     </div>
-                    <div className="button" style={{ marginRight: "1rem" }} onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-                        <LinkedInIcon className="icon" style={{ color: props.theme.stdColor }} />
+                    <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                        <LinkedInIcon />
                     </div>
-                    <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-                        <MailIcon className="icon" style={{ color: props.theme.stdColor }} />
+                    <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                        <MailIcon />
                     </div>
-                    <div style={{ marginLeft: "auto", display: "flex" }}>
-                        <div className="button" onClick={() => { window.open("https://kento-kobayashi.dev") }} >
-                            <DescriptionIcon className="icon" style={{ color: props.theme.stdColor }} />
+                    <div style={{ marginLeft: "auto", display: "flex", paddingRight: "3.3vmax" }}>
+                        <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.open("https://kento-kobayashi.dev") }} >
+                            <DescriptionIcon />
                         </div>
-                        <div className="button" style={{ marginLeft: "1rem" }} onClick={() => { window.location.reload(false) }} >
-                            <ReplayRoundedIcon className="icon" style={{ color: props.theme.stdColor }} />
+                        <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.location.reload(false) }} >
+                            <ReplayRoundedIcon />
                         </div>
                     </div>
                 </animated.div>
@@ -697,7 +702,7 @@ const Contact = React.memo(props => {
                 </Grid>
                 <Grid item sm={2} style={{ maxWidth: "90%" }}>
                     <Typography variant="body1" align={props.mobile ? "justify" : "center"} style={{ color: props.theme.darkestColor }}>
-                        If you have any suggestions whether it's the design, animation, color scheme, etc... I am always eager to make improvements so leave me a message.
+                        Interested in collaboration or would just like to chat? Feel free to reach out to me and I will get back to you as timely as possible!
         </Typography>
                 </Grid>
                 <Grid item sm={2}>
@@ -724,7 +729,7 @@ const Contact = React.memo(props => {
                     </div>
                 </Grid>
                 <Grid item sm={1} style={{ maxWidth: "fit-content" }}>
-                    <Typography variant="body2" align="center" style={{ color: props.theme.darkestColor }}>
+                    <Typography variant="body2" align="center" style={{ color: props.theme.lightestColor }}>
                         Based in Toronto, Fueled by coffee :)
         </Typography>
                 </Grid>
@@ -770,7 +775,7 @@ const Contact = React.memo(props => {
                         </IconButton>
                     </div>
                 </Grid>
-                <Grid item sm={2} style={{ maxWidth: "fit-content", maxWidth: "100%", }}>
+                {/* <Grid item sm={2} style={{ maxWidth: "fit-content", maxWidth: "100%", }}>
                     <Typography align="center" style={{ color: props.theme.lightestColor, fontFamily: "'Assistant', sans-serif", fontSize: "14px", lineHeight: "26px" }}>
                         These are some potential themes I was considering...
                     </Typography>
@@ -785,9 +790,9 @@ const Contact = React.memo(props => {
                             )
                         })}
                     </div>
-                </Grid>
+                </Grid> */}
                 <Grid item sm={1} style={{ maxWidth: "fit-content", maxWidth: "100%" }}>
-                    <Typography variant="body2" align="center" style={{ color: props.theme.darkestColor }}>
+                    <Typography variant="body2" align="center" style={{ color: props.theme.lightestColor }}>
                         Based in Toronto, Fueled by coffee :)
             </Typography>
                 </Grid>

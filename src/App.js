@@ -9,28 +9,23 @@ import Test from './Sections/Test.js';
 import './history.js';
 const theme = createMuiTheme({
   overrides: {
-    MuiTimelineItem: {
-      missingOppositeContent: {
-        "&:before": {
-          flex: "0"
+    MuiIconButton: {
+      root: {
+        backgroundColor: 'transparent',
+        "&:hover": {
+          backgroundColor: 'transparent',
+        }
+      },
+    },
+    MuiSvgIcon: {
+      root: {
+        color: "rgb(86, 33, 48)",
+        "&:hover": {
+          color:  "#E83338",
         }
       }
-    },
-    MuiTypography: {
-      h2: {
-        fontFamily: "'Montserrat', 'Comfortaa' sans-serif"
-      },
-      h4: {
-        fontFamily: "'Montserrat', sans-serif"
-      },
-      h5: {
-        fontFamily: "'Montserrat', sans-serif"
-      }
     }
-  },
-  typography: {
-    fontFamily: "'Poppins', sans-serif"
-  },
+  }
 });
 
 function App(props) {
