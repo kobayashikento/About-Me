@@ -3,8 +3,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
@@ -14,6 +14,10 @@ import sample1 from '../Assets/Pictures/sample1.png';
 import shopifyImg from '../Assets/Pictures/myhealthy.png';
 
 import { useTrail, animated, useTransition, useChain } from 'react-spring';
+
+import { Spring } from 'react-spring/renderprops'
+
+const phi = 1.6180339887498948482;
 
 const Projects = React.memo(props => {
 
@@ -61,7 +65,7 @@ const Projects = React.memo(props => {
             content:
                 <div style={{
                     background: `${theme.lightColor}CC`, borderRadius: "3px",
-                    transform: mobile ? "" : "translate(1rem)", width: props.mobile ? "" : "90%"
+                    transform: "translate(1rem)", width: "100%"
                 }}>
                     <Typography align="left" style={{
                         padding: "1.2vmax", color: props.theme.priTxtColor, fontFamily: "'Assistant', sans-serif", fontSize: "14px",
@@ -92,11 +96,13 @@ const Projects = React.memo(props => {
         {
             content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
                 <IconButton disabled={true} style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/UAssist") }}>
-                    <GitHubIcon style={{ color: props.theme.stdColor }} />
+                    <GitHubIcon style={{ color: "grey" }} />
                 </IconButton>
-                <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("https://myhealthy.family/") }}>
-                    <OpenInNewIcon style={{ color: props.theme.stdColor }} />
-                </IconButton>
+                <Tooltip title="Open MyHealthyFamily Website">
+                    <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("https://myhealthy.family/") }}>
+                        <OpenInNewIcon style={{ color: props.theme.stdColor }} />
+                    </IconButton>
+                </Tooltip>
             </div>,
             key: 4
         },
@@ -119,7 +125,7 @@ const Projects = React.memo(props => {
         },
         {
             content:
-                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: props.mobile ? "" : "translate(1rem)", width: props.mobile ? "" : "90%" }}>
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: "translate(1rem)", width: "100%" }}>
                     <Typography align="left" style={{
                         padding: "1.2vmax", color: props.theme.priTxtColor, fontFamily: "'Assistant', sans-serif", fontSize: "14px",
                         fontWeight: "400", lineHeight: "24px"
@@ -148,12 +154,16 @@ const Projects = React.memo(props => {
         },
         {
             content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
-                <IconButton style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/UAssist") }}>
-                    <GitHubIcon style={{ color: props.theme.stdColor }} />
-                </IconButton>
-                <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("http://aqueous-reef-85157.herokuapp.com/") }}>
-                    <OpenInNewIcon style={{ color: props.theme.stdColor }} />
-                </IconButton>
+                <Tooltip title="View Github Repository">
+                    <IconButton style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/UAssist") }}>
+                        <GitHubIcon style={{ color: props.theme.stdColor }} />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Open Website">
+                    <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("http://aqueous-reef-85157.herokuapp.com/") }}>
+                        <OpenInNewIcon style={{ color: props.theme.stdColor }} />
+                    </IconButton>
+                </Tooltip>
             </div>,
             key: 4
         },
@@ -176,7 +186,7 @@ const Projects = React.memo(props => {
         },
         {
             content:
-                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", width: props.mobile ? "100%" : "80%", float: props.mobile ? "left" : "right" }}>
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", width: "100%", transform: "translate(1rem)" }}>
                     <Typography align="left" style={{
                         padding: "1.2vmax", color: props.theme.priTxtColor, fontFamily: "'Assistant', sans-serif", fontSize: "14px",
                         fontWeight: "400", lineHeight: "24px"
@@ -205,12 +215,16 @@ const Projects = React.memo(props => {
         },
         {
             content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
-                <IconButton style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/personal-event-tracker") }}>
-                    <GitHubIcon style={{ color: props.theme.stdColor }} />
-                </IconButton>
-                <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("https://life-tracker-7fb87.web.app/") }}>
-                    <OpenInNewIcon style={{ color: props.theme.stdColor }} />
-                </IconButton>
+                <Tooltip title="View Github Code">
+                    <IconButton style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/personal-event-tracker") }}>
+                        <GitHubIcon style={{ color: props.theme.stdColor }} />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Open Website">
+                    <IconButton style={{ padding: "4px", marginLeft: "1rem" }} onClick={() => { window.open("https://life-tracker-7fb87.web.app/") }}>
+                        <OpenInNewIcon style={{ color: props.theme.stdColor }} />
+                    </IconButton>
+                </Tooltip>
             </div>,
             key: 4
         },
@@ -239,27 +253,30 @@ const Projects = React.memo(props => {
     })
 
     const firstImgTrans = useTransition(open, null, {
-        from: { transform: 'translate3d(100px,0,0)' },
-        enter: { transform: 'translate3d(0px,0,0)' },
-        leave: { transform: 'translate3d(100px,0,0)' },
+        from: { transform: 'translate3d(100px,0,0)', opacity: 0 },
+        enter: { transform: 'translate3d(0px,0,0)', opacity: 1 },
+        leave: { transform: 'translate3d(100px,0,0)', opacity: 0 },
         ref: firstImgRef
     })
 
     const secondTrans = useTransition(open ? secondProject : [], item => item.key, {
-        from: { transform: 'translate3d(100px,0,0)' },
-        enter: { transform: 'translate3d(0px,0,0)' },
-        leave: { transform: 'translate3d(100px,0,0)' },
+        from: { transform: 'translate3d(100px,0,0)', opacity: 0 },
+        enter: { transform: 'translate3d(0px,0,0)', opacity: 1 },
+        leave: { transform: 'translate3d(100px,0,0)', opacity: 0 },
         ref: secondProjectRef
     })
 
     const secondImgTrans = useTransition(open, null, {
-        from: { transform: 'translate3d(-100px,0,0)' },
-        enter: { transform: 'translate3d(0px,0,0)' },
-        leave: { transform: 'translate3d(-100px,0,0)' },
+        from: { transform: 'translate3d(-100px,0,0)', opacity: 0 },
+        enter: { transform: 'translate3d(0px,0,0)', opacity: 1 },
+        leave: { transform: 'translate3d(-100px,0,0)', opacity: 0 },
         ref: secondImgRef
     })
 
     useChain([headerRef, firstProjectRef, firstImgRef, secondProjectRef, secondImgRef], [0, 0.5, 0.5, 1, 1])
+
+    const gRatioA = window.innerWidth / phi;
+    const gRatioB = window.innerWidth - gRatioA;
 
     return (
         <Grid
@@ -268,114 +285,96 @@ const Projects = React.memo(props => {
             justify="center"
             alignItems="center"
             style={{
-                background: props.theme.lightestColor, minHeight: "100vh", margin: "0px", 
-                overflow: "hidden", width: "100%",
-                paddingTop: "3.3vmax",
+                background: "transparent", margin: "0px",
+                overflow: "hidden", width: "100%", position: "relative"
             }}
             spacing={5}
         >
-            <Grid item sm={1} style={{ margin: props.mobile ? "" : "1rem", transform: `translate3d(3vw, 0,0)`}}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+            <Spring
+                to={{ width: props.render ? `${gRatioB}px` : "0px" }}
+                from={{ position: "absolute", opacity: 1, width: "0px", left: "0px", height: "100%", top: "0px" }}
+            >
+                {prop => (<animated.div style={{ ...prop, background: props.theme.lightestColor }} />)}
+            </Spring>
+            <Spring
+                to={{ width: props.render ? `${gRatioA}px` : "0px", }}
+                from={{ position: "absolute", opacity: 1, width: "0px", right: "0px", height: "100%", top: "5vh" }}
+            >
+                {prop => (<animated.div style={{ ...prop, background: props.theme.darkestColor }}>
+                </animated.div>)}
+            </Spring>
+            <Grid item sm={1} style={{
+                margin: props.mobile ? "" : "1rem", display: "flex", justifyContent: "flex-start", width: "100vw",
+                maxWidth: "100%", padding: "0", margin: "0"
+            }}>
+                <div style={{
+                    width: gRatioB, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", zIndex: 1
+                    , paddingTop: "6.6vmax"
+                }}>
                     {headerTrail.map(({ x, height, ...rest }, index) => (
                         <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
                             {headerItems[index].content}
                         </animated.div>))}
                 </div>
             </Grid>
-            <Grid item sm={5} xs={5} style={{ maxWidth: props.mobile ? "100%" : "80%", margin: props.mobile ? "" : "2rem",
-        transform: `translate3d(3vw, 0,0)` }} >
-                <Grid
-                    container
-                    alignItems="center"
-                    direction="row"
-                    spacing={3}
-                >
-                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1" }}>
-                        {shopTrans.map(({ item, props, key }) =>
-                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
-                        )}
-                    </Grid>
-                    <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: props.mobile ? "center" : "flex-end" }}>
-                        {firstImgTrans.map(({ item, props, key }) => item &&
-                            <animated.div key={`firstImgTrans${key}`} style={props}>
-                                <img src={shopifyImg} style={{
-                                    width: mobile ? "100%" : "500px", borderRadius: "5px"
-                                }} />
-                            </animated.div>
-                        )}
-                    </Grid>
-                </Grid>
+            <Grid item sm={7} style={{
+                maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center"
+            }} >
+                <div style={{
+                    display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                    width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                }}>
+                    {shopTrans.map(({ item, props, key }) =>
+                        <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                    )}
+                </div>
+                <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                    {firstImgTrans.map(({ item, props, key }) => item &&
+                        <animated.div key={`firstImgTrans${key}`} style={props}>
+                            <img src={shopifyImg} style={{
+                                width: mobile ? "100%" : "650px", borderRadius: "5px"
+                            }} />
+                        </animated.div>
+                    )}
+                </div>
             </Grid>
-            <Grid item sm={5} xs={5} style={{ maxWidth: props.mobile ? "100%" : "80%", margin: props.mobile ? "" : "2rem",transform: `translate3d(3vw, 0,0)` }}>
-                {
-                    mobile ?
-                        <Grid
-                            container
-                            alignItems="center"
-                            direction="row"
-                            spacing={3}
-                        >
-                            <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "center", zIndex: "1" }}>
-                                {secondTrans.map(({ item, props, key }) =>
-                                    <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
-                                )}
-                            </Grid>
-                            <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
-                                {secondImgTrans.map(({ item, props, key }) => item &&
-                                    <animated.div key={`secondImgTrans${key}`} style={props}>
-                                        <img src={sample1} style={{
-                                            width: "100%", borderRadius: "5px"
-                                        }} />
-                                    </animated.div>
-                                )}
-                            </Grid>
-                        </Grid>
-                        :
-                        <Grid
-                            container
-                            alignItems="center"
-                            direction="row"
-                            spacing={3}
-                        >
-                            <Grid item sm={4} xs={12} style={{ display: "flex", justifyContent: "flex-start" }}>
-                                {secondImgTrans.map(({ item, props, key }) => item &&
-                                    <animated.div key={`secondImgTrans${key}`} style={props}>
-                                        <img src={sample1} style={{
-                                            width: "500px", borderRadius: "5px", marginLeft: "1rem",
-                                        }} />
-                                    </animated.div>
-                                )}
-                            </Grid>
-                            <Grid item sm={8} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", zIndex: "1" }}>
-                                {secondTrans.map(({ item, props, key }) =>
-                                    <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
-                                )}
-                            </Grid>
-                        </Grid>
-                }
+            <Grid item sm={7} style={{ maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }}>
+                <div style={{
+                    display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                    width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                }}>
+                    {secondTrans.map(({ item, props, key }) =>
+                        <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
+                    )}
+                </div>
+                <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                    {secondImgTrans.map(({ item, props, key }) => item &&
+                        <animated.div key={`secondImgTrans${key}`} style={props}>
+                            <img src={sample1} style={{
+                                width: "700px", borderRadius: "5px",
+                            }} />
+                        </animated.div>
+                    )}
+                </div>
             </Grid>
-            <Grid item sm={5} xs={5} style={{ maxWidth: props.mobile ? "100%" : "80%", margin: props.mobile ? "" : "2rem", transform: `translate3d(3vw, 0,0)` }} >
-                <Grid
-                    container
-                    alignItems="center"
-                    direction="row"
-                    spacing={3}
-                >
-                    <Grid item sm={7} xs={12} style={{ display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1" }}>
-                        {firstTrans.map(({ item, props, key }) =>
-                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
-                        )}
-                    </Grid>
-                    <Grid item sm={5} xs={12} style={{ display: "flex", justifyContent: "flex-end" }}>
-                        {firstImgTrans.map(({ item, props, key }) => item &&
-                            <animated.div key={`firstImgTrans${key}`} style={props}>
-                                <img src={UAssist} style={{
-                                    width: mobile ? "100%" : "500px", borderRadius: "5px",
-                                }} />
-                            </animated.div>
-                        )}
-                    </Grid>
-                </Grid>
+            <Grid item sm={7} style={{ maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }} >
+                <div style={{
+                    display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                    width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                }}>
+                    {firstTrans.map(({ item, props, key }) =>
+                        <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                    )}
+                </div>
+                <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                    {firstImgTrans.map(({ item, props, key }) => item &&
+                        <animated.div key={`firstImgTrans${key}`} style={props}>
+                            <img src={UAssist} style={{
+                                width: mobile ? "100%" : "600px", borderRadius: "5px",
+                            }} />
+                        </animated.div>
+                    )}
+                </div>
             </Grid>
         </Grid>
     )

@@ -6,8 +6,6 @@ import AnimatedGrid from '../Components/AnimatedGrid.js';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 
-import Fade from 'react-reveal';
-
 import { Transition } from 'react-spring/renderprops'
 
 import ResumeDetails from '../Components/ResumeDetails.js';
@@ -69,11 +67,12 @@ const Experience = (props) => {
 
     return (
         <div
-            style={{ display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center"
-         }}
+            style={{
+                display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center", minHeight: "95vh"
+            }}
         >
-            <div style={{ margin: "1.1vmax", paddingTop: "1.2vmax" }}>
+            <div style={{ margin: "1.1vmax", paddingTop: "1.2vmax", position: "absolute", top: "0px" }}>
                 <ResumeParallax
                     mobile={props.mobile}
                     cardIndex={cardIndex}
@@ -81,7 +80,10 @@ const Experience = (props) => {
                     render={true}
                 />
             </div>
-            <div style={{ maxWidth: "100%", display: "flex", justifyContent: "center", margin: "1.1vmax" }}>
+            <div style={{
+                maxWidth: "100%", display: "flex", justifyContent: "center", margin: "1.1vmax", position: "absolute",
+                paddingTop: "7.7vmax", top: "0px"
+            }}>
                 <AnimateTimeline
                     mobile={props.mobile}
                     theme={props.theme}
@@ -89,7 +91,7 @@ const Experience = (props) => {
                     handleTimeClick={(index) => handleTimeClick(index)}
                 />
             </div>
-            <div style={{ maxWidth: "100%", display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden" }}>
+            <div style={{ maxWidth: "100%", display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden", paddingTop: "180px", paddingBottom: "40px" }}>
                 <AnimatedGrid
                     mobile={props.mobile}
                     theme={props.theme}

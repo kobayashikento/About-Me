@@ -2,19 +2,10 @@ import React from 'react';
 
 import Typography from '@material-ui/core/Typography';
 
-import '../Styles/values.css';
-
 const WorkValues = (props) => {
 
     return (
         <div style={{ display: "flex", height: "100%", alignItems: "center", justifyContent: "center" }}>
-            {/* <div className="hex" style={{ backgroundColor: props.theme.lightColor }}>
-                <div className="hex1" style={{ borderBottom: `25.98px solid ${props.theme.lightColor}` }}>
-                </div>
-                <div className="hex2" style={{ borderTop: `25.98px solid ${props.theme.lightColor}` }}>
-                </div>
-                {props.content.icon}
-            </div> */}
             {props.content.icon}
             <div style={{ display: "flex", flexDirection: "column", marginLeft: "2.2vmax", marginTop: "1.1vmax" }}>
                 <Typography  style={{

@@ -1,22 +1,6 @@
 import React from 'react';
 
-import { Link, Redirect } from 'react-router-dom';
-
-import { Transition } from 'react-spring/renderprops'
 import { useTransition, animated, config } from 'react-spring'
-
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-
-// Icons 
-import GitHubIcon from '@material-ui/icons/GitHub';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import MailIcon from '@material-ui/icons/Mail';
-
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-
-import face from '../Assets/Pictures/face.jpg';
 
 import resume from '../Assets/resume.js';
 
@@ -207,40 +191,22 @@ const AnimatedGrid = (props) => {
     })
 
     return (
-        props.mobile ?
-            <div ref={ref} style={{ height: Math.max(...heights), overflow: "hidden", width: "100vw"}} className="list">
-                {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                    <animated.div key={`list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                        <AnimatedCard
-                            item={item}
-                            index={index}
-                            mobile={props.mobile}
-                            theme={props.theme}
-                            activePage={props.activePage}
-                            handleCardClick={(index) => props.handleCardClick(index)}
-                            handleActiveCard={(item) => props.handleActiveCard(item)}
-                            width={width}
-                        />
-                    </animated.div>
-                ))}
-            </div >
-            :
-            <div ref={ref} style={{ height: Math.max(...heights), width: window.innerWidth * 0.9}} className="list">
-                {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                    <animated.div key={`list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
-                        <AnimatedCard
-                            item={item}
-                            index={index}
-                            mobile={props.mobile}
-                            theme={props.theme}
-                            activePage={props.activePage}
-                            handleCardClick={(index) => props.handleCardClick(index)}
-                            handleActiveCard={(item) => props.handleActiveCard(item)}
-                            width={width}
-                        />
-                    </animated.div>
-                ))}
-            </div >
+        <div ref={ref} style={{ height: Math.max(...heights), width: window.innerWidth * 0.9, paddingBottom: "2.2vmax" }} className="list">
+            {transitions.map(({ item, props: { xy, ...rest } }, index) => (
+                <animated.div key={`list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                    <AnimatedCard
+                        item={item}
+                        index={index}
+                        mobile={props.mobile}
+                        theme={props.theme}
+                        activePage={props.activePage}
+                        handleCardClick={(index) => props.handleCardClick(index)}
+                        handleActiveCard={(item) => props.handleActiveCard(item)}
+                        width={width}
+                    />
+                </animated.div>
+            ))}
+        </div >
     )
 }
 

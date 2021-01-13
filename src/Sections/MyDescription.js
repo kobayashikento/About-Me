@@ -20,8 +20,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import { Transition } from 'react-spring/renderprops'
 
-
-const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 const phi = 1.6180339887498948482;
 
 const MyDescription = React.memo(props => {
@@ -57,16 +55,12 @@ const MyDescription = React.memo(props => {
         transform: picOpen ? "translate3d(0px, 0, 0)" : "translate3d(100px, 0, 0)",
     })
 
-
     const gRatioA = window.innerWidth / phi;
-    const gRatioB = window.innerWidth - gRatioA;
-    const gRatioAHeight = window.innerHeight / phi;
-    const gRatioBHeight = window.innerHeight - gRatioAHeight;
 
     const matches = useMediaQuery('(min-width:1500px)');
 
     return (
-        <div style={{ height: "100vh", overflow: "hidden", }}>
+        <div style={{ overflow: "hidden", }}>
             <Transition
                 items={props.render}
                 from={{ position: "absolute", width: "0px" }}

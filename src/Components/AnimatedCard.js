@@ -7,9 +7,6 @@ import { useTransition, animated } from 'react-spring'
 
 import { withStyles } from '@material-ui/core/styles';
 
-import Fade from 'react-reveal';
-import Flip from 'react-reveal';
-
 import '../Styles/resumeStyle.css';
 
 const AnimatedCard = (props) => {
@@ -57,7 +54,7 @@ const AnimatedCard = (props) => {
 
     return (
         <div
-            style={{ backgroundColor: hover ? backColor : "transparent", }}
+            style={{ backgroundColor: hover ? backColor : "transparent" }}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
@@ -66,7 +63,7 @@ const AnimatedCard = (props) => {
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly", height: "100%" }}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", margin: props.mobile ? "0rem" : "1rem" }}>
                             <Typography align="center"  style={{ fontSize: "20px", lineHeight: "32px",
-                                color: textColor, fontFamily: "'Poppins', sans-serif", padding: "4px", fontWeight: "bold"
+                                color: textColor, fontFamily: "'Poppins', sans-serif", padding: "4px"
                             }}>
                                 {props.item.title}
                             </Typography>

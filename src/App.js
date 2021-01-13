@@ -4,7 +4,6 @@ import { Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Home from './Sections/Home.js';
-import Test from './Sections/Test.js';
 
 import './history.js';
 const theme = createMuiTheme({
@@ -32,7 +31,6 @@ function App(props) {
   return (
     <ThemeProvider theme={theme}>
       <Switch>
-      <Route path="/test" render={props => <Test />} />
         <Route path="/" render={props => <Home />} />
       </Switch>
     </ThemeProvider >

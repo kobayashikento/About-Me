@@ -1,11 +1,10 @@
 import React from 'react'
 
-import Container from '@material-ui/core/Container';
 import { IconButton, Typography, Grid } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ImageCarousel from '../Components/ImageCarousel.js';
 import Divider from '@material-ui/core/Divider';
-import { withStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const ResumeDetails = (props) => {

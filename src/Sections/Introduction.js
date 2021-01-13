@@ -1,36 +1,24 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom';
-
 // import material ui components
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Tooltip from '@material-ui/core/Tooltip';
 
 // import material ui icons 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailIcon from '@material-ui/icons/Mail';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ListIcon from '@material-ui/icons/List';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import DescriptionIcon from '@material-ui/icons/Description';
 
-import TrendingFlatRoundedIcon from '@material-ui/icons/TrendingFlatRounded';
-
-import { useSpring, useChain, useTrail, animated, useTransition, config } from 'react-spring';
-import { Transition, Spring } from 'react-spring/renderprops';
+import { useSpring, animated, useTransition, useTrail } from 'react-spring';
+import { Transition } from 'react-spring/renderprops';
 
 import { useMove } from 'react-use-gesture';
 
@@ -46,16 +34,14 @@ import DesignerAni from '../Components/DesignerAni.js';
 // import background animation, i.e. network and fog
 import BIRDS from 'vanta/dist/vanta.birds.min';
 import GLOBE from 'vanta/dist/vanta.globe.min';
-import FOG from 'vanta/dist/vanta.fog.min';
 
 // import pictures for description section
 import face from '../Assets/Pictures/chicagome.jpg';
 import montrealme from '../Assets/Pictures/montrealme.jpg';
 
-import '../Styles/introduction.scss';
+import resume from '../Assets/Kento Kobayashi Resume.pdf';
 
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
-const boxShadow = "0 2px 6px rgba(60,64,67,.15), 0 1px 2px rgba(60,64,67,.3)";
 
 const CoderIntro = React.memo(props => {
     const [hover, setHover] = React.useState(false)
@@ -286,6 +272,7 @@ const Introduction = React.memo(props => {
     const [titleAnimation, setTitleAnimation] = React.useState(false);
     const [startTrail, setStartTrail] = React.useState(false);
     const [bottomNav, setBottomNav] = React.useState(false);
+    const [showResume, setShowResume] = React.useState(false);
     // for UX purposes need to make it so left and right amout moved to get to the end must be reduced 
     // step 1: divide the total screen by 4 => section 2, 3 is the range where the scroll will move and past section the 
     // mousemove is at max 
@@ -502,170 +489,49 @@ const Introduction = React.memo(props => {
                     </animated.div>)}
                 </Transition>
                 <animated.div style={{ ...arrowSpring, position: "absolute", bottom: "3rem", width: `100vw`, zIndex: "2" }}>
-                    <div onClick={() => props.handleInitialChange(false)} style={{
-                        display: "flex", marginRight: "auto", marginLeft: "auto", borderRadius: "3px", cursor: "pointer", width: "56px"
-                    }} >
-                        <KeyboardArrowDownIcon style={{ fontSize: "3.5rem" }} />
-                    </div>
+                    <Tooltip title="Scroll or Click to view Portfolio" placement="bottom">
+                        <div onClick={() => props.handleInitialChange(false)} style={{
+                            display: "flex", marginRight: "auto", marginLeft: "auto", borderRadius: "3px", cursor: "pointer", width: "56px"
+                        }} >
+                            <KeyboardArrowDownIcon style={{ fontSize: "3.5rem" }} />
+                        </div>
+                    </Tooltip>
                 </animated.div>
                 <animated.div style={{
                     ...iconSpring, marginLeft: "auto", display: "flex", alignItems: "center", justifyContent: "flex-start", overflow: "hidden",
                     position: "absolute", top: "0", left: "0", paddingLeft: "3.3vmax", paddingTop: "1.2vmax", zIndex: "2", width: "100%",
                 }}>
-                    <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.open("https://github.com/kobayashikento") }} >
-                        <GitHubIcon style={{ borderRadius: "50%", }} />
-                    </div>
-                    <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-                        <LinkedInIcon />
-                    </div>
-                    <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-                        <MailIcon />
-                    </div>
+                    <Tooltip title="To Github Profile">
+                        <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                            <GitHubIcon style={{ borderRadius: "50%", }} />
+                        </div>
+                    </Tooltip>
+                    <Tooltip title="To LinkedIn Profile">
+                        <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                            <LinkedInIcon />
+                        </div>
+                    </Tooltip>
+                    <Tooltip title="Open Email">
+                        <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                            <MailIcon />
+                        </div>
+                    </Tooltip>
                     <div style={{ marginLeft: "auto", display: "flex", paddingRight: "3.3vmax" }}>
-                        <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.open("https://kento-kobayashi.dev") }} >
-                            <DescriptionIcon />
-                        </div>
-                        <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.location.reload(false) }} >
-                            <ReplayRoundedIcon />
-                        </div>
+                        <Tooltip title="View Resume">
+                            <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => window.open(resume)} >
+                                <DescriptionIcon />
+                            </div>
+                        </Tooltip>
+                        <Tooltip title="Reload Website">
+                            <div style={{ margin: "1.1vmax", cursor: "pointer" }} onClick={() => { window.location.reload(false) }} >
+                                <ReplayRoundedIcon />
+                            </div>
+                        </Tooltip>
                     </div>
                 </animated.div>
             </div >
     )
 })
-
-const NavBar = (props) => {
-
-    const navItems = ["Home", "About", "Experience", "Projects", "Personal", "Contact"];
-
-    // Drawer
-    const anchor = 'right'
-    const [rightOpen, setRightOpen] = React.useState(false);
-
-    const toggleDrawer = (open) => (event) => {
-        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-        setRightOpen(open)
-    };
-
-    const list = (
-        <div
-            style={{ width: "250px", display: "flex", flexDirection: "column", alignItems: "center", height: "100%" }}
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
-        >
-            <List style={{ position: "absolute", top: "15%" }}>
-                {navItems.map((text, index) => (
-                    <ListItem button key={text} style={{ display: "flex", flexDirection: "column" }}>
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Button style={{ width: "fit-content" }} onClick={() => props.handleNavClick(index)}>
-                                <Typography variant="body1" align="justify" style={{ fontWeight: "bold", opacity: "0.8" }}>
-                                    {navItems[index]}
-                                </Typography>
-                            </Button>
-                        </div>
-                    </ListItem>
-                ))}
-            </List>
-        </div>
-    );
-
-    return (
-        <div style={{ position: "fixed", zIndex: "1", width: "100%", height: "56px", background: props.firstRender ? "transparent" : `${props.theme.lightestColor}` }}>
-            <React.Fragment key={anchor}>
-                <IconButton onClick={toggleDrawer(true)} style={{ position: "absolute", top: "0px", right: "0px" }}>
-                    <ListIcon fontSize="large" />
-                </IconButton>
-                <SwipeableDrawer
-                    anchor={anchor}
-                    open={rightOpen}
-                    onClose={toggleDrawer(false)}
-                    onOpen={toggleDrawer(true)}
-                >
-                    {list}
-                </SwipeableDrawer>
-            </React.Fragment>
-        </div>
-    )
-}
-
-const ToTop = (props) => {
-
-    const mobile = props.mobile
-    const color = props.theme.secColor
-    const transitions = useTransition(!props.showNav, null, {
-        from: { opacity: 0 },
-        enter: { opacity: 1 },
-        leave: { opacity: 0 },
-    })
-
-    const handleTopClick = () => {
-        props.handleTopClick()
-    }
-
-    return (
-        transitions.map(({ item, key, props }, index) => (
-            item && <animated.div key={key} style={{
-                ...props, display: "flex", position: "absolute", flexDirection: "column",
-                justifyContent: "center", padding: mobile ? "8px" : "32px", paddingBottom: mobile ? "8px" : "40px", bottom: "0px", right: "0px", zIndex: "1"
-            }}>
-                <Button style={{ backgroundColor: "transparent", width: "fit-content" }} onClick={() => handleTopClick()} >
-                    <ArrowUpwardIcon style={{ color: color }} />
-                </Button>
-            </animated.div >
-        ))
-    )
-}
-
-const SideIcons = (props) => {
-    const [hover, setHover] = React.useState(0);
-
-    const iconItems = [{
-        content:
-            <div className="button" onClick={() => { window.open("https://github.com/kobayashikento") }} onMouseEnter={() => setHover(1)} onMouseLeave={() => setHover(0)}>
-                <GitHubIcon className="icon" style={{ borderRadius: "50%", color: hover === 1 ? props.theme.stdColor : props.theme.stdColor }} />
-            </div>,
-        key: 0
-    },
-    {
-        content: <div className="button" onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} onMouseEnter={() => setHover(2)} onMouseLeave={() => setHover(0)}>
-            <LinkedInIcon className="icon" style={{ color: hover === 2 ? props.theme.stdColor : props.theme.stdColor }} />
-        </div>,
-        key: 1
-    },
-    {
-        content: <div className="button" onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} onMouseEnter={() => setHover(3)} onMouseLeave={() => setHover(0)}>
-            <MailIcon className="icon" style={{ color: hover === 3 ? props.theme.stdColor : props.theme.stdColor }} />
-        </div>,
-        key: 2
-    }];
-
-    return (
-        !props.mobile ?
-            <Transition
-                items={iconItems} keys={item => item.key}
-                from={{ opacity: 0, transform: `translate3d(0,0px,0)`, height: "0px" }}
-                enter={{ opacity: 1, transform: 'translate3d(0,0px,0)', height: "30px" }}
-                leave={{ opacity: 0, transform: 'translate3d(0,0px,0)', height: "0px" }}
-                config={{ mass: 5, tension: 2000, friction: 200, delay: 4000 }}
-            >
-                {item => props =>
-                    <div style={props}>
-                        {item.content}
-                    </div>
-                }
-            </Transition>
-            : props.side ? iconItems.map((item, index) => {
-                return (
-                    <div key={`mobileSideIcon${index}`} style={{ margin: "32px" }}>
-                        {item.content}
-                    </div>
-                )
-            }) : null
-    )
-}
 
 const Contact = React.memo(props => {
     const handleClick = (index) => {
@@ -740,7 +606,7 @@ const Contact = React.memo(props => {
                 direction="column"
                 justify="center"
                 alignItems="center"
-                style={{ paddingTop: "6.6vmax", margin: "0px", minHeight: "100vh", backgroundColor: props.theme.darkestColor, overflow: "hidden", width: '-webkit-fill-available' }}
+                style={{ paddingTop: "6.6vmax", margin: "0px", backgroundColor: props.theme.darkestColor, overflow: "hidden", width: '100vw', height: "100vh" }}
                 spacing={5}
             >
                 <Grid item sm={1} style={{ display: "flex", justifyContent: "center", maxWidth: "fit-content", maxWidth: "100%", }}>
@@ -764,33 +630,23 @@ const Contact = React.memo(props => {
                 </Grid>
                 <Grid item sm={2}>
                     <div style={{ marginLeft: "auto", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                        <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >
-                            <GitHubIcon style={{ borderRadius: "50%", color: props.theme.stdColor }} />
-                        </IconButton>
-                        <IconButton onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
-                            <LinkedInIcon style={{ color: props.theme.stdColor }} />
-                        </IconButton>
-                        <IconButton onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-                            <MailIcon style={{ color: props.theme.stdColor }} />
-                        </IconButton>
+                        <Tooltip title="To Github Profile">
+                            <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                                <GitHubIcon style={{ borderRadius: "50%", color: props.theme.stdColor }} />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="To LinkedIn Profile">
+                            <IconButton onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                                <LinkedInIcon style={{ color: props.theme.stdColor }} />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Open Email">
+                            <IconButton onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                                <MailIcon style={{ color: props.theme.stdColor }} />
+                            </IconButton>
+                        </Tooltip>
                     </div>
                 </Grid>
-                {/* <Grid item sm={2} style={{ maxWidth: "fit-content", maxWidth: "100%", }}>
-                    <Typography align="center" style={{ color: props.theme.lightestColor, fontFamily: "'Assistant', sans-serif", fontSize: "14px", lineHeight: "26px" }}>
-                        These are some potential themes I was considering...
-                    </Typography>
-                </Grid>
-                <Grid item sm={2} style={{ maxWidth: "100%" }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", height: "40px" }}>
-                        {props.themes.map((theme, index) => {
-                            return (
-                                <Button key={`theme${index}`} style={{ marginRight: "1rem", color: props.theme.lightestColor, borderRadius: "4px", border: `1px solid ${theme.stdColor}` }} onClick={() => handleClick(index)}>
-                                    {`${theme.stdColor}`}
-                                </Button>
-                            )
-                        })}
-                    </div>
-                </Grid> */}
                 <Grid item sm={1} style={{ maxWidth: "fit-content", maxWidth: "100%" }}>
                     <Typography variant="body2" align="center" style={{ color: props.theme.lightestColor }}>
                         Based in Toronto, Fueled by coffee :)
@@ -1035,129 +891,5 @@ const AboutMeSecond = (props) => {
     )
 }
 
-const MenuButton = (prop) => {
-    const [hover, setHover] = React.useState({
-        resume: false, aboutMe: false, port: false
-    })
-    return (
-        <Container style={{ marginTop: "1rem" }} maxWidth="sm">
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                spacing={5}
-            >
-                <Grid item xs={4}>
-                    <Card style={{ borderRadius: "100px", opacity: hover.resume ? "1" : "0.9", boxShadow: shadow }}>
-                        <Link to="/resume" style={{ textDecoration: "none", color: "black" }}>
-                            <CardActionArea onMouseEnter={() => setHover({ ...hover, resume: true })} onMouseLeave={() => setHover({ ...hover, resume: false })}>
-                                <CardContent>
-                                    <Typography variant="body1" style={{ textAlign: "center" }}>Resume</Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Link>
-                    </Card>
-                </Grid>
-                <Grid item xs={4}>
-                    <Card style={{ borderRadius: "100px", opacity: hover.aboutMe ? "1" : "0.9", boxShadow: shadow }}>
-                        <CardActionArea onClick={() => prop.handleAboutMeClick()} onMouseEnter={() => setHover({ ...hover, aboutMe: true })} onMouseLeave={() => setHover({ ...hover, aboutMe: false })}>
-                            <CardContent>
-                                <Typography variant="body1" style={{ textAlign: "center" }}>About Me</Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                </Grid>
-                <Grid item xs={4}>
-                    <Card style={{ borderRadius: "100px", opacity: hover.port ? "1" : "0.9", boxShadow: shadow }}>
-                        <CardActionArea onMouseEnter={() => setHover({ ...hover, port: true })} onMouseLeave={() => setHover({ ...hover, port: false })}>
-                            <CardContent>
-                                <Typography variant="body1" style={{ textAlign: "center" }}>Portfolio</Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                </Grid>
-            </Grid>
-        </Container>
-    )
-}
-
-const BottomMenu = (prop) => {
-    const [hover, setHover] = React.useState({
-        resume: false, port: false
-    })
-    return (
-        <Container style={{ marginTop: "1rem" }} maxWidth="sm">
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                spacing={5}
-            >
-                <Grid item xs={4}>
-                    <Card style={{ borderRadius: "100px", opacity: hover.resume ? "1" : "0.9", boxShadow: shadow }}>
-                        <Link to={"/resume"} style={{ textDecoration: "none", color: "black" }}>
-                            <CardActionArea onMouseEnter={() => setHover({ ...hover, resume: true })} onMouseLeave={() => setHover({ ...hover, resume: false })}>
-                                <CardContent>
-                                    <Typography variant="body1" style={{ textAlign: "center" }}>Resume</Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Link>
-                    </Card>
-                </Grid>
-                <Grid item xs={4}>
-                    <Card style={{ borderRadius: "100px", opacity: hover.port ? "1" : "0.9", boxShadow: shadow }}>
-                        <CardActionArea onMouseEnter={() => setHover({ ...hover, port: true })} onMouseLeave={() => setHover({ ...hover, port: false })}>
-                            <CardContent>
-                                <Typography variant="body1" style={{ textAlign: "center" }}>Portfolio</Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                </Grid>
-            </Grid>
-        </Container>
-    )
-}
-
-const LineDescription = (props) => {
-
-    const open = props.render;
-
-    const items = [{
-        content: <div style={{ display: "flex", alignItems: "center", marginRight: "auto", marginLeft: "auto", justifyContent: "center", width: "fit-content" }}>
-            <Divider style={{ marginRight: "1rem", width: "2rem", backgroundColor: props.theme.priTxtColor }} />
-            <Typography variant="body2" align="justify" style={{ color: props.theme.priTxtColor, fontWeight: "400", width: "fit-content" }}>
-                About The Lines
-        </Typography>
-            <Divider style={{ marginLeft: "1rem", width: "2rem", backgroundColor: props.theme.priTxtColor }} />
-        </div>
-    }, {
-        content: <Typography variant="subtitle2" align="center" style={{ color: props.theme.priTxtColor, marginLeft: props.mobile ? "2rem" : "", marginRight: props.mobile ? "2rem" : "", paddingTop: "1rem", paddingLeft: "1rem", fontWeight: "400", width: "fit-content" }}>
-            The number of dots and lines present on the canvas is set to be within the limit of 17000 pixels.
-    </Typography>
-    }]
-
-    const contentTrail = useTrail(items.length, {
-        config: { mass: 5, tension: 2000, friction: 200 },
-        opacity: open ? 1 : 0,
-        x: open ? 0 : 20,
-        height: open ? 110 : 0,
-        from: { opacity: 0, x: 20, height: 0 },
-    })
-
-    return (
-        <Container maxWidth="xs" style={{ display: "flex", flexDirection: "column", position: "absolute", top: "30%", left: props.mobile ? "50%" : "50%", display: "flex", transform: "translate(-50%, -20%)" }}>
-            {contentTrail.map(({ x, height, ...rest }, index) => (
-                <animated.div key={`lineDes${index}`} style={{
-                    ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`)
-                }}>
-                    {items[index].content}
-                </animated.div>
-            ))}
-        </Container>
-    )
-}
-
 export default React.memo(Introduction);
-export { MenuButton, BottomMenu, Introduction, AboutMe, NavBar, SideIcons, Contact, ToTop, AboutMeSecond, LineDescription };
+export { Introduction, AboutMe, Contact };

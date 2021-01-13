@@ -8,14 +8,13 @@ import ColorLensIcon from '@material-ui/icons/ColorLens';
 import BuildIcon from '@material-ui/icons/Build';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
-import { useTrail, animated, useSpring, interpolate } from 'react-spring';
+import { useTrail, animated, useSpring } from 'react-spring';
 
 import WorkValues from '../Components/WorkValues.js';
 
 const phi = 1.6180339887498948482;
 
 const gRatioA = window.innerWidth / phi;
-const gRatioB = window.innerWidth - gRatioA;
 
 const About = React.memo(props => {
     const [valuesOpen, setValuesOpen] = React.useState(false);
@@ -96,7 +95,8 @@ const About = React.memo(props => {
                 flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden"
             }}>
             {headerTrail.map(({ x, height, ...rest }, index) => (
-                <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(${-x}px,0,0)`) }}>
+                <animated.div key={`aboutHeader${index}`} style={{ ...rest,
+                 transform: x.interpolate((x) => `translate3d(${-x}px,0,0)`) }}>
                     {headerItems[index].content}
                 </animated.div>
             ))}
@@ -109,7 +109,7 @@ const About = React.memo(props => {
           </Typography>
                 </animated.div>
             </div>
-            <div style={{ display: "flex", alignItems: "flex-start", flexDirection: "column", maxWidth: "70%" }} >
+            <div style={{ display: "flex", alignItems: "flex-start", flexDirection: "column", maxWidth: "70%", transform: "scale(0.95)" }} >
                 {trail.map(({ x, height, ...rest }, index) => (
                     <animated.div
                         key={jobValues[index].key}

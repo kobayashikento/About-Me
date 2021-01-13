@@ -7,20 +7,11 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
-import GitHubIcon from '@material-ui/icons/GitHub';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import MailIcon from '@material-ui/icons/Mail';
-
-import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-
-import { animated, useSpring, config } from 'react-spring';
+import { animated, useSpring } from 'react-spring';
 
 // import components 
 import MyDescription from '../Sections/MyDescription.js';
-import AnimateTimeline from '../Components/AnimatedTimeline.js';
-import AnimatedGrid from '../Components/AnimatedGrid.js';
-import NetworkAni from '../Components/NetworkAni.js';
-import { NavBar, Introduction, AboutMe, SideIcons, Contact, ToTop, Picture, AboutMeSecond, SecondPicture, LineDescription } from '../Sections/Introduction.js';
+import { NavBar, Introduction, Contact } from '../Sections/Introduction.js';
 import Projects from './Projects';
 import Experience from './Experience.js';
 import About from './About.js';
@@ -32,7 +23,7 @@ import { useWheel } from 'react-use-gesture';
 
 import Scrollbar from 'react-smooth-scrollbar';
 
-import { Transition, Spring } from 'react-spring/renderprops'
+import { Spring } from 'react-spring/renderprops'
 
 // Themes/Color schemes 
 const themes = [
@@ -88,11 +79,7 @@ const themes = [
 const phi = 1.6180339887498948482;
 
 const Home = React.memo(props => {
-
-    const boxShadow = "0 2px 6px rgba(60,64,67,.15), 0 1px 2px rgba(60,64,67,.3)";
-
     let scroll = React.useRef(null);
-    let expContainerRef = React.useRef(null);
     let aboutContainerRef = React.useRef(null);
     let contactContainerRef = React.useRef(null);
     // condition that changes parallax size depending on the window size
@@ -100,22 +87,14 @@ const Home = React.memo(props => {
     const lgUp = useMediaQuery('(min-width:1440px)');
     const theme = useTheme();
     let mobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const [showDesc, setShowDesc] = React.useState(true);
     const [colorScheme, setTheme] = React.useState(themes[0]);
-    const [clientWidth, setClientWidth] = React.useState(window.innerWidth);
     // animation timing based on scroll position
-    const [landingArrow, setLandingArrow] = React.useState(false);
     const [first, setFirst] = React.useState(false)
     const [second, setSecond] = React.useState(false);
     const [third, setThird] = React.useState(false);
     const [forth, setForth] = React.useState(false);
     const [fith, setFith] = React.useState(false);
-    const [expPos, setExpPos] = React.useState(window.innerHeight);
-    const [projPos, setProjPos] = React.useState(window.innerHeight);
-    const [aboutMePos, setAboutMePos] = React.useState(window.innerHeight);
-    const [contactPos, setContactPos] = React.useState(3.6);
     const [landing, setLanding] = React.useState(true);
-    const [show, setShow] = React.useState(false);
 
     // Handle change of theme event 
     const handleThemeChange = (index) => {
@@ -123,75 +102,6 @@ const Home = React.memo(props => {
     }
 
     const [navHover, setNavHover] = React.useState(0);
-    const [navIndex, setNavIndex] = React.useState(0);
-
-    const handleSetActive = (e) => {
-        setNavIndex(e)
-    }
-
-    const handleExpClick = () => {
-        scroller.scrollTo('experience', {
-            duration: 1500,
-            delay: 100,
-            smooth: true,
-        })
-    }
-
-    const handleProjClick = () => {
-        scroller.scrollTo('projects', {
-            duration: 1500,
-            delay: 100,
-            smooth: true,
-        })
-    }
-
-    // Handle when button on the nav menu is clicked 
-    const handleNavClick = (index) => {
-        switch (index) {
-            case 0:
-                scroller.scrollTo('introduction', {
-                    duration: 1500,
-                    delay: 100,
-                    smooth: true,
-                })
-                break;
-            case 1:
-                scroller.scrollTo('description', {
-                    duration: 1500,
-                    delay: 100,
-                    smooth: true,
-                })
-                break;
-            case 2:
-                scroller.scrollTo('experience', {
-                    duration: 1500,
-                    delay: 100,
-                    smooth: true,
-                })
-                break;
-            case 3:
-                scroller.scrollTo('projects', {
-                    duration: 1500,
-                    delay: 100,
-                    smooth: true,
-                })
-                break;
-            case 4:
-                scroller.scrollTo('aboutme', {
-                    duration: 1500,
-                    delay: 100,
-                    smooth: true,
-                })
-                break;
-            case 5:
-                scroller.scrollTo('contact', {
-                    duration: 1500,
-                    delay: 100,
-                    smooth: true,
-                })
-                break;
-        }
-    }
 
     const [initial, setInitial] = React.useState(true);
 
@@ -214,14 +124,6 @@ const Home = React.memo(props => {
         setInitial(true);
     }
 
-    const [direction, setDirection] = React.useState(false);
-
-    const bind = useWheel(({ wheeling, direction }) => {
-        if (wheeling && direction[1] === 1) {
-            setInitial(false);
-        }
-    })
-
     const gRatioA = window.innerWidth / phi;
     const gRatioB = window.innerWidth - gRatioA;
 
@@ -239,6 +141,13 @@ const Home = React.memo(props => {
     const [descriptionOpenSecond, setDescriptionOpenSecond] = React.useState(false);
     const [showNav, setShowNav] = React.useState(false);
     const [contactShow, setContactShow] = React.useState(false);
+    const [direction, setDirection] = React.useState(false);
+
+    const bind = useWheel(({ wheeling, direction }) => {
+        if (wheeling && direction[1] === 1) {
+            setInitial(false);
+        }
+    })
 
     const handleTransitionRest = () => {
         if (first) {
@@ -254,12 +163,12 @@ const Home = React.memo(props => {
 
     React.useEffect(() => {
         if (scroll.current !== null) {
-            scroll.current.scrollbar.offset.y = 10;
             scroll.current.scrollbar.addListener((s) => {
-                if (s.offset.y > window.innerHeight * 0.2) { setSecond(false) } else { setSecond(true) }
-                if (s.offset.y > window.innerHeight * 0.25) { setThird(true) } else { setThird(false) }
-                if (s.offset.y > window.innerHeight * 1) { setHideAbout(true) } else { setHideAbout(false) }
-                if (s.offset.y > window.innerHeight * 1.7) { setForth(true) } else { setForth(false) }
+                if (s.offset.y > window.innerHeight * 0.4) { setSecond(false) } else { setSecond(true) }
+                if (s.offset.y > window.innerHeight * 0.4) { setThird(true) } else { setThird(false) }
+                if (s.offset.y > window.innerHeight * 0.5) { setHideAbout(true) } else { setHideAbout(false) }
+                if (s.offset.y > aboutContainerRef.current.offsetTop + (window.innerHeight * 0.6)) { setForth(true) } else { setForth(false) }
+                if (s.offset.y > aboutContainerRef.current.offsetTop + (window.innerHeight * 0.5)) { setFith(true) } else { setFith(false) }
                 if (s.offset.y > contactContainerRef.current.offsetTop - window.innerHeight) { setContactShow(true) } else { setContactShow(false) }
                 if (s.offset.y === 0) {
                     setFirst(false); setSecond(false);
@@ -275,9 +184,9 @@ const Home = React.memo(props => {
             if (type === "about") {
                 scroll.current.scrollbar.scrollTo(0, 10, 800);
             } else if (type === "experience") {
-                scroll.current.scrollbar.scrollTo(0, aboutContainerRef.current.offsetTop - `${window.innerHeight * 0.025}`, 800);
+                scroll.current.scrollbar.scrollTo(0, window.innerHeight * 0.72, 800);
             } else if (type === "projects") {
-                scroll.current.scrollbar.scrollTo(0, expContainerRef.current.offsetTop, 800);
+                scroll.current.scrollbar.scrollTo(0, window.innerHeight * 1.72, 800);
             } else if (type === "contact") {
                 scroll.current.scrollbar.scrollTo(0, contactContainerRef.current.offsetTop, 800);
             }
@@ -359,7 +268,7 @@ const Home = React.memo(props => {
                         <a onMouseEnter={() => setNavHover(4)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("projects")}
                             style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
                             <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 4 ? colorScheme.stdColor : (forth && !contactShow)  ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
+                                fontSize: "11px", lineHeight: "19px", color: navHover === 4 ? colorScheme.stdColor : (forth && !contactShow) ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
                                 fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
                             }}>
                                 PROJECTS
@@ -383,10 +292,9 @@ const Home = React.memo(props => {
                     </animated.div>
                     <Spring
                         to={{
-                            width: third ? `${window.innerWidth}px` : first ? `${gRatioB}px` : hideAbout ? `${gRatioB}px` : `0px`,
-                            marginLeft: hideAbout ? `${gRatioA}px` : `0px`
+                            width: third ? `${0}px` : first ? `${gRatioB}px` : hideAbout ? `${gRatioB}px` : `0px`,
                         }}
-                        from={{ position: "fixed", width: third ? `${gRatioB}px` : `0px`, marginLeft: "0px" }}
+                        from={{ position: "fixed", width: third ? `${gRatioB}px` : `0px` }}
                         onRest={() => handleTransitionRest()}
                     >
                         {prop => (<animated.div style={{
@@ -401,53 +309,47 @@ const Home = React.memo(props => {
                             />
                         </animated.div>)}
                     </Spring>
+                    <MyDescription
+                        theme={colorScheme}
+                        render={second}
+                        descriptionOpen={descriptionOpenSecond}
+                    />
                     <Scrollbar
                         ref={scroll}
-                        style={{ width: "100vw", height: "100vh", overflow: "auto" }}
+                        style={{ width: "100vw", height: "100vh" }}
                         damping={0.05}
                     >
-                        <MyDescription
-                            theme={colorScheme}
-                            render={second}
-                            descriptionOpen={descriptionOpenSecond}
-                        />
-                        <div style={{ height: "50vh" }} />
+                        <div style={{ height: "75vh" }} />
+                        <Spring
+                            to={{
+                                transform: forth ? `translateY(-50%) scale3d(0.4, 0.4,0)` :
+                                    hideAbout ? `translateY(0%) scale3d(1, 1, 2)` : `translateY(50%) scale3d(0.5, 0.5,0) `
+                            }}
+                            from={{ transform: `translateY(50%) scale3d(0.5, 0.5,0) ` }}
+                        >
+                            {prop => (
+                                <animated.div ref={aboutContainerRef} style={{
+                                    ...prop,
+                                    background: `rgb(86,33,48)`,
+                                    overflow: "hidden", position: "relative", zIndex: 3
+                                }}
+                                >
+                                    <Experience
+                                        mobile={mobile}
+                                        theme={colorScheme}
+                                        render={true}
+                                    />
+                                </animated.div>
+                            )}
+                        </Spring>
                         <div>
-                            <Spring
-                                to={{ opacity: 1, }}
-                                from={{ opacity: 1, width: "100vw", height: "95vh", }}
-                            >
-                                {prop => (
-                                    <animated.div ref={aboutContainerRef} style={{
-                                        ...prop,
-                                        background: `rgb(86,33,48)`,
-                                        overflow: "hidden",
-                                    }}
-                                    >
-                                        <Experience
-                                            mobile={mobile}
-                                            theme={colorScheme}
-                                            render={true}
-                                        />
-                                    </animated.div>
-                                )}
-                            </Spring>
-                            <Spring
-                                to={{ opacity: forth ? 1 : 0, width: forth ? `90vw` : "0vw", height: "95%", marginTop: "5%" }}
-                                from={{ opacity: 0, width: "0vw", height: "0%" }}
-                            >
-                                {prop => (
-                                    <animated.div ref={expContainerRef} style={{ ...prop }}>
-                                        <Projects
-                                            render={true}
-                                            mobile={mobile}
-                                            theme={colorScheme}
-                                        />
-                                    </animated.div>
-                                )}
-                            </Spring>
+                            <Projects
+                                render={fith}
+                                mobile={mobile}
+                                theme={colorScheme}
+                            />
                         </div>
-                        <div ref={contactContainerRef}>
+                        <div ref={contactContainerRef} style={{ zIndex: 0 }}>
                             <Contact
                                 mobile={mobile}
                                 theme={colorScheme}
@@ -461,6 +363,5 @@ const Home = React.memo(props => {
         </div >
     )
 })
-
 
 export default React.memo(Home); 
