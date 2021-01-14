@@ -502,19 +502,6 @@ const Introduction = React.memo(props => {
 })
 
 const Contact = React.memo(props => {
-    const handleClick = (index) => {
-        props.handleThemeChange(index)
-    }
-
-    const StyledButton = withStyles({
-        root: {
-            borderRadius: 0,
-            border: `2px solid ${props.theme.stdColor}`,
-            '&:hover': {
-                background: props.theme.stdColor,
-            },
-        },
-    })(Button);
 
     return (
         props.mobile ?

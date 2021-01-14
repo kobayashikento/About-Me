@@ -6,12 +6,17 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import TocRoundedIcon from '@material-ui/icons/TocRounded';
+import IconButton from '@material-ui/core/IconButton';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Button from '@material-ui/core/Button';
 
 import { animated, useSpring } from 'react-spring';
 
 // import components 
 import MyDescription from '../Sections/MyDescription.js';
-import { NavBar, Introduction, Contact } from '../Sections/Introduction.js';
+import { Introduction, Contact } from '../Sections/Introduction.js';
 import Projects from './Projects';
 import Experience from './Experience.js';
 import About from './About.js';
@@ -114,6 +119,7 @@ const Home = React.memo(props => {
     // Function triggered once the last transition finishes 
     const handleIntroLeave = () => {
         setLanding(false);
+        scroll.current.scrollbar.scrollTo(0, 10, 800);
         setFirst(true);
         setSecond(true);
     }
@@ -141,7 +147,7 @@ const Home = React.memo(props => {
     const [descriptionOpenSecond, setDescriptionOpenSecond] = React.useState(false);
     const [showNav, setShowNav] = React.useState(false);
     const [contactShow, setContactShow] = React.useState(false);
-    const [direction, setDirection] = React.useState(false);
+    const [mobileModalOpen, setMobileModalOpen] = React.useState(false);
     const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
     const bind = useWheel(({ wheeling, direction }) => {
@@ -219,6 +225,9 @@ const Home = React.memo(props => {
         opacity: navHover === 6 ? 1 : contactShow ? 1 : 0
     })
 
+    const mobileModalSpring = useSpring({
+        width: mobileModalOpen ? `${window.innerWidth - 56}px` : "0px"
+    })
     return (
         matches ?
             <div {...bind()} style={{ background: `${colorScheme.lightColor}66` }}>
@@ -360,6 +369,14 @@ const Home = React.memo(props => {
             </div >
             :
             <div>
+                <nav style={{
+                    position: "fixed", height: "56px", backgroundColor: `${colorScheme.lightColor}E6`, width: "100vw", zIndex: 4
+                    , display: "flex", alignItems: "center", justifyContent: "flex-end",
+                }}>
+                    <IconButton style={{ marginRight: "4px" }} onClick={() => setMobileModalOpen(true)}>
+                        <TocRoundedIcon style={{ color: colorScheme.stdColor }} />
+                    </IconButton>
+                </nav>
                 <Introduction
                     mobile={!matches}
                     theme={colorScheme}
@@ -391,7 +408,74 @@ const Home = React.memo(props => {
                     themes={themes}
                     handleThemeChange={(index) => handleThemeChange(index)}
                 />
-            </div>
+                <Modal
+                    open={mobileModalOpen}
+                    onClose={() => setMobileModalOpen(false)}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <animated.div style={{
+                        ...mobileModalSpring, position: "fixed", background: "white", height: "100vh", top: "0px", right: "0px",
+                        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start"
+                    }}>
+                        <Button>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                                <Typography style={{
+                                    fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
+                                    fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                }}>
+                                    ABOUT
+                            </Typography>
+                                <animated.div style={{ width: "2rem" }}>
+                                    <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                </animated.div>
+                            </div>
+                        </Button>
+                        <Button>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                                <Typography style={{
+                                    fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
+                                    fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                }}>
+                                    EXPERIENCE
+                            </Typography>
+                                <animated.div style={{ width: "5rem" }}>
+                                    <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                </animated.div>
+                            </div>
+                        </Button>
+                        <Button>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                                <Typography style={{
+                                    fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
+                                    fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                }}>
+                                    PROJECTS
+                            </Typography>
+                                <animated.div style={{ width: "4rem" }}>
+                                    <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                </animated.div>
+                            </div>
+                        </Button>
+                        <Button>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                                <Typography style={{
+                                    fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
+                                    fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                }}>
+                                    CONTACT
+                            </Typography>
+                                <animated.div style={{ width: "2rem" }}>
+                                    <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                </animated.div>
+                            </div>
+                        </Button>
+                    </animated.div>
+                </Modal>
+            </div >
     )
 })
 
