@@ -63,7 +63,7 @@ const CoderIntro = React.memo(props => {
                 scaleMobile: 1.00,
                 color: props.theme.lightColor,
                 color2: props.theme.darkColor,
-                size: 0.90,
+                size: 1.20,
                 backgroundColor: props.theme.lightestColor
             }))
         }
@@ -87,24 +87,24 @@ const CoderIntro = React.memo(props => {
                 <div style={{
                     width: "100vw", zIndex: "-1", overflow: "hidden"
                 }}>
-                    <div ref={myRef} style={{ height: "50vh" }} />
-                </div>
-                <div style={{
-                    display: "flex", flexDirection: "column", color: props.theme.darkestColor, lineHeight: "68px",
-                    fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "40px", position: "absolute", bottom: "0px", justifyContent: "center",
-                    opacity: `1`, alignItems: "center", height: "50vh", width: "100vw"
-                }}>
-                    <Typist avgTypingDelay={150}>
-                        {title}
-                    </Typist>
-                    <Typography align="center" style={{
-                        fontSize: "15px", lineHeight: "25px",
-                        width: "340px", fontFamily: "'Roboto Mono', monospace", display: "flex",
-                        marginLeft: "auto", marginRight: "auto",
-                        color: theme.darkestColor, paddingTop: "16px", fontWeight: "400"
+                    <div style={{
+                        display: "flex", flexDirection: "column", color: props.theme.darkestColor, lineHeight: "68px",
+                        fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "40px", position: "absolute", justifyContent: "center",
+                        opacity: `1`, alignItems: "center", height: "50vh", width: "100vw", zIndex: 2
                     }}>
-                        Front End Developer who specializes in React, Node.JS, and MongoDB.
+                        <Typist avgTypingDelay={150}>
+                            {title}
+                        </Typist>
+                        <Typography align="center" style={{
+                            fontSize: "15px", lineHeight: "25px",
+                            width: "340px", fontFamily: "'Roboto Mono', monospace", display: "flex",
+                            marginLeft: "auto", marginRight: "auto",
+                            color: theme.darkestColor, paddingTop: "16px", fontWeight: "400"
+                        }}>
+                            Front End Developer who specializes in React, Node.JS, and MongoDB.
                     </Typography>
+                    </div>
+                    <div ref={myRef} style={{ height: "50vh" }} />
                 </div>
             </React.Fragment >
             :
