@@ -12,6 +12,7 @@ import ResumeDetails from '../Components/ResumeDetails.js';
 
 const Experience = (props) => {
 
+    const mobile = props.mobile;
     const [cardIndex, setCardIndex] = React.useState(0);
     const [activePage, setActivePage] = React.useState(0);
     const [activeCard, setActiveCard] = React.useState(null);
@@ -64,6 +65,8 @@ const Experience = (props) => {
             }, 500)
         }
     }, []);
+
+    console.log(props.mobile)
 
     return (
         props.mobile ?
@@ -123,7 +126,7 @@ const Experience = (props) => {
                             {showModal => showModal && (props =>
                                 <div style={props}>
                                     <ResumeDetails
-                                        mobile={props.mobile}
+                                        mobile={true}
                                         handleDetailsChange={() => handleDetailsChange()}
                                         activeCard={activeCard}
                                     />
@@ -186,7 +189,7 @@ const Experience = (props) => {
                         {showModal => showModal && (props =>
                             <div style={props}>
                                 <ResumeDetails
-                                    mobile={props.mobile}
+                                    mobile={false}
                                     handleDetailsChange={() => handleDetailsChange()}
                                     activeCard={activeCard}
                                 />

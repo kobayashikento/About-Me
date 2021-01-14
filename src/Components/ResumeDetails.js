@@ -16,7 +16,7 @@ const ResumeDetails = (props) => {
     }
 
     return (
-        props.activeCard !== null ? props.mobile ?
+        props.activeCard !== null ? !props.mobile ?
             <div style={{
                 backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", width: "90%", top: "0%", left: "50%", transform: "translate(-50%, 0%)", position: "absolute"
             }}>
