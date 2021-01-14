@@ -22,7 +22,7 @@ const DesignerAni = (props) => {
         context.strokeStyle = context.fillStyle = props.theme.lightestColor;
 
         const loop = () => {
-            context.clearRect(x, 0, 55, 150);
+            context.clearRect(x, 0, 0, 150);
             context.setLineDash([dashLen - dashOffset, dashOffset - speed]); // create a long dash mask
             dashOffset -= speed;                                         // reduce dash length
             context.strokeText(txt[i], x, 55);                               // stroke letter
@@ -44,7 +44,7 @@ const DesignerAni = (props) => {
     return (
         <canvas style={{
             position: "fixed", top: "0", left: "0", right: "0",
-        }} ref={canvasRef} style={{ width: "360px", height: "72px", margin: "0", transform: "translateX(-16px)"}} />
+        }} ref={canvasRef} style={{ width: "360px", height: "72px", margin: "0"}} />
     )
 }
 

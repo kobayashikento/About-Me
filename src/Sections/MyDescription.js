@@ -60,104 +60,198 @@ const MyDescription = React.memo(props => {
     const matches = useMediaQuery('(min-width:1500px)');
 
     return (
-        <div style={{ overflow: "hidden", }}>
-            <Transition
-                items={props.render}
-                from={{ position: "absolute", width: "0px" }}
-                enter={{ width: `${gRatioA}px` }}
-                leave={{ width: "0px" }}
-            >
-                {show => show && (prop => <div style={{
-                    ...prop, height: "90vh", top: "5vh", bottom: "5%", background: props.theme.lightestColor,
-                    right: "0px", display: "flex", justifyContent: "around", alignItems: "center", overflow: "hidden"
-                }}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }}>
-                        <animated.div style={{ ...descriptionSpring, marginLeft: "7.7vmax", marginTop: "3.3vmax" }}>
-                            <Typography align="justify" style={{ width: "400px", color: `${props.theme.darkestColor}99`, fontFamily: "'Quicksand', sans-serif", fontSize: "0.9rem" }}>
-                                *All animations and transitions are coded using JavaScript (React-Spring) and Asynchronous calls are used to create a chain of animations.
+        props.mobile ?
+            <div style={{ transform: "scale(0.8)", padding: "16px",}}>
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"HTML"}
+                    percentage={90}
+                    delay={700}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"CSS"}
+                    percentage={90}
+                    delay={800}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"JavaScript"}
+                    percentage={90}
+                    delay={900}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"React"}
+                    percentage={67.5}
+                    delay={1000}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"Swift"}
+                    percentage={67.5}
+                    delay={1100}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"Node.js"}
+                    percentage={45}
+                    delay={1200}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"MongoDB"}
+                    percentage={45}
+                    delay={1300}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"Liquid"}
+                    percentage={45}
+                    delay={1400}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"UI Design"}
+                    percentage={45}
+                    delay={1500}
+                />
+                <ExperienceBar
+                    mobile={props.mobile}
+                    render={true}
+                    theme={props.theme}
+                    name={"Vue JS"}
+                    percentage={22.5}
+                    delay={1600}
+                />
+            </div>
+            :
+            <div style={{ overflow: "hidden", }}>
+                <Transition
+                    items={props.render}
+                    from={{ position: "absolute", width: "0px" }}
+                    enter={{ width: `${gRatioA}px` }}
+                    leave={{ width: "0px" }}
+                >
+                    {show => show && (prop => <div style={{
+                        ...prop, height: "90vh", top: "5vh", bottom: "5%", background: props.theme.lightestColor,
+                        right: "0px", display: "flex", justifyContent: "around", alignItems: "center", overflow: "hidden"
+                    }}>
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }}>
+                            <animated.div style={{ ...descriptionSpring, marginLeft: "7.7vmax", marginTop: "3.3vmax" }}>
+                                <Typography align="justify" style={{ width: "400px", color: `${props.theme.darkestColor}99`, fontFamily: "'Quicksand', sans-serif", fontSize: "0.9rem" }}>
+                                    *All animations and transitions are coded using JavaScript (React-Spring) and Asynchronous calls are used to create a chain of animations.
               </Typography>
-                        </animated.div>
-                        <animated.div style={{ ...springBars, zoom: matches ? "1" : "0.9", marginLeft: "5.5vmax" }}>
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"HTML"}
-                                percentage={90}
-                                delay={700}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"CSS"}
-                                percentage={90}
-                                delay={800}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"JavaScript"}
-                                percentage={90}
-                                delay={900}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"React"}
-                                percentage={67.5}
-                                delay={1000}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"Swift"}
-                                percentage={67.5}
-                                delay={1100}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"Node.js"}
-                                percentage={45}
-                                delay={1200}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"MongoDB"}
-                                percentage={45}
-                                delay={1300}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"Liquid"}
-                                percentage={45}
-                                delay={1400}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"UI Design"}
-                                percentage={45}
-                                delay={1500}
-                            />
-                            <ExperienceBar
-                                render={barsOpen}
-                                theme={props.theme}
-                                name={"Vue JS"}
-                                percentage={22.5}
-                                delay={1600}
-                            />
-                        </animated.div>
-                    </div>
-                    <div style={{ margin: "3.3vmax", paddingBottom: "8.8vmax" }}>
-                        <animated.div style={{ ...springFace }}>
-                            <img src={restme} style={{ width: "191px", height: "270px", zIndex: 2, borderRadius: "4px" }} />
-                        </animated.div>
-                    </div>
-                </div>)}
-            </Transition>
-        </div >
+                            </animated.div>
+                            <animated.div style={{ ...springBars, zoom: matches ? "1" : "0.9", marginLeft: "5.5vmax" }}>
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"HTML"}
+                                    percentage={90}
+                                    delay={700}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"CSS"}
+                                    percentage={90}
+                                    delay={800}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"JavaScript"}
+                                    percentage={90}
+                                    delay={900}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"React"}
+                                    percentage={67.5}
+                                    delay={1000}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"Swift"}
+                                    percentage={67.5}
+                                    delay={1100}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"Node.js"}
+                                    percentage={45}
+                                    delay={1200}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"MongoDB"}
+                                    percentage={45}
+                                    delay={1300}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"Liquid"}
+                                    percentage={45}
+                                    delay={1400}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"UI Design"}
+                                    percentage={45}
+                                    delay={1500}
+                                />
+                                <ExperienceBar
+                                    mobile={props.mobile}
+                                    render={barsOpen}
+                                    theme={props.theme}
+                                    name={"Vue JS"}
+                                    percentage={22.5}
+                                    delay={1600}
+                                />
+                            </animated.div>
+                        </div>
+                        <div style={{ margin: "3.3vmax", paddingBottom: "8.8vmax" }}>
+                            <animated.div style={{ ...springFace }}>
+                                <img src={restme} style={{ width: "191px", height: "270px", zIndex: 2, borderRadius: "4px" }} />
+                            </animated.div>
+                        </div>
+                    </div>)}
+                </Transition>
+            </div >
     )
 })
 

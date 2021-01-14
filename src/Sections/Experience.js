@@ -66,67 +66,134 @@ const Experience = (props) => {
     }, []);
 
     return (
-        <div
-            style={{
-                display: "flex", flexDirection: "column",
-                alignItems: "center", justifyContent: "center", minHeight: "95vh"
-            }}
-        >
-            <div style={{ margin: "1.1vmax", paddingTop: "1.2vmax", position: "absolute", top: "0px" }}>
-                <ResumeParallax
-                    mobile={props.mobile}
-                    cardIndex={cardIndex}
-                    theme={props.theme}
-                    render={true}
-                />
+        props.mobile ?
+            <div style={{ background: props.theme.darkestColor }}>
+                <div
+                    style={{
+                        display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "flex-start", minHeight: "95vh"
+                    }}
+                >
+                    <div style={{ padding: "16px", paddingTop: "4.4vmax" }}>
+                        <ResumeParallax
+                            mobile={props.mobile}
+                            cardIndex={cardIndex}
+                            theme={props.theme}
+                            render={true}
+                        />
+                    </div>
+                    <div style={{
+                        maxWidth: "100%", display: "flex", justifyContent: "center", padding: "16px",
+                    }}>
+                        <AnimateTimeline
+                            mobile={props.mobile}
+                            theme={props.theme}
+                            activePage={activePage}
+                            handleTimeClick={(index) => handleTimeClick(index)}
+                        />
+                    </div>
+                    <div style={{
+                        maxWidth: "100%", display: "flex", justifyContent: "center",
+                        alignItems: "center", overflow: "hidden", padding: "16px"
+                    }}>
+                        <AnimatedGrid
+                            mobile={props.mobile}
+                            theme={props.theme}
+                            cardIndex={cardIndex}
+                            activePage={activePage}
+                            handleActiveCard={(item) => handleActiveCard(item)}
+                            handleCardClick={(index) => handleCardClick(index)}
+                        />
+                    </div>
+                    <Modal
+                        open={showDetails}
+                        onClose={() => handleDetailsChange()}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                            timeout: 500,
+                        }}
+                        style={{ overflow: "auto" }}
+                    >
+                        <Transition
+                            items={showModal}
+                            from={{ opacity: 0, transform: "translate(0, 200px)" }}
+                            enter={{ opacity: 1, transform: "translate(0, 0px)" }}
+                            leave={{ opacity: 0, transform: "translate(0, 180px)" }}>
+                            {showModal => showModal && (props =>
+                                <div style={props}>
+                                    <ResumeDetails
+                                        mobile={props.mobile}
+                                        handleDetailsChange={() => handleDetailsChange()}
+                                        activeCard={activeCard}
+                                    />
+                                </div>)}
+                        </Transition>
+                    </Modal>
+                </div>
             </div>
-            <div style={{
-                maxWidth: "100%", display: "flex", justifyContent: "center", margin: "1.1vmax", position: "absolute",
-                paddingTop: "7.7vmax", top: "0px"
-            }}>
-                <AnimateTimeline
-                    mobile={props.mobile}
-                    theme={props.theme}
-                    activePage={activePage}
-                    handleTimeClick={(index) => handleTimeClick(index)}
-                />
-            </div>
-            <div style={{ maxWidth: "100%", display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden", paddingTop: "180px", paddingBottom: "40px" }}>
-                <AnimatedGrid
-                    mobile={props.mobile}
-                    theme={props.theme}
-                    cardIndex={cardIndex}
-                    activePage={activePage}
-                    handleActiveCard={(item) => handleActiveCard(item)}
-                    handleCardClick={(index) => handleCardClick(index)}
-                />
-            </div>
-            <Modal
-                open={showDetails}
-                onClose={() => handleDetailsChange()}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
+            :
+            <div
+                style={{
+                    display: "flex", flexDirection: "column",
+                    alignItems: "center", justifyContent: "center", minHeight: "95vh"
                 }}
-                style={{ overflow: "auto" }}
             >
-                <Transition
-                    items={showModal}
-                    from={{ opacity: 0, transform: "translate(0, 200px)" }}
-                    enter={{ opacity: 1, transform: "translate(0, 0px)" }}
-                    leave={{ opacity: 0, transform: "translate(0, 180px)" }}>
-                    {showModal => showModal && (props =>
-                        <div style={props}>
-                            <ResumeDetails
-                                mobile={props.mobile}
-                                handleDetailsChange={() => handleDetailsChange()}
-                                activeCard={activeCard}
-                            />
-                        </div>)}
-                </Transition>
-            </Modal>
-        </div>
+                <div style={{ margin: "1.1vmax", paddingTop: "1.2vmax", position: "absolute", top: "0px" }}>
+                    <ResumeParallax
+                        mobile={props.mobile}
+                        cardIndex={cardIndex}
+                        theme={props.theme}
+                        render={true}
+                    />
+                </div>
+                <div style={{
+                    maxWidth: "100%", display: "flex", justifyContent: "center", margin: "1.1vmax", position: "absolute",
+                    paddingTop: "7.7vmax", top: "0px"
+                }}>
+                    <AnimateTimeline
+                        mobile={props.mobile}
+                        theme={props.theme}
+                        activePage={activePage}
+                        handleTimeClick={(index) => handleTimeClick(index)}
+                    />
+                </div>
+                <div style={{ maxWidth: "100%", display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden", paddingTop: "180px", paddingBottom: "40px" }}>
+                    <AnimatedGrid
+                        mobile={props.mobile}
+                        theme={props.theme}
+                        cardIndex={cardIndex}
+                        activePage={activePage}
+                        handleActiveCard={(item) => handleActiveCard(item)}
+                        handleCardClick={(index) => handleCardClick(index)}
+                    />
+                </div>
+                <Modal
+                    open={showDetails}
+                    onClose={() => handleDetailsChange()}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                    style={{ overflow: "auto" }}
+                >
+                    <Transition
+                        items={showModal}
+                        from={{ opacity: 0, transform: "translate(0, 200px)" }}
+                        enter={{ opacity: 1, transform: "translate(0, 0px)" }}
+                        leave={{ opacity: 0, transform: "translate(0, 180px)" }}>
+                        {showModal => showModal && (props =>
+                            <div style={props}>
+                                <ResumeDetails
+                                    mobile={props.mobile}
+                                    handleDetailsChange={() => handleDetailsChange()}
+                                    activeCard={activeCard}
+                                />
+                            </div>)}
+                    </Transition>
+                </Modal>
+            </div>
     )
 }
 

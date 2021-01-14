@@ -7,10 +7,11 @@ import { useSpring, useChain, useTrail, animated, useTransition, config } from '
 const ExpereinceBar = (props) => {
     // props i need, 1. theme  2. name 3. experience in %
     // specs 531x28 total and 110x28 for name field, adjust accordingly 
+    const mobile = props.mobile
     const theme = props.theme;
     const show = props.render;
     const delay = props.delay;
-    const barLength = (props.percentage) / 10 * 42;
+    const barLength = props.mobile ? (props.percentage) / 10 * 20  :  (props.percentage) / 10 * 42;
     const perc = props.percentage;
 
     const transitions = useTransition(show, null, {
@@ -30,7 +31,7 @@ const ExpereinceBar = (props) => {
     })
 
     return (
-        <div style={{ width: "565px", height: "28px", display: "flex", marginBottom: "1rem" }}>
+        <div style={{ width: props.mobile ? "250px" : "565px", height: "28px", display: "flex", marginBottom: "1rem" }}>
             <div style={{ width: "110px", height: "28px", backgroundColor: props.theme.lightColor, borderRadius: "3px" }}>
                 <Typography  align="center" style={{ fontFamily: "'Quicksand', sans-serif", paddingTop: "3px", fontWeight: "500" }} >
                     {props.name}
@@ -40,7 +41,7 @@ const ExpereinceBar = (props) => {
                 item && <animated.div key={key} style={{ ...props, backgroundColor: theme.darkColor, height: "28px", marginLeft: "110px", zIndex: "1", borderRadius: "3px" }}></animated.div>
             )}
             {transPerc.map(({ item, key, props }) =>
-                item && <animated.div key={key} style={{ ...props, backgroundColor: "rgb(235,235,235)", height: "28px", marginLeft: "110px", width: "451px", paddingRight: "8px", borderRadius: "3px" }}>
+                item && <animated.div key={key} style={{ ...props, backgroundColor: "rgb(235,235,235)", height: "28px", marginLeft: "110px", width: mobile ? "251px" : "451px", paddingRight: "8px", borderRadius: "3px" }}>
                     <Typography variant="body1" align="right" style={{ fontFamily: "'Quicksand', sans-serif", paddingTop: "3px", fontWeight: "500" }} >
                         {perc === 90 ? "Expert" : perc === 67.5 ? "Advanced" : perc === 45 ? "Intermediate" : "Novice"}
                     </Typography>

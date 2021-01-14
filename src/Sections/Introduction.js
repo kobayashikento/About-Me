@@ -57,8 +57,8 @@ const CoderIntro = React.memo(props => {
                 mouseControls: true,
                 touchControls: true,
                 gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
+                height: 200.00,
+                width: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
                 color: props.theme.lightColor,
@@ -83,20 +83,30 @@ const CoderIntro = React.memo(props => {
 
     return (
         props.mobile ?
-            <div ref={myRef}>
-                <div style={{ alignItems: "center", justifyContent: "center", width: `100vw`, height: "50vh", display: "flex", flexDirection: "column", color: props.theme.darkestColor, fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "1.5rem", }}>
+            <React.Fragment>
+                <div style={{
+                    width: "100vw", zIndex: "-1", overflow: "hidden"
+                }}>
+                    <div ref={myRef} style={{ height: "50vh" }} />
                 </div>
-                <div style={{ zIndex: "2", marginTop: "1rem", fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", fontWeight: "400", fontFamily: "'Poppins', sans-serif", alignItems: "center" }}>
-                    <Typist
-                        startDelay={1000}
-                        avgTypingDelay={150}
-                    >
-                        See My Experiences
-                        </Typist>
-                    <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleExpClick()}
-                        style={{ margin: "1rem", color: hover ? props.theme.stdColor : props.theme.darkestColor }} />
+                <div style={{
+                    display: "flex", flexDirection: "column", color: props.theme.darkestColor, lineHeight: "68px",
+                    fontWeight: "400", fontFamily: "'Roboto Mono', monospace", fontSize: "40px", position: "absolute", bottom: "0px", justifyContent: "center",
+                    opacity: `1`, alignItems: "center", height: "50vh", width: "100vw"
+                }}>
+                    <Typist avgTypingDelay={150}>
+                        {title}
+                    </Typist>
+                    <Typography align="center" style={{
+                        fontSize: "15px", lineHeight: "25px",
+                        width: "340px", fontFamily: "'Roboto Mono', monospace", display: "flex",
+                        marginLeft: "auto", marginRight: "auto",
+                        color: theme.darkestColor, paddingTop: "16px", fontWeight: "400"
+                    }}>
+                        Front End Developer who specializes in React, Node.JS, and MongoDB.
+                    </Typography>
                 </div>
-            </div>
+            </React.Fragment >
             :
             <React.Fragment>
                 <div style={{
@@ -128,20 +138,6 @@ const CoderIntro = React.memo(props => {
                         </animated.div>
                     ))}
                 </div>
-                {/* <div style={{
-                    fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", position: "absolute", paddingTop: "3rem",
-                    fontWeight: "400", fontFamily: "'Poppins', sans-serif", alignItems: "center", left: `${props.clientWidth / 2}px`,
-                    top: "50%", transform: "translate(-240px, -50%)",
-                }}>
-                    <Typist
-                        startDelay={1000}
-                        avgTypingDelay={150}
-                    >
-                        See My Experiences
-                        </Typist>
-                    <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleExpClick()}
-                        style={{ margin: "1rem", color: hover ? props.theme.stdColor : props.theme.darkestColor }} />
-                </div> */}
             </React.Fragment >
     )
 })
@@ -150,7 +146,6 @@ const CoderIntro = React.memo(props => {
 const DesignIntro = React.memo(props => {
     const [vantaEffect, setVantaEffect] = React.useState(0);
     const myRef = React.useRef(null);
-    const [hover, setHover] = React.useState(false)
 
     React.useEffect(() => {
         if (!vantaEffect) {
@@ -159,8 +154,8 @@ const DesignIntro = React.memo(props => {
                 mouseControls: true,
                 touchControls: true,
                 gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
+                width: 200.00,
+                height: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
                 quantity: 4.00,
@@ -189,37 +184,28 @@ const DesignIntro = React.memo(props => {
     //Fog
     return (
         props.mobile ?
-            <div
-                ref={myRef} style={{ height: "50vh" }}
-            >
-                < div style={{
-                    width: `100vw`, display: "flex", height: "50vh",
-                    flexDirection: "column", alignItems: "center", justifyContent: "center",
-                    overflow: "hidden",
-                }}
-                >
-                    <Typography variant="h5" style={{ fontWeight: "bold", color: props.theme.lightestColor, fontFamily: "'Poppins', sans-serif", zIndex: 2, paddingBottom: "2.2vmax" }}>
-                        Designer
-                </Typography>
-                    {trail.map(({ x, height, ...rest }, index) => (
-                        <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                            <Typography variant={"body1"} align="center" style={{
-                                width: "340px", fontFamily: "'Poppins', sans-serif",
-                                color: "#FFFFFF", paddingTop: "1rem", fontWeight: props.mobile ? "400" : "bold", opacity: "1"
-                            }}>
-                                Aspiring Designer with a passion for designing beautiful user experiences.
-              </Typography>
-                        </animated.div>
-                    ))}
-                    <div style={{ fontSize: "1rem", color: props.theme.darkestColor, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <Typography variant="body1" style={{ fontWeight: "bold", color: props.theme.lightestColor, fontFamily: "'Poppins', sans-serif" }}>
-                            See My Projects
-                </Typography>
-                        <DoubleArrowIcon className="bounce" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => props.handleProjClick()}
-                            style={{ color: hover ? props.theme.stdColor : props.theme.lightestColor }} />
-                    </div>
-                </div >
-            </div>
+            <React.Fragment>
+                <div ref={myRef} style={{
+                    width: window.innerWidth, zIndex: "0", height: "50vh", position: "absolute"
+                }}>
+                    <div style={{ display: "flex", height: "50vh", alignItems: "center" }} />
+                </div>
+                <div style={{
+                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100vw",
+                    position: "absolute", zIndex: "1", opacity: `1`, height: "50vh", top: "0px"
+                }}>
+                    <DesignerAni theme={props.theme} />
+                    {
+                        <Typography align="center" style={{
+                            width: "340px", fontFamily: "'Merriweather Sans', sans-serif",
+                            fontSize: "16px", lineHeight: "27px", display: "flex", marginRight: "auto", marginLeft: "auto",
+                            color: props.theme.lightestColor, paddingTop: "16px", fontWeight: "400"
+                        }}>
+                            Aspiring Designer with a passion for designing beautiful user experiences.
+                        </Typography>
+                    }
+                </div>
+            </React.Fragment>
             :
             <React.Fragment>
                 <div ref={myRef} style={{
@@ -239,7 +225,7 @@ const DesignIntro = React.memo(props => {
                     }
                     {
                         trail.map(({ x, height, ...rest }, index) => (
-                            <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                            <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), marginRight: "24px" }}>
                                 <Typography align="center" style={{
                                     width: "340px", fontFamily: "'Merriweather Sans', sans-serif",
                                     fontSize: "16px", lineHeight: "27px", display: "flex", marginRight: "auto", marginLeft: "auto",
@@ -267,12 +253,10 @@ const DesignIntro = React.memo(props => {
 })
 
 const Introduction = React.memo(props => {
-    const theme = props.theme;
     const blockSize = 280;
     const [titleAnimation, setTitleAnimation] = React.useState(false);
     const [startTrail, setStartTrail] = React.useState(false);
     const [bottomNav, setBottomNav] = React.useState(false);
-    const [showResume, setShowResume] = React.useState(false);
     // for UX purposes need to make it so left and right amout moved to get to the end must be reduced 
     // step 1: divide the total screen by 4 => section 2, 3 is the range where the scroll will move and past section the 
     // mousemove is at max 
@@ -309,19 +293,9 @@ const Introduction = React.memo(props => {
         transform: bottomNav ? "translate3d(0, 0px, 0)" : "translate3d(0, -100px, 0)"
     })
 
-    // animated div for left and right mouseover animations 
-    // Golden Ratio
-    // const gRatioA = window.innerWidth / phi;
-    // const gRatioB = window.innerWidth - gRatioA;
-    // const designGolden = (window.innerWidth / 2) - gRatioB;
-    // Rule of Thirds 
     const thirds = (window.innerWidth / 2) - (window.innerWidth / 3)
-    // Golden ratio for height 
-    // const gRatioAInner = window.innerHeight / phi;
-    // const gRatioBInner = window.innerHeight - gRatioAInner;
     const designCenter = -((window.innerWidth / 2) - (window.innerWidth / 3));
     const typoLength = 350;
-    // get distance to where the typography should start 
     const typoDistance = ((window.innerWidth / 3) - typoLength) / 2;
 
     const [scrollX, setScrollX] = React.useState(0);
@@ -412,23 +386,17 @@ const Introduction = React.memo(props => {
 
     return (
         props.mobile ?
-            <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
+            <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
                 <div style={{ height: "50vh", width: "100vw" }}>
                     <DesignIntro
                         theme={props.theme}
                         mobile={props.mobile}
-                        pos={0}
-                        blockSize={blockSize}
-                        handleProjClick={() => props.handleProjClick()}
                     />
                 </div>
                 <div style={{ height: "50vh", width: "100vw" }}>
                     <CoderIntro
                         theme={props.theme}
-                        pos={0}
                         mobile={props.mobile}
-                        blockSize={blockSize}
-                        handleExpClick={() => props.handleExpClick()}
                     />
                 </div>
             </div>
@@ -555,49 +523,51 @@ const Contact = React.memo(props => {
                 direction="column"
                 justify="center"
                 alignItems="center"
-                style={{ paddingTop: "6.6vmax", margin: "0px", minHeight: "100vh", backgroundColor: props.theme.darkestColor, overflow: "hidden", width: '-webkit-fill-available' }}
+                style={{ paddingTop: "6.6vmax", margin: "0px", backgroundColor: props.theme.darkestColor, overflow: "hidden", width: '100vw', height: "100vh" }}
                 spacing={5}
             >
-                <Grid item sm={1} style={{ display: "flex", justifyContent: "center", maxWidth: "fit-content" }}>
+                <Grid item sm={1} style={{ display: "flex", justifyContent: "center", maxWidth: "fit-content", maxWidth: "100%", }}>
                     <div style={{ display: "flex", alignItems: "center", marginBottom: props.mobile ? "1rem" : "3rem", flexDirection: "column" }}>
-                        <Typography variant={props.mobile ? "h6" : "h4"} style={{ color: props.theme.darkestColor, fontWeight: "bold", fontFamily: "'Poppins', sans serif" }}>
+                        <Typography style={{
+                            color: props.theme.lightestColor, fontWeight: "bold",
+                            lineHeight: "61px", fontSize: "36px", fontFamily: "'Merriweather', serif"
+                        }}>
                             GET IN TOUCH
-                     </Typography>
-                        <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "9rem", backgroundColor: props.theme.darkestColor }} />
+                 </Typography>
+                        <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "15rem", backgroundColor: props.theme.lightestColor }} />
                     </div>
                 </Grid>
-                <Grid item sm={2} style={{ maxWidth: "90%" }}>
-                    <Typography variant="body1" align={props.mobile ? "justify" : "center"} style={{ color: props.theme.darkestColor }}>
-                        Interested in collaboration or would just like to chat? Feel free to reach out to me and I will get back to you as timely as possible!
-        </Typography>
+                <Grid item sm={2} style={{ maxWidth: "70vw" }}>
+                    <Typography align={props.mobile ? "justify" : "center"} style={{
+                        color: props.theme.lightestColor,
+                        fontFamily: "'Assistant', sans-serif", fontSize: "14px", lineHeight: "26px"
+                    }}>
+                        If you have any suggestions whether it's the design, animation, color scheme, etc... I am always eager to make improvements so leave me a message.
+    </Typography>
                 </Grid>
                 <Grid item sm={2}>
-                    <StyledButton onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
-                        <Typography variant="body1" align="center" style={{ color: props.theme.darkestColor }}>
-                            Leave A Message
-                </Typography>
-                    </StyledButton>
-                </Grid>
-                <Grid item sm={2} style={{ maxWidth: "fit-content" }}>
-                    <Typography variant="body1" align="center" style={{ color: props.theme.darkestColor }}>
-                        These are some potential themes I was considering...
-                </Typography>
-                </Grid>
-                <Grid item sm={2} style={{ maxWidth: "fit-content" }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", height: "40px" }}>
-                        {props.themes.map((theme, index) => {
-                            return (
-                                <Button key={`theme${index}`} style={{ marginRight: "1rem", color: theme.stdColor, borderRadius: 0, border: `2px solid ${theme.stdColor}` }} onClick={() => handleClick(index)}>
-                                    {`${theme.stdColor}`}
-                                </Button>
-                            )
-                        })}
+                    <div style={{ marginLeft: "auto", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                        <Tooltip title="To Github Profile">
+                            <IconButton onClick={() => { window.open("https://github.com/kobayashikento") }} >
+                                <GitHubIcon style={{ borderRadius: "50%", color: props.theme.stdColor }} />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="To LinkedIn Profile">
+                            <IconButton onClick={() => { window.open("https://ca.linkedin.com/in/kento-kobayashi-1a7330120") }} >
+                                <LinkedInIcon style={{ color: props.theme.stdColor }} />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Open Email">
+                            <IconButton onClick={() => { window.location.href = "mailto:kentokobayashik@gmail.com?" }} >
+                                <MailIcon style={{ color: props.theme.stdColor }} />
+                            </IconButton>
+                        </Tooltip>
                     </div>
                 </Grid>
-                <Grid item sm={1} style={{ maxWidth: "fit-content" }}>
+                <Grid item sm={1} style={{ maxWidth: "fit-content", maxWidth: "100%" }}>
                     <Typography variant="body2" align="center" style={{ color: props.theme.lightestColor }}>
                         Based in Toronto, Fueled by coffee :)
-        </Typography>
+    </Typography>
                 </Grid>
             </Grid >
             :

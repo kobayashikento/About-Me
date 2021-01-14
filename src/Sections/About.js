@@ -2,6 +2,7 @@ import React from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 
 import DevicesIcon from '@material-ui/icons/Devices';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
@@ -14,7 +15,8 @@ import WorkValues from '../Components/WorkValues.js';
 
 const phi = 1.6180339887498948482;
 
-const gRatioA = window.innerWidth / phi;
+const gRatioA = window.innerHeight / phi;
+const gRatioB = window.innerHeight - gRatioA;
 
 const About = React.memo(props => {
     const [valuesOpen, setValuesOpen] = React.useState(false);
@@ -47,9 +49,9 @@ const About = React.memo(props => {
 
     const headerItems = [
         {
-            content: <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            content: <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: props.mobile ? "5.5vmax" : "", padding: props.mobile ? "16px" : "" }}>
                 <Typography style={{
-                    lineHeight: "61px",fontSize: "36px", width: "max-content", color: props.theme.lightestColor, fontWeight: "bold", fontFamily: "'Merriweather', serif",
+                    lineHeight: "61px", fontSize: "36px", width: "max-content", color: props.theme.lightestColor, fontWeight: "bold", fontFamily: "'Merriweather', serif",
                 }}>About</Typography>
                 <Divider style={{ height: "2px", width: props.mobile ? "3rem" : "5rem", backgroundColor: props.theme.lightestColor }} />
             </div>,
@@ -88,43 +90,77 @@ const About = React.memo(props => {
     })
 
     return (
-        <div
-            style={{
-                transform: props.hideAbout ? `translate3d(20%, 0, 0)` : `translate3d(0, 0, 0)`,
-                background: "transparent", height: "100vh", display: "flex", position: "absolute", width: "100%",
-                flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden"
+        props.mobile ?
+            <div style={{
+                height: "100%", background: props.theme.darkestColor, display: "flex", flexDirection: "column", justifyContent: "flex-start",
+                alignItems: "center", paddingBottom: "3.3vmax"
             }}>
-            {headerTrail.map(({ x, height, ...rest }, index) => (
-                <animated.div key={`aboutHeader${index}`} style={{ ...rest,
-                 transform: x.interpolate((x) => `translate3d(${-x}px,0,0)`) }}>
-                    {headerItems[index].content}
-                </animated.div>
-            ))}
-            <div style={{ margin: "2.3vmax", marginBottom: "1.2vmax", maxWidth: "70%", }}>
-                <animated.div style={descriptionSpring}>
-                    <Typography align="justify" style={{ fontSize: "15px", width: "300px", 
+                {headerItems[0].content}
+                <Typography align="justify" style={{
+                    fontSize: "15px", padding: "16px",
                     color: props.theme.lightestColor, fontFamily: "'Quicksand', sans-serif",
-                    fontWeight: "200" }}>
-                        Experienced Front-End Web and App Developer with a Bachelors of Science in Mathematics and Statistics from the University of Toronto.
+                    fontWeight: "200"
+                }}>
+                    Experienced Front-End Web and App Developer with a Bachelors of Science in Mathematics and Statistics from the University of Toronto.
           </Typography>
-                </animated.div>
+                <Grid
+                    container
+                    style={{ padding: "16px" }}
+                >
+                    {jobValues.map((prop, index) => {
+                        return (
+                            <Grid item xs={6}>
+                                <WorkValues
+                                    theme={props.theme}
+                                    content={jobValues[index]}
+                                />
+                            </Grid>
+                        )
+                    })}
+                </Grid>
             </div>
-            <div style={{ display: "flex", alignItems: "flex-start", flexDirection: "column", maxWidth: "70%", transform: "scale(0.95)" }} >
-                {trail.map(({ x, height, ...rest }, index) => (
-                    <animated.div
-                        key={jobValues[index].key}
-                        className="trails-text"
-                        style={{ ...rest, transform: x.interpolate((x) => `translate3d(${x}px,0,0)`), marginBottom: "2vmax" }}>
-                        <animated.div style={{ height }}>
-                            <WorkValues
-                                theme={props.theme}
-                                content={jobValues[index]}
-                            />
-                        </animated.div>
+            :
+            <div
+                style={{
+                    transform: props.hideAbout ? `translate3d(20%, 0, 0)` : `translate3d(0, 0, 0)`,
+                    background: "transparent", height: "100vh", display: "flex", position: "absolute", width: "100%",
+                    flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden"
+                }}>
+                {headerTrail.map(({ x, height, ...rest }, index) => (
+                    <animated.div key={`aboutHeader${index}`} style={{
+                        ...rest,
+                        transform: x.interpolate((x) => `translate3d(${-x}px,0,0)`)
+                    }}>
+                        {headerItems[index].content}
                     </animated.div>
                 ))}
+                <div style={{ margin: "2.3vmax", marginBottom: "1.2vmax", maxWidth: "70%", }}>
+                    <animated.div style={descriptionSpring}>
+                        <Typography align="justify" style={{
+                            fontSize: "15px", width: "300px",
+                            color: props.theme.lightestColor, fontFamily: "'Quicksand', sans-serif",
+                            fontWeight: "200"
+                        }}>
+                            Experienced Front-End Web and App Developer with a Bachelors of Science in Mathematics and Statistics from the University of Toronto.
+          </Typography>
+                    </animated.div>
+                </div>
+                <div style={{ display: "flex", alignItems: "flex-start", flexDirection: "column", maxWidth: "70%", transform: "scale(0.95)" }} >
+                    {trail.map(({ x, height, ...rest }, index) => (
+                        <animated.div
+                            key={jobValues[index].key}
+                            className="trails-text"
+                            style={{ ...rest, transform: x.interpolate((x) => `translate3d(${x}px,0,0)`), marginBottom: "2vmax" }}>
+                            <animated.div style={{ height }}>
+                                <WorkValues
+                                    theme={props.theme}
+                                    content={jobValues[index]}
+                                />
+                            </animated.div>
+                        </animated.div>
+                    ))}
+                </div>
             </div>
-        </div>
     )
 })
 

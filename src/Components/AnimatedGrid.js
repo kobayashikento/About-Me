@@ -98,7 +98,7 @@ const AnimatedGrid = (props) => {
                     return { ...child, xy, width: Math.floor((width / columns)), height: (mobileHeight / 2) }
                 } else {
                     column = heights.indexOf(Math.min(...heights));
-                    xy = [window.innerWidth / 2, (heights[column] += mobileHeight / 2) - mobileHeight / 2]
+                    xy = [(window.innerWidth / 2 ) - 16, (heights[column] += mobileHeight / 2) - mobileHeight / 2]
                     return { ...child, xy, width: Math.floor((width / columns)), height: (mobileHeight / 2) }
                 }
             } else {

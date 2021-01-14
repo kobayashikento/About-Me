@@ -23,7 +23,7 @@ import { useWheel } from 'react-use-gesture';
 
 import Scrollbar from 'react-smooth-scrollbar';
 
-import { Spring } from 'react-spring/renderprops'
+import { Spring } from 'react-spring/renderprops';
 
 // Themes/Color schemes 
 const themes = [
@@ -142,6 +142,7 @@ const Home = React.memo(props => {
     const [showNav, setShowNav] = React.useState(false);
     const [contactShow, setContactShow] = React.useState(false);
     const [direction, setDirection] = React.useState(false);
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
     const bind = useWheel(({ wheeling, direction }) => {
         if (wheeling && direction[1] === 1) {
@@ -219,148 +220,178 @@ const Home = React.memo(props => {
     })
 
     return (
-        <div {...bind()} style={{ background: `${colorScheme.lightColor}66` }}>
-            { landing ?
-                <Introduction
-                    mobile={mobile}
-                    initial={initial}
-                    theme={colorScheme}
-                    handleIntroLeave={() => handleIntroLeave()}
-                    handleInitialChange={(state) => handleInitialChange(state)}
-                />
-                :
-                <div>
-                    <animated.div
-                        style={{
-                            ...navSpring, height: "54px", display: "flex", backgroundColor: "transparent", top: "0px", width: "100%", position: "fixed", zIndex: 2, marginTop: "1.1vmax"
-                        }}>
-                        {/* <Link onMouseEnter={() => setNavHover(1)} onMouseLeave={() => setNavHover(0)} onSetActive={() => handleSetActive(0)}
-                            activeClass="active" className="introduction" to="introduction" spy={true} smooth={true} duration={500} style={{ cursor: "pointer", marginLeft: "6.6vmax", textDecoration: "none" }} >
-                            <Typography style={{ fontSize: "14px", lineHeight: "24px", color: navHover === 1 ? colorScheme.stdColor : navIndex === 0 ? colorScheme.stdColor : "rgba(183,180,176,0.9)", fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem" }}>
-                                HOME
-                    </Typography>
-                        </Link> */}
-                        <a onMouseEnter={() => setNavHover(2)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("about")}
-                            style={{ cursor: "pointer", textDecoration: "none", marginLeft: "6.6vmax", display: "flex", flexDirection: "column", alignItems: "center" }} >
-                            <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 2 ? colorScheme.stdColor : (!hideAbout) ?
-                                    colorScheme.stdColor : "rgba(183,180,176,0.9)", fontFamily: "'Assistant', sans-serif",
-                                fontWeight: "500", margin: "1rem", marginBottom: "4px"
-                            }}>
-                                ABOUT
+        matches ?
+            <div {...bind()} style={{ background: `${colorScheme.lightColor}66` }}>
+                {
+                    landing ?
+                        <Introduction
+                            mobile={mobile}
+                            initial={initial}
+                            theme={colorScheme}
+                            handleIntroLeave={() => handleIntroLeave()}
+                            handleInitialChange={(state) => handleInitialChange(state)}
+                        />
+                        :
+                        <div>
+                            <animated.div
+                                style={{
+                                    ...navSpring, height: "54px", display: "flex", backgroundColor: "transparent", top: "0px", width: "100%", position: "fixed", zIndex: 2, marginTop: "1.1vmax"
+                                }}>
+                                <a onMouseEnter={() => setNavHover(2)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("about")}
+                                    style={{ cursor: "pointer", textDecoration: "none", marginLeft: "6.6vmax", display: "flex", flexDirection: "column", alignItems: "center" }} >
+                                    <Typography style={{
+                                        fontSize: "11px", lineHeight: "19px", color: navHover === 2 ? colorScheme.stdColor : (!hideAbout) ?
+                                            colorScheme.stdColor : "rgba(183,180,176,0.9)", fontFamily: "'Assistant', sans-serif",
+                                        fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                    }}>
+                                        ABOUT
                             </Typography>
-                            <animated.div style={aboutSpring}>
-                                <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
-                            </animated.div>
-                        </a>
-                        <a onMouseEnter={() => setNavHover(3)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("experience")}
-                            style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
-                            <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 3 ? colorScheme.stdColor : (hideAbout && !forth) ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
-                                fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
-                            }}>
-                                EXPERIENCE
+                                    <animated.div style={aboutSpring}>
+                                        <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                    </animated.div>
+                                </a>
+                                <a onMouseEnter={() => setNavHover(3)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("experience")}
+                                    style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
+                                    <Typography style={{
+                                        fontSize: "11px", lineHeight: "19px", color: navHover === 3 ? colorScheme.stdColor : (hideAbout && !forth) ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
+                                        fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                    }}>
+                                        EXPERIENCE
                             </Typography>
-                            <animated.div style={expSpring}>
-                                <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
-                            </animated.div>
-                        </a>
-                        <a onMouseEnter={() => setNavHover(4)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("projects")}
-                            style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
-                            <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 4 ? colorScheme.stdColor : (forth && !contactShow) ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
-                                fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
-                            }}>
-                                PROJECTS
+                                    <animated.div style={expSpring}>
+                                        <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                    </animated.div>
+                                </a>
+                                <a onMouseEnter={() => setNavHover(4)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("projects")}
+                                    style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
+                                    <Typography style={{
+                                        fontSize: "11px", lineHeight: "19px", color: navHover === 4 ? colorScheme.stdColor : (forth && !contactShow) ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
+                                        fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                    }}>
+                                        PROJECTS
                             </Typography>
-                            <animated.div style={projSpring}>
-                                <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
-                            </animated.div>
-                        </a>
-                        <a onMouseEnter={() => setNavHover(6)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("contact")}
-                            style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
-                            <Typography style={{
-                                fontSize: "11px", lineHeight: "19px", color: navHover === 6 ? colorScheme.stdColor : contactShow ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
-                                fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
-                            }}>
-                                CONTACT
+                                    <animated.div style={projSpring}>
+                                        <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                    </animated.div>
+                                </a>
+                                <a onMouseEnter={() => setNavHover(6)} onMouseLeave={() => setNavHover(0)} onClick={() => handleScroll("contact")}
+                                    style={{ cursor: "pointer", textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center" }} >
+                                    <Typography style={{
+                                        fontSize: "11px", lineHeight: "19px", color: navHover === 6 ? colorScheme.stdColor : contactShow ? colorScheme.stdColor : "rgba(183,180,176,0.9)",
+                                        fontFamily: "'Assistant', sans-serif", fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                    }}>
+                                        CONTACT
                             </Typography>
-                            <animated.div style={contactSpring}>
-                                <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                    <animated.div style={contactSpring}>
+                                        <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                    </animated.div>
+                                </a>
                             </animated.div>
-                        </a>
-                    </animated.div>
-                    <Spring
-                        to={{
-                            width: third ? `${0}px` : first ? `${gRatioB}px` : hideAbout ? `${gRatioB}px` : `0px`,
-                        }}
-                        from={{ position: "fixed", width: third ? `${gRatioB}px` : `0px` }}
-                        onRest={() => handleTransitionRest()}
-                    >
-                        {prop => (<animated.div style={{
-                            ...prop, background: colorScheme.darkestColor, height: "100vh"
-                        }}>
-                            <About
-                                theme={colorScheme}
-                                open={open}
-                                hideAbout={hideAbout}
-                                descriptionOpen={descriptionOpen}
-                                handleDescriptionRest={() => handleDescriptionRest()}
-                            />
-                        </animated.div>)}
-                    </Spring>
-                    <MyDescription
-                        theme={colorScheme}
-                        render={second}
-                        descriptionOpen={descriptionOpenSecond}
-                    />
-                    <Scrollbar
-                        ref={scroll}
-                        style={{ width: "100vw", height: "100vh" }}
-                        damping={0.05}
-                    >
-                        <div style={{ height: "75vh" }} />
-                        <Spring
-                            to={{
-                                transform: forth ? `translateY(-50%) scale3d(0.4, 0.4,0)` :
-                                    hideAbout ? `translateY(0%) scale3d(1, 1, 2)` : `translateY(50%) scale3d(0.5, 0.5,0) `
-                            }}
-                            from={{ transform: `translateY(50%) scale3d(0.5, 0.5,0) ` }}
-                        >
-                            {prop => (
-                                <animated.div ref={aboutContainerRef} style={{
-                                    ...prop,
-                                    background: `rgb(86,33,48)`,
-                                    overflow: "hidden", position: "relative", zIndex: 3
+                            <Spring
+                                to={{
+                                    width: third ? `${0}px` : first ? `${gRatioB}px` : hideAbout ? `${gRatioB}px` : `0px`,
                                 }}
+                                from={{ position: "fixed", width: third ? `${gRatioB}px` : `0px` }}
+                                onRest={() => handleTransitionRest()}
+                            >
+                                {prop => (<animated.div style={{
+                                    ...prop, background: colorScheme.darkestColor, height: "100vh"
+                                }}>
+                                    <About
+                                        theme={colorScheme}
+                                        open={open}
+                                        hideAbout={hideAbout}
+                                        descriptionOpen={descriptionOpen}
+                                        handleDescriptionRest={() => handleDescriptionRest()}
+                                    />
+                                </animated.div>)}
+                            </Spring>
+                            <MyDescription
+                                theme={colorScheme}
+                                render={second}
+                                descriptionOpen={descriptionOpenSecond}
+                            />
+                            <Scrollbar
+                                ref={scroll}
+                                style={{ width: "100vw", height: "100vh" }}
+                                damping={0.05}
+                            >
+                                <div style={{ height: "75vh" }} />
+                                <Spring
+                                    to={{
+                                        transform: forth ? `translateY(-50%) scale3d(0.4, 0.4,0)` :
+                                            hideAbout ? `translateY(0%) scale3d(1, 1, 2)` : `translateY(50%) scale3d(0.5, 0.5,0) `
+                                    }}
+                                    from={{ transform: `translateY(50%) scale3d(0.5, 0.5,0) ` }}
                                 >
-                                    <Experience
+                                    {prop => (
+                                        <animated.div ref={aboutContainerRef} style={{
+                                            ...prop,
+                                            background: `rgb(86,33,48)`,
+                                            overflow: "hidden", position: "relative", zIndex: 3
+                                        }}
+                                        >
+                                            <Experience
+                                                mobile={mobile}
+                                                theme={colorScheme}
+                                                render={true}
+                                            />
+                                        </animated.div>
+                                    )}
+                                </Spring>
+                                <div>
+                                    <Projects
+                                        render={fith}
                                         mobile={mobile}
                                         theme={colorScheme}
-                                        render={true}
                                     />
-                                </animated.div>
-                            )}
-                        </Spring>
-                        <div>
-                            <Projects
-                                render={fith}
-                                mobile={mobile}
-                                theme={colorScheme}
-                            />
+                                </div>
+                                <div ref={contactContainerRef} style={{ zIndex: 0 }}>
+                                    <Contact
+                                        mobile={mobile}
+                                        theme={colorScheme}
+                                        themes={themes}
+                                        handleThemeChange={(index) => handleThemeChange(index)}
+                                    />
+                                </div>
+                            </Scrollbar>
                         </div>
-                        <div ref={contactContainerRef} style={{ zIndex: 0 }}>
-                            <Contact
-                                mobile={mobile}
-                                theme={colorScheme}
-                                themes={themes}
-                                handleThemeChange={(index) => handleThemeChange(index)}
-                            />
-                        </div>
-                    </Scrollbar>
-                </div>
-            }
-        </div >
+                }
+            </div >
+            :
+            <div>
+                <Introduction
+                    mobile={!matches}
+                    theme={colorScheme}
+                />
+                <About
+                    theme={colorScheme}
+                    mobile={!matches}
+                    handleDescriptionRest={() => handleDescriptionRest()}
+                />
+                <MyDescription
+                    theme={colorScheme}
+                    render={second}
+                    descriptionOpen={descriptionOpenSecond}
+                    mobile={!matches}
+                />
+                <Experience
+                    mobile={!matches}
+                    theme={colorScheme}
+                    render={true}
+                />
+                <Projects
+                    render={true}
+                    mobile={!matches}
+                    theme={colorScheme}
+                />
+                <Contact
+                    mobile={!matches}
+                    theme={colorScheme}
+                    themes={themes}
+                    handleThemeChange={(index) => handleThemeChange(index)}
+                />
+            </div>
     )
 })
 

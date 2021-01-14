@@ -21,6 +21,11 @@ const ResumeDetails = (props) => {
                 backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", width: "90%", top: "0%", left: "50%", transform: "translate(-50%, 0%)", position: "absolute"
             }}>
                 {/* Header  */}
+                <div style={{ position: "absolute", top: "0px", right: "0px", padding: "16px" }}>
+                    <IconButton size="small" style={{ height: "fit-content", marginTop: "8px" }} onClick={() => handleClick()}>
+                        <CancelIcon />
+                    </IconButton>
+                </div>
                 <Grid
                     container
                     direction="row"
@@ -42,11 +47,6 @@ const ResumeDetails = (props) => {
                         <Typography variant={props.mobile ? "body2" : "body1"} style={{ margin: "2px", fontFamily: "'Quicksand', sans-serif" }}>
                             {props.activeCard.date}
                         </Typography>
-                    </Grid>
-                    <Grid item xs={1} style={{ margin: "0px", display: "flex", alignSelf: "flex-start", paddingRight: "1rem" }}>
-                        <IconButton size="small" style={{ height: "fit-content", marginTop: "8px" }} onClick={() => handleClick()}>
-                            <CancelIcon />
-                        </IconButton>
                     </Grid>
                 </Grid>
                 <div style={{ whiteSpace: "pre-wrap", textIndent: props.mobile ? "1rem" : "2rem", margin: props.mobile ? "" : "2rem" }}>
@@ -98,38 +98,40 @@ const ResumeDetails = (props) => {
                 </div>
             </div>
             :
+            //mobile
             <div style={{
-                backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem", width: "960px", top: "0%", left: "50%", transform: "translate(-50%, 0%)", position: "absolute"
+                backgroundColor: "white", marginTop: "5rem", borderRadius: "10px", marginBottom: "3rem", width: "90vw", top: "0%", left: "50%", transform: "translate(-50%, 0%)", position: "absolute"
             }}>
                 {/* Header  */}
+                <div style={{ position: "absolute", top: "0px", left: "0px", padding: "16px" }}>
+                    <IconButton size="small" style={{ height: "fit-content" }} onClick={() => handleClick()}>
+                        <CancelIcon />
+                    </IconButton>
+                </div>
                 <Grid
                     container
                     direction="row"
-                    justify="space-between"
+                    justify="center"
                     alignItems="center"
                     style={{ marginTop: "16px" }}
+                    spacing={1}
                 >
-                    <Grid item xs={3} style={{ margin: "0px", marginLeft: "2rem", display: "flex", alignItems: "center", justifyContent: "center" }} >
+                    <Grid item xs={4} style={{ margin: "0px", marginLeft: "16px", display: "flex", alignItems: "center", justifyContent: "center" }} >
                         <img alt={`${props.activeCard.title}img`} src={props.activeCard.img} style={{ width: props.activeCard.imgWidth, height: props.activeCard.imgHeight }} />
                     </Grid>
-                    <Grid item xs={7} style={{ margin: "0px", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }} >
-                        <Typography style={{ fontSize: "32px", lineHeight: "54px", paddingTop: "2.2vmax", fontWeight: "bold", fontFamily: "'Merriweather', serif" }}>
+                    <Grid item xs={7} style={{ margin: "0px", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", marginRight: "8px" }} >
+                        <Typography style={{ fontSize: "20px", lineHeight: "34px", paddingTop: "2.2vmax", fontWeight: "bold", fontFamily: "'Merriweather', serif" }}>
                             {props.activeCard.title}
                         </Typography>
-                        <Typography style={{ fontSize: "20px", lineHeight: "34px", fontFamily: "'Quicksand', sans-serif" }}>
+                        <Typography style={{ fontSize: "13px", lineHeight: "23px", fontFamily: "'Quicksand', sans-serif" }}>
                             {props.activeCard.titleDescription}
                         </Typography>
-                        <Typography style={{ fontSize: "16px", lineHeight: "28px", fontFamily: "'Quicksand', sans-serif" }}>
+                        <Typography style={{ fontSize: "13px", lineHeight: "23px", fontFamily: "'Quicksand', sans-serif" }}>
                             {props.activeCard.date}
                         </Typography>
                     </Grid>
-                    <Grid item xs={1} style={{ margin: "0px", display: "flex", alignSelf: "flex-start" }}>
-                        <IconButton size="small" style={{ height: "fit-content", marginTop: "8px" }} onClick={() => handleClick()}>
-                            <CancelIcon />
-                        </IconButton>
-                    </Grid>
                 </Grid>
-                <div style={{ whiteSpace: "pre-wrap", textIndent: props.mobile ? "1rem" : "2rem", margin: props.mobile ? "" : "2rem" }}>
+                <div style={{ whiteSpace: "pre-wrap", textIndent: "1rem", paddingTop: "16px" }}>
                     <Typography style={{ margin: "8px", fontSize: "16px", fontFamily: "'Quicksand', sans-serif", lineHeight: "28px" }} align="justify">
                         {props.activeCard.bodySummary.split("\n").map((i, key) => {
                             // Create link by detecting \r
@@ -178,7 +180,7 @@ const ResumeDetails = (props) => {
                 </div>
             </div>
             :
-            <React.Fragment />
+            null
     )
 }
 

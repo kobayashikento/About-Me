@@ -57,7 +57,7 @@ const Projects = React.memo(props => {
         {
             content: <Typography style={{
                 fontFamily: "'Assistant', sans-serif", fontSize: "15px", lineHeight: "26px",
-                paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
+                paddingLeft: props.mobile ? "" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
             }}>Shopify Project</Typography>,
             key: 1
         },
@@ -65,7 +65,7 @@ const Projects = React.memo(props => {
             content:
                 <div style={{
                     background: `${theme.lightColor}CC`, borderRadius: "3px",
-                    transform: "translate(1rem)", width: "100%"
+                    transform: props.mobile ? "" : "translate(1rem)", width: "100%"
                 }}>
                     <Typography align="left" style={{
                         padding: "1.2vmax", color: props.theme.priTxtColor, fontFamily: "'Assistant', sans-serif", fontSize: "14px",
@@ -94,7 +94,7 @@ const Projects = React.memo(props => {
             key: 3
         },
         {
-            content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
+            content: <div style={{ display: "flex", paddingLeft: props.mobile ? "" : "1rem" }}>
                 <IconButton disabled={true} style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/UAssist") }}>
                     <GitHubIcon style={{ color: "grey" }} />
                 </IconButton>
@@ -111,7 +111,7 @@ const Projects = React.memo(props => {
     const firstProject = [
         {
             content: <Typography style={{
-                fontFamily: "'Assistant', sans-serif", paddingLeft: props.mobile ? "" : "1rem",
+                fontFamily: "'Assistant', sans-serif", paddingLeft: mobile ? "" : "1rem",
                 color: props.theme.priColor, fontWeight: "bold", fontSize: "19px", lineHeight: "32px"
             }}>UAssist</Typography>,
             key: 0
@@ -119,13 +119,13 @@ const Projects = React.memo(props => {
         {
             content: <Typography style={{
                 fontFamily: "'Assistant', sans-serif", fontSize: "15px", lineHeight: "26px",
-                paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
+                paddingLeft: mobile ? "" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
             }}>CSC309 Project</Typography>,
             key: 1
         },
         {
             content:
-                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: "translate(1rem)", width: "100%" }}>
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", transform: mobile ? "" : "translate(1rem)", width: "100%" }}>
                     <Typography align="left" style={{
                         padding: "1.2vmax", color: props.theme.priTxtColor, fontFamily: "'Assistant', sans-serif", fontSize: "14px",
                         fontWeight: "400", lineHeight: "24px"
@@ -153,7 +153,7 @@ const Projects = React.memo(props => {
             key: 3
         },
         {
-            content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
+            content: <div style={{ display: "flex", paddingLeft: mobile ? "" : "1rem" }}>
                 <Tooltip title="View Github Repository">
                     <IconButton style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/UAssist") }}>
                         <GitHubIcon style={{ color: props.theme.stdColor }} />
@@ -172,7 +172,7 @@ const Projects = React.memo(props => {
     const secondProject = [
         {
             content: <Typography style={{
-                fontFamily: "'Assistant', sans-serif", paddingLeft: props.mobile ? "" : "1rem",
+                fontFamily: "'Assistant', sans-serif", paddingLeft: mobile ? "" : "1rem",
                 color: props.theme.priColor, fontWeight: "bold", fontSize: "19px", lineHeight: "32px"
             }}>Routine Recorder</Typography>,
             key: 0
@@ -180,13 +180,13 @@ const Projects = React.memo(props => {
         {
             content: <Typography style={{
                 fontFamily: "'Assistant', sans-serif", fontSize: "15px", lineHeight: "26px",
-                paddingLeft: props.mobile ? "1rem" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
+                paddingLeft: mobile ? "" : "1rem", paddingBottom: "1rem", color: props.theme.secColor, fontWeight: "400"
             }}>Personal Project</Typography>,
             key: 1
         },
         {
             content:
-                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", width: "100%", transform: "translate(1rem)" }}>
+                <div style={{ background: `${theme.lightColor}CC`, borderRadius: "3px", width: "100%", transform: mobile ? "" : "translate(1rem)" }}>
                     <Typography align="left" style={{
                         padding: "1.2vmax", color: props.theme.priTxtColor, fontFamily: "'Assistant', sans-serif", fontSize: "14px",
                         fontWeight: "400", lineHeight: "24px"
@@ -214,7 +214,7 @@ const Projects = React.memo(props => {
             key: 3
         },
         {
-            content: <div style={{ display: "flex", paddingLeft: "1rem" }}>
+            content: <div style={{ display: "flex", paddingLeft: mobile ? "" : "1rem" }}>
                 <Tooltip title="View Github Code">
                     <IconButton style={{ padding: "4px" }} onClick={() => { window.open("https://github.com/kobayashikento/personal-event-tracker") }}>
                         <GitHubIcon style={{ color: props.theme.stdColor }} />
@@ -279,104 +279,161 @@ const Projects = React.memo(props => {
     const gRatioB = window.innerWidth - gRatioA;
 
     return (
-        <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-            style={{
-                background: "transparent", margin: "0px",
-                overflow: "hidden", width: "100%", position: "relative"
-            }}
-            spacing={5}
-        >
-            <Spring
-                to={{ width: props.render ? `${gRatioB}px` : "0px" }}
-                from={{ position: "absolute", opacity: 1, width: "0px", left: "0px", height: "100%", top: "0px" }}
+        props.mobile ?
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", paddingTop: "3.3vmax",
+             flexDirection: "column", overflow: "hidden", paddingBottom: "3.3vmax" }}>
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                    {headerItems.map((prop, index) => {
+                        return (
+                            headerItems[index].content
+                        )
+                    })}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div style={{
+                        display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                        width: "90vw", margin: "4.4vmax", paddingTop: "3.3vmax"
+                    }}>
+                        {shopTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                        )}
+                    </div>
+                    <div style={{ zIndex: 1, display: "flex", justifyContent: "center" }}>
+                        <img src={shopifyImg} style={{
+                            width: "300px", height: "180px", borderRadius: "5px"
+                        }} />
+                    </div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div style={{
+                        display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                        width: "90vw", margin: "4.4vmax", paddingTop: "3.3vmax"
+                    }}>
+                        {secondTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
+                        )}
+                    </div>
+                    <div style={{ zIndex: 1, display: "flex", justifyContent: "center" }}>
+                        <img src={sample1} style={{
+                            width: "330px", height: "180px", borderRadius: "5px",
+                        }} />
+                    </div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div style={{
+                        display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                        width: "90vw", margin: "4.4vmax", paddingTop: "3.3vmax"
+                    }}>
+                        {firstTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                        )}
+                    </div>
+                    <div style={{ zIndex: 1, display: "flex", justifyContent: "center" }}>
+                        <img src={UAssist} style={{
+                            width: "327px", height: "180px", borderRadius: "5px",
+                        }} />
+                    </div>
+                </div>
+            </div>
+            :
+            <Grid
+                container
+                direction="column"
+                justify="center"
+                alignItems="center"
+                style={{
+                    background: "transparent", margin: "0px",
+                    overflow: "hidden", width: "100%", position: "relative"
+                }}
+                spacing={5}
             >
-                {prop => (<animated.div style={{ ...prop, background: props.theme.lightestColor }} />)}
-            </Spring>
-            <Spring
-                to={{ width: props.render ? `${gRatioA}px` : "0px", }}
-                from={{ position: "absolute", opacity: 1, width: "0px", right: "0px", height: "100%", top: "5vh" }}
-            >
-                {prop => (<animated.div style={{ ...prop, background: props.theme.darkestColor }}>
-                </animated.div>)}
-            </Spring>
-            <Grid item sm={1} style={{
-                margin: props.mobile ? "" : "1rem", display: "flex", justifyContent: "flex-start", width: "100vw",
-                maxWidth: "100%", padding: "0", margin: "0"
-            }}>
-                <div style={{
-                    width: gRatioB, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", zIndex: 1
-                    , paddingTop: "6.6vmax"
+                <Spring
+                    to={{ width: props.render ? `${gRatioB}px` : "0px" }}
+                    from={{ position: "absolute", opacity: 1, width: "0px", left: "0px", height: "100%", top: "0px" }}
+                >
+                    {prop => (<animated.div style={{ ...prop, background: props.theme.lightestColor }} />)}
+                </Spring>
+                <Spring
+                    to={{ width: props.render ? `${gRatioA}px` : "0px", }}
+                    from={{ position: "absolute", opacity: 1, width: "0px", right: "0px", height: "100%", top: "5vh" }}
+                >
+                    {prop => (<animated.div style={{ ...prop, background: props.theme.darkestColor }}>
+                    </animated.div>)}
+                </Spring>
+                <Grid item sm={1} style={{
+                    margin: props.mobile ? "" : "1rem", display: "flex", justifyContent: "flex-start", width: "100vw",
+                    maxWidth: "100%", padding: "0", margin: "0"
                 }}>
-                    {headerTrail.map(({ x, height, ...rest }, index) => (
-                        <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
-                            {headerItems[index].content}
-                        </animated.div>))}
-                </div>
+                    <div style={{
+                        width: gRatioB, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", zIndex: 1
+                        , paddingTop: "6.6vmax"
+                    }}>
+                        {headerTrail.map(({ x, height, ...rest }, index) => (
+                            <animated.div key={`aboutHeader${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
+                                {headerItems[index].content}
+                            </animated.div>))}
+                    </div>
+                </Grid>
+                <Grid item sm={7} style={{
+                    maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center"
+                }} >
+                    <div style={{
+                        display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                        width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                    }}>
+                        {shopTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                        )}
+                    </div>
+                    <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                        {firstImgTrans.map(({ item, props, key }) => item &&
+                            <animated.div key={`firstImgTrans${key}`} style={props}>
+                                <img src={shopifyImg} style={{
+                                    width: mobile ? "100%" : "650px", borderRadius: "5px"
+                                }} />
+                            </animated.div>
+                        )}
+                    </div>
+                </Grid>
+                <Grid item sm={7} style={{ maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }}>
+                    <div style={{
+                        display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                        width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                    }}>
+                        {secondTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
+                        )}
+                    </div>
+                    <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                        {secondImgTrans.map(({ item, props, key }) => item &&
+                            <animated.div key={`secondImgTrans${key}`} style={props}>
+                                <img src={sample1} style={{
+                                    width: "700px", borderRadius: "5px",
+                                }} />
+                            </animated.div>
+                        )}
+                    </div>
+                </Grid>
+                <Grid item sm={7} style={{ maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }} >
+                    <div style={{
+                        display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
+                        width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                    }}>
+                        {firstTrans.map(({ item, props, key }) =>
+                            <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
+                        )}
+                    </div>
+                    <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                        {firstImgTrans.map(({ item, props, key }) => item &&
+                            <animated.div key={`firstImgTrans${key}`} style={props}>
+                                <img src={UAssist} style={{
+                                    width: mobile ? "100%" : "600px", borderRadius: "5px",
+                                }} />
+                            </animated.div>
+                        )}
+                    </div>
+                </Grid>
             </Grid>
-            <Grid item sm={7} style={{
-                maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center"
-            }} >
-                <div style={{
-                    display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
-                    width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
-                }}>
-                    {shopTrans.map(({ item, props, key }) =>
-                        <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
-                    )}
-                </div>
-                <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
-                    {firstImgTrans.map(({ item, props, key }) => item &&
-                        <animated.div key={`firstImgTrans${key}`} style={props}>
-                            <img src={shopifyImg} style={{
-                                width: mobile ? "100%" : "650px", borderRadius: "5px"
-                            }} />
-                        </animated.div>
-                    )}
-                </div>
-            </Grid>
-            <Grid item sm={7} style={{ maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }}>
-                <div style={{
-                    display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
-                    width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
-                }}>
-                    {secondTrans.map(({ item, props, key }) =>
-                        <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
-                    )}
-                </div>
-                <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
-                    {secondImgTrans.map(({ item, props, key }) => item &&
-                        <animated.div key={`secondImgTrans${key}`} style={props}>
-                            <img src={sample1} style={{
-                                width: "700px", borderRadius: "5px",
-                            }} />
-                        </animated.div>
-                    )}
-                </div>
-            </Grid>
-            <Grid item sm={7} style={{ maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }} >
-                <div style={{
-                    display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
-                    width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
-                }}>
-                    {firstTrans.map(({ item, props, key }) =>
-                        <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
-                    )}
-                </div>
-                <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
-                    {firstImgTrans.map(({ item, props, key }) => item &&
-                        <animated.div key={`firstImgTrans${key}`} style={props}>
-                            <img src={UAssist} style={{
-                                width: mobile ? "100%" : "600px", borderRadius: "5px",
-                            }} />
-                        </animated.div>
-                    )}
-                </div>
-            </Grid>
-        </Grid>
     )
 })
 
