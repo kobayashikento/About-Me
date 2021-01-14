@@ -244,11 +244,11 @@ const Home = React.memo(props => {
                 setMobileModalOpen(false);
                 break;
             case 3:
-                window.scrollTo({ top: mobileDocRef - window.innerHeight, behavior: 'smooth' });
+                window.scrollTo({ top: document.body.clientHeight - (window.innerHeight * 3), behavior: 'smooth' });
                 setMobileModalOpen(false);
                 break;
             case 4:
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: document.body.clientHeight, behavior: 'smooth' });
                 setMobileModalOpen(false);
                 break;
         }
