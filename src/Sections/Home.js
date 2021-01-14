@@ -228,6 +228,36 @@ const Home = React.memo(props => {
     const mobileModalSpring = useSpring({
         width: mobileModalOpen ? `${window.innerWidth - 56}px` : "0px"
     })
+
+    const handleMobileButton = (type) => {
+        switch (type) {
+            case 0:
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setMobileModalOpen(false);
+                break;
+            case 1:
+                window.scrollTo({ top: mobileIntroRef.current.offsetHeight - 54, behavior: 'smooth' });
+                setMobileModalOpen(false);
+                break;
+            case 2:
+                window.scrollTo({ top: mobileExperienceRef.current.offsetHeight - 54, behavior: 'smooth' });
+                setMobileModalOpen(false);
+                break;
+            case 3:
+                window.scrollTo({ top: mobileDocRef - window.innerHeight, behavior: 'smooth' });
+                setMobileModalOpen(false);
+                break;
+            case 4:
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setMobileModalOpen(false);
+                break;
+        }
+    }
+
+    let mobileIntroRef = React.useRef(null);
+    let mobileExperienceRef = React.useRef(null);
+    let mobileDocRef = React.useRef(null);
+
     return (
         matches ?
             <div {...bind()} style={{ background: `${colorScheme.lightColor}66` }}>
@@ -368,7 +398,7 @@ const Home = React.memo(props => {
                 }
             </div >
             :
-            <div>
+            <div ref={mobileDocRef}>
                 <nav style={{
                     position: "fixed", height: "56px", backgroundColor: `${colorScheme.lightColor}E6`, width: "100vw", zIndex: 4
                     , display: "flex", alignItems: "center", justifyContent: "flex-end",
@@ -377,10 +407,12 @@ const Home = React.memo(props => {
                         <TocRoundedIcon style={{ color: colorScheme.stdColor }} />
                     </IconButton>
                 </nav>
-                <Introduction
-                    mobile={!matches}
-                    theme={colorScheme}
-                />
+                <div ref={mobileIntroRef}>
+                    <Introduction
+                        mobile={!matches}
+                        theme={colorScheme}
+                    />
+                </div>
                 <About
                     theme={colorScheme}
                     mobile={!matches}
@@ -397,11 +429,13 @@ const Home = React.memo(props => {
                     theme={colorScheme}
                     render={true}
                 />
-                <Projects
-                    render={true}
-                    mobile={!matches}
-                    theme={colorScheme}
-                />
+                <div ref={mobileExperienceRef}>
+                    <Projects
+                        render={true}
+                        mobile={!matches}
+                        theme={colorScheme}
+                    />
+                </div>
                 <Contact
                     mobile={!matches}
                     theme={colorScheme}
@@ -419,10 +453,23 @@ const Home = React.memo(props => {
                 >
                     <animated.div style={{
                         ...mobileModalSpring, position: "fixed", background: "white", height: "100vh", top: "0px", right: "0px",
-                        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start"
+                        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", padding: "16px"
                     }}>
-                        <Button>
-                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                        <Button onClick={() => handleMobileButton(0)}>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4px" }}>
+                                <Typography style={{
+                                    fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
+                                    fontWeight: "500", margin: "1rem", marginBottom: "4px"
+                                }}>
+                                    HOME
+                            </Typography>
+                                <animated.div style={{ width: "2rem" }}>
+                                    <Divider style={{ height: "2px", backgroundColor: colorScheme.stdColor, width: "100%" }} />
+                                </animated.div>
+                            </div>
+                        </Button>
+                        <Button onClick={() => handleMobileButton(1)}>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4px" }}>
                                 <Typography style={{
                                     fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
                                     fontWeight: "500", margin: "1rem", marginBottom: "4px"
@@ -434,8 +481,8 @@ const Home = React.memo(props => {
                                 </animated.div>
                             </div>
                         </Button>
-                        <Button>
-                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                        <Button onClick={() => handleMobileButton(2)}>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4px" }}>
                                 <Typography style={{
                                     fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
                                     fontWeight: "500", margin: "1rem", marginBottom: "4px"
@@ -447,8 +494,8 @@ const Home = React.memo(props => {
                                 </animated.div>
                             </div>
                         </Button>
-                        <Button>
-                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                        <Button onClick={() => handleMobileButton(3)}>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4px" }}>
                                 <Typography style={{
                                     fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
                                     fontWeight: "500", margin: "1rem", marginBottom: "4px"
@@ -460,8 +507,8 @@ const Home = React.memo(props => {
                                 </animated.div>
                             </div>
                         </Button>
-                        <Button>
-                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                        <Button onClick={() => handleMobileButton(4)}>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4px" }}>
                                 <Typography style={{
                                     fontSize: "20px", lineHeight: "34px", color: colorScheme.stdColor, fontFamily: "'Assistant', sans-serif",
                                     fontWeight: "500", margin: "1rem", marginBottom: "4px"
