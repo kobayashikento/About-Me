@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Home from './Sections/Home.js';
+import Showcase from './Sections/Showcase.js';
 
 import history from './history.js';
 
@@ -44,6 +45,9 @@ function App() {
           />
           <Route path="/portfolio/contact" render={() =>
             <Home history={history} initial={false} landing={false} first={true} second={true} view={"contact"} />}
+          />
+           <Route path="/portfolio/showcase" render={() =>
+            <Showcase />}
           />
           <Route path="/" render={() =>
             <Home history={history} initial={true} landing={true} first={false} second={false} />}

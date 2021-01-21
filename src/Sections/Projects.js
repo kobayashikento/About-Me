@@ -280,8 +280,10 @@ const Projects = React.memo(props => {
 
     return (
         props.mobile ?
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", paddingTop: "3.3vmax",
-             flexDirection: "column", overflow: "hidden", paddingBottom: "3.3vmax" }}>
+            <div style={{
+                display: "flex", alignItems: "center", justifyContent: "center", paddingTop: "3.3vmax",
+                flexDirection: "column", overflow: "hidden", paddingBottom: "3.3vmax"
+            }}>
                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                     {headerItems.map((prop, index) => {
                         return (
@@ -362,7 +364,7 @@ const Projects = React.memo(props => {
                 </Spring>
                 <Grid item sm={1} style={{
                     margin: props.mobile ? "" : "1rem", display: "flex", justifyContent: "flex-start", width: "100vw",
-                    maxWidth: "100%", padding: "0", margin: "0"
+                    maxWidth: "90vw", padding: "0", margin: "0"
                 }}>
                     <div style={{
                         width: gRatioB, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", zIndex: 1
@@ -375,11 +377,11 @@ const Projects = React.memo(props => {
                     </div>
                 </Grid>
                 <Grid item sm={7} style={{
-                    maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center"
+                    maxWidth: "100%", width: "90vw", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center"
                 }} >
                     <div style={{
                         display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
-                        width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                        width: gRatioB, margin: "4.4vmax", marginLeft: "2.2vmax", paddingTop: "3.3vmax"
                     }}>
                         {shopTrans.map(({ item, props, key }) =>
                             <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
@@ -395,16 +397,16 @@ const Projects = React.memo(props => {
                         )}
                     </div>
                 </Grid>
-                <Grid item sm={7} style={{ maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }}>
+                <Grid item sm={7} style={{ maxWidth: "100%", width: "90vw", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }}>
                     <div style={{
                         display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
-                        width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                        width: gRatioB, margin: "4.4vmax", marginLeft: "2.2vmax", paddingTop: "3.3vmax"
                     }}>
                         {secondTrans.map(({ item, props, key }) =>
                             <animated.div key={`projectTrans2${key}`} style={props}>{item.content}</animated.div>
                         )}
                     </div>
-                    <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ zIndex: 1, display: "flex", justifyContent: "space-between" }}>
                         {secondImgTrans.map(({ item, props, key }) => item &&
                             <animated.div key={`secondImgTrans${key}`} style={props}>
                                 <img src={sample1} style={{
@@ -414,16 +416,16 @@ const Projects = React.memo(props => {
                         )}
                     </div>
                 </Grid>
-                <Grid item sm={7} style={{ maxWidth: "100%", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }} >
+                <Grid item sm={7} style={{ maxWidth: "100%", width: "90vw", margin: props.mobile ? "" : "2rem", margin: 0, padding: 0, display: "flex", alignItems: "center" }} >
                     <div style={{
                         display: "flex", flexDirection: "column", alignItems: props.mobile ? "center" : "flex-start", zIndex: "1",
-                        width: gRatioB, margin: "4.4vmax", paddingTop: "3.3vmax"
+                        width: gRatioB, margin: "4.4vmax", marginLeft: "2.2vmax", paddingTop: "3.3vmax"
                     }}>
                         {firstTrans.map(({ item, props, key }) =>
                             <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
                         )}
                     </div>
-                    <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ zIndex: 1, display: "flex", justifyContent: "space-between" }}>
                         {firstImgTrans.map(({ item, props, key }) => item &&
                             <animated.div key={`firstImgTrans${key}`} style={props}>
                                 <img src={UAssist} style={{
