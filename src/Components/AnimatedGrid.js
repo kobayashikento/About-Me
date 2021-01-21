@@ -193,7 +193,7 @@ const AnimatedGrid = (props) => {
     return (
         <div ref={ref} style={{ height: Math.max(...heights), width: window.innerWidth * 0.9, paddingBottom: "2.2vmax" }} className="list">
             {transitions.map(({ item, props: { xy, ...rest } }, index) => (
-                <animated.div key={`list-${item.key}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
+                <animated.div key={`list-${item.key}-${index}`} style={{ transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`), ...rest }}>
                     <AnimatedCard
                         item={item}
                         index={index}

@@ -44,7 +44,6 @@ import resume from '../Assets/Kento Kobayashi Resume.pdf';
 const shadow = "0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)";
 
 const CoderIntro = React.memo(props => {
-    const [hover, setHover] = React.useState(false)
     const [vantaEffect, setVantaEffect] = React.useState(0);
     const myRef = React.useRef(null);
     const title = "<Developer/>";
@@ -56,7 +55,7 @@ const CoderIntro = React.memo(props => {
                 el: myRef.current,
                 mouseControls: true,
                 touchControls: true,
-                gyroControls: false,
+                gyroControls: true,
                 height: 200.00,
                 width: 200.00,
                 scale: 1.00,
@@ -225,7 +224,7 @@ const DesignIntro = React.memo(props => {
                     }
                     {
                         trail.map(({ x, height, ...rest }, index) => (
-                            <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`), marginRight: "24px" }}>
+                            <animated.div key={`introContent${index}`} style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${-x}px,0)`) }}>
                                 <Typography align="center" style={{
                                     width: "340px", fontFamily: "'Merriweather Sans', sans-serif",
                                     fontSize: "16px", lineHeight: "27px", display: "flex", marginRight: "auto", marginLeft: "auto",

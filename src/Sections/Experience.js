@@ -66,8 +66,6 @@ const Experience = (props) => {
         }
     }, []);
 
-    console.log(props.mobile)
-
     return (
         props.mobile ?
             <div style={{ background: props.theme.darkestColor }}>

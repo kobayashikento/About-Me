@@ -64,7 +64,7 @@ const About = React.memo(props => {
     }
 
     const headerTrail = useTrail(headerItems.length, {
-        config: { mass: 5, tension: 2000, friction: 200 },
+        config: { mass: 5, tension: 2000, friction: 200, duration: 180 },
         to: {
             opacity: props.open ? 1 : 0,
             x: props.open ? 0 : 100,
@@ -109,7 +109,7 @@ const About = React.memo(props => {
                 >
                     {jobValues.map((prop, index) => {
                         return (
-                            <Grid item xs={6}>
+                            <Grid item xs={6} key={`values-${index}`}>
                                 <WorkValues
                                     theme={props.theme}
                                     content={jobValues[index]}

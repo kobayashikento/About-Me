@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Home from './Sections/Home.js';
 
-import './history.js';
+import history from './history.js';
+
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
@@ -20,19 +21,35 @@ const theme = createMuiTheme({
       root: {
         color: "rgb(86, 33, 48)",
         "&:hover": {
-          color:  "#E83338",
+          color: "#E83338",
         }
       }
     }
   }
 });
 
-function App(props) {
+function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Switch>
-        <Route path="/" render={props => <Home />} />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route path="/portfolio/about" render={() =>
+            <Home history={history} initial={false} landing={false} first={true} second={true} view={"about"} />}
+          />
+          <Route path="/portfolio/experience" render={() =>
+            <Home history={history} initial={false} landing={false} first={true} second={true} view={"experience"} />}
+          />
+          <Route path="/portfolio/projects" render={() =>
+            <Home history={history} initial={false} landing={false} first={true} second={true} view={"projects"} />}
+          />
+          <Route path="/portfolio/contact" render={() =>
+            <Home history={history} initial={false} landing={false} first={true} second={true} view={"contact"} />}
+          />
+          <Route path="/" render={() =>
+            <Home history={history} initial={true} landing={true} first={false} second={false} />}
+          />
+        </Switch>
+      </Router>
     </ThemeProvider >
   );
 }

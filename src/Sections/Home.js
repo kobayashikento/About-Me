@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom';
 // import from material ui 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -20,6 +21,7 @@ import { Introduction, Contact } from '../Sections/Introduction.js';
 import Projects from './Projects';
 import Experience from './Experience.js';
 import About from './About.js';
+import Timeline from './Timeline.js';
 
 // import styles
 import '../Styles/resumeStyle.css';
@@ -29,6 +31,7 @@ import { useWheel } from 'react-use-gesture';
 import Scrollbar from 'react-smooth-scrollbar';
 
 import { Spring } from 'react-spring/renderprops';
+import { Navbar } from 'react-bootstrap';
 
 // Themes/Color schemes 
 const themes = [
@@ -89,17 +92,22 @@ const Home = React.memo(props => {
     let contactContainerRef = React.useRef(null);
     // condition that changes parallax size depending on the window size
     // if its 1500px or higher, then keep layout size at 4 
-    const lgUp = useMediaQuery('(min-width:1440px)');
     const theme = useTheme();
     let mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [colorScheme, setTheme] = React.useState(themes[0]);
     // animation timing based on scroll position
-    const [first, setFirst] = React.useState(false)
-    const [second, setSecond] = React.useState(false);
+    const [first, setFirst] = React.useState(props.first)
+    const [second, setSecond] = React.useState(props.second);
     const [third, setThird] = React.useState(false);
+    const [hideAbout, setHideAbout] = React.useState(false);
     const [forth, setForth] = React.useState(false);
     const [fith, setFith] = React.useState(false);
-    const [landing, setLanding] = React.useState(true);
+    const [landing, setLanding] = React.useState(props.landing);
+    const [initial, setInitial] = React.useState(props.initial);
+    const [initRender, setInitRender] = React.useState(true);
+
+    // about transition first, second, 
+    // experience trnasition third, hideabout
 
     // Handle change of theme event 
     const handleThemeChange = (index) => {
@@ -107,8 +115,6 @@ const Home = React.memo(props => {
     }
 
     const [navHover, setNavHover] = React.useState(0);
-
-    const [initial, setInitial] = React.useState(true);
 
     /* Introduction section handlers */
     // Function used for the introduction callback 
@@ -126,6 +132,7 @@ const Home = React.memo(props => {
 
     /* Description section handlers */
     const handleDescriptionLeave = () => {
+        window.history.pushState("landing", "Landing", "/");
         setLanding(true);
         setInitial(true);
     }
@@ -141,7 +148,6 @@ const Home = React.memo(props => {
     // 4. descriptionopen is set to true, this animates the typo "expericned ....", on completion calls handleDescRest()
     // 5. valuesopen is set to true, this animates the 4 icons, on completion calls handleDescRest()
     // 6. barsOpen is set to true, this animates the experience level bars 
-    const [hideAbout, setHideAbout] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const [descriptionOpen, setDescriptionOpen] = React.useState(false);
     const [descriptionOpenSecond, setDescriptionOpenSecond] = React.useState(false);
@@ -165,26 +171,42 @@ const Home = React.memo(props => {
     }
 
     const handleDescriptionRest = () => {
-        if (open) { setDescriptionOpen(true); setDescriptionOpenSecond(true); setTimeout(() => { setShowNav(true) }, 2000) }
+        if (open) { setDescriptionOpen(true); setDescriptionOpenSecond(true); setTimeout(() => { setShowNav(true) }, 1500) }
     }
 
     React.useEffect(() => {
-        if (scroll.current !== null) {
-            scroll.current.scrollbar.addListener((s) => {
-                if (s.offset.y > window.innerHeight * 0.4) { setSecond(false) } else { setSecond(true) }
-                if (s.offset.y > window.innerHeight * 0.4) { setThird(true) } else { setThird(false) }
-                if (s.offset.y > window.innerHeight * 0.5) { setHideAbout(true) } else { setHideAbout(false) }
-                if (s.offset.y > aboutContainerRef.current.offsetTop + (window.innerHeight * 0.6)) { setForth(true) } else { setForth(false) }
-                if (s.offset.y > aboutContainerRef.current.offsetTop + (window.innerHeight * 0.5)) { setFith(true) } else { setFith(false) }
-                if (s.offset.y > contactContainerRef.current.offsetTop - window.innerHeight) { setContactShow(true) } else { setContactShow(false) }
-                if (s.offset.y === 0) {
-                    setFirst(false); setSecond(false);
+        if (!initRender) {
+            if (scroll.current !== null) {
+                scroll.current.scrollbar.addListener((s) => {
+                    if (s.offset.y > window.innerHeight * 0.4) { setSecond(false) } else { setSecond(true) }
+                    if (s.offset.y > window.innerHeight * 0.4) { setThird(true) } else { setThird(false) }
+                    if (s.offset.y > window.innerHeight * 0.5) { setHideAbout(true); } else { setHideAbout(false); }
+                    if (s.offset.y > aboutContainerRef.current.offsetTop + (window.innerHeight * 0.6)) { setForth(true) } else { setForth(false) }
+                    if (s.offset.y > aboutContainerRef.current.offsetTop + (window.innerHeight * 0.5)) { setFith(true); } else { setFith(false); }
+                    if (s.offset.y > contactContainerRef.current.offsetTop - window.innerHeight) { setContactShow(true); } else { setContactShow(false); }
+                    if (s.offset.y === 0) {
+                        setFirst(false); setSecond(false);
+                    }
+                })
+                if (!landing) {
+                    switch (props.view) {
+                        case "about":
+                            handleScroll("about")
+                            break;
+                        case "experience":
+                            handleScroll("experience")
+                            break;
+                        case "projects":
+                            handleScroll("projects")
+                            break;
+                        case "contact":
+                            handleScroll("contact")
+                            break;
+                    }
                 }
-            })
-        } else {
-            return () => scroll.current.scrollbar.removeListener()
+            }
         }
-    }, [landing]);
+    }, [initRender, landing]);
 
     const handleScroll = (type) => {
         if (scroll.current !== null) {
@@ -195,10 +217,17 @@ const Home = React.memo(props => {
             } else if (type === "projects") {
                 scroll.current.scrollbar.scrollTo(0, window.innerHeight * 1.72, 800);
             } else if (type === "contact") {
-                scroll.current.scrollbar.scrollTo(0, contactContainerRef.current.offsetTop, 800);
+                scroll.current.scrollbar.scrollTo(0, window.innerHeight * 1.72, 800);
+                setTimeout(() => { scroll.current.scrollbar.scrollTo(0, contactContainerRef.current.offsetTop, 800) }, 300);
             }
         }
     }
+
+    React.useEffect(() => {
+        if (initRender) {
+            setInitRender(false);
+        }
+    }, []);
 
     const navSpring = useSpring({
         opacity: showNav ? 1 : 0,
@@ -258,6 +287,20 @@ const Home = React.memo(props => {
     let mobileExperienceRef = React.useRef(null);
     let mobileDocRef = React.useRef(null);
 
+    React.useEffect(() => {
+        if (landing) { } else if (!initRender) {
+            if (!hideAbout) {
+                window.history.pushState("portfolio", "About", "/portfolio/about");
+            } else if (hideAbout && !forth) {
+                window.history.pushState("portfolio", "Experience", "/portfolio/experience");
+            } else if (forth && !contactShow) {
+                window.history.pushState("portfolio", "Projects", "/portfolio/projects");
+            } else if (contactShow) {
+                window.history.pushState("portfolio", "Contact", "/portfolio/contact");
+            }
+        }
+    }, [hideAbout, forth, contactShow, landing])
+
     return (
         matches ?
             <div {...bind()} style={{ background: `${colorScheme.lightColor}66` }}>
@@ -272,6 +315,7 @@ const Home = React.memo(props => {
                         />
                         :
                         <div>
+                            {/* NavBar  */}
                             <animated.div
                                 style={{
                                     ...navSpring, height: "54px", display: "flex", backgroundColor: "transparent", top: "0px", width: "100%", position: "fixed", zIndex: 2, marginTop: "1.1vmax"
@@ -326,6 +370,16 @@ const Home = React.memo(props => {
                                     </animated.div>
                                 </a>
                             </animated.div>
+                            {/* <Spring
+                                to={{
+                                    opacity: showNav ? 1 : 0,
+                                }}
+                                from={{ position: "fixed", opacity: 0, transform: "rotate(-90deg)", zIndex: 2 }}
+                            >
+                                {prop => (<div style={prop}>
+                                    <Timeline />
+                                </div>)}
+                            </Spring> */}
                             <Spring
                                 to={{
                                     width: third ? `${0}px` : first ? `${gRatioB}px` : hideAbout ? `${gRatioB}px` : `0px`,

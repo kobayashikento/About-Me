@@ -29,7 +29,7 @@ const AnimateTimeline = (props) => {
         <div style={{ display: "flex" }}>
             {springs.map((prop, i) => {
                 return (
-                    <div style={{ marginRight: "8px", marginLeft: "8px" }} onMouseEnter={() => handleHover(i)} onMouseLeave={() => handleHover(null)}>
+                    <div key={`timelineItem-${i}`} style={{ marginRight: "8px", marginLeft: "8px" }} onMouseEnter={() => handleHover(i)} onMouseLeave={() => handleHover(null)}>
                         <Typography variant="body1" style={{ color: page === i ? theme.stdColor : hover === i ? theme.stdColor : theme.lightestColor, fontFamily: "'Quicksand', sans-serif", cursor: "pointer" }} onClick={() => handleClick(i)}>
                             {items[i].content}
                         </Typography>

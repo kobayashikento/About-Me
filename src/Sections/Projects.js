@@ -385,7 +385,7 @@ const Projects = React.memo(props => {
                             <animated.div key={`projectTrans1${key}`} style={props}>{item.content}</animated.div>
                         )}
                     </div>
-                    <div style={{ width: gRatioA, zIndex: 1, display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ zIndex: 1, display: "flex", justifyContent: "space-between" }}>
                         {firstImgTrans.map(({ item, props, key }) => item &&
                             <animated.div key={`firstImgTrans${key}`} style={props}>
                                 <img src={shopifyImg} style={{
