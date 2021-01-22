@@ -47,7 +47,7 @@ function App() {
             <Home history={history} initial={false} landing={false} first={true} second={true} view={"contact"} />}
           />
            <Route path="/portfolio/showcase" render={() =>
-            <Showcase />}
+            <Showcase leave={false}/>}
           />
           <Route path="/" render={() =>
             <Home history={history} initial={true} landing={true} first={false} second={false} />}

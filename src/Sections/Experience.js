@@ -137,7 +137,7 @@ const Experience = (props) => {
             <div
                 style={{
                     display: "flex", flexDirection: "column",
-                    alignItems: "center", justifyContent: "center", minHeight: "95vh"
+                    alignItems: "center", justifyContent: "center", minHeight: "100vh"
                 }}
             >
                 <div style={{ margin: "1.1vmax", paddingTop: "1.2vmax", position: "absolute", top: "0px" }}>

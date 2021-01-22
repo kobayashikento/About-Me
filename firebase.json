@@ -1,7 +1,7 @@
 {
   "hosting": {
     "public": "build",
-    "site": "kento-test",
+    "site": "kento-kobayashi-v1",
     "rewrites": [ {
       "source": "**",
       "destination": "/index.html"
