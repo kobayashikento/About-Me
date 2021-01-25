@@ -56,6 +56,7 @@ const MyDescription = React.memo(props => {
     })
 
     const gRatioA = window.innerWidth / phi;
+    const gRatioB = window.innerWidth - gRatioA
 
     const matches = useMediaQuery('(min-width:1500px)');
 
@@ -148,11 +149,11 @@ const MyDescription = React.memo(props => {
                 <Transition
                     items={props.render}
                     from={{ position: "absolute", width: "0px" }}
-                    enter={{ width: `${gRatioA}px` }}
+                    enter={{ width: `${window.innerWidth / 2}px` }}
                     leave={{ width: "0px" }}
                 >
                     {show => show && (prop => <div style={{
-                        ...prop, height: "90vh", top: "5vh", bottom: "5%", background: props.theme.lightestColor,
+                        ...prop, height: "100vh", top: "0vh", bottom: "5%", background: props.theme.lightestColor,
                         right: "0px", display: "flex", justifyContent: "around", alignItems: "center", overflow: "hidden"
                     }}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center" }}>
@@ -242,11 +243,6 @@ const MyDescription = React.memo(props => {
                                     percentage={22.5}
                                     delay={1600}
                                 />
-                            </animated.div>
-                        </div>
-                        <div style={{ margin: "3.3vmax", paddingBottom: "8.8vmax" }}>
-                            <animated.div style={{ ...springFace }}>
-                                <img src={restme} style={{ width: "191px", height: "270px", zIndex: 2, borderRadius: "4px" }} />
                             </animated.div>
                         </div>
                     </div>)}

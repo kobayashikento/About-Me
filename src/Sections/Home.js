@@ -382,9 +382,9 @@ const Home = React.memo(props => {
                             </Spring> */}
                             <Spring
                                 to={{
-                                    width: third ? `${0}px` : first ? `${gRatioB}px` : hideAbout ? `${gRatioB}px` : `0px`,
+                                    width: third ? `${0}px` : first ? `${window.innerWidth / 2}px` : hideAbout ? `${window.innerWidth / 2}px` : `0px`,
                                 }}
-                                from={{ position: "fixed", width: third ? `${gRatioB}px` : `0px` }}
+                                from={{ position: "fixed", width: third ? `${window.innerWidth / 2}px` : `0px` }}
                                 onRest={() => handleTransitionRest()}
                             >
                                 {prop => (<animated.div style={{
