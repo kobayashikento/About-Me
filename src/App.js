@@ -3,8 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
-import Home from './Sections/Home.js';
-import Showcase from './Sections/Showcase.js';
+import Landing from './Sections/Landing';
 
 import history from './history.js';
 
@@ -34,24 +33,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/portfolio/about" render={() =>
-            <Home history={history} initial={false} landing={false} first={true} second={true} view={"about"} />}
-          />
-          <Route path="/portfolio/experience" render={() =>
-            <Home history={history} initial={false} landing={false} first={true} second={true} view={"experience"} />}
-          />
-          <Route path="/portfolio/projects" render={() =>
-            <Home history={history} initial={false} landing={false} first={true} second={true} view={"projects"} />}
-          />
-          <Route path="/portfolio/contact" render={() =>
-            <Home history={history} initial={false} landing={false} first={true} second={true} view={"contact"} />}
-          />
-           <Route path="/portfolio/showcase" render={() =>
-            <Showcase leave={false}/>}
-          />
-          <Route path="/" render={() =>
-            <Home history={history} initial={true} landing={true} first={false} second={false} />}
-          />
+          <Route path="/" render={() => <Landing />} />
         </Switch>
       </Router>
     </ThemeProvider >
