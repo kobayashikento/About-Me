@@ -162,8 +162,8 @@ const DesignIntro = React.memo(props => {
                 wingSpan: 21.00,
                 colorMode: "lerpGradient",
                 backgroundColor: props.theme.darkestColor,
-                color1: props.theme.lightColor,
-                color2: props.theme.stdColor
+                color1: props.theme.darkColor,
+                color2: props.theme.lightColor
             }))
         }
         return () => {
